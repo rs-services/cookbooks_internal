@@ -1,0 +1,11 @@
+# 
+# Save this file to /etc/yum.repos.d on your system
+# and run "yum install s3cmd"
+# 
+[s3tools]
+name=Tools for managing Amazon S3 - Simple Storage Service (RHEL_6)
+type=rpm-md
+baseurl=http://s3tools.org/repo/RHEL_6/
+gpgcheck=1
+gpgkey=http://s3tools.org/repo/RHEL_6/repodata/repomd.xml.key
+enabled=1

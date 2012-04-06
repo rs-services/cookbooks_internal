@@ -1,0 +1,45 @@
+{
+  "dependencies": {
+  },
+  "name": "sysctl",
+  "maintainer_email": "premium@rightscale.com",
+  "attributes": {
+    "sysctl/vm/swappiness": {
+      "required": "optional",
+      "calculated": false,
+      "choice": [
+
+      ],
+      "default": "60",
+      "type": "string",
+      "recipes": [
+        "sysctl::swappiness"
+      ],
+      "description": "System VM Swappiness",
+      "display_name": "System VM Swappiness"
+    }
+  },
+  "license": "All rights reserved",
+  "suggestions": {
+  },
+  "platforms": {
+  },
+  "maintainer": "RightScale",
+  "long_description": "Description\n===========\n\nRequirements\n============\n\nAttributes\n==========\n\nUsage\n=====\n\n",
+  "version": "0.0.1",
+  "recommendations": {
+  },
+  "recipes": {
+    "sysctl::default": "installs default sysctl values",
+    "sysctl::swappiness": "sets vm.swappiness"
+  },
+  "groupings": {
+  },
+  "conflicting": {
+  },
+  "replacing": {
+  },
+  "description": "Installs/Configures rs-sysctl",
+  "providing": {
+  }
+}

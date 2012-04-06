@@ -1,0 +1,30 @@
+{
+  "dependencies": {
+  },
+  "name": "openssl",
+  "maintainer_email": "support@rightscale.com",
+  "attributes": {
+  },
+  "license": "All rights reserved",
+  "suggestions": {
+  },
+  "platforms": {
+  },
+  "maintainer": "RightScale Inc",
+  "long_description": "Description\n===========\n\nRequirements\n============\n\nAttributes\n==========\n\nUsage\n=====\n\n",
+  "version": "0.0.1",
+  "recommendations": {
+  },
+  "recipes": {
+    "openssl::fix_ssl_root_ca": "updates root ca on centos/redhat"
+  },
+  "groupings": {
+  },
+  "conflicting": {
+  },
+  "replacing": {
+  },
+  "description": "Installs/Configures openssl",
+  "providing": {
+  }
+}

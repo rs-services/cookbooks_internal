@@ -1,0 +1,21 @@
+#!/usr/bin/ruby
+require 'rubygems'
+require 'oci8'
+conn = OCI8.new("sys", "<%= node[:oracle][:starterdb][:password][:sys]%>", nil, :SYSDBA)
+puts num_rows.to_s + ' rows were updated.'
+num_rows = conn.exec('CREATE USER AUDIT_USER IDENTIFIED BY welcome1 DEFAULT TABLESPACE USERS TEMPORARY TABLESPACE TEMP PROFILE DEFAULT ACCOUNT UNLOCK')
+puts num_rows.to_s + 'rows were updates'
+conn.exec('GRANT CONNECT TO AUDIT_USER')
+conn.exec('GRANT RESOURCE TO AUDIT_USER')
+conn.exec('ALTER USER AUDIT_USER DEFAULT ROLE ALL')
+puts num_rows.to_s + 'rows were updates'
+# 2 System Privileges for AUDIT_USER
+conn.exec('GRANT SELECT ANY TABLE TO AUDIT_USER WITH ADMIN OPTION')
+conn.exec('GRANT UNLIMITED TABLESPACE TO AUDIT_USER')
+puts num_rows.to_s + 'rows were updates'
+# 1 Tablespace Quota for AUDIT_USER
+conn.exec('ALTER USER AUDIT_USER QUOTA UNLIMITED ON USERS')
+puts num_rows.to_s + ' rows were updated.'
+conn.commit
+conn.logoff
+

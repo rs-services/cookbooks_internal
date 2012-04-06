@@ -1,0 +1,103 @@
+{
+  "dependencies": {
+  },
+  "name": "bootstrap",
+  "maintainer_email": "support@rightscale.com",
+  "attributes": {
+    "rightscale/server_nickname": {
+      "required": "required",
+      "calculated": false,
+      "choice": [
+
+      ],
+      "type": "string",
+      "recipes": [
+        "bootstrap::register_redhat_network"
+      ],
+      "description": "RightScale Server Nickname",
+      "display_name": "RightScale Server Nickname"
+    },
+    "rhn/username": {
+      "required": "required",
+      "calculated": false,
+      "choice": [
+
+      ],
+      "type": "string",
+      "recipes": [
+        "bootstrap::register_redhat_network"
+      ],
+      "description": "Redhat Network Username",
+      "display_name": "Redhat Network Username"
+    },
+    "aria2c/download_dir": {
+      "required": "required",
+      "calculated": false,
+      "choice": [
+
+      ],
+      "type": "string",
+      "recipes": [
+        "bootstrap::aria2c_download"
+      ],
+      "description": "Location for Aria2C to download file to",
+      "display_name": "Aria2C download directory"
+    },
+    "aria2c/download_file": {
+      "required": "required",
+      "calculated": false,
+      "choice": [
+
+      ],
+      "type": "string",
+      "recipes": [
+        "bootstrap::aria2c_download"
+      ],
+      "description": "File to download via Aria2C",
+      "display_name": "Aria2C File to download"
+    },
+    "rhn/password": {
+      "required": "required",
+      "calculated": false,
+      "choice": [
+
+      ],
+      "type": "string",
+      "recipes": [
+        "bootstrap::register_redhat_network"
+      ],
+      "description": "Redhat Network Username",
+      "display_name": "Redhat Network Password"
+    }
+  },
+  "license": "All rights reserved",
+  "suggestions": {
+  },
+  "platforms": {
+  },
+  "maintainer": "RightScale Inc",
+  "long_description": "Description\n===========\n\nRequirements\n============\n\nAttributes\n==========\n\nUsage\n=====\n\n",
+  "version": "0.0.1",
+  "recommendations": {
+  },
+  "recipes": {
+    "bootstrap::register_redhat_network": "registers with redhat network",
+    "bootstrap::sys_add_groups": "adds equinix default groups",
+    "bootstrap::rubygems": "installs rubygems",
+    "bootstrap::cs_patch": "patches redhat image on cloudstack",
+    "bootstrap::aria2c": "install aria2c",
+    "bootstrap::mlocate": "install and update mlocate",
+    "bootstrap::aria2c_download": "aria2c downloader",
+    "bootstrap::net-snmp": "install and configure net-snmpd",
+    "bootstrap::sys_add_users": "adds equinix default users"
+  },
+  "groupings": {
+  },
+  "conflicting": {
+  },
+  "replacing": {
+  },
+  "description": "Installs/Configures bootstrap",
+  "providing": {
+  }
+}
