@@ -14,6 +14,7 @@ recipe "oracle::install_local_and_sandbox_oci8_rubygem_on_server", "installs rub
 recipe "oracle::open_oracle_port", "Oracle port 1521 to the world"
 recipe "oracle::add_backup_to_cron", "add the backup script to cron at a random interval, once per hour"
 recipe "oracle::add_audit_user", "add_audit_user"
+recipe "oracle::tune_oracle_memory", "tunes oracle memory to 60% of available ram"
 
 depends "rs_utils"
 depends "bootstrap"
