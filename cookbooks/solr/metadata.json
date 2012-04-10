@@ -1,29 +1,31 @@
 {
-  "groupings": {
+  "dependencies": {
+    "rs_utils": ">= 0.0.0"
   },
-  "long_description": "Description\n===========\n\nRequirements\n============\n\nAttributes\n==========\n\nUsage\n=====\n\n",
   "attributes": {
   },
-  "name": "solr",
+  "description": "Installs/Configures solr",
+  "recipes": {
+    "solr::default": "installs solr"
+  },
+  "providing": {
+  },
+  "maintainer_email": "premium@rightscale.com",
+  "long_description": "Description\n===========\n\nRequirements\n============\n\nAttributes\n==========\n\nUsage\n=====\n\n",
+  "recommendations": {
+  },
+  "platforms": {
+  },
+  "license": "All rights reserved",
+  "version": "0.0.1",
+  "groupings": {
+  },
+  "maintainer": "RightScale Inc",
   "replacing": {
   },
   "conflicting": {
   },
   "suggestions": {
   },
-  "version": "0.0.1",
-  "dependencies": {
-  },
-  "platforms": {
-  },
-  "recipes": {
-  },
-  "providing": {
-  },
-  "recommendations": {
-  },
-  "maintainer": "YOUR_COMPANY_NAME",
-  "license": "All rights reserved",
-  "description": "Installs/Configures solr",
-  "maintainer_email": "YOUR_EMAIL"
+  "name": "solr"
 }
