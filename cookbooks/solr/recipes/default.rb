@@ -8,7 +8,7 @@
 #
 rs_utils_marker :begin
 
-directory "/mnt/${node[:solr][:storage_type]}/solr" do
+directory "/mnt/#{node[:solr][:storage_type]}/solr" do
   action :create
   owner "tomcat"
   mode "0755"
@@ -17,7 +17,7 @@ end
 link "/usr/share/tomcat6/solr" do 
   action :create
   link_type :symbolic
-  to "/mnt/${node[:solr][:storage_type]}/solr"
+  to "/mnt/#{node[:solr][:storage_type]}/solr"
 end
 
 directory "/usr/share/tomcat6/solr/lib" do 
