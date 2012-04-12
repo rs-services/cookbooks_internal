@@ -225,4 +225,4 @@ cookbook_file "#{solr_dir}/conf/xslt/luke.xsl" do
   source "xslt/luke.xsl"
   owner "tomcat"
 end
-
+rs_utils_marker :end
