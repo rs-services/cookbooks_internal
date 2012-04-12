@@ -48,8 +48,8 @@ directory "/srv/tomcat6/webapps/myapp" do
   owner "tomcat"
 end
 
-remote_file "/srv/tomcat6/webapps/myapp/solr.war" do
-  source "https://rightscale-services.s3.amazonaws.com/apache-solr-3.5.0%2Fdist%2Fapache-solr-3.5.0.war"
+cookbook_file "/srv/tomcat6/webapps/myapp/solr.war" do
+  source "apache-solr-3.5.0.war"
   owner "tomcat" 
   mode "0644"
 end
@@ -121,5 +121,108 @@ template "#{solr_dir}/conf/synonyms.txt" do
   owner "tomcat"
 end
 
-rs_utils_marker :end
+cookbook_file "#{solr_dir}/conf/velocity/browse.vm" do
+  source "velocity/browse.vm"
+  owner "tomcat"
+end
+cookbook_file "#{solr_dir}/conf/velocity/clusterResults.vm" do
+  source "velocity/clusterResults.vm"
+  owner "tomcat"
+end
+cookbook_file "#{solr_dir}/conf/velocity/cluster.vm" do
+  source "velocity/cluster.vm"
+  owner "tomcat"
+end
+cookbook_file "#{solr_dir}/conf/velocity/doc.vm" do
+  source "velocity/doc.vm"
+  owner "tomcat"
+end
+cookbook_file "#{solr_dir}/conf/velocity/facet_fields.vm" do
+  source "velocity/facet_fields.vm"
+  owner "tomcat"
+end
+cookbook_file "#{solr_dir}/conf/velocity/facet_queries.vm" do
+  source "velocity/facet_queries.vm"
+  owner "tomcat"
+end
+cookbook_file "#{solr_dir}/conf/velocity/facet_ranges.vm" do
+  source "velocity/facet_ranges.vm"
+  owner "tomcat"
+end
+cookbook_file "#{solr_dir}/conf/velocity/facets.vm" do
+  source "velocity/facets.vm"
+  owner "tomcat"
+end
+cookbook_file "#{solr_dir}/conf/velocity/footer.vm" do
+  source "velocity/footer.vm"
+  owner "tomcat"
+end
+cookbook_file "#{solr_dir}/conf/velocity/header.vm" do
+  source "velocity/header.vm"
+  owner "tomcat"
+end
+cookbook_file "#{solr_dir}/conf/velocity/head.vm" do
+  source "velocity/head.vm"
+  owner "tomcat"
+end
+cookbook_file "#{solr_dir}/conf/velocity/hit.vm" do
+  source "velocity/hit.vm"
+  owner "tomcat"
+end
+cookbook_file "#{solr_dir}/conf/velocity/jquery.autocomplete.css" do
+  source "velocity/jquery.autocomplete.css"
+  owner "tomcat"
+end
+cookbook_file "#{solr_dir}/conf/velocity/jquery.autocomplete.js" do
+  source "velocity/jquery.autocomplete.js"
+  owner "tomcat"
+end
+cookbook_file "#{solr_dir}/conf/velocity/layout.vm" do
+  source "velocity/layout.vm"
+  owner "tomcat"
+end
+cookbook_file "#{solr_dir}/conf/velocity/main.css" do
+  source "velocity/main.css"
+  owner "tomcat"
+end
+cookbook_file "#{solr_dir}/conf/velocity/querySpatial.vm" do
+  source "velocity/querySpatial.vm"
+  owner "tomcat"
+end
+cookbook_file "#{solr_dir}/conf/velocity/query.vm" do
+  source "velocity/query.vm"
+  owner "tomcat"
+end
+cookbook_file "#{solr_dir}/conf/velocity/suggest.vm" do
+  source "velocity/suggest.vm"
+  owner "tomcat"
+end
+cookbook_file "#{solr_dir}/conf/velocity/tabs.vm" do
+  source "velocity/tabs.vm"
+  owner "tomcat"
+end
+cookbook_file "#{solr_dir}/conf/velocity/VM_global_library.vm" do
+  source "velocity/VM_global_library.vm"
+  owner "tomcat"
+end
+
+cookbook_file "#{solr_dir}/conf/xslt/example_atom.xsl" do
+  source "xslt/example_atom.xsl"
+  owner "tomcat"
+end
+ 
+cookbook_file "#{solr_dir}/conf/xslt/example_rss.xsl" do
+  source "xslt/example_rss.xsl"
+  owner "tomcat"
+end
+
+cookbook_file "#{solr_dir}/conf/xslt/example.xsl" do
+  source "xslt/example.xsl"
+  owner "tomcat"
+end
+
+cookbook_file "#{solr_dir}/conf/xslt/luke.xsl" do
+  source "xslt/luke.xsl"
+  owner "tomcat"
+end
 
