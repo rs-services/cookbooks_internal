@@ -33,6 +33,16 @@ directory "#{solr_dir}/conf" do
   owner "tomcat"
 end
 
+directory "#{solr_dir}/data" do
+  action :create
+  owner "tomcat"
+end
+
+directory "#{solr_dir}/data/index" do
+  action :create
+  owner "tomcat"
+end
+
 directory "/srv/tomcat6/webapps/myapp" do
   action :create
   owner "tomcat"
