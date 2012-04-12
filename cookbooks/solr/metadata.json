@@ -1,31 +1,46 @@
 {
-  "dependencies": {
-    "rs_utils": ">= 0.0.0"
+  "suggestions": {
   },
+  "replacing": {
+  },
+  "license": "All rights reserved",
+  "long_description": "Description\n===========\n\nRequirements\n============\n\nAttributes\n==========\n\nUsage\n=====\n\n",
   "attributes": {
-  },
-  "description": "Installs/Configures solr",
-  "recipes": {
-    "solr::default": "installs solr"
+    "solr/storage_type": {
+      "type": "string",
+      "choice": [
+        "storage",
+        "ephemeral"
+      ],
+      "required": "optional",
+      "calculated": false,
+      "display_name": "Solr Storage Location",
+      "default": "storage",
+      "recipes": [
+
+      ],
+      "description": "Location of solr files, either ephemeral or storage(ebs)"
+    }
   },
   "providing": {
   },
-  "maintainer_email": "premium@rightscale.com",
-  "long_description": "Description\n===========\n\nRequirements\n============\n\nAttributes\n==========\n\nUsage\n=====\n\n",
-  "recommendations": {
+  "name": "solr",
+  "dependencies": {
+    "rs_utils": ">= 0.0.0"
   },
-  "platforms": {
-  },
-  "license": "All rights reserved",
   "version": "0.0.1",
   "groupings": {
   },
-  "maintainer": "RightScale Inc",
-  "replacing": {
+  "recipes": {
+    "solr::default": "installs solr"
   },
   "conflicting": {
   },
-  "suggestions": {
+  "recommendations": {
   },
-  "name": "solr"
+  "maintainer": "RightScale Inc",
+  "description": "Installs/Configures solr",
+  "platforms": {
+  },
+  "maintainer_email": "premium@rightscale.com"
 }
