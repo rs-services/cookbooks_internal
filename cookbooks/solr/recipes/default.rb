@@ -61,4 +61,55 @@ end
 
 service "tomcat6"
 
+template "#{solr_dir}/conf/admin-extra.html" do
+  source "admin-extra.html"
+  owner "tomcat"
+end
+
+template "#{solr_dir}/conf/elevate.xml" do
+  source "elevate.xml"
+  owner "tomcat"
+end
+
+template "#{solr_dir}/conf/mapping-FoldToASCII.txt" do
+  source "mapping-FoldToASCII.txt"
+  owner "tomcat"
+end
+
+template "#{solr_dir}/conf/mapping-ISOLatin1Accent.txt" do
+  source "mapping-ISOLatin1Accent.txt"
+  owner "tomcat"
+end
+
+template "#{solr_dir}/conf/protwords.txt" do
+  source "protwords.txt"
+  owner "tomcat"
+end
+
+template "#{solr_dir}/conf/scripts.conf" do
+  source "scripts.conf"
+  owner "tomcat"
+end
+
+template "#{solr_dir}/conf/spellings.txt" do
+  source "spellings.txt"
+  owner "tomcat"
+end
+
+template "#{solr_dir}/conf/stopwords_en.txt" do
+  source "stopwords_en.txt"
+  owner "tomcat"
+end
+
+template "#{solr_dir}/conf/stopwords.txt" do
+  source "stopwords.txt"
+  owner "tomcat"
+end
+
+template "#{solr_dir}/conf/synonyms.txt" do
+  source "synonyms.txt"
+  owner "tomcat"
+end
+
 rs_utils_marker :end
+
