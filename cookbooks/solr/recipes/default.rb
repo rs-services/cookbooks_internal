@@ -121,113 +121,113 @@ template "#{solr_dir}/conf/synonyms.txt" do
   owner "tomcat"
 end
 
-directory "#{solr_dir}/conf/velocity" do
+directory "#{solr_dir}/lib/velocity" do
   action :create
   owner "tomcat"
   mode "0755"
 end
 
-cookbook_file "#{solr_dir}/conf/velocity/browse.vm" do
+cookbook_file "#{solr_dir}/lib/velocity/browse.vm" do
   source "velocity/browse.vm"
   owner "tomcat"
 end
 
-cookbook_file "#{solr_dir}/conf/velocity/clusterResults.vm" do
+cookbook_file "#{solr_dir}/lib/velocity/clusterResults.vm" do
   source "velocity/clusterResults.vm"
   owner "tomcat"
 end
 
-cookbook_file "#{solr_dir}/conf/velocity/cluster.vm" do
+cookbook_file "#{solr_dir}/lib/velocity/cluster.vm" do
   source "velocity/cluster.vm"
   owner "tomcat"
 end
 
-cookbook_file "#{solr_dir}/conf/velocity/doc.vm" do
+cookbook_file "#{solr_dir}/lib/velocity/doc.vm" do
   source "velocity/doc.vm"
   owner "tomcat"
 end
 
-cookbook_file "#{solr_dir}/conf/velocity/facet_fields.vm" do
+cookbook_file "#{solr_dir}/lib/velocity/facet_fields.vm" do
   source "velocity/facet_fields.vm"
   owner "tomcat"
 end
 
-cookbook_file "#{solr_dir}/conf/velocity/facet_queries.vm" do
+cookbook_file "#{solr_dir}/lib/velocity/facet_queries.vm" do
   source "velocity/facet_queries.vm"
   owner "tomcat"
 end
 
-cookbook_file "#{solr_dir}/conf/velocity/facet_ranges.vm" do
+cookbook_file "#{solr_dir}/lib/velocity/facet_ranges.vm" do
   source "velocity/facet_ranges.vm"
   owner "tomcat"
 end
 
-cookbook_file "#{solr_dir}/conf/velocity/facets.vm" do
+cookbook_file "#{solr_dir}/lib/velocity/facets.vm" do
   source "velocity/facets.vm"
   owner "tomcat"
 end
 
-cookbook_file "#{solr_dir}/conf/velocity/footer.vm" do
+cookbook_file "#{solr_dir}/lib/velocity/footer.vm" do
   source "velocity/footer.vm"
   owner "tomcat"
 end
 
-cookbook_file "#{solr_dir}/conf/velocity/header.vm" do
+cookbook_file "#{solr_dir}/lib/velocity/header.vm" do
   source "velocity/header.vm"
   owner "tomcat"
 end
 
-cookbook_file "#{solr_dir}/conf/velocity/head.vm" do
+cookbook_file "#{solr_dir}/lib/velocity/head.vm" do
   source "velocity/head.vm"
   owner "tomcat"
 end
 
-cookbook_file "#{solr_dir}/conf/velocity/hit.vm" do
+cookbook_file "#{solr_dir}/lib/velocity/hit.vm" do
   source "velocity/hit.vm"
   owner "tomcat"
 end
 
-cookbook_file "#{solr_dir}/conf/velocity/jquery.autocomplete.css" do
+cookbook_file "#{solr_dir}/lib/velocity/jquery.autocomplete.css" do
   source "velocity/jquery.autocomplete.css"
   owner "tomcat"
 end
 
-cookbook_file "#{solr_dir}/conf/velocity/jquery.autocomplete.js" do
+cookbook_file "#{solr_dir}/lib/velocity/jquery.autocomplete.js" do
   source "velocity/jquery.autocomplete.js"
   owner "tomcat"
 end
 
-cookbook_file "#{solr_dir}/conf/velocity/layout.vm" do
+cookbook_file "#{solr_dir}/lib/velocity/layout.vm" do
   source "velocity/layout.vm"
   owner "tomcat"
 end
 
-cookbook_file "#{solr_dir}/conf/velocity/main.css" do
+cookbook_file "#{solr_dir}/lib/velocity/main.css" do
   source "velocity/main.css"
   owner "tomcat"
 end
 
-cookbook_file "#{solr_dir}/conf/velocity/querySpatial.vm" do
+cookbook_file "#{solr_dir}/lib/velocity/querySpatial.vm" do
   source "velocity/querySpatial.vm"
   owner "tomcat"
 end
 
-cookbook_file "#{solr_dir}/conf/velocity/query.vm" do
+cookbook_file "#{solr_dir}/lib/velocity/query.vm" do
   source "velocity/query.vm"
   owner "tomcat"
 end
 
-cookbook_file "#{solr_dir}/conf/velocity/suggest.vm" do
+cookbook_file "#{solr_dir}/lib/velocity/suggest.vm" do
   source "velocity/suggest.vm"
   owner "tomcat"
 end
 
-cookbook_file "#{solr_dir}/conf/velocity/tabs.vm" do
+cookbook_file "#{solr_dir}/lib/velocity/tabs.vm" do
   source "velocity/tabs.vm"
   owner "tomcat"
 end
 
-cookbook_file "#{solr_dir}/conf/velocity/VM_global_library.vm" do
+cookbook_file "#{solr_dir}/lib/velocity/VM_global_library.vm" do
   source "velocity/VM_global_library.vm"
   owner "tomcat"
 end
