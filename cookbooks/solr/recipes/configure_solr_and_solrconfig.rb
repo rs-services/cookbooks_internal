@@ -1,3 +1,5 @@
+include_recipe "solr::default"
+
 log "Copying and configuring solr.xml to #{node[:solr][:conf_dir]}"
 template "#{node[:solr][:install_dir]}/solr.xml" do
   source "solr.xml"
