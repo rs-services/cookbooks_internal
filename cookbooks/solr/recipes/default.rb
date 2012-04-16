@@ -59,9 +59,9 @@ cookbook_file "/srv/tomcat6/webapps/myapp/solr.war" do
   mode "0644"
 end
 
-log "Copying Libs to {node[:solr][:lib_dir]}"
+log "Copying Libs to #{node[:solr][:lib_dir]}"
 remote_directory "#{node[:solr][:lib_dir]}" do
-  source "default/lib/"
+  source "lib"
   files_backup 0
   owner "tomcat"
   group "tomcat"
