@@ -77,10 +77,10 @@
        (anchored on both ends) will be included.
     -->
   <lib dir="./lib/" regex="apache-solr-cell-\d.*\.jar" />
-  <lib dir="/lib/" regex="apache-solr-clustering-\d.*\.jar" />
-  <lib dir="../../dist/" regex="apache-solr-dataimporthandler-\d.*\.jar" />
-  <lib dir="../../dist/" regex="apache-solr-langid-\d.*\.jar" />
-  <lib dir="../../dist/" regex="apache-solr-velocity-\d.*\.jar" />
+  <lib dir="./lib/" regex="apache-solr-clustering-\d.*\.jar" />
+  <lib dir="./lib/" regex="apache-solr-dataimporthandler-\d.*\.jar" />
+  <lib dir="./lib/" regex="apache-solr-langid-\d.*\.jar" />
+  <lib dir="./lib/" regex="apache-solr-velocity-\d.*\.jar" />
 
   <!-- If a dir option (with or without a regex) is used and nothing
        is found that matches, it will be ignored
