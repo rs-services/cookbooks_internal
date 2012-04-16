@@ -14,7 +14,8 @@ include_recipe "solr::default"
 log "Solr Directory: #{node[:solr][:install_dir]}"
 log "temporary patch solr_dir= #{node[:solr][:install_dir]}"
 
-solr_dir = "#{node[:solr][:install_dir]}"
+solr_dir="#{node[:solr][:install_dir]}"
+log "solr_dir=#{solr_dir}"
 
 template "#{solr_dir}/solr.xml" do
   source "solr.xml"
