@@ -7,6 +7,7 @@ version          "0.0.1"
 
 depends 'rs_utils'
 recipe "solr::default", "installs solr"
+recipe "solr::install_example_app", "installs solr example app"
 
 attribute "solr/storage_type", 
   :display_name => "Solr Storage Location", 
