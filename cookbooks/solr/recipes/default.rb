@@ -42,11 +42,6 @@ directory "#{node[:solr][:data_dir]}" do
   owner "tomcat"
 end
 
-directory "#{node[:solr][:data_dir]}/index" do
-  action :create
-  owner "tomcat"
-end
-
 directory "/srv/tomcat6/webapps/myapp" do
   action :create
   owner "tomcat"
