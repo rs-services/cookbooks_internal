@@ -37,7 +37,7 @@ directory "#{node[:solr][:conf_dir]}" do
 end
 
 log "Creating Solr Data Dir: #{node[:solr][:data_dir]}"
-directory "#{solr_dir}/data" do
+directory "#{node[:solr][:data_dir]}" do
   action :create
   owner "tomcat"
 end
