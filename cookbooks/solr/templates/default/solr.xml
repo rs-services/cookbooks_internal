@@ -28,7 +28,7 @@
   adminPath: RequestHandler path to manage cores.  
     If 'null' (or absent), cores will not be manageable via request handler
   -->
-  <cores adminPath="/admin/cores" defaultCoreName="<%= node[:solr][:corename] %>">
+  <cores adminPath="/admin/cores" defaultCoreName="<%= node[:solr][:core_name] %>">
     <core name="<%= node[:solr][:core_name] %>" instanceDir="." />
   </cores>
 </solr>

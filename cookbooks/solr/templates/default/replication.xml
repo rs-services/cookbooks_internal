@@ -10,7 +10,7 @@
  <str name="maxNumberOfBackups">1</str>
  <lst name="slave">
     <str name="enable">${enable.slave:false}</str>
-    <str name="masterUrl">http://master_host:port/solr/corename/replication</str>
+    <str name="masterUrl">http://<%=node[:solr][:replication][:master]%>:8000/solr/<%= node[:solr][:core_name] %>/replication</str>
     <str name="pollInterval">00:00:20</str>
     <str name="httpConnTimeout">5000</str>
     <str name="httpReadTimeout">10000</str>
