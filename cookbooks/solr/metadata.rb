@@ -6,6 +6,7 @@ long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version          "0.0.1"
 
 depends 'rs_utils'
+depends 'app_tomcat'
 
 recipe "solr::default", "installs solr"
 recipe "solr::install_example_app", "installs solr example app"
