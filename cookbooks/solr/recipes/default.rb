@@ -22,7 +22,7 @@ link "#{node[:solr][:data_dir]}" do
   action :create
   link_type :symbolic
   to "/mnt/#{node[:solr][:storage_type]}/solr"
-  notifies :restart, "service[:tomcat6]", :delayed
+  notifies :restart, "service[tomcat6]", :delayed
 end
 
 log "Creating Solr Lib Dir: #{node[:solr][:lib_dir]}"
@@ -72,4 +72,5 @@ if node[:sys_firewall][:enabled] == "enabled"
   include_recipe "iptables"
   sys_firewall "8000"
 end
+
 rs_utils_marker :end
