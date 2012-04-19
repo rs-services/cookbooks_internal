@@ -16,6 +16,11 @@ directory "/mnt/#{node[:solr][:storage_type]}/solr" do
   owner "#{node[:tomcat][:app_user]}"
   mode "0755"
 end
+directory "#{node[:solr][:install_dir]}" do
+  action :create
+  owner "#{node[:tomcat][:app_user]}"
+  mode "0755"
+end
 
 log "Creating Solr Lib Dir: #{node[:solr][:lib_dir]}"
 directory "#{node[:solr][:lib_dir]}" do 
