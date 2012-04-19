@@ -45,7 +45,7 @@ end
 directory "/srv/tomcat6/webapps/myapp" do
   action :create
   owner "#{node[:tomcat][:app_user]}"
-  recursive :true
+  recursive true
 end
 
 log "Copying Solr war file to /srv/tomcat6/webapps/myapp/solr.war"
