@@ -1,6 +1,6 @@
 <requestHandler name="/replication" class="solr.ReplicationHandler" >
   <lst name="slave">
-    <str name="enable">${enable.slave:false}</str>
+    <str name="enable">${enable.slave:true}</str>
     <str name="masterUrl">http://<%=node[:solr][:replication][:master]%>:8000/solr/<%= node[:solr][:core_name] %>/replication</str>
     <str name="pollInterval">00:00:20</str>
     <str name="httpConnTimeout">5000</str>
