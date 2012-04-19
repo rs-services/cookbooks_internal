@@ -1601,5 +1601,9 @@
        <healthcheck type="file">server-enabled</healthcheck>
       -->
   </admin>
-
+  <xi:include href="solrconfig_master.xml" xmlns:xi="http://www.w3.org/2001/XInclude">
+    <xi:fallback>
+      <xi:include href="solrconfig_slave.xml"/>
+    </xi:fallback>
+  </xi:include>
 </config>

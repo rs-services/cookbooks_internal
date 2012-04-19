@@ -19,6 +19,13 @@ attribute "solr/storage_type",
   :choice => ["storage", "ephemeral"],
   :default => "storage"
 
+attribute "solr/replication/server_type", 
+  :display_name => "Solr Server Type(Master, Slave)",
+  :description => "Solr Server Type(Master, Slave)",
+  :required => "optional",
+  :choice => ["master","slave"],
+  :default => "master"
+
 attribute "solr/replication/master", 
   :display_name => "Solr Master Host", 
   :description => "Hostname of Solr Master", 
