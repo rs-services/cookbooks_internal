@@ -32,3 +32,16 @@ attribute "solr/replication/master",
   :description => "Hostname of Solr Master", 
   :required => "optional", 
   :default => "localhost"
+
+attribute "solr/replication/files_to_replicate",
+  :display_name => "Solr Files to replicate", 
+  :description => "Solr Config Files to Replicate", 
+  :required => "optional",
+  :default => "schema.xml,stopwords.txt,elevate.xml"
+
+attribute "solr/replication/slave_poll_interval",
+  :display_name => "Solr Slave Poll Interval", 
+  :description => "Interval in which the slave should poll master .Format is HH:mm:ss",
+  :required => "optional", 
+  :default => "00:00:20"
+
