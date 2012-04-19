@@ -2,7 +2,7 @@
   <lst name="slave">
     <str name="enable">${enable.slave:true}</str>
     <str name="masterUrl">http://<%=node[:solr][:replication][:master]%>:8000/solr/<%= node[:solr][:core_name] %>/replication</str>
-    <str name="pollInterval"><%= slave_poll_interval %></str>
+    <str name="pollInterval"><%= @slave_poll_interval %></str>
     <str name="httpConnTimeout">5000</str>
     <str name="httpReadTimeout">10000</str>
   </lst>
