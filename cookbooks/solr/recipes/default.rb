@@ -17,14 +17,6 @@ directory "/mnt/#{node[:solr][:storage_type]}/solr" do
   mode "0755"
 end
 
-log "linking /mnt/#{node[:solr][:storage_type]}/solr to #{node[:solr][:data_dir]}"
-link "#{node[:solr][:data_dir]}" do 
-  action :create
-  link_type :symbolic
-  to "/mnt/#{node[:solr][:storage_type]}/solr"
-  notifies :restart, "service[tomcat6]", :delayed
-end
-
 log "Creating Solr Lib Dir: #{node[:solr][:lib_dir]}"
 directory "#{node[:solr][:lib_dir]}" do 
   action :create
@@ -64,6 +56,14 @@ remote_directory "#{node[:solr][:lib_dir]}" do
   group "#{node[:tomcat][:app_user]}"
   mode "0644"
   purge false
+end
+
+log "linking /mnt/#{node[:solr][:storage_type]}/solr to #{node[:solr][:data_dir]}"
+link "#{node[:solr][:data_dir]}" do 
+  action :create
+  link_type :symbolic
+  to "/mnt/#{node[:solr][:storage_type]}/solr"
+  notifies :restart, "service[tomcat6]", :delayed
 end
 
 service "tomcat6"
