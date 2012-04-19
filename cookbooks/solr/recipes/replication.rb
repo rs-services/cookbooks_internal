@@ -15,6 +15,7 @@ bash "add-replication-to-solr-config" do
   sed -i '/<\/config>/ d' solrconfig.xml
   cat replication.xml >> solrconfig.xml
 EOF
+  not_if "grep solrconfig_master #{node[:solr][:conf_dir]}/solrconfig.xml"
 end
 
 if node[:solr][:replication][:server_type] == "master" 
