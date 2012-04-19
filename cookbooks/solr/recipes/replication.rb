@@ -11,8 +11,8 @@ end
 bash "add-replication-to-solr-config" do
   user "root"
   cwd "#{node[:solr][:conf_dir]}"
-  code <<-EOF
-  sed -i '/<\/config>/ d' solrconfig.xml
+  code <<-'EOF'
+  sed -i -e '/<\/config>/ d' solrconfig.xml
   cat replication.xml >> solrconfig.xml
 EOF
   not_if "grep solrconfig_master #{node[:solr][:conf_dir]}/solrconfig.xml"
