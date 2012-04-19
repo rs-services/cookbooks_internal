@@ -68,4 +68,8 @@ end
 
 service "tomcat6"
 
+if node[:sys_firewall][:enabled] == "enabled"
+  include_recipe "iptables"
+  sys_firewall "8000"
+end
 rs_utils_marker :end

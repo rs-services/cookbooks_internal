@@ -1,107 +1,108 @@
 {
+  "suggestions": {
+  },
+  "recommendations": {
+  },
+  "license": "All rights reserved",
+  "description": "Installs/Configures solr",
+  "conflicting": {
+  },
+  "replacing": {
+  },
+  "maintainer": "RightScale Inc",
+  "name": "solr",
+  "maintainer_email": "premium@rightscale.com",
+  "providing": {
+  },
+  "recipes": {
+    "solr::replication": "configures replication",
+    "solr::configure_solr_and_solrconfig": "configures solr.xml and solrconfig.xml",
+    "solr::default": "installs solr",
+    "solr::install_example_app": "installs solr example app"
+  },
+  "platforms": {
+  },
+  "dependencies": {
+    "rs_utils": ">= 0.0.0",
+    "app_tomcat": ">= 0.0.0",
+    "sys_firewall": ">= 0.0.0"
+  },
+  "version": "0.0.1",
+  "groupings": {
+  },
   "attributes": {
-    "solr/replication/master": {
-      "display_name": "Solr Master Host",
-      "choice": [
-
-      ],
-      "default": "localhost",
-      "required": "optional",
-      "calculated": false,
-      "description": "Hostname of Solr Master",
-      "recipes": [
-
-      ],
-      "type": "string"
-    },
-    "solr/replication/slave_poll_interval": {
-      "display_name": "Solr Slave Poll Interval",
-      "choice": [
-
-      ],
-      "default": "00:00:20",
-      "required": "optional",
-      "calculated": false,
-      "description": "Interval in which the slave should poll master .Format is HH:mm:ss",
-      "recipes": [
-
-      ],
-      "type": "string"
-    },
     "solr/replication/files_to_replicate": {
+      "required": "optional",
+      "description": "Solr Config Files to Replicate",
       "display_name": "Solr Files to replicate",
       "choice": [
 
       ],
-      "default": "schema.xml,stopwords.txt,elevate.xml",
-      "required": "optional",
       "calculated": false,
-      "description": "Solr Config Files to Replicate",
       "recipes": [
 
       ],
+      "default": "schema.xml,stopwords.txt,elevate.xml",
       "type": "string"
     },
-    "solr/replication/server_type": {
-      "display_name": "Solr Server Type(Master, Slave)",
-      "choice": [
-        "master",
-        "slave"
-      ],
-      "default": "master",
+    "solr/replication/slave_poll_interval": {
       "required": "optional",
+      "description": "Interval in which the slave should poll master .Format is HH:mm:ss",
+      "display_name": "Solr Slave Poll Interval",
+      "choice": [
+
+      ],
       "calculated": false,
-      "description": "Solr Server Type(Master, Slave)",
       "recipes": [
 
       ],
+      "default": "00:00:20",
       "type": "string"
     },
     "solr/storage_type": {
+      "required": "optional",
+      "description": "Location of solr files, either ephemeral or storage(ebs)",
       "display_name": "Solr Storage Location",
       "choice": [
         "storage",
         "ephemeral"
       ],
-      "default": "storage",
-      "required": "optional",
       "calculated": false,
-      "description": "Location of solr files, either ephemeral or storage(ebs)",
       "recipes": [
 
       ],
+      "default": "storage",
+      "type": "string"
+    },
+    "solr/replication/server_type": {
+      "required": "optional",
+      "description": "Solr Server Type(Master, Slave)",
+      "display_name": "Solr Server Type(Master, Slave)",
+      "choice": [
+        "master",
+        "slave"
+      ],
+      "calculated": false,
+      "recipes": [
+
+      ],
+      "default": "master",
+      "type": "string"
+    },
+    "solr/replication/master": {
+      "required": "optional",
+      "description": "Hostname of Solr Master",
+      "display_name": "Solr Master Host",
+      "choice": [
+
+      ],
+      "calculated": false,
+      "recipes": [
+
+      ],
+      "default": "localhost",
       "type": "string"
     }
   },
-  "dependencies": {
-    "rs_utils": ">= 0.0.0",
-    "app_tomcat": ">= 0.0.0"
-  },
-  "providing": {
-  },
-  "name": "solr",
-  "license": "All rights reserved",
-  "recommendations": {
-  },
-  "version": "0.0.1",
-  "suggestions": {
-  },
-  "platforms": {
-  },
-  "maintainer": "RightScale Inc",
-  "maintainer_email": "premium@rightscale.com",
-  "long_description": "Description\n===========\n\nRequirements\n============\n\nAttributes\n==========\n\nUsage\n=====\n\n",
-  "replacing": {
-  },
-  "description": "Installs/Configures solr",
-  "recipes": {
-    "solr::default": "installs solr",
-    "solr::install_example_app": "installs solr example app",
-    "solr::configure_solr_and_solrconfig": "configures solr.xml and solrconfig.xml",
-    "solr::replication": "configures replication"
-  },
-  "groupings": {
-  },
-  "conflicting": {
-  }
+  "long_description": "Description\n===========\n\nRequirements\n============\n\nAttributes\n==========\n\nUsage\n=====\n\n"
 }

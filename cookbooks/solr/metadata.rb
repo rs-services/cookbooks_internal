@@ -7,6 +7,7 @@ version          "0.0.1"
 
 depends 'rs_utils'
 depends 'app_tomcat'
+depends 'sys_firewall'
 
 recipe "solr::default", "installs solr"
 recipe "solr::install_example_app", "installs solr example app"
