@@ -25,6 +25,7 @@ if node[:solr][:replication][:server_type] == "master"
     group "#{node[:tomcat][:app_user]}"
     mode "0644"
     #variables ( :solr_persist => "true" )
+    notifies :restart, "service[tomcat6]", :delayed
   end
 end
 
@@ -34,6 +35,7 @@ if node[:solr][:replication][:server_type] == "slave"
     owner "#{node[:tomcat][:app_user]}"
     group "#{node[:tomcat][:app_user]}"
     mode "0644"
+    notifies :restart, "service[tomcat6]", :delayed
   end
 end
 
