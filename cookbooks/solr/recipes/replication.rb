@@ -1,4 +1,4 @@
-if node[:solr][:replication][:server_type] == "master" do 
+if node[:solr][:replication][:server_type] == "master" 
   template "#{node[:solr][:conf_dir]}/solrconfig_master.xml" do
     source "solrconfig_master.xml"
     owner "tomcat"
@@ -8,7 +8,7 @@ if node[:solr][:replication][:server_type] == "master" do
   end
 end
 
-if node[:solr][:replication][:server_type] == "slave" do
+if node[:solr][:replication][:server_type] == "slave"
   template "#{node[:solr][:conf_dir]}/solrconfig_slave.xml" do
     source "solrconfig_slave.xml"
     owner "tomcat"
