@@ -34,11 +34,11 @@ directory "#{node[:solr][:conf_dir]}" do
   owner "#{node[:tomcat][:app_user]}"
 end
 
-log "Creating Solr Data Dir: #{node[:solr][:data_dir]}"
-directory "#{node[:solr][:data_dir]}" do
-  action :create
-  owner "#{node[:tomcat][:app_user]}"
-end
+#log "Creating Solr Data Dir: #{node[:solr][:data_dir]}"
+#directory "#{node[:solr][:data_dir]}" do
+#  action :create
+#  owner "#{node[:tomcat][:app_user]}"
+#end
 
 directory "/srv/tomcat6/webapps/myapp" do
   action :create
