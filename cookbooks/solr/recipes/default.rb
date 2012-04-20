@@ -17,6 +17,7 @@ directory "/mnt/#{node[:solr][:storage_type]}/solr" do
   group "#{node[:tomcat][:app_user]}"
   mode "0755"
   recursive true
+  notifies :restart, "service[tomcat6]", :delayed
 end
 directory "#{node[:solr][:install_dir]}" do
   action :create
@@ -40,7 +41,7 @@ directory "#{node[:solr][:conf_dir]}" do
   action :create
   owner "#{node[:tomcat][:app_user]}"
   group "#{node[:tomcat][:app_user]}"
-  mode "0644"
+  mode "0755"
 end
 
 #log "Creating Solr Data Dir: #{node[:solr][:data_dir]}"
@@ -68,7 +69,7 @@ remote_directory "#{node[:solr][:lib_dir]}" do
   files_backup 0
   owner "#{node[:tomcat][:app_user]}"
   group "#{node[:tomcat][:app_user]}"
-  mode "0644"
+  mode "0755"
   purge false
 end
 
