@@ -14,24 +14,33 @@ log "Solr Storage Base Directory: /mnt/#{node[:solr][:storage_type]}/solr"
 directory "/mnt/#{node[:solr][:storage_type]}/solr" do
   action :create
   owner "#{node[:tomcat][:app_user]}"
+  group "#{node[:tomcat][:app_user]}"
   mode "0755"
+  recursive true
 end
 directory "#{node[:solr][:install_dir]}" do
   action :create
   owner "#{node[:tomcat][:app_user]}"
+  group "#{node[:tomcat][:app_user]}"
   mode "0755"
+  recursive true
 end
 
 log "Creating Solr Lib Dir: #{node[:solr][:lib_dir]}"
 directory "#{node[:solr][:lib_dir]}" do 
   action :create
   owner "#{node[:tomcat][:app_user]}"
+  group "#{node[:tomcat][:app_user]}"
+  recursive true
+  mode "0644"
 end
 
 log "Creating Solr Config Dir: #{node[:solr][:conf_dir]}"
 directory "#{node[:solr][:conf_dir]}" do
   action :create
   owner "#{node[:tomcat][:app_user]}"
+  group "#{node[:tomcat][:app_user]}"
+  mode "0644"
 end
 
 #log "Creating Solr Data Dir: #{node[:solr][:data_dir]}"
