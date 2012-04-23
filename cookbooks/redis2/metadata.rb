@@ -19,9 +19,6 @@ attribute 'redis2/source_url',
 attribute "redis2/build_dir",
   :display_name => "Redis build directory",
   :default => "/opt/redis2/build"
-attribute "redis2/conf_dir",
-  :display_name => "Redis configuration dir containing redis.conf",
-  :default => "/etc/redis"
 attribute "redis2/log_dir",
   :display_name => "Directory used for log files",
   :default => "/var/log"
