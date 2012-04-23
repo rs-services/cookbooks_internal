@@ -10,7 +10,7 @@ supports         "centos", ">= 5.5"
 supports         "redhat", ">= 5.5"
 depends          "runit"
 
-recipe           "redis2", "Installs and configures redis"
+recipe           "redis2::default", "Installs and configures redis"
 recipe           "redis2::auto", "Configures and activates redis instances defined by attributes"
 
 attribute 'redis2/source_url',
