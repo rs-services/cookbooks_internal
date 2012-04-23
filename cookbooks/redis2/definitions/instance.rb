@@ -54,7 +54,7 @@ define :redis_instance, :port => nil, :data_dir => nil, :master => nil, :service
 
   template ::File.join(node["redis2"]["conf_dir"], "#{instance_name}.conf") do
     source "redis.conf.erb"
-    cookbook "redis"
+    cookbook "redis2"
     variables conf_vars
     mode "0644"
     notifies :restart, "service[#{instance_name}]"
