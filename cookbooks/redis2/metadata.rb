@@ -1,6 +1,3 @@
-#modified by Richard Shade @ RightScale
-#maintainer       "Fewbytes Technologies, Inc."
-#maintainer_email "avishai@fewbytes.com"
 maintainer       "RightScale Inc"
 maintainer_email "premium@rightscale.com"
 license          "Apache 2.0"

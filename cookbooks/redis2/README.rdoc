@@ -28,3 +28,7 @@ The _master_ attribute will set up redis as a slave of a the same redis instance
 * redis2::auto - automagically call redis_instance for every instance defined in the node["redis2"]["instances"] tree.
 * redis2::default_instance - use this if you want a simple recipe with a single redis instance
 It's generally not a good idea to use the redis2::default_instance recipe. If you want a single redis instance, either use redis_instance definition or redis2::auto and define your instance in the attributes tree.
+
+== Changelog
+  04-23-2012 -> This cookbook was forked from Fewbytes Technologies, Inc. (avishai@fewbytes.com) by RightScale Inc. Report Issues to premium@rightscale.com, 
+  a LICENSE-2.0 file was added. 
