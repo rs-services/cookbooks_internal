@@ -34,6 +34,7 @@ directory node["redis2"]["instances"]["default"]["data_dir"] do
   recursive true
 end
 
+log "#{node["redis2"]["conf_dir"]}"
 directory node["redis2"]["conf_dir"]
 
 directory node["redis2"]["pid_dir"] do
