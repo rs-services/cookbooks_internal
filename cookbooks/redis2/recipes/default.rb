@@ -18,9 +18,9 @@
 #
 include_recipe "runit"
 if node["redis2"]["install_from"] == "package"
-  include_recipe "redis::package"
+  include_recipe "redis2::package"
 else
-  include_recipe "redis::source"
+  include_recipe "redis2::source"
 end
 
 user node["redis2"]["user"] do
