@@ -3,6 +3,8 @@ default["redis2"]["log_dir"] =  "/var/log/redis"
 default["redis2"]["conf_dir"] = "/etc/redis"
 default["redis2"]["pid_dir"] = "/var/run/redis"
 default["redis2"]["user"] =     "redis"
+default["redis2"]["deamon"] = "redis-server"
+
 default["redis2"]["instances"]["default"]["bindaddress"] = "0.0.0.0"
 default["redis2"]["instances"]["default"]["port"] = "6379"
 default["redis2"]["instances"]["default"]["timeout"] = 300
