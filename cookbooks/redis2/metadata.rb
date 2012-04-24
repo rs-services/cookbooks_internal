@@ -49,7 +49,7 @@ attribute "redis2/instances/default/vm/swap_file",
 attribute "redis2/instances/default/vm/max_memory",
   :display_name => "Maximum memory usage before swapping",
   :desription => "Configures the VM to use at max the specified amount of RAM. Everything that deos not fit will be swapped on disk *if* possible, that is, if there is still enough contiguous space in the swap file.",
-  :default => "70% of total memory"
+  :required => "optional"
 attribute "redis2/instances/default/vm/page_size",
   :display_name => "Memory page size (bytes) in swap file",
   :description => "Redis swap files is split into pages. An object can be saved using multiple contiguous pages, but pages can't be shared between different objects. So if your page is too big, small objects swapped out on disk will waste a lot of space. If you page is too small, there is less space in the swap file (assuming you configured the same number of total swap file pages).",
