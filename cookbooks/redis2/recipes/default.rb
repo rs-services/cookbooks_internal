@@ -57,4 +57,12 @@ service "redis" do
   ignore_failure true
 end
 
+gem_package "redis" do
+  action :install
+  source "http://rubygems.org/downloads/redis-2.1.1.gem"
+  version "2.1.1"
+end
+
+Gem.clear_paths
+
 rs_utils_marker :end
