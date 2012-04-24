@@ -25,13 +25,13 @@ attribute "runit/chpst_bin",
   :description => "Location of the chpst binary",
   :default => "/usr/bin/chpst"
 
-attribute "runit/service_dir",
-  :display_name => "Runit service directory",
-  :description => "Symlinks to services managed under runit",
-  :default => "/etc/service"
+#attribute "runit/service_dir",
+#  :display_name => "Runit service directory",
+#  :description => "Symlinks to services managed under runit",
+#  :default => "/etc/service"
 
-attribute "runit/sv_dir",
-  :display_name => "Runit sv directory",
-  :description => "Location of services managed by runit",
-  :default => "/etc/sv"
+#attribute "runit/sv_dir",
+#  :display_name => "Runit sv directory",
+#  :description => "Location of services managed by runit",
+#  :default => "/etc/sv"
 
