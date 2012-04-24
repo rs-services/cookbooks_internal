@@ -39,7 +39,7 @@ define :redis_instance, :port => nil, :data_dir => nil, :master => nil, :service
      params[:port] != node["redis2"]["instances"][params[:name]]["port"]
      raise ::Chef::Exceptions::InvalidResourceSpecification, "#{instance_name} port specified in recipe doesn't match port in attributes. You should avoid setting the port attribute manually if you are setting it via the definition body, otherwise you may break search consistency."
   end
-
+  log "creating data_dir #{conf["data_dir"]}"
   directory conf["data_dir"] do
     owner node["redis2"]["user"]
     mode "0750"
@@ -50,7 +50,7 @@ define :redis_instance, :port => nil, :data_dir => nil, :master => nil, :service
     :instance_name => params[:name],
     :master => params[:master],
   }
-
+  log "Adding Redis.conf to #{node["redis2"]["conf_dir"]}"
   template ::File.join(node["redis2"]["conf_dir"], "#{instance_name}.conf") do
     source "redis.conf.erb"
     cookbook "redis2"
@@ -60,7 +60,7 @@ define :redis_instance, :port => nil, :data_dir => nil, :master => nil, :service
   end
 
   uplevel_params = params
-
+  log "Params : #{params}" 
   runit_service instance_name do
     template_name "redis"
     cookbook "redis2"
