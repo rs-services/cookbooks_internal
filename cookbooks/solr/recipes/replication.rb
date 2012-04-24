@@ -1,6 +1,6 @@
 rs_utils_marker :begin
 
-include_recipe "sysdns::default"
+include_recipe "sys_dns::default"
 
 template "#{node[:solr][:conf_dir]}/replication.xml" do
   source "replication.xml"
@@ -26,7 +26,7 @@ if node[:solr][:replication][:server_type] == "master"
     owner "#{node[:tomcat][:app_user]}"
     group "#{node[:tomcat][:app_user]}"
     mode "0644"
-    variables ( :files_to_replicate => node[:solr][:replication][:files_to_replicate] )
+    variables( :files_to_replicate => node[:solr][:replication][:files_to_replicate] )
     notifies :restart, "service[tomcat6]", :delayed
   end
 
@@ -40,7 +40,7 @@ if node[:solr][:replication][:server_type] == "slave"
     owner "#{node[:tomcat][:app_user]}"
     group "#{node[:tomcat][:app_user]}"
     mode "0644"
-    variables ( :slave_poll_interval => node[:solr][:replication][:slave_poll_interval] )
+    variables( :slave_poll_interval => node[:solr][:replication][:slave_poll_interval] )
     notifies :restart, "service[tomcat6]", :delayed
   end
  
