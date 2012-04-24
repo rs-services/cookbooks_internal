@@ -30,8 +30,11 @@ if node[:solr][:replication][:server_type] == "master"
     notifies :restart, "service[tomcat6]", :delayed
   end
 
-  node[:sys_dns][:id] = node[:solr][:replication][:master_dns_id]
-  include_recipe "sys_dns::do_set_private"
+  sys_dns "set-master-dns" do
+    id node[:solr][:replication][:master_dns_id]
+    address node[:cloud][:private_ips][0]
+    action :set_private
+  end
 end
 
 if node[:solr][:replication][:server_type] == "slave"
@@ -43,9 +46,12 @@ if node[:solr][:replication][:server_type] == "slave"
     variables( :slave_poll_interval => node[:solr][:replication][:slave_poll_interval] )
     notifies :restart, "service[tomcat6]", :delayed
   end
- 
-  node[:sys_dns][:id] = node[:solr][:replication][:slave_dns_id]
-  include_recipe "sys_dns::do_set_private" 
+
+  sys_dns "set-dns-slave" do
+    id node[:solr][:replication][:slave_dns_id]
+    address node[:cloud][:private_ips][0]
+    action :set_private
+  end 
 end
 
 service "tomcat6"
