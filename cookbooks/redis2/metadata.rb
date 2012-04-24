@@ -12,6 +12,7 @@ depends          "runit"
 
 recipe           "redis2::default", "Installs and configures redis"
 recipe           "redis2::auto", "Configures and activates redis instances defined by attributes"
+recipe           "redis2::default_instance", "configures default instance"
 
 attribute 'redis2/source_url',
   :display_name => "Redis source URL",
