@@ -51,6 +51,7 @@ define :redis_instance, :port => nil, :data_dir => nil, :master => nil, :service
     :master => params[:master],
   }
   log "Adding Redis.conf to #{node["redis2"]["conf_dir"]}"
+  log "File.Join #{::File.join(node["redis2"]["conf_dir"], "#{instance_name}.conf")}"
   template ::File.join(node["redis2"]["conf_dir"], "#{instance_name}.conf") do
     source "redis.conf.erb"
     cookbook "redis2"
