@@ -30,7 +30,7 @@ if node[:solr][:replication][:server_type] == "master"
     notifies :restart, "service[tomcat6]", :delayed
   end
 
-  sys_dns "set-master-dns" do
+  sys_dns "default" do
     id node[:solr][:replication][:master_dns_id]
     address node[:cloud][:private_ips][0]
     action :set_private
@@ -47,7 +47,7 @@ if node[:solr][:replication][:server_type] == "slave"
     notifies :restart, "service[tomcat6]", :delayed
   end
 
-  sys_dns "set-dns-slave" do
+  sys_dns "default" do
     id node[:solr][:replication][:slave_dns_id]
     address node[:cloud][:private_ips][0]
     action :set_private
