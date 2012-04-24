@@ -8,6 +8,7 @@ version          "0.0.1"
 depends 'rs_utils'
 depends 'app_tomcat'
 depends 'sys_firewall'
+depends 'sys_dns'
 
 recipe "solr::default", "installs solr"
 recipe "solr::install_example_app", "installs solr example app"
@@ -47,3 +48,12 @@ attribute "solr/replication/slave_poll_interval",
   :required => "optional", 
   :default => "00:00:20"
 
+attribute "solr/replication/master_dns_id",
+  :display_name => "Solr Master DNS ID",
+  :description => "Solr Master DNS ID", 
+  :required => "required"
+
+attribute "solr/replication/slave_dns_id",
+  :display_name => "Solr Slave DNS ID",
+  :description => "Solr Slave DNS ID", 
+  :required => "optional"
