@@ -1,5 +1,7 @@
 rs_utils_marker :begin
 
+include_recipe "sysdns::default"
+
 template "#{node[:solr][:conf_dir]}/replication.xml" do
   source "replication.xml"
   owner "#{node[:tomcat][:app_user]}"
@@ -27,6 +29,7 @@ if node[:solr][:replication][:server_type] == "master"
     variables ( :files_to_replicate => node[:solr][:replication][:files_to_replicate] )
     notifies :restart, "service[tomcat6]", :delayed
   end
+
   node[:sys_dns][:id] = node[:solr][:replication][:master_dns_id]
   include_recipe "sys_dns::do_set_private"
 end
@@ -40,6 +43,7 @@ if node[:solr][:replication][:server_type] == "slave"
     variables ( :slave_poll_interval => node[:solr][:replication][:slave_poll_interval] )
     notifies :restart, "service[tomcat6]", :delayed
   end
+ 
   node[:sys_dns][:id] = node[:solr][:replication][:slave_dns_id]
   include_recipe "sys_dns::do_set_private" 
 end
