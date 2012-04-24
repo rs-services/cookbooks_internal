@@ -18,20 +18,20 @@ attribute "runit",
 attribute "runit/sv_bin",
   :display_name => "Runit sv bin",
   :description => "Location of the sv binary",
-  :default => "/usr/bin/sv"
+  :required => "optional"
 
 attribute "runit/chpst_bin",
   :display_name => "Runit chpst bin",
   :description => "Location of the chpst binary",
-  :default => "/usr/bin/chpst"
+  :required => "optional"
 
-#attribute "runit/service_dir",
-#  :display_name => "Runit service directory",
-#  :description => "Symlinks to services managed under runit",
-#  :default => "/etc/service"
+attribute "runit/service_dir",
+  :display_name => "Runit service directory",
+  :description => "Symlinks to services managed under runit",
+  :required => "optional"
 
-#attribute "runit/sv_dir",
-#  :display_name => "Runit sv directory",
-#  :description => "Location of services managed by runit",
-#  :default => "/etc/sv"
+attribute "runit/sv_dir",
+  :display_name => "Runit sv directory",
+  :description => "Location of services managed by runit",
+  :required => "optional"
 

@@ -1,76 +1,100 @@
 {
-  "dependencies": {
+  "version": "0.15.0",
+  "platforms": {
+    "redhat": ">= 0.0.0",
+    "debian": ">= 0.0.0",
+    "centos": ">= 0.0.0",
+    "ubuntu": ">= 0.0.0",
+    "gentoo": ">= 0.0.0"
   },
+  "license": "Apache 2.0",
+  "maintainer_email": "premium@rightscale.com",
   "long_description": "",
-  "replacing": {
-  },
-  "recommendations": {
-  },
   "maintainer": "RightScale Inc",
-  "name": "runit",
-  "groupings": {
-  },
-  "attributes": {
-    "runit": {
-      "display_name": "Runit",
-      "calculated": false,
-      "type": "hash",
-      "choice": [
-
-      ],
-      "recipes": [
-
-      ],
-      "required": "optional",
-      "description": "Hash of runit attributes"
-    },
-    "runit/chpst_bin": {
-      "display_name": "Runit chpst bin",
-      "default": "/usr/bin/chpst",
-      "calculated": false,
-      "type": "string",
-      "choice": [
-
-      ],
-      "recipes": [
-
-      ],
-      "required": "optional",
-      "description": "Location of the chpst binary"
-    },
-    "runit/sv_bin": {
-      "display_name": "Runit sv bin",
-      "default": "/usr/bin/sv",
-      "calculated": false,
-      "type": "string",
-      "choice": [
-
-      ],
-      "recipes": [
-
-      ],
-      "required": "optional",
-      "description": "Location of the sv binary"
-    }
+  "description": "Installs runit and provides runit_service definition",
+  "recommendations": {
   },
   "recipes": {
     "runit": "Installs and configures runit"
   },
-  "platforms": {
-    "redhat": ">= 0.0.0",
-    "gentoo": ">= 0.0.0",
-    "centos": ">= 0.0.0",
-    "ubuntu": ">= 0.0.0",
-    "debian": ">= 0.0.0"
-  },
-  "conflicting": {
+  "name": "runit",
+  "replacing": {
   },
   "providing": {
   },
-  "license": "Apache 2.0",
-  "maintainer_email": "premium@rightscale.com",
-  "description": "Installs runit and provides runit_service definition",
-  "suggestions": {
+  "dependencies": {
   },
-  "version": "0.15.0"
+  "groupings": {
+  },
+  "attributes": {
+    "runit/chpst_bin": {
+      "description": "Location of the chpst binary",
+      "choice": [
+
+      ],
+      "required": "optional",
+      "recipes": [
+
+      ],
+      "display_name": "Runit chpst bin",
+      "calculated": false,
+      "type": "string"
+    },
+    "runit/sv_dir": {
+      "description": "Location of services managed by runit",
+      "choice": [
+
+      ],
+      "required": "optional",
+      "recipes": [
+
+      ],
+      "display_name": "Runit sv directory",
+      "calculated": false,
+      "type": "string"
+    },
+    "runit/sv_bin": {
+      "description": "Location of the sv binary",
+      "choice": [
+
+      ],
+      "required": "optional",
+      "recipes": [
+
+      ],
+      "display_name": "Runit sv bin",
+      "calculated": false,
+      "type": "string"
+    },
+    "runit/service_dir": {
+      "description": "Symlinks to services managed under runit",
+      "choice": [
+
+      ],
+      "required": "optional",
+      "recipes": [
+
+      ],
+      "display_name": "Runit service directory",
+      "calculated": false,
+      "type": "string"
+    },
+    "runit": {
+      "description": "Hash of runit attributes",
+      "choice": [
+
+      ],
+      "required": "optional",
+      "recipes": [
+
+      ],
+      "display_name": "Runit",
+      "calculated": false,
+      "type": "hash"
+    }
+  },
+  "conflicting": {
+  },
+  "suggestions": {
+  }
 }
