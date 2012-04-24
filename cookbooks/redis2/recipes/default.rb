@@ -16,7 +16,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+rs_utils_marker :begin
+
 include_recipe "runit"
+
 if node["redis2"]["install_from"] == "package"
   include_recipe "redis2::package"
 else
@@ -53,3 +56,5 @@ service "redis" do
   action [:disable, :stop]
   ignore_failure true
 end
+
+rs_utils_marker :end
