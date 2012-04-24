@@ -2,4 +2,4 @@
 name=Extra Packages for Enterprise Linux 6 - $basearch
 baseurl=http://repo.annvix.org/media/EL5/$basearch
 enabled=1
-gpgcheck=1
+gpgcheck=0
