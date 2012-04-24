@@ -62,6 +62,9 @@ define :redis_instance, :port => nil, :data_dir => nil, :master => nil, :service
 
   uplevel_params = params
   log "Params : #{params}" 
+  log "Adding Redis.conf to #{node["redis2"]["conf_dir"]}"
+  log "File.Join #{::File.join(node["redis2"]["conf_dir"], "#{instance_name}.conf")}"
+
   runit_service instance_name do
     template_name "redis"
     cookbook "redis2"

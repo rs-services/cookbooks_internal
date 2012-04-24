@@ -1,0 +1,104 @@
+{
+  "attributes": {
+    "runit/chpst_bin": {
+      "default": "/usr/bin/chpst",
+      "recipes": [
+
+      ],
+      "choice": [
+
+      ],
+      "description": "Location of the chpst binary",
+      "required": "optional",
+      "display_name": "Runit chpst bin",
+      "type": "string",
+      "calculated": false
+    },
+    "runit": {
+      "recipes": [
+
+      ],
+      "choice": [
+
+      ],
+      "description": "Hash of runit attributes",
+      "required": "optional",
+      "display_name": "Runit",
+      "type": "hash",
+      "calculated": false
+    },
+    "runit/service_dir": {
+      "default": "/etc/service",
+      "recipes": [
+
+      ],
+      "choice": [
+
+      ],
+      "description": "Symlinks to services managed under runit",
+      "required": "optional",
+      "display_name": "Runit service directory",
+      "type": "string",
+      "calculated": false
+    },
+    "runit/sv_dir": {
+      "default": "/etc/sv",
+      "recipes": [
+
+      ],
+      "choice": [
+
+      ],
+      "description": "Location of services managed by runit",
+      "required": "optional",
+      "display_name": "Runit sv directory",
+      "type": "string",
+      "calculated": false
+    },
+    "runit/sv_bin": {
+      "default": "/usr/bin/sv",
+      "recipes": [
+
+      ],
+      "choice": [
+
+      ],
+      "description": "Location of the sv binary",
+      "required": "optional",
+      "display_name": "Runit sv bin",
+      "type": "string",
+      "calculated": false
+    }
+  },
+  "recipes": {
+    "runit": "Installs and configures runit"
+  },
+  "name": "runit",
+  "conflicting": {
+  },
+  "maintainer_email": "premium@rightscale.com",
+  "long_description": "",
+  "maintainer": "RightScale Inc",
+  "description": "Installs runit and provides runit_service definition",
+  "groupings": {
+  },
+  "recommendations": {
+  },
+  "version": "0.15.0",
+  "replacing": {
+  },
+  "dependencies": {
+  },
+  "platforms": {
+    "redhat": ">= 0.0.0",
+    "gentoo": ">= 0.0.0",
+    "centos": ">= 0.0.0",
+    "ubuntu": ">= 0.0.0",
+    "debian": ">= 0.0.0"
+  },
+  "suggestions": {
+  },
+  "license": "Apache 2.0",
+  "providing": {
+  }
+}
