@@ -8,7 +8,9 @@ supports         "ubuntu", ">= 9.04"
 supports         "debian", ">= 6.0"
 supports         "centos", ">= 5.5"
 supports         "redhat", ">= 5.5"
+
 depends          "runit"
+depends          "rs_utils"
 
 recipe           "redis2::default", "Installs and configures redis"
 recipe           "redis2::auto", "Configures and activates redis instances defined by attributes"
