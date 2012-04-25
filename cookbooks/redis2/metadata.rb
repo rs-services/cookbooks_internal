@@ -13,6 +13,7 @@ depends          "runit"
 recipe           "redis2::default", "Installs and configures redis"
 recipe           "redis2::auto", "Configures and activates redis instances defined by attributes"
 recipe           "redis2::default_instance", "configures default instance"
+recipe           "redis2::remount-storage-and-restart-redis", "remounts /var/lib/redis/default, and restarts redis"
 
 attribute 'redis2/source_url',
   :display_name => "Redis source URL",
@@ -81,3 +82,9 @@ attribute "redis2/instances/default/no_appendfsync_on_rewrite",
   :default => "no"
 attribute "redis2/instances/default/replication/master_role",
   :display_name => "Master Redis chef role"
+
+attribute "redis2/storage_type", 
+  :display_name => "Redis Storage Location",
+  :required => "optional",
+  :choice => ["storage", "ephemeral"],
+  :default => "storage"
