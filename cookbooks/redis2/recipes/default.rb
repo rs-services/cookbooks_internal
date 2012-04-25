@@ -57,9 +57,16 @@ service "redis" do
   ignore_failure true
 end
 
+remote_file "/tmp/redis-2.1.1.gem" do
+  source "http://rubygems.org/downloads/redis-2.1.1.gem"
+  owner "root" 
+  group "root"
+  mode "0644"
+end
+
 gem_package "redis" do
   action :install
-  source "http://rubygems.org/downloads/redis-2.1.1.gem"
+  source "/tmp/redis-2.1.1.gem"
   #version "2.1.1"
 end
 
