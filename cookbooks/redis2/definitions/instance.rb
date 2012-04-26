@@ -68,7 +68,7 @@ define :redis_instance, :port => nil, :data_dir => nil, :master => nil, :service
   log "log setting node[:redis2][:instance_name] to #{instance_name}"
   node[:redis2][:instance_name] = instance_name
 
-  log "setting service timeout to 30 seconds unless set"
+  log "setting service timeout to 30 seconds unless set up[st].class-#{uplevel_params[:service_timeouts]}"
   uplevel_params[:service_timeouts] = 30 unless uplevel_params[:service_timeouts]
   log "Timeout: #{params[:service_timeouts]}"
 
