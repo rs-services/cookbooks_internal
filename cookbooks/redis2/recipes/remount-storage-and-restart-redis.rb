@@ -1,6 +1,10 @@
 include_recipe "redis2"
 include_recipe "runit"
 
+service service "#{node[:redis2][:instance_name]}" do
+  action :stop
+end
+
 log "Creating Directory /mnt/#{node[:redis2][:storage_type]}/redis with owner #{node[:redis2][:user]}"
 directory "/mnt/#{node[:redis2][:storage_type]}/redis" do
   action :create
@@ -8,7 +12,6 @@ directory "/mnt/#{node[:redis2][:storage_type]}/redis" do
   group "#{node[:redis2][:user]}"
   mode "0755"
   recursive true
-  notifies :restart, "service[#{node[:redis2][:instance_name]}]", :delayed
 end
 
 log "Moving Data from /var/lib/redis/default to new storage location: /mnt/#{node[:redis2][:storage_type]}/redis"
@@ -33,4 +36,6 @@ link "/var/lib/redis/default" do
   link_type :symbolic
 end
 
-service "#{node[:redis2][:instance_name]}"
+service "#{node[:redis2][:instance_name]}" do
+  action :start
+end
