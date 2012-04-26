@@ -51,7 +51,7 @@ timeout <%= @conf["timeout"] %>
 # verbose (many rarely useful info, but not a mess like the debug level)
 # notice (moderately verbose, what you want in production probably)
 # warning (only very important / critical messages are logged)
-loglevel verbose
+loglevel notice
 
 # Specify the log file name. Also 'stdout' can be used to force
 # Redis to log on the standard output. Note that if you use standard
@@ -60,7 +60,7 @@ logfile <%= ::File.join(node["redis2"]["log_dir"], "redis_#{@instance_name}.log"
 
 # To enable logging to the system logger, just set 'syslog-enabled' to yes,
 # and optionally update the other syslog parameters to suit your needs.
-syslog-enabled yes
+syslog-enabled no
 
 # Specify the syslog identity.
 syslog-ident redis
