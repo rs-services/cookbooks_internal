@@ -17,7 +17,7 @@ bash "move-redis-dbs" do
   cwd "/"
   flags "-ex"
   code <<-EOF
-    mv /var/lib/redis/default/. /mnt/#{node[:redis2][:storage_type]}/redis
+    mv /var/lib/redis/default/* /mnt/#{node[:redis2][:storage_type]}/redis
 EOF
 end
 
