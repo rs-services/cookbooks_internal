@@ -64,15 +64,16 @@ define :redis_instance, :port => nil, :data_dir => nil, :master => nil, :service
   log "Params : #{params}" 
   log "Adding Redis.conf to #{node["redis2"]["conf_dir"]}"
   log "File.Join #{::File.join(node["redis2"]["conf_dir"], "#{instance_name}.conf")}"
-  log "Timeout: #{params[:service_timeouts] || '30s'"
+  log "Timeout: #{params[:service_timeouts]}"
   node[:redis2][:instance_name] = instance_name
+  uplevel_params[:service_timeouts] = 30 unless uplevel_params[:service_timeouts]
   runit_service instance_name do
     template_name "redis"
     cookbook "redis2"
     options \
 	  :user => node["redis2"]["user"],
       :config_file => ::File.join(node["redis2"]["conf_dir"], "#{instance_name}.conf"),
-      :timeouts => uplevel_params[:service_timeouts] || 30
+      :timeouts => uplevel_params[:service_timeouts] 
   end
 
 end
