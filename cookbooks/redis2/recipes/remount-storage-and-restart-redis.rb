@@ -1,7 +1,7 @@
 include_recipe "redis2"
 include_recipe "runit"
 
-service service "#{node[:redis2][:instance_name]}" do
+service "#{node[:redis2][:instance_name]}" do
   action :stop
 end
 
