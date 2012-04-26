@@ -101,6 +101,6 @@ attribute "redis2/instances/default/replication/master_role",
 attribute "redis2/storage_type", 
   :display_name => "Redis Storage Location",
   :required => "optional",
-  :choice => ["storage", "ephemeral"],
-  :default => "storage",
+  :choice => ["storage1", "ephemeral", "storage2"],
+  :default => "storage1",
   :recipes => [ "redis2::remount-storage-and-restart-redis" ]
