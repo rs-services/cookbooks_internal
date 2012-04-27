@@ -66,9 +66,8 @@ end
 
 gem_package "redis" do
   action :install
-  source "/tmp/redis-2.1.1.gem"
   gem_binary "/usr/bin/gem"
-  #version "2.1.1"
+  version "2.1.1"
 end
 
 Gem.clear_paths
