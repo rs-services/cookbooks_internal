@@ -74,6 +74,10 @@ remote_directory "#{node[:solr][:lib_dir]}" do
 end
 
 log "linking /mnt/#{node[:solr][:storage_type]}/solr to #{node[:solr][:data_dir]}"
+link "#{node[:solr][:data_dir]}" do
+  action :delete
+end
+
 link "#{node[:solr][:data_dir]}" do 
   action :create
   link_type :symbolic
