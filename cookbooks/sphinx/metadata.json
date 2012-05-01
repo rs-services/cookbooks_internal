@@ -1,0 +1,32 @@
+{
+  "version": "0.0.1",
+  "groupings": {
+  },
+  "recipes": {
+    "sphinx::default": "installs and configures sphinx"
+  },
+  "attributes": {
+  },
+  "providing": {
+  },
+  "suggestions": {
+  },
+  "platforms": {
+  },
+  "conflicting": {
+  },
+  "replacing": {
+  },
+  "license": "All rights reserved",
+  "maintainer_email": "premium@rightscale.com",
+  "long_description": "Description\n===========\n\nRequirements\n============\n\nAttributes\n==========\n\nUsage\n=====\n\n",
+  "dependencies": {
+    "sys_firewall": ">= 0.0.0",
+    "rs_utils": ">= 0.0.0"
+  },
+  "description": "Installs/Configures sphinx",
+  "recommendations": {
+  },
+  "maintainer": "RightScale Inc",
+  "name": "sphinx"
+}
