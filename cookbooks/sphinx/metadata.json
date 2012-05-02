@@ -1,32 +1,150 @@
 {
-  "version": "0.0.1",
-  "groupings": {
+  "replacing": {
   },
-  "recipes": {
-    "sphinx::default": "installs and configures sphinx"
-  },
-  "attributes": {
-  },
-  "providing": {
-  },
-  "suggestions": {
-  },
-  "platforms": {
+  "dependencies": {
+    "rs_utils": ">= 0.0.0",
+    "sys_firewall": ">= 0.0.0"
   },
   "conflicting": {
   },
-  "replacing": {
+  "name": "sphinx",
+  "maintainer": "RightScale Inc",
+  "recipes": {
+    "sphinx::default": "installs and configures sphinx"
   },
-  "license": "All rights reserved",
-  "maintainer_email": "premium@rightscale.com",
-  "long_description": "Description\n===========\n\nRequirements\n============\n\nAttributes\n==========\n\nUsage\n=====\n\n",
-  "dependencies": {
-    "sys_firewall": ">= 0.0.0",
-    "rs_utils": ">= 0.0.0"
+  "groupings": {
+  },
+  "attributes": {
+    "sphinx/db/host": {
+      "choice": [
+
+      ],
+      "type": "string",
+      "required": "optional",
+      "display_name": "Sphinx DB Host",
+      "recipes": [
+        "sphinx::default"
+      ],
+      "description": "Host to pull sphinx data from",
+      "calculated": false
+    },
+    "sphinx/mem_limit": {
+      "choice": [
+
+      ],
+      "type": "string",
+      "required": "optional",
+      "display_name": "Sphinx Indexer Memory",
+      "recipes": [
+        "sphinx::default"
+      ],
+      "description": "Indexing RAM usage limit. Optional, default is 256M",
+      "calculated": false,
+      "default": "256M"
+    },
+    "sphinx/db/sql_attr_uint": {
+      "choice": [
+
+      ],
+      "type": "string",
+      "required": "optional",
+      "display_name": "Sphinx SQL Attribute(Unsigned Integer)",
+      "recipes": [
+        "sphinx::default"
+      ],
+      "description": "Unsigned integer attribute declaration. Multi-value (there might be multiple attributes declared), optional. Applies to SQL source types (mysql, pgsql, mssql) only.",
+      "calculated": false
+    },
+    "sphinx/db/sql_query": {
+      "choice": [
+
+      ],
+      "type": "string",
+      "required": "optional",
+      "display_name": "Sphinx SQL Query",
+      "recipes": [
+        "sphinx::default"
+      ],
+      "description": "Main document fetch query. Mandatory, no default value. Applies to SQL source types (mysql, pgsql, mssql) only.",
+      "calculated": false
+    },
+    "sphinx/db/schema": {
+      "choice": [
+
+      ],
+      "type": "string",
+      "required": "optional",
+      "display_name": "Sphinx DB Schema",
+      "recipes": [
+        "sphinx::default"
+      ],
+      "description": "Sphinx DB Schema",
+      "calculated": false
+    },
+    "sphinx/db/password": {
+      "choice": [
+
+      ],
+      "type": "string",
+      "required": "optional",
+      "display_name": "Sphinx DB Password",
+      "recipes": [
+        "sphinx::default"
+      ],
+      "description": "Sphinx DB Password",
+      "calculated": false
+    },
+    "sphinx/db/sql_query_info": {
+      "choice": [
+
+      ],
+      "type": "string",
+      "required": "optional",
+      "display_name": "Sphinx SQL Document Query",
+      "recipes": [
+        "sphinx::default"
+      ],
+      "description": "Document info query. Optional, default is empty. Applies to mysql source type only.",
+      "calculated": false
+    },
+    "sphinx/db/sql_attr_timestamp": {
+      "choice": [
+
+      ],
+      "type": "string",
+      "required": "optional",
+      "display_name": "Sphinx SQL Attribute(TimeStamp)",
+      "recipes": [
+        "sphinx::default"
+      ],
+      "description": "UNIX timestamp attribute declaration. Multi-value (there might be multiple attributes declared), optional. Applies to SQL source types (mysql, pgsql, mssql) only.",
+      "calculated": false
+    },
+    "sphinx/db/user": {
+      "choice": [
+
+      ],
+      "type": "string",
+      "required": "optional",
+      "display_name": "Sphinx DB User",
+      "recipes": [
+        "sphinx::default"
+      ],
+      "description": "Sphinx DB User",
+      "calculated": false
+    }
   },
   "description": "Installs/Configures sphinx",
+  "maintainer_email": "premium@rightscale.com",
+  "providing": {
+  },
+  "license": "All rights reserved",
+  "version": "0.0.1",
+  "suggestions": {
+  },
   "recommendations": {
   },
-  "maintainer": "RightScale Inc",
-  "name": "sphinx"
+  "platforms": {
+  },
+  "long_description": "Description\n===========\n\nRequirements\n============\n\nAttributes\n==========\n\nUsage\n=====\n\n"
 }
