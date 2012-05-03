@@ -1,4 +1,4 @@
-RightScale Public Cookbooks
+RightScale Services Cookbooks
 DESCRIPTION
 Synopsis
 
