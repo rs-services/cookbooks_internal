@@ -9,6 +9,10 @@
 Log "installing the sphinx package"
 case node[:platform]
 when "redhat","centos","scientific"
+  yum_package "mysql50" do
+    action :install
+  end
+
   yum_package "sphinx" do
     action :install
   end
