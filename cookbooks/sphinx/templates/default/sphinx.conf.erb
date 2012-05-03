@@ -38,7 +38,7 @@ indexer
 
 searchd
 {
-	port					= 9312
+	port					= <%= node[:sphinx][:port] %>
 	log						= /var/log/sphinx/searchd.log
 	query_log				= /var/log/sphinx/query.log
 	read_timeout			= 5

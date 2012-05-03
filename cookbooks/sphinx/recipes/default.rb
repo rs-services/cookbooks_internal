@@ -54,3 +54,5 @@ when "debian","ubuntu"
   end
 end
 
+include_recipe "sys_firewall::default"
+sys_firewall "#{node[:sphinx][:port]}"
