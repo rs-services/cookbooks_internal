@@ -6,6 +6,7 @@
 #
 # All rights reserved - Do Not Redistribute
 #
+rs_utils_marker :begin
 log "installing the sphinx package"
 case node[:platform]
 when "redhat","centos","scientific"
@@ -59,3 +60,5 @@ end
 log "Opening firewall port:#{node[:sphinx][:port]}"
 include_recipe "sys_firewall::default"
 sys_firewall "#{node[:sphinx][:port]}"
+
+rs_utils_marker :end

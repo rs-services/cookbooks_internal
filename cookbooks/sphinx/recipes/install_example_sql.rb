@@ -1,3 +1,4 @@
+rs_utils_marker :begin
 package "mysql50-server" do
   action :install
 end
@@ -30,3 +31,5 @@ end
 service "#{node[:sphinx][:service]}" do
   action :start
 end
+
+rs_utils_marker :end

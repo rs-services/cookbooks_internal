@@ -6,7 +6,9 @@
 #
 # All rights reserved - Do Not Redistribute
 #
-Log "installing the sphinx package"
+rs_utils_marker :begin
+
+log "installing the sphinx package"
 case node[:platform]
 when "redhat","centos","scientific"
   template "/etc/sphinx/sphinx.conf" do
@@ -34,3 +36,5 @@ end
 service "#{node[:sphinx][:service]}" do
   action :start
 end
+
+rs_utils_marker :end
