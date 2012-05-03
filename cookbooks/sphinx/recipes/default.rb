@@ -18,6 +18,9 @@ when "redhat","centos","scientific"
   end
 
   directory "/mnt/#{node[:sphinx][:storage_type]}/sphinx" do
+    owner "root"
+    group "root"
+    mode "0755"
     action :create
     recursive true
   end
@@ -35,6 +38,9 @@ when "debian","ubuntu"
   end
   
   directory "/mnt/#{node[:sphinx][:storage_type]}/sphinx" do
+    owner "root"
+    group "root"
+    mode "0755"
     action :create
     recursive true
   end
