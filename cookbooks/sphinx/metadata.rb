@@ -10,6 +10,7 @@ depends "sys_firewall"
 
 recipe "sphinx::default", "installs and configures sphinx"
 recipe "sphinx::install_example_sql", "installs example file, and starts indexer"
+recipe "spinx::configure_and_start_sphinx", "configures and starts sphinx, customer overrides"
 
 attribute "sphinx/db/host",
   :display_name => "Sphinx DB Host",
