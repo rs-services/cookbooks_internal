@@ -6,7 +6,7 @@
 #
 # All rights reserved - Do Not Redistribute
 #
-Log "installing the sphinx package"
+log "installing the sphinx package"
 case node[:platform]
 when "redhat","centos","scientific"
   yum_package "mysql50" do
@@ -15,14 +15,6 @@ when "redhat","centos","scientific"
 
   yum_package "sphinx" do
     action :install
-  end
-
-  directory "/mnt/#{node[:sphinx][:storage_type]}/sphinx" do
-    owner "root"
-    group "root"
-    mode "0755"
-    action :create
-    recursive true
   end
 
   template "/etc/sphinx/sphinx.conf" do
@@ -37,14 +29,6 @@ when "debian","ubuntu"
     action :install
   end
   
-  directory "/mnt/#{node[:sphinx][:storage_type]}/sphinx" do
-    owner "root"
-    group "root"
-    mode "0755"
-    action :create
-    recursive true
-  end
-  
   template "/etc/sphinxsearch/sphinx.conf" do
     source "sphinx.conf.erb"
     owner "root"
@@ -54,5 +38,24 @@ when "debian","ubuntu"
   end
 end
 
+log "create storage directory"
+directory "/mnt/#{node[:sphinx][:storage_type]}/sphinx" do
+  owner "root"
+  group "root"
+  mode "0755"
+  action :create
+  recursive true
+end
+
+log "create log directory"
+directory "/var/log/sphinx" do
+  owner "root"
+  group "root"
+  mode "0755"
+  action :create
+  recursive true
+end
+
+log "Opening firewall port:#{node[:sphinx][:port]}"
 include_recipe "sys_firewall::default"
 sys_firewall "#{node[:sphinx][:port]}"
