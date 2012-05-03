@@ -14,7 +14,7 @@ when "redhat","centos","scientific"
     owner "root"
     group "root"
     mode "0644"
-    #variables()
+    variables(:index_storage_location => "/mnt/#{node[:sphinx][:storage_type]}/sphinx")
   end
 when "debian","ubuntu"
   template "/etc/sphinxsearch/sphinx.conf" do
@@ -22,7 +22,7 @@ when "debian","ubuntu"
     owner "root"
     group "root"
     mode "0644"
-    #variables()
+    variables(:index_storage_location => "/mnt/#{node[:sphinx][:storage_type]}/sphinx")
   end
 end
 

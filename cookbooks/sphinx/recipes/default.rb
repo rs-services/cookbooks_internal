@@ -17,25 +17,34 @@ when "redhat","centos","scientific"
     action :install
   end
 
+  directory "/mnt/#{node[:sphinx][:storage_type]}/sphinx" do
+    action :create
+    recursive true
+  end
+
   template "/etc/sphinx/sphinx.conf" do
     source "sphinx.conf.erb"
     owner "root"
     group "root"
     mode "0644"
-    #variables()
+    variables(:index_storage_location => "/mnt/#{node[:sphinx][:storage_type]}/sphinx" )
   end
 when "debian","ubuntu"
   package "sphinxsearch" do
     action :install
   end
-
+  
+  directory "/mnt/#{node[:sphinx][:storage_type]}/sphinx" do
+    action :create
+    recursive true
+  end
+  
   template "/etc/sphinxsearch/sphinx.conf" do
     source "sphinx.conf.erb"
     owner "root"
     group "root"
     mode "0644"
-    #variables()
+    variables(:index_storage_location => "/mnt/#{node[:sphinx][:storage_type]}/sphinx")
   end
 end
-
 
