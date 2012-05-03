@@ -22,8 +22,8 @@ execute "mysql_import" do
   action :run
 end
 
-execute "#{node[:spinx][:indexer]}" do
-  command "#{node[:spinx][:indexer]} --all"
+execute "#{node[:sphinx][:indexer]}" do
+  command "#{node[:sphinx][:indexer]} --all"
   action :run
 end
 
