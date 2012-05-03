@@ -22,6 +22,7 @@ bash "move-redis-dbs" do
   code <<-EOF
     mv /var/lib/redis/default/* /mnt/#{node[:redis2][:storage_type]}/redis
 EOF
+  not_if "test -e /mnt/#{node[:redis2][:storage_type]}/redis/#{node[:redis2][:instances][:default][:dumpdb_filename]}"
 end
 
 log "Deleting /var/lib/redis/default to make symlink"
