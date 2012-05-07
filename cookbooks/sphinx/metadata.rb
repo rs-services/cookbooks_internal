@@ -7,6 +7,7 @@ version          "0.0.1"
 
 depends "rs_utils"
 depends "sys_firewall"
+depends "rightscale_services_tools"
 
 recipe "sphinx::default", "installs and configures sphinx"
 recipe "sphinx::install_example_sql", "installs example file, and starts indexer"

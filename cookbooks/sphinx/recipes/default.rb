@@ -61,4 +61,9 @@ log "Opening firewall port:#{node[:sphinx][:port]}"
 include_recipe "sys_firewall::default"
 sys_firewall "#{node[:sphinx][:port]}"
 
+log "creating profile"
+gen_profile_script "default" do
+  :cookbook_name => "sphinx"
+end
+
 rs_utils_marker :end

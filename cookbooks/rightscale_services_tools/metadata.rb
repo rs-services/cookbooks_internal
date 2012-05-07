@@ -1,6 +1,8 @@
-maintainer       "YOUR_COMPANY_NAME"
-maintainer_email "YOUR_EMAIL"
+maintainer       "RightScale Inc"
+maintainer_email "premium@rightscale.com"
 license          "All rights reserved"
 description      "Installs/Configures rightscale_services_tools"
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version          "0.0.1"
+
+recipe "rightscale_services_tools::default", "enables rightscale_services_tools"

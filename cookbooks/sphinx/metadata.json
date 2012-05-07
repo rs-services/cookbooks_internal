@@ -1,167 +1,168 @@
 {
-  "name": "sphinx",
-  "platforms": {
-  },
-  "maintainer": "RightScale Inc",
-  "long_description": "Description\n===========\n\nRequirements\n============\n\nAttributes\n==========\n\nUsage\n=====\n\n",
-  "version": "0.0.1",
   "groupings": {
   },
-  "license": "All rights reserved",
   "replacing": {
   },
-  "recommendations": {
-  },
-  "description": "Installs/Configures sphinx",
   "providing": {
   },
-  "suggestions": {
+  "dependencies": {
+    "sys_firewall": ">= 0.0.0",
+    "rs_utils": ">= 0.0.0",
+    "rightscale_services_tools": ">= 0.0.0"
   },
+  "name": "sphinx",
+  "conflicting": {
+  },
+  "maintainer_email": "premium@rightscale.com",
+  "maintainer": "RightScale Inc",
   "recipes": {
+    "sphinx::install_example_sql": "installs example file, and starts indexer",
     "sphinx::default": "installs and configures sphinx",
-    "sphinx::configure_and_start_sphinx": "configures and starts sphinx - customer overrides",
-    "sphinx::install_example_sql": "installs example file, and starts indexer"
+    "sphinx::configure_and_start_sphinx": "configures and starts sphinx - customer overrides"
   },
+  "platforms": {
+  },
+  "version": "0.0.1",
+  "license": "All rights reserved",
   "attributes": {
-    "sphinx/storage_type": {
-      "type": "string",
-      "choice": [
-        "storage1",
-        "ephemeral",
-        "storage2"
-      ],
-      "calculated": false,
-      "display_name": "Sphinx index Storage Location",
+    "sphinx/db/sql_attr_timestamp": {
       "required": "optional",
-      "default": "storage1",
+      "calculated": false,
+      "display_name": "Sphinx SQL Attribute(TimeStamp)",
       "recipes": [
+        "sphinx::default"
+      ],
+      "type": "string",
+      "description": "UNIX timestamp attribute declaration. Multi-value (there might be multiple attributes declared), optional. Applies to SQL source types (mysql, pgsql, mssql) only.",
+      "choice": [
+
+      ]
+    },
+    "sphinx/db/sql_query": {
+      "required": "optional",
+      "calculated": false,
+      "display_name": "Sphinx SQL Query",
+      "recipes": [
+        "sphinx::default"
+      ],
+      "type": "string",
+      "description": "Main document fetch query. Mandatory, no default value. Applies to SQL source types (mysql, pgsql, mssql) only.",
+      "choice": [
+
+      ]
+    },
+    "sphinx/db/sql_query_info": {
+      "required": "optional",
+      "calculated": false,
+      "display_name": "Sphinx SQL Document Query",
+      "recipes": [
+        "sphinx::default"
+      ],
+      "type": "string",
+      "description": "Document info query. Optional, default is empty. Applies to mysql source type only.",
+      "choice": [
+
+      ]
+    },
+    "sphinx/db/password": {
+      "required": "optional",
+      "calculated": false,
+      "display_name": "Sphinx DB Password",
+      "recipes": [
+        "sphinx::default"
+      ],
+      "type": "string",
+      "description": "Sphinx DB Password",
+      "choice": [
+
+      ]
+    },
+    "sphinx/db/user": {
+      "required": "optional",
+      "calculated": false,
+      "display_name": "Sphinx DB User",
+      "recipes": [
+        "sphinx::default"
+      ],
+      "type": "string",
+      "description": "Sphinx DB User",
+      "choice": [
+
+      ]
+    },
+    "sphinx/db/sql_attr_uint": {
+      "required": "optional",
+      "calculated": false,
+      "display_name": "Sphinx SQL Attribute(Unsigned Integer)",
+      "recipes": [
+        "sphinx::default"
+      ],
+      "type": "string",
+      "description": "Unsigned integer attribute declaration. Multi-value (there might be multiple attributes declared), optional. Applies to SQL source types (mysql, pgsql, mssql) only.",
+      "choice": [
 
       ]
     },
     "sphinx/mem_limit": {
-      "type": "string",
-      "choice": [
-
-      ],
-      "description": "Indexing RAM usage limit. Optional, default is 256M",
+      "required": "optional",
       "calculated": false,
       "display_name": "Sphinx Indexer Memory",
-      "required": "optional",
+      "recipes": [
+        "sphinx::default"
+      ],
+      "type": "string",
       "default": "256M",
-      "recipes": [
-        "sphinx::default"
-      ]
-    },
-    "sphinx/db/user": {
-      "type": "string",
+      "description": "Indexing RAM usage limit. Optional, default is 256M",
       "choice": [
 
-      ],
-      "description": "Sphinx DB User",
-      "calculated": false,
-      "display_name": "Sphinx DB User",
-      "required": "optional",
-      "recipes": [
-        "sphinx::default"
-      ]
-    },
-    "sphinx/db/sql_query_info": {
-      "type": "string",
-      "choice": [
-
-      ],
-      "description": "Document info query. Optional, default is empty. Applies to mysql source type only.",
-      "calculated": false,
-      "display_name": "Sphinx SQL Document Query",
-      "required": "optional",
-      "recipes": [
-        "sphinx::default"
-      ]
-    },
-    "sphinx/db/sql_attr_timestamp": {
-      "type": "string",
-      "choice": [
-
-      ],
-      "description": "UNIX timestamp attribute declaration. Multi-value (there might be multiple attributes declared), optional. Applies to SQL source types (mysql, pgsql, mssql) only.",
-      "calculated": false,
-      "display_name": "Sphinx SQL Attribute(TimeStamp)",
-      "required": "optional",
-      "recipes": [
-        "sphinx::default"
       ]
     },
     "sphinx/db/host": {
-      "type": "string",
-      "choice": [
-
-      ],
-      "description": "Host to pull sphinx data from",
+      "required": "optional",
       "calculated": false,
       "display_name": "Sphinx DB Host",
-      "required": "optional",
       "recipes": [
         "sphinx::default"
-      ]
-    },
-    "sphinx/db/sql_attr_uint": {
+      ],
       "type": "string",
+      "description": "Host to pull sphinx data from",
       "choice": [
 
-      ],
-      "description": "Unsigned integer attribute declaration. Multi-value (there might be multiple attributes declared), optional. Applies to SQL source types (mysql, pgsql, mssql) only.",
-      "calculated": false,
-      "display_name": "Sphinx SQL Attribute(Unsigned Integer)",
-      "required": "optional",
-      "recipes": [
-        "sphinx::default"
       ]
     },
-    "sphinx/db/sql_query": {
-      "type": "string",
-      "choice": [
+    "sphinx/storage_type": {
+      "required": "optional",
+      "calculated": false,
+      "display_name": "Sphinx index Storage Location",
+      "recipes": [
 
       ],
-      "description": "Main document fetch query. Mandatory, no default value. Applies to SQL source types (mysql, pgsql, mssql) only.",
-      "calculated": false,
-      "display_name": "Sphinx SQL Query",
-      "required": "optional",
-      "recipes": [
-        "sphinx::default"
+      "type": "string",
+      "default": "storage1",
+      "choice": [
+        "storage1",
+        "ephemeral",
+        "storage2"
       ]
     },
     "sphinx/db/schema": {
-      "type": "string",
-      "choice": [
-
-      ],
-      "description": "Sphinx DB Schema",
+      "required": "optional",
       "calculated": false,
       "display_name": "Sphinx DB Schema",
-      "required": "optional",
       "recipes": [
         "sphinx::default"
-      ]
-    },
-    "sphinx/db/password": {
+      ],
       "type": "string",
+      "description": "Sphinx DB Schema",
       "choice": [
 
-      ],
-      "description": "Sphinx DB Password",
-      "calculated": false,
-      "display_name": "Sphinx DB Password",
-      "required": "optional",
-      "recipes": [
-        "sphinx::default"
       ]
     }
   },
-  "conflicting": {
+  "recommendations": {
   },
-  "dependencies": {
-    "sys_firewall": ">= 0.0.0",
-    "rs_utils": ">= 0.0.0"
+  "description": "Installs/Configures sphinx",
+  "suggestions": {
   },
-  "maintainer_email": "premium@rightscale.com"
+  "long_description": "Description\n===========\n\nRequirements\n============\n\nAttributes\n==========\n\nUsage\n=====\n\n"
 }

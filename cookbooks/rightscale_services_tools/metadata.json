@@ -1,0 +1,30 @@
+{
+  "recipes": {
+    "rightscale_services_tools::default": "enables rightscale_services_tools"
+  },
+  "maintainer_email": "premium@rightscale.com",
+  "name": "rightscale_services_tools",
+  "replacing": {
+  },
+  "license": "All rights reserved",
+  "suggestions": {
+  },
+  "platforms": {
+  },
+  "description": "Installs/Configures rightscale_services_tools",
+  "attributes": {
+  },
+  "groupings": {
+  },
+  "providing": {
+  },
+  "conflicting": {
+  },
+  "recommendations": {
+  },
+  "version": "0.0.1",
+  "maintainer": "RightScale Inc",
+  "long_description": "Description\n===========\n\nRequirements\n============\n\nAttributes\n==========\n\nUsage\n=====\n\n",
+  "dependencies": {
+  }
+}
