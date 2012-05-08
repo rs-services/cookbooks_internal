@@ -57,6 +57,11 @@ service "redis" do
   ignore_failure true
 end
 
+file "#{node["redis2"]["conf_dir"]}/redis.conf" do
+  action :delete
+  only_if "test -e #{node["redis2"]["conf_dir"]}/redis.conf"
+end
+
 remote_file "/tmp/redis-2.1.1.gem" do
   source "http://rubygems.org/downloads/redis-2.1.1.gem"
   owner "root" 
