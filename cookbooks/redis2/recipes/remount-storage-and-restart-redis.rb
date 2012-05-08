@@ -1,5 +1,4 @@
 include_recipe "redis2"
-include_recipe "runit"
 
 service "#{node[:redis2][:service_name]}" do
   action :stop

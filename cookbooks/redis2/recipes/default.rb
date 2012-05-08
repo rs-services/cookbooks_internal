@@ -18,8 +18,6 @@
 #
 rs_utils_marker :begin
 
-include_recipe "runit"
-
 if node["redis2"]["install_from"] == "package"
   include_recipe "redis2::package"
 else
