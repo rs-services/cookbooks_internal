@@ -57,8 +57,12 @@ service "redis" do
   ignore_failure true
 end
 
-file "#{node["redis2"]["conf_dir"]}/redis.conf" do
-  action :delete
+bash "delete redis conf" do
+  user "root"
+  cwd "/"
+  code <<-EOF
+  rm -fr  "#{node["redis2"]["conf_dir"]}/redis.conf"
+  EOF
   only_if "test -e #{node["redis2"]["conf_dir"]}/redis.conf"
 end
 
