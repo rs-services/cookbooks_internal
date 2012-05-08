@@ -22,6 +22,13 @@ when "ubuntu", "debian"
   service "mysql" do
     action :start
   end
+  
+  directory "/var/run/sphinx" do
+    owner "root"
+    group "root"
+    mode "0755"
+    action :create
+  end
 end
 
 cookbook_file "/tmp/example.sql" do
