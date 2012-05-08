@@ -14,29 +14,23 @@ when "redhat","centos","scientific"
     action :install
   end
 
-  yum_package "sphinx" do
+  yum_package "#{node[:sphinx][:package]}" do
     action :install
   end
+when "ubuntu","debian"
+  package "#{node[:sphinx][:package]}" do
+    action :install
+  end
+end
 
-  template "/etc/sphinx/sphinx.conf" do
-    source "sphinx.conf.erb"
-    owner "root"
-    group "root"
-    mode "0644"
-    variables(:index_storage_location => "/mnt/#{node[:sphinx][:storage_type]}/sphinx" )
-  end
-when "debian","ubuntu"
-  package "sphinxsearch" do
-    action :install
-  end
-  
-  template "/etc/sphinxsearch/sphinx.conf" do
-    source "sphinx.conf.erb"
-    owner "root"
-    group "root"
-    mode "0644"
-    variables(:index_storage_location => "/mnt/#{node[:sphinx][:storage_type]}/sphinx")
-  end
+log "Creating Sphinx Config File"
+template "#{node[:sphinx][:conf_file]}" do
+  source "sphinx.conf.erb"
+  owner "root"
+  group "root"
+  mode "0644"
+  variables(:index_storage_location => "/mnt/#{node[:sphinx][:storage_type]}/sphinx")
+  action :create
 end
 
 log "create storage directory"

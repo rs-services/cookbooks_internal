@@ -1,5 +1,6 @@
 define :gen_profile_script, :enable => true, :cookbook_name => "" do 
   if params[:enable]
+    log "creating environment variables from cookbook: #{params[:cookbook_name]}"
     template "/etc/profile.d/#{params[:cookbook_name]}.sh" do
       cookbook "rightscale_services_tools"
       source "profile.sh.erb"
