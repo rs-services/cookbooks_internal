@@ -29,4 +29,26 @@ EOS
   interpreter "bash"
   creates node["redis2"]["daemon"]
 end
+case node[:platform]
+when "centos","redhat","scientific"
+  template "/etc/init.d/redis" do
+    source "redis.init.centos"
+    owner "root"
+    group "root"
+    mode "0755"
+  end
+  service "redis" do
+    action :enable
+  end
+when "debian","ubuntu"
+  template "/etc/init.d/redis-server" do
+    source "redis.init.ubuntu"
+    owner "root"
+    group "root"
+    mode "0755"
+  end
 
+  service "redis-server" do
+    action :enable
+  end
+end
