@@ -1,6 +1,6 @@
 rs_utils_marker :begin
 
-case platform
+case node[:platform]
 when "redhat","centos","scientific"
   package "mysql50-server" do
     action :install
