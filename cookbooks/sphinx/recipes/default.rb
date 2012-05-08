@@ -63,7 +63,8 @@ sys_firewall "#{node[:sphinx][:port]}"
 
 log "creating profile"
 gen_profile_script "default" do
-  :cookbook_name => "sphinx"
+  cookbook_name => "sphinx"
+  enable => true
 end
 
 rs_utils_marker :end
