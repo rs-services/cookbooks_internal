@@ -57,7 +57,7 @@ define :redis_instance, :port => nil, :data_dir => nil, :master => nil, :service
     cookbook "redis2"
     variables conf_vars
     mode "0644"
-    notifies :restart, "service[#{node[:redis2][:service_name]}]"
+    notifies :restart, "service[redis]"
   end
 
   uplevel_params = params
