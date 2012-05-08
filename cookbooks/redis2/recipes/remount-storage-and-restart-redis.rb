@@ -19,7 +19,9 @@ bash "move-redis-dbs" do
   cwd "/"
   flags "-ex"
   code <<-EOF
+    if [ -e /var/lib/redis/default/* ]; then
     mv /var/lib/redis/default/* /mnt/#{node[:redis2][:storage_type]}/redis
+    fi
 EOF
   not_if "test -e /mnt/#{node[:redis2][:storage_type]}/redis/#{node[:redis2][:instances][:default][:dumpdb_filename]}"
 end
