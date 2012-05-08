@@ -1,7 +1,7 @@
 include_recipe "redis2"
 include_recipe "runit"
 
-service "#{node[:redis2][:instance_name]}" do
+service "#{node[:redis2][:service_name]}" do
   action :stop
 end
 
@@ -37,6 +37,6 @@ link "/var/lib/redis/default" do
   link_type :symbolic
 end
 
-service "#{node[:redis2][:instance_name]}" do
+service "#{node[:redis2][:service_name]}" do
   action :start
 end

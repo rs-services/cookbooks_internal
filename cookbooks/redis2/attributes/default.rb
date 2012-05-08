@@ -5,7 +5,7 @@ default["redis2"]["pid_dir"] = "/var/run/redis"
 default["redis2"]["user"] =     "redis"
 default["redis2"]["deamon"] = "redis-server"
 default["redis2"]["instance_name"] = ""
-
+default["redis2"]["service_name"] = value_for_platform(:default => "redis", [:ubuntu, :debian] => {:default => "redis-server"})
 default["redis2"]["instances"]["default"]["bindaddress"] = "0.0.0.0"
 default["redis2"]["instances"]["default"]["port"] = "6379"
 default["redis2"]["instances"]["default"]["timeout"] = 300

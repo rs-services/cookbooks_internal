@@ -57,7 +57,7 @@ define :redis_instance, :port => nil, :data_dir => nil, :master => nil, :service
     cookbook "redis2"
     variables conf_vars
     mode "0644"
-    notifies :restart, "service[#{instance_name}]"
+    notifies :restart, "service[#{node[:redis2][:service_name]}]"
   end
 
   uplevel_params = params
@@ -69,6 +69,7 @@ define :redis_instance, :port => nil, :data_dir => nil, :master => nil, :service
   node[:redis2][:instance_name] = instance_name
 
   log "setting service timeout to 30 seconds unless set up[st].keys#{uplevel_params[:service_timeouts].keys} first:#{uplevel_params[:service_timeouts].first}"
+
   uplevel_params[:service_timeouts] = 30 unless uplevel_params[:service_timeouts]
   log "Timeout: #{params[:service_timeouts]}"
 
