@@ -1,14 +1,30 @@
 rs_utils_marker :begin
-package "mysql50-server" do
-  action :install
-end
 
-package "mysql50" do
-  action :install
-end
+case platform
+when "redhat","centos","scientific"
+  package "mysql50-server" do
+    action :install
+  end
 
-service "mysqld" do
-  action :start
+  package "mysql50" do
+    action :install
+  end
+  
+  service "mysqld" do
+    action :start
+  end
+when "ubuntu", "debian"
+  package "mysql-server" do
+    action :install
+  end
+
+  package "mysql" do
+    action :install
+  end
+
+  service "mysql" do
+    action :start
+  end
 end
 
 cookbook_file "/tmp/example.sql" do
