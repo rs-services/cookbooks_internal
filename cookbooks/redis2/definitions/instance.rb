@@ -52,7 +52,7 @@ define :redis_instance, :port => nil, :data_dir => nil, :master => nil, :service
   }
   log "Adding Redis.conf to #{node["redis2"]["conf_dir"]}"
   log "File.Join #{::File.join(node["redis2"]["conf_dir"], "#{instance_name}.conf")}"
-  template ::File.join(node["redis2"]["conf_dir"], "#{instance_name}.conf") do
+  template ::File.join(node["redis2"]["conf_dir"], "redis.conf") do
     source "redis.conf.erb"
     cookbook "redis2"
     variables conf_vars
@@ -73,13 +73,18 @@ define :redis_instance, :port => nil, :data_dir => nil, :master => nil, :service
   log "Timeout: #{params[:service_timeouts]}"
 
   log "creating runit_service(#{instance_name})"
-  runit_service instance_name do
-    template_name "redis"
-    cookbook "redis2"
-    options \
-	  :user => node["redis2"]["user"],
-      :config_file => ::File.join(node["redis2"]["conf_dir"], "#{instance_name}.conf"),
-      :timeouts => uplevel_params[:service_timeouts] 
+  #runit_service instance_name do
+  #  template_name "redis"
+  #  cookbook "redis2"
+  #  options \
+	#  :user => node["redis2"]["user"],
+  #    :config_file => ::File.join(node["redis2"]["conf_dir"], "#{instance_name}.conf"),
+  #    :timeouts => uplevel_params[:service_timeouts] 
+  #end
+  service "redis" do
+    service_name value_for_platform(:default => "redis", [:ubuntu, :debian] => {:default => "redis-server"})
+     action [:enable, :restart]
+     ignore_failure true
   end
-
+  
 end

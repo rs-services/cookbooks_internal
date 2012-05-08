@@ -9,7 +9,6 @@ supports         "debian", ">= 6.0"
 supports         "centos", ">= 5.5"
 supports         "redhat", ">= 5.5"
 
-depends          "runit"
 depends          "rs_utils"
 
 recipe           "redis2::default", "Installs and configures redis"
