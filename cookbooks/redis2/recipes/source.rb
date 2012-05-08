@@ -23,6 +23,8 @@ script "unpack and make" do
   cd #{tarball.sub('.tar.gz','')}
   make
   make install
+  cd utils/
+  ./install_server.sh
 EOS
   interpreter "bash"
   creates node["redis2"]["daemon"]

@@ -31,7 +31,9 @@ default["redis2"]["instances"]["default"]["bgsave"] = true
 
 case node[:platform]
 when "redhat","centos","scientific"
+  default["redis2"]["install_from"] = "package"
   default[:redis2][:service_name] = "redis"
 when "debian","ubuntu"
+  default["redis2"]["install_from"] = "source"
   default[:redis2][:service_name] = "redis-server"
 end
