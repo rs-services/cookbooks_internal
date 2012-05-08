@@ -11,7 +11,6 @@ default[:sphinx][:mem_limit] = '256M'
 default[:sphinx][:conf_dir] = '/etc/sphinx'
 default[:sphinx][:conf_file] = "#{node[:sphinx][:conf_dir]}/sphinx.conf"
 default[:sphinx][:indexer] = "/usr/bin/indexer"
-default[:sphinx][:service] = "searchd"
 default[:sphinx][:port] = 9312
 
 case node[:platform]
@@ -20,10 +19,12 @@ when "redhat","centos","scientific"
   default[:sphinx][:conf_file] = "#{node[:sphinx][:conf_dir]}/sphinx.conf"
   default[:sphinx][:lib_dir] = '/var/lib/sphinx'
   default[:sphinx][:package] = 'sphinx'
+  default[:sphinx][:service] = 'searchd'
 when "ubuntu", "debian"
   default[:sphinx][:conf_dir] = '/etc/sphinxsearch'
   default[:sphinx][:conf_file] = "#{node[:sphinx][:conf_dir]}/sphinx.conf"
   default[:sphinx][:lib_dir] = '/var/lib/sphinx'
   default[:sphinx][:package] = 'sphinxsearch'
+  default[:sphinx][:service] = 'sphinxsearch'
 end
 

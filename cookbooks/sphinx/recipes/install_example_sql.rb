@@ -13,6 +13,7 @@ when "redhat","centos","scientific"
   service "mysqld" do
     action :start
   end
+  
 when "ubuntu", "debian"
   package "mysql-server" do
     action :install
