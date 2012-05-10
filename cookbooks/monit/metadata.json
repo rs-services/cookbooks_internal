@@ -1,0 +1,30 @@
+{
+  "conflicting": {
+  },
+  "license": "All rights reserved",
+  "long_description": "Description\n===========\n\nRequirements\n============\n\nAttributes\n==========\n\nUsage\n=====\n\n",
+  "name": "monit",
+  "groupings": {
+  },
+  "version": "0.0.1",
+  "description": "Installs/Configures monit",
+  "recipes": {
+    "monit::default": "installs monit"
+  },
+  "recommendations": {
+  },
+  "dependencies": {
+  },
+  "platforms": {
+  },
+  "maintainer_email": "premium@rightscale.com",
+  "providing": {
+  },
+  "suggestions": {
+  },
+  "maintainer": "RightScale Inc",
+  "attributes": {
+  },
+  "replacing": {
+  }
+}
