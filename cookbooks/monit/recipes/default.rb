@@ -25,6 +25,14 @@ when "centos","redhat","scientific"
       provider Chef::Provider::Package::Rpm
       not_if "test -e /usr/bin/monit"
     end
+    
+    template "/etc/init.d/monit" do
+      source "monit.init.centos.erb"
+      owner "root"
+      group "root"
+      mode "0755"
+      action :create
+    end
   when 6
     package "#{node[:monit][:package]}" do
       action :install
@@ -61,7 +69,14 @@ template "/etc/default/monit" do
   action :create
 end
 
+template "#{node[:monit][:conf_ext_dir]}/pidfile.conf" do
+  source "pidfile.erb"
+  owner "root"
+  group "root"
+  mode "0644"
+  action :create
+end
+
 service "monit" do
-  pattern "@"
   action [ :enable, :start ]
 end
