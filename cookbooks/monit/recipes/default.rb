@@ -26,5 +26,5 @@ template "/etc/monit/monitrc" do
 end
 
 service "monit" do
-  action :enable, :start
+  action [ :enable, :start ]
 end
