@@ -23,7 +23,8 @@ set daemon  120 with start delay 300
 ## omitted, monit will use 'user' facility by default. If you want to log to 
 ## a stand alone log file instead, specify the path to a log file
 #
-set logfile syslog facility log_daemon                       
+set logfile /var/log/monit.log
+#set logfile syslog facility log_daemon                       
 #
 #
 ### Set the location of monit id file which saves the unique id specific for
