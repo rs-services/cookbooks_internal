@@ -62,6 +62,6 @@ template "/etc/default/monit" do
 end
 
 service "monit" do
-  pattern ""
+  pattern "@"
   action [ :enable, :start ]
 end
