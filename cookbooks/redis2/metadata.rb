@@ -10,11 +10,13 @@ supports         "centos", ">= 5.5"
 supports         "redhat", ">= 5.5"
 
 depends          "rs_utils"
+depends          "monit"
 
 recipe           "redis2::default", "Installs and configures redis"
 recipe           "redis2::auto", "Configures and activates redis instances defined by attributes"
 recipe           "redis2::default_instance", "configures default instance"
 recipe           "redis2::remount-storage-and-restart-redis", "remounts /var/lib/redis/default, and restarts redis"
+recipe           "redis2::monit", "adds redis, to monit"
 
 attribute "redis2/instances/default/timeout",
   :display_name => "Timeout before connection close",
