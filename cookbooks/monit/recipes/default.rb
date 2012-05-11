@@ -14,7 +14,7 @@ directory "/etc/monit/conf.d" do
   owner "root"
   group "root"
   mode "0755"
-  recursive "true"
+  recursive true
 end
 
 template "/etc/monit/monitrc" do
