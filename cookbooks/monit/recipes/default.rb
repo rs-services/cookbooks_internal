@@ -37,8 +37,7 @@ when "ubuntu","debian"
   end
 end
 
-
-directory "#{node[:monit][:conf_ext_dir]}"
+directory "#{node[:monit][:conf_ext_dir]}" do
   action :create
   owner "root"
   group "root"
