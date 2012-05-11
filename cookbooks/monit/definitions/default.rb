@@ -15,14 +15,14 @@ define :monit_process, :enable=>false, :process_name=>nil, :pidfile=>nil, :start
       )
       action :create
       not_if "test -e /etc/monit/conf.d/#{params[:process_name]}.conf"
-      notifies :restart, "service[monit]"
+      notifies :restart, "service[monit]", :delayed
     end
   else
     file "/etc/monit/conf.d/#{params[:process_name]}.conf" do
       backup 0
       action :delete
       only_if "test -e /etc/monit/conf.d/#{params[:process_name]}.conf"
-      notifies :restart, "service[monit]"
+      notifies :restart, "service[monit]", :delayed
     end
   end
 
