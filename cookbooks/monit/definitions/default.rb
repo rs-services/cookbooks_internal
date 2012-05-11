@@ -1,4 +1,4 @@
-define :monit_process, :enable=>false, :process_name, :pidfile, :start_cmd, :stop_cmd do
+define :monit_process, :enable=>false, :process_name=>nil, :pidfile=>nil, :start_cmd=>nil, :stop_cmd=>nil do
 
   if params[:enable]
     template "/etc/monit/conf.d/#{params[:process_name]}.conf" do
