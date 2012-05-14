@@ -46,16 +46,15 @@ directory node[:redis][:log_dir] do
   owner node[:redis][:user]
   mode "0750"
 end
-template "#{node[:redis][:conf_file}" do
+
+template "#{node[:redis][:conf_file]}" do
   source "redis.conf.erb"
   owner "root"
   group "root"
   mode "0644"
-  variables(:conf => conf,
-    :instance_name => params[:name],
-    :master => params[:master]
-  )
+  #variables()
   action :create
+end
 
 case node[:platform]
 when "centos","redhat","scientific"
