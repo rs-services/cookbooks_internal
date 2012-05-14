@@ -64,7 +64,7 @@ set statefile /var/.monit.state
 ##
 ## It is possible to include additional configuration parts from other files or
 ## directories.
-include /etc/monit/conf.d/*.conf
+include <%=node[:monit][:conf_ext_dir]%>/*.conf
 #
 #
 

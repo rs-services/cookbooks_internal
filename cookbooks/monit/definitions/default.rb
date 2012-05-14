@@ -1,7 +1,7 @@
 define :monit_process, :enable=>false, :process_name=>nil, :pidfile=>nil, :start_cmd=>nil, :stop_cmd=>nil do
 
   if params[:enable]
-    template "/etc/monit/conf.d/#{params[:process_name]}.conf" do
+    template "#{node[:monit][:conf_ext_dir]}/#{params[:process_name]}.conf" do
       cookbook 'monit'
       source "service.conf.erb"
       owner "root"
@@ -18,7 +18,7 @@ define :monit_process, :enable=>false, :process_name=>nil, :pidfile=>nil, :start
       notifies :restart, "service[monit]", :delayed
     end
   else
-    file "/etc/monit/conf.d/#{params[:process_name]}.conf" do
+    file "#{node[:monit][:conf_ext_dir]}/#{params[:process_name]}.conf" do
       backup 0
       action :delete
       only_if "test -e /etc/monit/conf.d/#{params[:process_name]}.conf"
