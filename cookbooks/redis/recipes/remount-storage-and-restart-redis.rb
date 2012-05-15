@@ -23,7 +23,7 @@ bash "move-redis-dbs" do
     mv #{node[:redis][:data_dir]}/* /mnt/#{node[:redis][:storage_type]}/redis
     fi
 EOF
-  not_if "test -e /mnt/#{node[:redis][:storage_type]}/redis/#{node[:redis][:instances][:default][:dumpdb_filename]}"
+  not_if "test -e /mnt/#{node[:redis][:storage_type]}/redis/#{node[:redis][:dumpdb_filename]}"
 end
 
 log "Deleting #{node[:redis][:data_dir]} to make symlink"
