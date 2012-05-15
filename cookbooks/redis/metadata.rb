@@ -4,7 +4,7 @@ license          "Apache 2.0"
 description      "Installs/Configures redis"
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.rdoc'))
 version          "0.4.4"
-supports         "ubuntu", ">= 9.04"
+supports         "ubuntu", ">= 8.04"
 supports         "debian", ">= 6.0"
 supports         "centos", ">= 5.5"
 supports         "redhat", ">= 5.5"

@@ -13,27 +13,27 @@ directory "/mnt/#{node[:redis][:storage_type]}/redis" do
   recursive true
 end
 
-log "Moving Data from /var/lib/redis/default to new storage location: /mnt/#{node[:redis][:storage_type]}/redis"
+log "Moving Data from #{node[:redis][:data_dir]} to new storage location: /mnt/#{node[:redis][:storage_type]}/redis"
 bash "move-redis-dbs" do
   user "root"
   cwd "/"
   flags "-ex"
   code <<-EOF
-    if [ -e /var/lib/redis/default/* ]; then
-    mv /var/lib/redis/default/* /mnt/#{node[:redis][:storage_type]}/redis
+    if [ -e #{node[:redis][:data_dir]}/* ]; then
+    mv #{node[:redis][:data_dir]}/* /mnt/#{node[:redis][:storage_type]}/redis
     fi
 EOF
   not_if "test -e /mnt/#{node[:redis][:storage_type]}/redis/#{node[:redis][:instances][:default][:dumpdb_filename]}"
 end
 
-log "Deleting /var/lib/redis/default to make symlink"
-directory "/var/lib/redis/default" do
+log "Deleting #{node[:redis][:data_dir]} to make symlink"
+directory "#{node[:redis][:data_dir]}" do
   action :delete
   recursive true
 end
  
-log "linking /mnt/#{node[:redis][:storage_type]}/redis to /var/lib/redis/default"
-link "/var/lib/redis/default" do
+log "linking /mnt/#{node[:redis][:storage_type]}/redis to #{node[:redis][:data_dir]}"
+link "#{node[:redis][:data_dir]}" do
   to "/mnt/#{node[:redis][:storage_type]}/redis"
   link_type :symbolic
 end
