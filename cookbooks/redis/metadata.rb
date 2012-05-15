@@ -105,3 +105,10 @@ attribute "redis/storage_type",
   :choice => ["storage1", "ephemeral", "storage2"],
   :default => "storage1",
   :recipes => [ "redis::remount-storage-and-restart-redis" ]
+
+attribute "redis/bgsave", 
+  :display_name => "Save Redis Info to Disk",
+  :required => "optional",
+  :choice => [ "true","false"],
+  :default => "true",
+  :recipe => [ "redis::default" ]
