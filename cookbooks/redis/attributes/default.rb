@@ -32,7 +32,7 @@ default[:redis][:databases] = 16
 default[:redis][:appendonly] = "no"
 default[:redis][:appendfsync] = "everysec"
 default[:redis][:no_appendfsync_on_rewrite] = "no"
-
+default[:redis][:bgsave] = true
 default[:redis][:vm][:enabled] = "no" # no to disable, yes to enable
 default[:redis][:vm][:swap_file] = "/var/lib/redis/swap"
 default[:redis][:vm][:max_memory] = node["memory"]["total"].to_i * 1024 * 0.7
