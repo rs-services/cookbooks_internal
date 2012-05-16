@@ -1,137 +1,151 @@
 {
   "recipes": {
-    "solr::install_example_app": "installs solr example app",
-    "solr::setup_redirect_page": "sets up redirect page for port 80",
     "solr::replication": "configures replication",
+    "solr::default": "installs solr",
+    "solr::install_example_app": "installs solr example app",
     "solr::configure_solr_and_solrconfig": "configures solr.xml and solrconfig.xml",
-    "solr::default": "installs solr"
+    "solr::setup_redirect_page": "sets up redirect page for port 80"
   },
-  "description": "Installs/Configures solr",
+  "version": "0.0.1",
+  "license": "All rights reserved",
+  "maintainer": "RightScale Inc",
   "conflicting": {
   },
-  "license": "All rights reserved",
-  "maintainer_email": "premium@rightscale.com",
-  "suggestions": {
-  },
-  "providing": {
-  },
   "dependencies": {
-    "sys_firewall": ">= 0.0.0",
     "app_tomcat": ">= 0.0.0",
     "sys_dns": ">= 0.0.0",
-    "rs_utils": ">= 0.0.0"
+    "rs_utils": ">= 0.0.0",
+    "sys_firewall": ">= 0.0.0"
   },
-  "recommendations": {
+  "maintainer_email": "premium@rightscale.com",
+  "description": "Installs/Configures solr",
+  "suggestions": {
   },
-  "platforms": {
-  },
-  "name": "solr",
-  "version": "0.0.1",
-  "groupings": {
-  },
-  "replacing": {
-  },
-  "maintainer": "RightScale Inc",
-  "long_description": "Description\n===========\n\nRequirements\n============\n\nAttributes\n==========\n\nUsage\n=====\n\n",
   "attributes": {
-    "solr/storage_type": {
-      "description": "Location of solr files, either ephemeral or storage(ebs)",
+    "tomcat/db_name": {
+      "required": "optional",
       "recipes": [
 
       ],
-      "display_name": "Solr Storage Location",
-      "type": "string",
-      "default": "storage1",
-      "choice": [
-        "storage1",
-        "ephemeral",
-        "storage2"
-      ],
-      "required": "optional",
-      "calculated": false
-    },
-    "solr/replication/slave_dns_id": {
-      "description": "Solr Slave DNS ID",
-      "recipes": [
-
-      ],
-      "display_name": "Solr Slave DNS ID",
+      "default": "none",
+      "description": "Enter the name of the MySQL database to use. Ex: mydatabase",
+      "calculated": false,
+      "display_name": "Database Name",
       "type": "string",
       "choice": [
 
-      ],
-      "required": "optional",
-      "calculated": false
-    },
-    "solr/replication/slave_poll_interval": {
-      "description": "Interval in which the slave should poll master .Format is HH:mm:ss",
-      "recipes": [
-
-      ],
-      "display_name": "Solr Slave Poll Interval",
-      "type": "string",
-      "default": "00:00:20",
-      "choice": [
-
-      ],
-      "required": "optional",
-      "calculated": false
+      ]
     },
     "solr/replication/master_dns_id": {
-      "description": "Solr Master DNS ID",
+      "required": "required",
       "recipes": [
 
       ],
+      "description": "Solr Master DNS ID",
+      "calculated": false,
       "display_name": "Solr Master DNS ID",
       "type": "string",
       "choice": [
 
-      ],
-      "required": "required",
-      "calculated": false
+      ]
     },
-    "solr/replication/server_type": {
-      "description": "Solr Server Type(Master, Slave)",
+    "solr/replication/slave_poll_interval": {
+      "required": "optional",
       "recipes": [
 
       ],
+      "default": "00:00:20",
+      "description": "Interval in which the slave should poll master .Format is HH:mm:ss",
+      "calculated": false,
+      "display_name": "Solr Slave Poll Interval",
+      "type": "string",
+      "choice": [
+
+      ]
+    },
+    "solr/storage_type": {
+      "required": "optional",
+      "recipes": [
+
+      ],
+      "default": "storage1",
+      "description": "Location of solr files, either ephemeral or storage(ebs)",
+      "calculated": false,
+      "display_name": "Solr Storage Location",
+      "type": "string",
+      "choice": [
+        "storage1",
+        "ephemeral",
+        "storage2"
+      ]
+    },
+    "solr/replication/files_to_replicate": {
+      "required": "optional",
+      "recipes": [
+
+      ],
+      "default": "schema.xml,stopwords.txt,elevate.xml",
+      "description": "Solr Config Files to Replicate",
+      "calculated": false,
+      "display_name": "Solr Files to replicate",
+      "type": "string",
+      "choice": [
+
+      ]
+    },
+    "solr/replication/master": {
+      "required": "optional",
+      "recipes": [
+
+      ],
+      "default": "localhost",
+      "description": "Hostname of Solr Master",
+      "calculated": false,
+      "display_name": "Solr Master Host",
+      "type": "string",
+      "choice": [
+
+      ]
+    },
+    "solr/replication/slave_dns_id": {
+      "required": "optional",
+      "recipes": [
+
+      ],
+      "description": "Solr Slave DNS ID",
+      "calculated": false,
+      "display_name": "Solr Slave DNS ID",
+      "type": "string",
+      "choice": [
+
+      ]
+    },
+    "solr/replication/server_type": {
+      "required": "optional",
+      "recipes": [
+
+      ],
+      "default": "master",
+      "description": "Solr Server Type(Master, Slave)",
+      "calculated": false,
       "display_name": "Solr Server Type(Master, Slave)",
       "type": "string",
-      "default": "master",
       "choice": [
         "master",
         "slave"
-      ],
-      "required": "optional",
-      "calculated": false
-    },
-    "solr/replication/files_to_replicate": {
-      "description": "Solr Config Files to Replicate",
-      "recipes": [
-
-      ],
-      "display_name": "Solr Files to replicate",
-      "type": "string",
-      "default": "schema.xml,stopwords.txt,elevate.xml",
-      "choice": [
-
-      ],
-      "required": "optional",
-      "calculated": false
-    },
-    "solr/replication/master": {
-      "description": "Hostname of Solr Master",
-      "recipes": [
-
-      ],
-      "display_name": "Solr Master Host",
-      "type": "string",
-      "default": "localhost",
-      "choice": [
-
-      ],
-      "required": "optional",
-      "calculated": false
+      ]
     }
-  }
+  },
+  "recommendations": {
+  },
+  "groupings": {
+  },
+  "replacing": {
+  },
+  "providing": {
+  },
+  "long_description": "Description\n===========\n\nRequirements\n============\n\nAttributes\n==========\n\nUsage\n=====\n\n",
+  "platforms": {
+  },
+  "name": "solr"
 }

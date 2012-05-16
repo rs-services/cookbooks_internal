@@ -57,3 +57,9 @@ attribute "solr/replication/slave_dns_id",
   :display_name => "Solr Slave DNS ID",
   :description => "Solr Slave DNS ID", 
   :required => "optional"
+# optional attributes, no necessary for solr to start
+attribute "tomcat/db_name",
+  :display_name => "Database Name",
+  :description => "Enter the name of the MySQL database to use. Ex: mydatabase",
+  :required => "optional",
+  :default => "none"
