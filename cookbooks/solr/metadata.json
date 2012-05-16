@@ -1,151 +1,165 @@
 {
-  "recipes": {
-    "solr::replication": "configures replication",
-    "solr::default": "installs solr",
-    "solr::install_example_app": "installs solr example app",
-    "solr::configure_solr_and_solrconfig": "configures solr.xml and solrconfig.xml",
-    "solr::setup_redirect_page": "sets up redirect page for port 80"
-  },
-  "version": "0.0.1",
-  "license": "All rights reserved",
-  "maintainer": "RightScale Inc",
-  "conflicting": {
-  },
-  "dependencies": {
-    "app_tomcat": ">= 0.0.0",
-    "sys_dns": ">= 0.0.0",
-    "rs_utils": ">= 0.0.0",
-    "sys_firewall": ">= 0.0.0"
-  },
-  "maintainer_email": "premium@rightscale.com",
-  "description": "Installs/Configures solr",
   "suggestions": {
   },
+  "name": "solr",
   "attributes": {
-    "tomcat/db_name": {
+    "solr/replication/files_to_replicate": {
       "required": "optional",
+      "type": "string",
+      "calculated": false,
+      "default": "schema.xml,stopwords.txt,elevate.xml",
       "recipes": [
 
       ],
-      "default": "none",
-      "description": "Enter the name of the MySQL database to use. Ex: mydatabase",
-      "calculated": false,
-      "display_name": "Database Name",
-      "type": "string",
+      "description": "Solr Config Files to Replicate",
       "choice": [
 
-      ]
+      ],
+      "display_name": "Solr Files to replicate"
+    },
+    "tomcat/db_name": {
+      "required": "optional",
+      "type": "string",
+      "calculated": false,
+      "default": "none",
+      "recipes": [
+        "solr::default"
+      ],
+      "description": "Enter the name of the MySQL database to use. Ex: mydatabase",
+      "choice": [
+
+      ],
+      "display_name": "Database Name"
     },
     "solr/replication/master_dns_id": {
       "required": "required",
+      "type": "string",
+      "calculated": false,
       "recipes": [
 
       ],
       "description": "Solr Master DNS ID",
-      "calculated": false,
-      "display_name": "Solr Master DNS ID",
-      "type": "string",
       "choice": [
 
-      ]
+      ],
+      "display_name": "Solr Master DNS ID"
     },
     "solr/replication/slave_poll_interval": {
       "required": "optional",
-      "recipes": [
-
-      ],
+      "type": "string",
+      "calculated": false,
       "default": "00:00:20",
+      "recipes": [
+
+      ],
       "description": "Interval in which the slave should poll master .Format is HH:mm:ss",
-      "calculated": false,
-      "display_name": "Solr Slave Poll Interval",
-      "type": "string",
       "choice": [
-
-      ]
-    },
-    "solr/storage_type": {
-      "required": "optional",
-      "recipes": [
 
       ],
-      "default": "storage1",
-      "description": "Location of solr files, either ephemeral or storage(ebs)",
-      "calculated": false,
-      "display_name": "Solr Storage Location",
-      "type": "string",
-      "choice": [
-        "storage1",
-        "ephemeral",
-        "storage2"
-      ]
-    },
-    "solr/replication/files_to_replicate": {
-      "required": "optional",
-      "recipes": [
-
-      ],
-      "default": "schema.xml,stopwords.txt,elevate.xml",
-      "description": "Solr Config Files to Replicate",
-      "calculated": false,
-      "display_name": "Solr Files to replicate",
-      "type": "string",
-      "choice": [
-
-      ]
+      "display_name": "Solr Slave Poll Interval"
     },
     "solr/replication/master": {
       "required": "optional",
+      "type": "string",
+      "calculated": false,
+      "default": "localhost",
       "recipes": [
 
       ],
-      "default": "localhost",
       "description": "Hostname of Solr Master",
-      "calculated": false,
-      "display_name": "Solr Master Host",
-      "type": "string",
       "choice": [
 
-      ]
+      ],
+      "display_name": "Solr Master Host"
     },
     "solr/replication/slave_dns_id": {
       "required": "optional",
+      "type": "string",
+      "calculated": false,
       "recipes": [
 
       ],
       "description": "Solr Slave DNS ID",
-      "calculated": false,
-      "display_name": "Solr Slave DNS ID",
-      "type": "string",
       "choice": [
 
-      ]
+      ],
+      "display_name": "Solr Slave DNS ID"
     },
     "solr/replication/server_type": {
       "required": "optional",
+      "type": "string",
+      "calculated": false,
+      "default": "master",
       "recipes": [
 
       ],
-      "default": "master",
       "description": "Solr Server Type(Master, Slave)",
-      "calculated": false,
-      "display_name": "Solr Server Type(Master, Slave)",
-      "type": "string",
       "choice": [
         "master",
         "slave"
-      ]
+      ],
+      "display_name": "Solr Server Type(Master, Slave)"
+    },
+    "solr/storage_type": {
+      "required": "optional",
+      "type": "string",
+      "calculated": false,
+      "default": "storage1",
+      "recipes": [
+
+      ],
+      "description": "Location of solr files, either ephemeral or storage(ebs)",
+      "choice": [
+        "storage1",
+        "ephemeral",
+        "storage2"
+      ],
+      "display_name": "Solr Storage Location"
+    },
+    "web_apache/application_name": {
+      "required": "optional",
+      "type": "string",
+      "calculated": false,
+      "default": "myapp",
+      "recipes": [
+        "solr::default"
+      ],
+      "description": "Sets the directory for your application's web files (/home/webapps/Application Name/current/). If you have multiple applications, you can run the code checkout script multiple times, each with a different value for APPLICATION, so each application will be stored in a unique directory. This must be a valid directory name. Do not use symbols in the name.",
+      "choice": [
+
+      ],
+      "display_name": "Application Name"
     }
   },
-  "recommendations": {
+  "platforms": {
   },
+  "recipes": {
+    "solr::replication": "configures replication",
+    "solr::install_example_app": "installs solr example app",
+    "solr::default": "installs solr",
+    "solr::configure_solr_and_solrconfig": "configures solr.xml and solrconfig.xml",
+    "solr::setup_redirect_page": "sets up redirect page for port 80"
+  },
+  "maintainer_email": "premium@rightscale.com",
   "groupings": {
   },
   "replacing": {
   },
+  "conflicting": {
+  },
+  "recommendations": {
+  },
   "providing": {
   },
+  "maintainer": "RightScale Inc",
   "long_description": "Description\n===========\n\nRequirements\n============\n\nAttributes\n==========\n\nUsage\n=====\n\n",
-  "platforms": {
+  "description": "Installs/Configures solr",
+  "version": "0.0.1",
+  "dependencies": {
+    "sys_firewall": ">= 0.0.0",
+    "app_tomcat": ">= 0.0.0",
+    "sys_dns": ">= 0.0.0",
+    "rs_utils": ">= 0.0.0"
   },
-  "name": "solr"
+  "license": "All rights reserved"
 }

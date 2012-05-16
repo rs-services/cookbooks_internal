@@ -57,9 +57,18 @@ attribute "solr/replication/slave_dns_id",
   :display_name => "Solr Slave DNS ID",
   :description => "Solr Slave DNS ID", 
   :required => "optional"
-# optional attributes, no necessary for solr to start
+
+attribute "web_apache/application_name",
+  :display_name => "Application Name",
+  :description => "Sets the directory for your application's web files (/home/webapps/Application Name/current/). If you have multiple applications, you can run the code checkout script multiple times, each with a different value for APPLICATION, so each application will be stored in a unique directory. This must be a valid directory name. Do not use symbols in the name.",
+  :required => "optional",
+  :default => "myapp",
+  :recipes => [ "solr::default" ]
+
+# optional attribute, no necessary for solr to start
 attribute "tomcat/db_name",
   :display_name => "Database Name",
   :description => "Enter the name of the MySQL database to use. Ex: mydatabase",
   :required => "optional",
-  :default => "none"
+  :default => "none",
+  :recipes => [ "solr::default" ]
