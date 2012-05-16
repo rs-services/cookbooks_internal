@@ -1,3 +1,5 @@
+rs_utils_marker :begin
+
 include_recipe 'solr::default'
 
 log "linking mysql-connector into solr lib"
@@ -11,3 +13,5 @@ link "#{node[:solr][:lib_dir]}/mysql-connector-java.jar" do
 end
 
 service "tomcat6"
+
+rs_utils_marker :end
