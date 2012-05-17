@@ -9,6 +9,7 @@ depends 'rs_utils'
 depends 'app_tomcat'
 depends 'sys_firewall'
 depends 'sys_dns'
+depends 'web_apache'
 
 recipe "solr::default", "installs solr"
 recipe "solr::install_example_app", "installs solr example app"
@@ -58,12 +59,12 @@ attribute "solr/replication/slave_dns_id",
   :description => "Solr Slave DNS ID", 
   :required => "optional"
 
-attribute "web_apache/application_name",
-  :display_name => "Application Name",
-  :description => "Sets the directory for your application's web files (/home/webapps/Application Name/current/). If you have multiple applications, you can run the code checkout script multiple times, each with a different value for APPLICATION, so each application will be stored in a unique directory. This must be a valid directory name. Do not use symbols in the name.",
-  :required => "optional",
-  :default => "myapp",
-  :recipes => [ "solr::default" ]
+#attribute "web_apache/application_name",
+#  :display_name => "Application Name",
+#  :description => "Sets the directory for your application's web files (/home/webapps/Application Name/current/). If you have multiple applications, you can run the code checkout script multiple times, each with a different value for APPLICATION, so each application will be stored in a unique directory. This must be a valid directory name. Do not use symbols in the name.",
+#  :required => "optional",
+#  :default => "myapp",
+#  :recipes => [ "solr::default" ]
 
 # optional attribute, no necessary for solr to start
 attribute "tomcat/db_name",
