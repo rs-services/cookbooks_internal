@@ -60,6 +60,12 @@ attribute "solr/replication/slave_dns_id",
   :description => "Solr Slave DNS ID", 
   :required => "optional"
 
+attribute "solr/public_hostname", 
+  :display_name => "Public Hostname",
+  :description => "Public Hostname, used in redirect, can be host or public ip", 
+  :required => "required", 
+  :recipes => [ "solr::setup_redirect_page" ]
+
 # optional attribute, no necessary for solr to start
 attribute "tomcat/db_name",
   :display_name => "Database Name",
