@@ -15,6 +15,7 @@ recipe "solr::install_example_app", "installs solr example app"
 recipe "solr::configure_solr_and_solrconfig", "configures solr.xml and solrconfig.xml" 
 recipe "solr::replication", "configures replication"
 recipe "solr::setup_redirect_page", "sets up redirect page for port 80"
+recipe "solr::install_mysql_connector_in_solr_lib", "installs mysql connector in solr lib dir"
 
 attribute "solr/storage_type", 
   :display_name => "Solr Storage Location", 
