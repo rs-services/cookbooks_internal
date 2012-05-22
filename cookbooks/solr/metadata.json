@@ -1,4 +1,35 @@
 {
+  "name": "solr",
+  "license": "All rights reserved",
+  "maintainer_email": "premium@rightscale.com",
+  "conflicting": {
+  },
+  "dependencies": {
+    "rs_utils": ">= 0.0.0",
+    "sys_firewall": ">= 0.0.0",
+    "web_apache": ">= 0.0.0",
+    "app_tomcat": ">= 0.0.0",
+    "sys_dns": ">= 0.0.0"
+  },
+  "providing": {
+  },
+  "platforms": {
+  },
+  "long_description": "Description\n===========\n\nRequirements\n============\n\nAttributes\n==========\n\nUsage\n=====\n\n",
+  "recommendations": {
+  },
+  "version": "0.0.1",
+  "recipes": {
+    "solr::replication": "configures replication",
+    "solr::install_example_app": "installs solr example app",
+    "solr::install_mysql_connector_in_solr_lib": "installs mysql connector in solr lib dir",
+    "solr::default": "installs solr",
+    "solr::setup_redirect_page": "sets up redirect page for port 80",
+    "solr::configure_solr_and_solrconfig": "configures solr.xml and solrconfig.xml"
+  },
+  "suggestions": {
+  },
+  "description": "Installs/Configures solr",
   "groupings": {
   },
   "attributes": {
@@ -6,15 +37,84 @@
       "choice": [
 
       ],
-      "required": "optional",
-      "description": "Solr Config Files to Replicate",
       "display_name": "Solr Files to replicate",
-      "type": "string",
-      "default": "schema.xml,stopwords.txt,elevate.xml",
+      "calculated": false,
       "recipes": [
 
       ],
-      "calculated": false
+      "default": "schema.xml,stopwords.txt,elevate.xml",
+      "description": "Solr Config Files to Replicate",
+      "type": "string",
+      "required": "optional"
+    },
+    "solr/replication/slave_dns_id": {
+      "choice": [
+
+      ],
+      "display_name": "Solr Slave DNS ID",
+      "calculated": false,
+      "recipes": [
+
+      ],
+      "description": "Solr Slave DNS ID",
+      "type": "string",
+      "required": "optional"
+    },
+    "solr/replication/master_dns_id": {
+      "choice": [
+
+      ],
+      "display_name": "Solr Master DNS ID",
+      "calculated": false,
+      "recipes": [
+
+      ],
+      "description": "Solr Master DNS ID",
+      "type": "string",
+      "required": "required"
+    },
+    "solr/replication/slave_poll_interval": {
+      "choice": [
+
+      ],
+      "display_name": "Solr Slave Poll Interval",
+      "calculated": false,
+      "recipes": [
+
+      ],
+      "default": "00:00:20",
+      "description": "Interval in which the slave should poll master .Format is HH:mm:ss",
+      "type": "string",
+      "required": "optional"
+    },
+    "solr/replication/master": {
+      "choice": [
+
+      ],
+      "display_name": "Solr Master Host",
+      "calculated": false,
+      "recipes": [
+
+      ],
+      "default": "localhost",
+      "description": "Hostname of Solr Master",
+      "type": "string",
+      "required": "optional"
+    },
+    "solr/replication/server_type": {
+      "choice": [
+        "master",
+        "slave"
+      ],
+      "display_name": "Solr Server Type(Master, Slave)",
+      "calculated": false,
+      "recipes": [
+
+      ],
+      "default": "master",
+      "description": "Solr Server Type(Master, Slave)",
+      "type": "string",
+      "required": "optional"
     },
     "solr/storage_type": {
       "choice": [
@@ -22,145 +122,32 @@
         "ephemeral",
         "storage2"
       ],
-      "required": "optional",
-      "description": "Location of solr files, either ephemeral or storage(ebs)",
       "display_name": "Solr Storage Location",
-      "type": "string",
+      "calculated": false,
+      "recipes": [
+
+      ],
       "default": "storage1",
-      "recipes": [
-
-      ],
-      "calculated": false
-    },
-    "solr/replication/server_type": {
-      "choice": [
-        "master",
-        "slave"
-      ],
-      "required": "optional",
-      "description": "Solr Server Type(Master, Slave)",
-      "display_name": "Solr Server Type(Master, Slave)",
+      "description": "Location of solr files, either ephemeral or storage(ebs)",
       "type": "string",
-      "default": "master",
-      "recipes": [
-
-      ],
-      "calculated": false
-    },
-    "web_apache/application_name": {
-      "choice": [
-
-      ],
-      "required": "optional",
-      "description": "Sets the directory for your application's web files (/home/webapps/Application Name/current/). If you have multiple applications, you can run the code checkout script multiple times, each with a different value for APPLICATION, so each application will be stored in a unique directory. This must be a valid directory name. Do not use symbols in the name.",
-      "display_name": "Application Name",
-      "type": "string",
-      "default": "myapp",
-      "recipes": [
-        "solr::default"
-      ],
-      "calculated": false
-    },
-    "solr/replication/slave_dns_id": {
-      "choice": [
-
-      ],
-      "required": "optional",
-      "description": "Solr Slave DNS ID",
-      "display_name": "Solr Slave DNS ID",
-      "type": "string",
-      "recipes": [
-
-      ],
-      "calculated": false
-    },
-    "solr/replication/master_dns_id": {
-      "choice": [
-
-      ],
-      "required": "required",
-      "description": "Solr Master DNS ID",
-      "display_name": "Solr Master DNS ID",
-      "type": "string",
-      "recipes": [
-
-      ],
-      "calculated": false
-    },
-    "solr/replication/master": {
-      "choice": [
-
-      ],
-      "required": "optional",
-      "description": "Hostname of Solr Master",
-      "display_name": "Solr Master Host",
-      "type": "string",
-      "default": "localhost",
-      "recipes": [
-
-      ],
-      "calculated": false
+      "required": "optional"
     },
     "tomcat/db_name": {
       "choice": [
 
       ],
-      "required": "optional",
-      "description": "Enter the name of the MySQL database to use. Ex: mydatabase",
       "display_name": "Database Name",
-      "type": "string",
-      "default": "none",
+      "calculated": false,
       "recipes": [
         "solr::default"
       ],
-      "calculated": false
-    },
-    "solr/replication/slave_poll_interval": {
-      "choice": [
-
-      ],
-      "required": "optional",
-      "description": "Interval in which the slave should poll master .Format is HH:mm:ss",
-      "display_name": "Solr Slave Poll Interval",
+      "default": "none",
+      "description": "Enter the name of the MySQL database to use. Ex: mydatabase",
       "type": "string",
-      "default": "00:00:20",
-      "recipes": [
-
-      ],
-      "calculated": false
+      "required": "optional"
     }
-  },
-  "dependencies": {
-    "rs_utils": ">= 0.0.0",
-    "app_tomcat": ">= 0.0.0",
-    "sys_firewall": ">= 0.0.0",
-    "sys_dns": ">= 0.0.0"
   },
   "replacing": {
   },
-  "providing": {
-  },
-  "recommendations": {
-  },
-  "license": "All rights reserved",
-  "platforms": {
-  },
-  "long_description": "Description\n===========\n\nRequirements\n============\n\nAttributes\n==========\n\nUsage\n=====\n\n",
-  "version": "0.0.1",
-  "maintainer_email": "premium@rightscale.com",
-  "description": "Installs/Configures solr",
-  "recipes": {
-    "solr::install_mysql_connector_in_solr_lib": "installs mysql connector in solr lib dir",
-    "solr::setup_redirect_page": "sets up redirect page for port 80",
-    "solr::install_example_app": "installs solr example app",
-    "solr::default": "installs solr",
-    "solr::replication": "configures replication",
-    "solr::configure_solr_and_solrconfig": "configures solr.xml and solrconfig.xml"
-  },
-  "suggestions": {
-  },
-  "maintainer": "RightScale Inc",
-  "conflicting": {
-  },
-  "name": "solr"
+  "maintainer": "RightScale Inc"
 }
