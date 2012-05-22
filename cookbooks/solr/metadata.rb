@@ -18,7 +18,7 @@ recipe "solr::setup_redirect_page", "sets up redirect page for port 80"
 
 attribute "solr/storage_type", 
   :display_name => "Solr Storage Location", 
-  :description => "Location of solr files, either ephemeral or storage(ebs)", 
+  :description => "The location of solr files, either ephemeral or storage(ebs)", 
   :required => "optional", 
   :choice => ["storage1", "ephemeral", "storage2"],
   :default => "storage1"
