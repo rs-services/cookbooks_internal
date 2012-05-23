@@ -18,20 +18,20 @@ recipe "solr::setup_redirect_page", "sets up redirect page for port 80"
 
 attribute "solr/storage_type", 
   :display_name => "Solr Storage Location", 
-  :description => "The location of solr files, either ephemeral or storage(ebs)", 
+  :description => "The location of Solr files, either ephemeral or storage (EBS).", 
   :required => "optional", 
   :choice => ["storage1", "ephemeral", "storage2"],
   :default => "storage1"
 
 attribute "solr/replication/server_type", 
-  :display_name => "Solr Server Type(Master, Slave)",
-  :description => "Solr Server Type(Master, Slave)",
+  :display_name => "Solr Server Type (Master, Slave)",
+  :description => "Specify the server type (master or slave) for the Solr server",
   :required => "optional",
   :choice => ["master","slave"],
   :default => "master"
 
 attribute "solr/replication/master", 
-  :display_name => "Solr Master Host", 
+  :display_name => "Solr Master Host",
   :description => "Hostname of Solr Master", 
   :required => "optional", 
   :default => "localhost"
@@ -50,11 +50,11 @@ attribute "solr/replication/slave_poll_interval",
 
 attribute "solr/replication/master_dns_id",
   :display_name => "Solr Master DNS ID",
-  :description => "Solr Master DNS ID", 
+  :description => "The unique identifier that is associated with the DNS A record of the master server. The unique identifier is assigned by the DNS provider when you create a dynamic DNS A record. This ID is used to update the associated A record with the private IP address of the master server when this recipe runs.", 
   :required => "required"
 
 attribute "solr/replication/slave_dns_id",
-  :display_name => "Solr Slave DNS ID",
+  :display_name => "The unique identifier that is associated with the DNS A record of a slave server. The unique identifier is assigned by the DNS provider when you create a dynamic DNS A record. This ID is used to update the associated A record with the private IP address of a slave server when this recipe runs.",
   :description => "Solr Slave DNS ID", 
   :required => "optional"
 
@@ -65,7 +65,7 @@ attribute "web_apache/application_name",
   :default => "myapp",
   :recipes => [ "solr::default" ]
 
-# optional attribute, no necessary for solr to start
+# optional attribute, not necessary for solr to start
 attribute "tomcat/db_name",
   :display_name => "Database Name",
   :description => "Enter the name of the MySQL database to use. Ex: mydatabase",
