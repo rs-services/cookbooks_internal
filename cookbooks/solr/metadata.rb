@@ -20,36 +20,36 @@ recipe "solr::install_mysql_connector_in_solr_lib", "installs mysql connector in
 
 attribute "solr/storage_type", 
   :display_name => "Solr Storage Location", 
-  :description => "Location of solr files, either ephemeral or storage(ebs)", 
+  :description => "The location of Solr files, either ephemeral or storage (EBS).", 
   :required => "optional", 
   :choice => ["storage1", "ephemeral", "storage2"],
   :default => "storage1"
 
 attribute "solr/replication/server_type", 
-  :display_name => "Solr Server Type(Master, Slave)",
-  :description => "Solr Server Type(Master, Slave)",
+  :display_name => "Solr Server Type (Master, Slave)",
+  :description => "Specify the server type (master or slave) for the Solr server.",
   :required => "optional",
   :choice => ["master","slave"],
   :default => "master",
   :recipes => [ "solr::replication" ]
 
 attribute "solr/replication/master", 
-  :display_name => "Solr Master Host", 
-  :description => "Hostname of Solr Master", 
+  :display_name => "Solr Master Host",
+  :description => "Hostname of Solr Master.", 
   :required => "optional", 
   :default => "localhost",
   :recipes => [ "solr::replication" ]
 
 attribute "solr/replication/files_to_replicate",
-  :display_name => "Solr Files to replicate", 
-  :description => "Solr Config Files to Replicate", 
+  :display_name => "Solr Files to Replicate", 
+  :description => "Solr Config Files to Replicate.", 
   :required => "optional",
   :default => "schema.xml,stopwords.txt,elevate.xml",
   :recipes => [ "solr::replication" ]
 
 attribute "solr/replication/slave_poll_interval",
   :display_name => "Solr Slave Poll Interval", 
-  :description => "Interval in which the slave should poll master .Format is HH:mm:ss",
+  :description => "Interval in which the slave should poll master. Format is HH:MM:SS",
   :required => "optional", 
   :default => "00:00:20",
   :recipes => [ "solr::replication" ]
@@ -63,6 +63,13 @@ attribute "solr/replication/master_dns_id",
 attribute "solr/replication/slave_dns_id",
   :display_name => "Solr Slave DNS ID",
   :description => "Solr Slave DNS ID", 
+  :description => "The unique identifier that is associated with the DNS A record of the master server. The unique identifier is assigned by the DNS provider when you create a dynamic DNS A record. This ID is used to update the associated A record with the private IP address of the master server when this recipe runs.", 
+  :required => "required",
+  :recipes => [ "solr::replication" ]
+
+attribute "solr/replication/slave_dns_id",
+  :display_name => "Solr Slave DNS ID",
+  :description => "The unique identifier that is associated with the DNS A record of a slave server. The unique identifier is assigned by the DNS provider when you create a dynamic DNS A record. This ID is used to update the associated A record with the private IP address of a slave server when this recipe runs.", 
   :required => "optional",
   :recipes => [ "solr::replication" ]
 
@@ -72,7 +79,7 @@ attribute "solr/public_hostname",
   :required => "required", 
   :recipes => [ "solr::setup_redirect_page" ]
 
-# optional attribute, no necessary for solr to start
+# optional attribute, not necessary for solr to start
 attribute "tomcat/db_name",
   :display_name => "Database Name",
   :description => "Enter the name of the MySQL database to use. Ex: mydatabase",
