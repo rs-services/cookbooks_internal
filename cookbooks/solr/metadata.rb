@@ -30,35 +30,41 @@ attribute "solr/replication/server_type",
   :description => "Solr Server Type(Master, Slave)",
   :required => "optional",
   :choice => ["master","slave"],
-  :default => "master"
+  :default => "master",
+  :recipes => [ "solr::replication" ]
 
 attribute "solr/replication/master", 
   :display_name => "Solr Master Host", 
   :description => "Hostname of Solr Master", 
   :required => "optional", 
-  :default => "localhost"
+  :default => "localhost",
+  :recipes => [ "solr::replication" ]
 
 attribute "solr/replication/files_to_replicate",
   :display_name => "Solr Files to replicate", 
   :description => "Solr Config Files to Replicate", 
   :required => "optional",
-  :default => "schema.xml,stopwords.txt,elevate.xml"
+  :default => "schema.xml,stopwords.txt,elevate.xml",
+  :recipes => [ "solr::replication" ]
 
 attribute "solr/replication/slave_poll_interval",
   :display_name => "Solr Slave Poll Interval", 
   :description => "Interval in which the slave should poll master .Format is HH:mm:ss",
   :required => "optional", 
-  :default => "00:00:20"
+  :default => "00:00:20",
+  :recipes => [ "solr::replication" ]
 
 attribute "solr/replication/master_dns_id",
   :display_name => "Solr Master DNS ID",
   :description => "Solr Master DNS ID", 
-  :required => "required"
+  :required => "required",
+  :recipes => [ "solr::replication" ]
 
 attribute "solr/replication/slave_dns_id",
   :display_name => "Solr Slave DNS ID",
   :description => "Solr Slave DNS ID", 
-  :required => "optional"
+  :required => "optional",
+  :recipes => [ "solr::replication" ]
 
 attribute "solr/public_hostname", 
   :display_name => "Public Hostname",

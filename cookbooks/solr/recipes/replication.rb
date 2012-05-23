@@ -43,7 +43,9 @@ if node[:solr][:replication][:server_type] == "slave"
     owner "#{node[:tomcat][:app_user]}"
     group "#{node[:tomcat][:app_user]}"
     mode "0644"
-    variables( :slave_poll_interval => node[:solr][:replication][:slave_poll_interval] )
+    variables( :slave_poll_interval => node[:solr][:replication][:slave_poll_interval],
+               :solr_master_host => node[:solr][:replication][:master]
+             )
     notifies :restart, "service[tomcat6]", :delayed
   end
 

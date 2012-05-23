@@ -19,6 +19,7 @@ directory "/mnt/#{node[:solr][:storage_type]}/solr" do
   recursive true
   notifies :restart, "service[tomcat6]", :delayed
 end
+
 directory "#{node[:solr][:install_dir]}" do
   action :create
   owner "#{node[:tomcat][:app_user]}"
