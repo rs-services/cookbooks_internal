@@ -25,26 +25,26 @@ attribute "solr/storage_type",
 
 attribute "solr/replication/server_type", 
   :display_name => "Solr Server Type (Master, Slave)",
-  :description => "Specify the server type (master or slave) for the Solr server",
+  :description => "Specify the server type (master or slave) for the Solr server.",
   :required => "optional",
   :choice => ["master","slave"],
   :default => "master"
 
 attribute "solr/replication/master", 
   :display_name => "Solr Master Host",
-  :description => "Hostname of Solr Master", 
+  :description => "Hostname of Solr Master.", 
   :required => "optional", 
   :default => "localhost"
 
 attribute "solr/replication/files_to_replicate",
-  :display_name => "Solr Files to replicate", 
-  :description => "Solr Config Files to Replicate", 
+  :display_name => "Solr Files to Replicate", 
+  :description => "Solr Config Files to Replicate.", 
   :required => "optional",
   :default => "schema.xml,stopwords.txt,elevate.xml"
 
 attribute "solr/replication/slave_poll_interval",
   :display_name => "Solr Slave Poll Interval", 
-  :description => "Interval in which the slave should poll master .Format is HH:mm:ss",
+  :description => "Interval in which the slave should poll master. Format is HH:MM:SS",
   :required => "optional", 
   :default => "00:00:20"
 
@@ -54,8 +54,8 @@ attribute "solr/replication/master_dns_id",
   :required => "required"
 
 attribute "solr/replication/slave_dns_id",
-  :display_name => "The unique identifier that is associated with the DNS A record of a slave server. The unique identifier is assigned by the DNS provider when you create a dynamic DNS A record. This ID is used to update the associated A record with the private IP address of a slave server when this recipe runs.",
-  :description => "Solr Slave DNS ID", 
+  :display_name => "Solr Slave DNS ID",
+  :description => "The unique identifier that is associated with the DNS A record of a slave server. The unique identifier is assigned by the DNS provider when you create a dynamic DNS A record. This ID is used to update the associated A record with the private IP address of a slave server when this recipe runs.", 
   :required => "optional"
 
 attribute "web_apache/application_name",
