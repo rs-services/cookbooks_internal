@@ -56,7 +56,7 @@ attribute "solr/replication/slave_poll_interval",
 
 attribute "solr/replication/master_dns_id",
   :display_name => "Solr Master DNS ID",
-  :description => "Solr Master DNS ID", 
+  :description => "The unique identifier that is associated with the DNS A record of the master server. The unique identifier is assigned by the DNS provider when you create a dynamic DNS A record. This ID is used to update the associated A record with the private IP address of the master server when this recipe runs.", 
   :required => "required",
   :recipes => [ "solr::replication" ]
 
