@@ -62,13 +62,6 @@ attribute "solr/replication/master_dns_id",
 
 attribute "solr/replication/slave_dns_id",
   :display_name => "Solr Slave DNS ID",
-  :description => "Solr Slave DNS ID", 
-  :description => "The unique identifier that is associated with the DNS A record of the master server. The unique identifier is assigned by the DNS provider when you create a dynamic DNS A record. This ID is used to update the associated A record with the private IP address of the master server when this recipe runs.", 
-  :required => "required",
-  :recipes => [ "solr::replication" ]
-
-attribute "solr/replication/slave_dns_id",
-  :display_name => "Solr Slave DNS ID",
   :description => "The unique identifier that is associated with the DNS A record of a slave server. The unique identifier is assigned by the DNS provider when you create a dynamic DNS A record. This ID is used to update the associated A record with the private IP address of a slave server when this recipe runs.", 
   :required => "optional",
   :recipes => [ "solr::replication" ]
