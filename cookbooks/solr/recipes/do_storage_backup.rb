@@ -40,12 +40,6 @@ block_device NICKNAME do
   keep_weekly get_device_or_default(node, :device1, :backup, :primary, :keep, :keep_weekly)
   keep_monthly get_device_or_default(node, :device1, :backup, :primary, :keep, :keep_monthly)
   keep_yearly get_device_or_default(node, :device1, :backup, :primary, :keep, :keep_yearly)
-  # Secondary arguments
-  secondary_cloud get_device_or_default(node, :device1, :backup, :secondary, :cloud)
-  secondary_endpoint get_device_or_default(node, :device1, :backup, :secondary, :endpoint)
-  secondary_container get_device_or_default(node, :device1, :backup, :secondary, :container)
-  secondary_user get_device_or_default(node, :device1, :backup, :secondary, :cred, :user)
-  secondary_secret get_device_or_default(node, :device1, :backup, :secondary, :cred, :secret)
   action :primary_backup
 end
 
