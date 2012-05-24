@@ -46,7 +46,7 @@ block_device NICKNAME do
   secondary_container get_device_or_default(node, :device1, :backup, :secondary, :container)
   secondary_user get_device_or_default(node, :device1, :backup, :secondary, :cred, :user)
   secondary_secret get_device_or_default(node, :device1, :backup, :secondary, :cred, :secret)
-  action do_backup_type :primary_backup
+  action :primary_backup
 end
 
 block_device NICKNAME do
