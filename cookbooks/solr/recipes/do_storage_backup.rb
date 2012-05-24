@@ -24,7 +24,7 @@ block_device NICKNAME do
   force false
 end
 
-log " Performing (#{do_backup_type} backup) Snapshot with lineage #{node[:db][:backup][:lineage]}.."
+log " Performing Primary backup Snapshot with lineage #{restore_lineage}.."
 # Requires block_device node[:db][:block_device] to be instantiated
 # previously. Make sure block_device::default recipe has been run.
 block_device NICKNAME do
