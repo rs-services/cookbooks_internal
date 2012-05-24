@@ -1,3 +1,5 @@
+rs_utils_marker :begin
+
 class Chef::Recipe
   include RightScale::BlockDeviceHelper
 end
@@ -28,3 +30,10 @@ end
 node[:solr][:storage_type] = node[:block_device][:devices][:device1][:mount_point].split('/').last
 include_recipe 'solr::default'
 
+directory "/mnt/ephemeral/solr" do
+  action :delete
+  recursive true
+  only_if "test -e /mnt/ephemeral/solr"
+end
+
+rs_utils_marker :end

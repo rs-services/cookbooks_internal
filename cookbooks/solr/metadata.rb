@@ -21,6 +21,8 @@ recipe "solr::install_mysql_connector_in_solr_lib", "installs mysql connector in
 recipe "solr::do_storage_restore", "restores volume and restarts tomcat"
 recipe "solr::do_storage_create", "creates volume, and sets up solr on the volume"
 recipe "solr::do_storage_backup", "backs up solr volumes"
+recipe "solr::do_primary_backup_schedule_enable", "enables random cron for do_storage_backup"
+recipe "solr::do_primary_backup_schedule_disable", "disables cron for do_storage_backup"
 
 attribute "solr/replication/server_type", 
   :display_name => "Solr Server Type (Master, Slave)",
