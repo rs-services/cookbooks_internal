@@ -5,6 +5,7 @@ end
 class Chef::Resource::BlockDevice
   include RightScale::BlockDeviceHelper
 end
+include_recipe 'block_device::default'
 
 DATA_DIR = node[:block_device][:devices][:device1][:mount_point]
 NICKNAME = get_device_or_default(node, :device1, :nickname)
@@ -13,7 +14,7 @@ NICKNAME = get_device_or_default(node, :device1, :nickname)
 lineage = node[:block_device][:devices][:device1][:backup][:lineage]
 lineage_override = node[:block_device][:devices][:device1][:backup][:lineage_override]
 restore_lineage = lineage_override == nil || lineage_override.empty? ? lineage : lineage_override
-log " Input lineage #{restore_lineage}"
+log " Input lineage #{lineage}"
 log " Input lineage_override #{lineage_override}"
 log " Using lineage #{restore_lineage}"
 #
