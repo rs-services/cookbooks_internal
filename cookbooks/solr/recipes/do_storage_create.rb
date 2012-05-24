@@ -12,7 +12,7 @@ NICKNAME = get_device_or_default(node, :device1, :nickname)
 # TODO: this code is duplicated between db and block device. Need to do something
 # # about that...... Getting it working first
 lineage = node[:solr][:backup_lineage]
-lineage_override = node[:solr]:[:backup_lineage_override]
+lineage_override = node[:solr][:backup_lineage_override]
 restore_lineage = lineage_override == nil || lineage_override.empty? ? lineage : lineage_override
 log " Input lineage #{lineage}"
 log " Input lineage_override #{lineage_override}"
