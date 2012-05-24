@@ -20,6 +20,7 @@ recipe "solr::setup_redirect_page", "sets up redirect page for port 80"
 recipe "solr::install_mysql_connector_in_solr_lib", "installs mysql connector in solr lib dir"
 recipe "solr::do_storage_restore", "restores volume and restarts tomcat"
 recipe "solr::do_storage_create", "creates volume, and sets up solr on the volume"
+recipe "solr::do_storage_backup", "backs up solr volumes"
 
 attribute "solr/replication/server_type", 
   :display_name => "Solr Server Type (Master, Slave)",
@@ -67,6 +68,14 @@ attribute "solr/public_hostname",
   :description => "Public Hostname, used in redirect, can be host or public ip", 
   :required => "required", 
   :recipes => [ "solr::setup_redirect_page" ]
+
+attribute "solr/backup_lineage", 
+  :display_name => "Backup Lineage for Solr", 
+  :description => "The prefix or container name that will be used to name/locate the primary backup."
+
+attribute "solr/backup_lineage_override",
+  :display_name => "Override Backup Lineage for Solr", 
+  :description => "The prefix or container name that will be used to name/locate the primary backup."
 
 # optional attribute, not necessary for solr to start
 attribute "tomcat/db_name",

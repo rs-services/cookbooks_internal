@@ -1,153 +1,180 @@
 {
-  "groupings": {
+  "dependencies": {
+    "app_tomcat": ">= 0.0.0",
+    "rs_utils": ">= 0.0.0",
+    "sys_dns": ">= 0.0.0",
+    "web_apache": ">= 0.0.0",
+    "sys_firewall": ">= 0.0.0",
+    "block_device": ">= 0.0.0"
   },
-  "license": "All rights reserved",
   "long_description": "Description\n===========\n\nRequirements\n============\n\nAttributes\n==========\n\nUsage\n=====\n\n",
-  "suggestions": {
-  },
   "platforms": {
   },
-  "version": "0.0.1",
+  "license": "All rights reserved",
+  "replacing": {
+  },
   "maintainer_email": "premium@rightscale.com",
-  "name": "solr",
+  "version": "0.0.1",
+  "providing": {
+  },
   "recipes": {
-    "solr::do_storage_create": "creates volume, and sets up solr on the volume",
-    "solr::install_mysql_connector_in_solr_lib": "installs mysql connector in solr lib dir",
-    "solr::do_storage_restore": "restores volume and restarts tomcat",
     "solr::replication": "configures replication",
-    "solr::setup_redirect_page": "sets up redirect page for port 80",
+    "solr::do_storage_restore": "restores volume and restarts tomcat",
     "solr::configure_solr_and_solrconfig": "configures solr.xml and solrconfig.xml",
+    "solr::do_storage_backup": "backs up solr volumes",
     "solr::default": "installs solr",
-    "solr::install_example_app": "installs solr example app"
+    "solr::install_mysql_connector_in_solr_lib": "installs mysql connector in solr lib dir",
+    "solr::install_example_app": "installs solr example app",
+    "solr::do_storage_create": "creates volume, and sets up solr on the volume",
+    "solr::setup_redirect_page": "sets up redirect page for port 80"
   },
   "attributes": {
-    "solr/replication/master_dns_id": {
-      "type": "string",
-      "calculated": false,
-      "display_name": "Solr Master DNS ID",
-      "recipes": [
-        "solr::replication"
-      ],
-      "description": "The unique identifier that is associated with the DNS A record of the master server. The unique identifier is assigned by the DNS provider when you create a dynamic DNS A record. This ID is used to update the associated A record with the private IP address of the master server when this recipe runs.",
-      "choice": [
-
-      ],
-      "required": "required"
-    },
-    "solr/replication/master": {
-      "type": "string",
-      "calculated": false,
-      "display_name": "Solr Master Host",
-      "recipes": [
-        "solr::replication"
-      ],
-      "description": "Hostname of Solr Master.",
+    "solr/replication/slave_dns_id": {
       "choice": [
 
       ],
       "required": "optional",
-      "default": "localhost"
-    },
-    "solr/replication/slave_dns_id": {
       "type": "string",
-      "calculated": false,
-      "display_name": "Solr Slave DNS ID",
       "recipes": [
         "solr::replication"
       ],
+      "calculated": false,
       "description": "The unique identifier that is associated with the DNS A record of a slave server. The unique identifier is assigned by the DNS provider when you create a dynamic DNS A record. This ID is used to update the associated A record with the private IP address of a slave server when this recipe runs.",
+      "display_name": "Solr Slave DNS ID"
+    },
+    "solr/replication/files_to_replicate": {
       "choice": [
 
       ],
-      "required": "optional"
+      "required": "optional",
+      "type": "string",
+      "default": "schema.xml,stopwords.txt,elevate.xml",
+      "recipes": [
+        "solr::replication"
+      ],
+      "calculated": false,
+      "description": "Solr Config Files to Replicate.",
+      "display_name": "Solr Files to Replicate"
+    },
+    "tomcat/db_name": {
+      "choice": [
+
+      ],
+      "required": "optional",
+      "type": "string",
+      "default": "none",
+      "recipes": [
+        "solr::default"
+      ],
+      "calculated": false,
+      "description": "Enter the name of the MySQL database to use. Ex: mydatabase",
+      "display_name": "Database Name"
+    },
+    "solr/backup_lineage": {
+      "choice": [
+
+      ],
+      "required": "optional",
+      "type": "string",
+      "recipes": [
+
+      ],
+      "calculated": false,
+      "description": "The prefix or container name that will be used to name/locate the primary backup.",
+      "display_name": "Backup Lineage for Solr"
     },
     "solr/public_hostname": {
+      "choice": [
+
+      ],
+      "required": "required",
       "type": "string",
-      "calculated": false,
-      "display_name": "Public Hostname",
       "recipes": [
         "solr::setup_redirect_page"
       ],
+      "calculated": false,
       "description": "Public Hostname, used in redirect, can be host or public ip",
-      "choice": [
-
-      ],
-      "required": "required"
-    },
-    "solr/replication/slave_poll_interval": {
-      "type": "string",
-      "calculated": false,
-      "display_name": "Solr Slave Poll Interval",
-      "recipes": [
-        "solr::replication"
-      ],
-      "description": "Interval in which the slave should poll master. Format is HH:MM:SS",
-      "choice": [
-
-      ],
-      "required": "optional",
-      "default": "00:00:20"
-    },
-    "solr/replication/files_to_replicate": {
-      "type": "string",
-      "calculated": false,
-      "display_name": "Solr Files to Replicate",
-      "recipes": [
-        "solr::replication"
-      ],
-      "description": "Solr Config Files to Replicate.",
-      "choice": [
-
-      ],
-      "required": "optional",
-      "default": "schema.xml,stopwords.txt,elevate.xml"
+      "display_name": "Public Hostname"
     },
     "solr/replication/server_type": {
-      "type": "string",
-      "calculated": false,
-      "display_name": "Solr Server Type (Master, Slave)",
-      "recipes": [
-        "solr::replication"
-      ],
-      "description": "Specify the server type (master or slave) for the Solr server.",
       "choice": [
         "master",
         "slave"
       ],
       "required": "optional",
-      "default": "master"
-    },
-    "tomcat/db_name": {
       "type": "string",
-      "calculated": false,
-      "display_name": "Database Name",
+      "default": "master",
       "recipes": [
-        "solr::default"
+        "solr::replication"
       ],
-      "description": "Enter the name of the MySQL database to use. Ex: mydatabase",
+      "calculated": false,
+      "description": "Specify the server type (master or slave) for the Solr server.",
+      "display_name": "Solr Server Type (Master, Slave)"
+    },
+    "solr/backup_lineage_override": {
       "choice": [
 
       ],
       "required": "optional",
-      "default": "none"
+      "type": "string",
+      "recipes": [
+
+      ],
+      "calculated": false,
+      "description": "The prefix or container name that will be used to name/locate the primary backup.",
+      "display_name": "Override Backup Lineage for Solr"
+    },
+    "solr/replication/master_dns_id": {
+      "choice": [
+
+      ],
+      "required": "required",
+      "type": "string",
+      "recipes": [
+        "solr::replication"
+      ],
+      "calculated": false,
+      "description": "The unique identifier that is associated with the DNS A record of the master server. The unique identifier is assigned by the DNS provider when you create a dynamic DNS A record. This ID is used to update the associated A record with the private IP address of the master server when this recipe runs.",
+      "display_name": "Solr Master DNS ID"
+    },
+    "solr/replication/master": {
+      "choice": [
+
+      ],
+      "required": "optional",
+      "type": "string",
+      "default": "localhost",
+      "recipes": [
+        "solr::replication"
+      ],
+      "calculated": false,
+      "description": "Hostname of Solr Master.",
+      "display_name": "Solr Master Host"
+    },
+    "solr/replication/slave_poll_interval": {
+      "choice": [
+
+      ],
+      "required": "optional",
+      "type": "string",
+      "default": "00:00:20",
+      "recipes": [
+        "solr::replication"
+      ],
+      "calculated": false,
+      "description": "Interval in which the slave should poll master. Format is HH:MM:SS",
+      "display_name": "Solr Slave Poll Interval"
     }
   },
-  "dependencies": {
-    "block_device": ">= 0.0.0",
-    "rs_utils": ">= 0.0.0",
-    "app_tomcat": ">= 0.0.0",
-    "sys_firewall": ">= 0.0.0",
-    "web_apache": ">= 0.0.0",
-    "sys_dns": ">= 0.0.0"
-  },
-  "description": "Installs/Configures solr",
-  "maintainer": "RightScale Inc",
   "conflicting": {
   },
-  "replacing": {
+  "maintainer": "RightScale Inc",
+  "groupings": {
   },
+  "name": "solr",
   "recommendations": {
   },
-  "providing": {
-  }
+  "suggestions": {
+  },
+  "description": "Installs/Configures solr"
 }
