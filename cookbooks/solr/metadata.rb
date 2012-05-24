@@ -19,6 +19,7 @@ recipe "solr::replication", "configures replication"
 recipe "solr::setup_redirect_page", "sets up redirect page for port 80"
 recipe "solr::install_mysql_connector_in_solr_lib", "installs mysql connector in solr lib dir"
 recipe "solr::do_storage_restore", "restores volume and restarts tomcat"
+recipe "solr::do_storage_create", "creates volume, and sets up solr on the volume"
 
 attribute "solr/replication/server_type", 
   :display_name => "Solr Server Type (Master, Slave)",
