@@ -10,7 +10,6 @@ depends 'app_tomcat'
 depends 'sys_firewall'
 depends 'sys_dns'
 depends 'web_apache'
-depends "rightscale"
 depends "block_device"
 
 recipe "solr::default", "installs solr"
