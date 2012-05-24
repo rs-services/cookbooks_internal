@@ -21,8 +21,9 @@ log " Using lineage #{restore_lineage}"
 
 block_device NICKNAME do
   action :backup_lock_take
-  force do_force
+  force false
 end
+
 log " Performing (#{do_backup_type} backup) Snapshot with lineage #{node[:db][:backup][:lineage]}.."
 # Requires block_device node[:db][:block_device] to be instantiated
 # previously. Make sure block_device::default recipe has been run.
