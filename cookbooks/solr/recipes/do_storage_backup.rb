@@ -31,7 +31,7 @@ block_device NICKNAME do
    action :snapshot
 end
 
-log " Performing (#{do_backup_type}) Backup of lineage #{node[:db][:backup][:lineage]} and post-backup cleanup..."
+log " Performing Primary Backup of lineage #{restore_lineage} and post-backup cleanup..."
 block_device NICKNAME do
 # Backup/Restore arguments
   lineage restore_lineage
