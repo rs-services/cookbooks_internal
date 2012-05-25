@@ -227,7 +227,7 @@ cookbook_file "/root/exampledocs.tar.gz" do
   mode "0644"
 end
 
-execute "tar -xvzf /root/exampledocs.tar.gz" do
+execute "tar -xvzf /root/exampledocs.tar.gz -C /root/" do
   action :run
   creates "/root/exampledocs"
 end
