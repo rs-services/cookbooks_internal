@@ -220,4 +220,15 @@ cookbook_file "#{solr_dir}/conf/xslt/luke.xsl" do
   source "xslt/luke.xsl"
   owner "#{node[:tomcat][:app_user]}"
 end
+
+cookbook_file "/root/exampledocs.tar.gz" do
+  source "exampledocs.tar.gz"
+  owner "root"
+  mode "0644"
+end
+
+execute "tar -xvzf /root/exampledocs.tar.gz" do
+  action :run
+  creates "/root/exampledocs"
+end
 rs_utils_marker :end
