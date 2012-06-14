@@ -47,6 +47,12 @@ directory node[:redis][:log_dir] do
   mode "0750"
 end
 
+file "/etc/redis.conf" do
+  backup false
+  action :delete
+  only_if "test -e /etc/redis.conf"
+end
+
 template "#{node[:redis][:conf_file]}" do
   source "redis.conf.erb"
   owner "root"
