@@ -15,7 +15,7 @@ commitlog_directory: <%= @node[:Cassandra][:commitlog_directory] %>
 saved_caches_directory: <%= @node[:Cassandra][:saved_caches_directory] %>
 commitlog_sync: <%= @node[:Cassandra][:commitlog_sync] %>
 commitlog_sync_period_in_ms: <%= @node[:Cassandra][:commitlog_sync_period_in_ms] %>
-commitlog_total_space_in_mb: <%= @commitlog_total_space %>
+commitlog_total_space_in_mb: <%= @node[:Cassandra][:commitlog_total_space] %>
 seed_provider:
     - class_name: <%= @node[:Cassandra][:seed_provider_class_name] %>
       parameters:
@@ -26,7 +26,7 @@ reduce_cache_capacity_to: <%= @node[:Cassandra][:reduce_cache_capacity_to] %>
 concurrent_reads: <%= @node[:Cassandra][:concurrent_reads] %>
 concurrent_writes: <%= @node[:Cassandra][:concurrent_writes] %>
 memtable_flush_queue_size: <%= @node[:Cassandra][:memtable_flush_queue_size] %>
-memtable_total_space_in_mb: <%= @memtable_total_space %>
+memtable_total_space_in_mb: <%= @node[:Cassandra][:memtable_total_space] %>
 sliced_buffer_size_in_kb: <%= @node[:Cassandra][:sliced_buffer_size_in_kb] %>
 storage_port: <%= @node[:Cassandra][:storage_port] %>
 listen_address: <%= @node[:ipaddress] %>
