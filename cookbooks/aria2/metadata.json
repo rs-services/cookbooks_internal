@@ -1,0 +1,31 @@
+{
+  "name": "aria2",
+  "description": "Installs/Configures aria",
+  "long_description": "",
+  "maintainer": "Your Name",
+  "maintainer_email": "youremail@example.com",
+  "license": "Apache 2.0",
+  "platforms": {
+  },
+  "dependencies": {
+    "rs_utils": ">= 0.0.0"
+  },
+  "recommendations": {
+  },
+  "suggestions": {
+  },
+  "conflicting": {
+  },
+  "providing": {
+  },
+  "replacing": {
+  },
+  "attributes": {
+  },
+  "groupings": {
+  },
+  "recipes": {
+    "aria2::default": "Installs aria2."
+  },
+  "version": "0.0.1"
+}

@@ -1,0 +1,44 @@
+{
+  "name": "jdk",
+  "description": "Installs/Configures Oracle Java JDK",
+  "long_description": "Description\n===========\n\nRequirements\n============\n\nAttributes\n==========\n\nUsage\n=====\n\n",
+  "maintainer": "RightScale Professional Services",
+  "maintainer_email": "services@rightscale.com",
+  "license": "Apache 2.0",
+  "platforms": {
+  },
+  "dependencies": {
+    "rs_utils": ">= 0.0.0"
+  },
+  "recommendations": {
+  },
+  "suggestions": {
+  },
+  "conflicting": {
+  },
+  "providing": {
+  },
+  "replacing": {
+  },
+  "attributes": {
+    "jdk/url": {
+      "display_name": "JDK Download URL",
+      "description": "URL from whence JDK should be downloaded.",
+      "required": "required",
+      "recipes": [
+        "jdk::default"
+      ],
+      "choice": [
+
+      ],
+      "calculated": false,
+      "type": "string"
+    }
+  },
+  "groupings": {
+  },
+  "recipes": {
+    "jdk::default": "Installs Java JDK 1.6.0_26-b3"
+  },
+  "version": "0.0.1"
+}
