@@ -52,10 +52,10 @@ encryption_options:
     keystore_password: cassandra
     truststore: conf/.truststore
     truststore_password: cassandra
-<% if node[:setup][:deployment] = "08x" %> 
+<% if node[:setup][:deployment] == "08x" %> 
 sliced_buffer_size_in_kb: <%= @node[:Cassandra][:sliced_buffer_size_in_kb] %>
 <% end %>
-<% if node[:setup][:deployment] = "11x" %>
+<% if node[:setup][:deployment] == "11x" %>
 memtable_total_space_in_mb: <%= @node[:Cassandra][:memtable_total_space_in_mb] %>
 commitlog_total_space_in_mb: <%= @node[:Cassandra][:commitlog_total_space_in_mb] %>
 <% end %>
