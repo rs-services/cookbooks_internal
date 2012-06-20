@@ -1,5 +1,5 @@
 # Needed for the Chef script to function properly
-default[:setup][:deployment] = "08x"    # Choices are "07x", or "08x"
+default[:setup][:deployment] = "11x"    # Choices are "07x", or "08x"
 default[:setup][:cluster_size] = 4
 default[:setup][:current_role] = "cassandra"
 
@@ -18,5 +18,12 @@ default[:cassandra][:initial_token] = false
 default[:cassandra][:seed] = false
 default[:cassandra][:rpc_address] = false
 default[:cassandra][:confPath] = "/etc/cassandra/"
-
 default[:internal][:prime] = true
+
+#Version based cassandra settings
+case node[:setup][:deployment]
+when "08x"
+  default[:cassandra][:jamm_file] = 'jamm-0.2.2.jar'
+when "11x"
+  default[:cassandra][:jamm_file] = 'jamm-0.2.5.jar'
+end
