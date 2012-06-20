@@ -46,35 +46,35 @@ if mem < 1*GB
   set_unless[:Cassandra][:memtable_total_space_in_mb] = eighty_percent_str
   set_unless[:Cassandra][:commitlog_total_space_in_mb] = fifty_percent_str
   set_unless[:Cassandra][:MAX_HEAP_SIZE] = eighty_percent_str
-  set_unless[:Cassandra][[:HEAP_NEWSIZE]] = fifty_percent_str
+  set_unless[:Cassandra][:HEAP_NEWSIZE] = fifty_percent_str
 
 elseif mem < 3*GB
   
   set_unless[:Cassandra][:memtable_total_space_in_mb] = eighty_percent_str
   set_unless[:Cassandra][:commitlog_total_space_in_mb] = fifty_percent_str
   set_unless[:Cassandra][:MAX_HEAP_SIZE] = eighty_percent_str
-  set_unless[:Cassandra][[:HEAP_NEWSIZE]] = fifty_percent_str
+  set_unless[:Cassandra][:HEAP_NEWSIZE] = fifty_percent_str
 
 elsif mem < 10*GB
  
   set_unless[:Cassandra][:memtable_total_space_in_mb] = eighty_percent_str
   set_unless[:Cassandra][:commitlog_total_space_in_mb] = fifty_percent_str
   set_unless[:Cassandra][:MAX_HEAP_SIZE] = eighty_percent_str
-  set_unless[:Cassandra][[:HEAP_NEWSIZE]] = fifty_percent_str
+  set_unless[:Cassandra][:HEAP_NEWSIZE] = fifty_percent_str
 
 elsif mem < 25*GB
 
   set_unless[:Cassandra][:memtable_total_space_in_mb] = eighty_percent_str
   set_unless[:Cassandra][:commitlog_total_space_in_mb] = fifty_percent_str
   set_unless[:Cassandra][:MAX_HEAP_SIZE] = eighty_percent_str
-  set_unless[:Cassandra][[:HEAP_NEWSIZE]] = fifty_percent_str
+  set_unless[:Cassandra][:HEAP_NEWSIZE] = fifty_percent_str
 
 elsif mem < 50*GB
 
   set_unless[:Cassandra][:memtable_total_space_in_mb] = eighty_percent_str
   set_unless[:Cassandra][:commitlog_total_space_in_mb] = fifty_percent_str
   set_unless[:Cassandra][:MAX_HEAP_SIZE] = eighty_percent_str
-  set_unless[:Cassandra][[:HEAP_NEWSIZE]] = fifty_percent_str
+  set_unless[:Cassandra][:HEAP_NEWSIZE] = fifty_percent_str
 
 else
 
