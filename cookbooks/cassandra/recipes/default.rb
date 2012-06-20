@@ -57,6 +57,14 @@ service "cassandra" do
     #action :start
 end
 
-right_link_tag "cassandra:cluster_name=test" do
+right_link_tag "cassandra:cluster_name=#{node[:Cassandra][:cluster_name]}" do
+  action :publish
+end
+
+right_link_tag "cassandra:rpc_address=#{node[:cassandra][:rpc_address]}" do
+  action :publish
+end
+
+right_link_tag "cassandra:initial_token=#{node[:cassandra][:initial_token]}" do
   action :publish
 end
