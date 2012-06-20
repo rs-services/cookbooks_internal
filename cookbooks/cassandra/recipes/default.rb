@@ -56,3 +56,7 @@ service "cassandra" do
     supports :status => true, :restart => true, :reload => true
     #action :start
 end
+
+right_link_tag "cassandra:cluster_name=test" do
+  action :publish
+end
