@@ -2,11 +2,10 @@
 # Cookbook Name:: cassandra
 # Recipe:: default
 #
-# Copyright 2011, DataStax
-#
+# Copyright 2011, DataStax as hacked by ps@rightscale
+# 
 # Apache License
 #
-
 rs_utils_marker :begin
 ###################################################
 # 
@@ -15,9 +14,6 @@ rs_utils_marker :begin
 ###################################################
 
 include_recipe "cassandra::setup_repos"
-
-# RS - Going to use Samsung JDK cookbook
-
 include_recipe "cassandra::required_packages"
 include_recipe "cassandra::optional_packages"
 include_recipe "cassandra::additional_settings"
@@ -28,7 +24,6 @@ service "cassandra" do
     action [ :enable, :start]
     supports :status => true, :restart => true, :reload => true  
 end
-
 
 if node[:sys_firewall][:enabled] == "enabled"
   log "Opening Cassandra Storage firewall port:#{node[:Cassandra][:storage_port]}"

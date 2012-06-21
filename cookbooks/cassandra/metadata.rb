@@ -16,7 +16,6 @@ recipe           "cassandra::optional_packages", "Installs extra tools for Cassa
 recipe           "cassandra::install", "Installs the actual Cassandra package."
 recipe           "cassandra::additional_settings", "Additional settings for optimal performance for the cluster."
 recipe           "cassandra::token_generation", "Generates the token positions for the cluster."
-recipe           "cassandra::create_seed_list", "Generates the seed lists for the cluster."
 recipe           "cassandra::write_configs", "Writes the configurations for Cassandra."
 recipe           "cassandra::restart_service", "Restarts the Cassandra service."
 
