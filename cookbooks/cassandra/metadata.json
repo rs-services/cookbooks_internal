@@ -1,273 +1,275 @@
 {
-  "conflicting": {
+  "maintainer_email": "joaquin@datastax.com",
+  "platforms": {
   },
-  "version": "0.1.4",
   "recommendations": {
   },
-  "platforms": {
+  "license": "Apache License",
+  "maintainer": "DataStax",
+  "dependencies": {
+    "rs_utils": ">= 0.0.0",
+    "sys_firewall": ">= 0.0.0",
+    "apt": ">= 0.0.0"
   },
   "providing": {
   },
-  "replacing": {
-  },
-  "maintainer": "DataStax",
-  "license": "Apache License",
-  "maintainer_email": "joaquin@datastax.com",
-  "name": "cassandra",
-  "suggestions": {
-  },
-  "dependencies": {
-    "apt": ">= 0.0.0"
-  },
-  "recipes": {
-    "cassandra::setup_repos": "Sets up the Apache Cassandra and DataStax Repos.",
-    "cassandra::token_generation": "Generates the token positions for the cluster.",
-    "cassandra::default": "Runs the full list of scripts needed.",
-    "cassandra::write_configs": "Writes the configurations for Cassandra.",
-    "cassandra::install": "Installs the actual Cassandra package.",
-    "cassandra::optional_packages": "Installs extra tools for Cassandra maintenance.",
-    "cassandra::required_packages": "Not doing anything currently.",
-    "cassandra::restart_service": "Restarts the Cassandra service.",
-    "cassandra::create_seed_list": "Generates the seed lists for the cluster.",
-    "cassandra::additional_settings": "Additional settings for optimal performance for the cluster."
-  },
+  "version": "0.1.4",
   "groupings": {
   },
+  "conflicting": {
+  },
+  "long_description": "= DESCRIPTION:\n\nThis script launches a Apache Cassandra cluster of a predetermined size.\n\nThis has been tested in Ubuntu 10.10 and CentOS 5.5, but should support your version of Ubuntu, CentOS, and RedHat.\n\nThis script will be developed and housed at: https://github.com/riptano/chef.\n\n= REQUIREMENTS:\n\nFollow the instructions as listed here: http://wiki.opscode.com/display/chef/Quick+Start.\n\n== Configure cloud access\n\nProceed to configure your cloud access by adding these following lines to your ~/.chef/knife.rb file.\n\n    # Information can be found at: https://manage.rackspacecloud.com/APIAccess.do\n    knife[:rackspace_api_username] = \"USER\"\n    knife[:rackspace_api_key]      = \"KEY\"\n\n    # Information can be found at: https://aws-portal.amazon.com/gp/aws/developer/account?ie=UTF8&action=access-key\n    knife[:aws_access_key_id]     = \"ID\"\n    knife[:aws_secret_access_key] = \"KEY\"\n\nPlace this directory into your cookbooks folder.\n\nDownload and place the apt cookbook in your cookbooks folder. \nThe apt cookbook can be found here: http://community.opscode.com/cookbooks/apt.\n\nThen run:\n\n    knife cookbook upload -a -o cookbooks/\n\nYou should see something similar to:\n\n    Uploading apt                     [1.1.2]\n    Uploading cassandra               [0.1.4]\n    Uploading chef-client             [0.99.5]\n    upload complete\n\n= ATTRIBUTES:\n\nThe main attributes to look can be found at $CHEF_HOME/cookbooks/cassandra/attributes/default.rb and are:\n\n    # Needed for the Chef script to function properly\n    default[:setup][:deployment] = \"08x\"    # Choices are \"07x\", or \"08x\"\n    default[:setup][:cluster_size] = 4\n    default[:setup][:current_role] = \"cassandra\"\n\n    # A unique name is preferred to stop the risk of different clusters joining each other\n    default[:cassandra][:cluster_name] = \"Cassandra Cluster\"\n\n    # It is best to have the commit log and the data\n    # directory on two seperate drives\n    default[:cassandra][:commitlog_dir] = \"/var/lib\"\n    default[:cassandra][:data_dir] = \"/var/lib\"\n\nFor more information, look over $CHEF_HOME/cookbooks/cassandra/metadata.rb.\n\nTo obtain a free OpsCenter license, please visit: http://www.datastax.com/opscenter.\n\nAfter properly configuring the attributes, upload the cookbook files again by running:\n\n    knife cookbook upload -a -o cookbooks/\n\n= USAGE:\n\n== Configure roles\n\nRun this line from your default chef folder:\n\n    knife role create cassandra\n\nwhere \"cassandra\" is the value declared as default[:setup][:current_role]. Edit the file to look very similar to this:\n\n    {\n      \"name\": \"cassandra\",\n      \"default_attributes\": {\n      },\n      \"json_class\": \"Chef::Role\",\n      \"env_run_lists\": {\n      },\n      \"run_list\": [\n        \"recipe[cassandra]\"  # This is the line of importance\n      ],\n      \"description\": \"\",\n      \"chef_type\": \"role\",\n      \"override_attributes\": {\n      }\n    }\n\nThis means that the role, that you can assign to many machines, will run this recipe upon assignment and will be bound within a group for easy clustering.\n\n== Ports Needed\n\nThe list of the ports required to be open are as follows:\n\n    Public Facing:\n        Cassandra:\n            9160: Cassandra client port\n            7199: Cassandra JMX port, (8080 in 07x)\n    Internal:\n        Cassandra:\n            7000: Cassandra intra-node port\n\n== Starting up a cluster\n\nAn Ubuntu 10.10 cloud in Rackspace (login as root):\n\n    knife rackspace server create -r \"role[cassandra]\" -I 69 -f 6 -S Server01 -N Server01\n    knife rackspace server create -r \"role[cassandra]\" -I 69 -f 6 -S Server02 -N Server02\n    knife rackspace server create -r \"role[cassandra]\" -I 69 -f 6 -S Server03 -N Server03\n    knife rackspace server create -r \"role[cassandra]\" -I 69 -f 6 -S Server04 -N Server04\n\nAn Ubuntu 10.10 cloud in EC2 (login as ubuntu):\n\n    pemname=<pemFileName>  # do not include \".pem\"\n    group=<securityGroupName>\n    knife ec2 server create -r \"role[cassandra]\" -I ami-08f40561 --flavor m1.large -S $pemname -G $group -x ubuntu -N Server01\n    knife ec2 server create -r \"role[cassandra]\" -I ami-08f40561 --flavor m1.large -S $pemname -G $group -x ubuntu -N Server02\n    knife ec2 server create -r \"role[cassandra]\" -I ami-08f40561 --flavor m1.large -S $pemname -G $group -x ubuntu -N Server03\n    knife ec2 server create -r \"role[cassandra]\" -I ami-08f40561 --flavor m1.large -S $pemname -G $group -x ubuntu -N Server04\n\nNOTE: These AMIs only work in the US-East region. For all other regions, see http://cloud.ubuntu.com/ami/.\n\nA Debian 6.0 (Squeeze) cloud in Rackspace (login as root):\n\n    knife rackspace server create -r \"role[cassandra]\" -I 75 -f 6 -S Server01 -N Server01\n    knife rackspace server create -r \"role[cassandra]\" -I 75 -f 6 -S Server02 -N Server02\n    knife rackspace server create -r \"role[cassandra]\" -I 75 -f 6 -S Server03 -N Server03\n    knife rackspace server create -r \"role[cassandra]\" -I 75 -f 6 -S Server04 -N Server04\n\nA CentOS 5.5 cloud in Rackspace (login as root):\n\n    knife rackspace server create -r \"role[cassandra]\" -I 51 -f 6 -d centos5-gems -S Server01 -N Server01\n    knife rackspace server create -r \"role[cassandra]\" -I 51 -f 6 -d centos5-gems -S Server02 -N Server02\n    knife rackspace server create -r \"role[cassandra]\" -I 51 -f 6 -d centos5-gems -S Server03 -N Server03\n    knife rackspace server create -r \"role[cassandra]\" -I 51 -f 6 -d centos5-gems -S Server04 -N Server04\n\nNOTE: You can run these lines more times as long as the attributes are set properly. Also, these lines should be run consecutively and never in parallel.\n\nKeep in mind that these commands start up ONE cluster. By running these same four commands repeatedly, you will keep manipulating the same logical cluster of nodes which may serve unintended results. To create different clusters, either create new roles or remove the previous nodes from OpsCodes's Managment Console (https://manage.opscode.com/nodes). This is due to the fact that these scripts need to know the end size that Cassandra will grow to become to evenly parse the ring.\n\nIf you wish to add more nodes to the same cluster, however, then simply change ([:cassandra][:token_position] or [:cassandra][:initial_token]) and [:setup][:cluster_size].\n\n== Bootstrapping Commands\n\nIn order to run bootstrapping commands, you must be able to complete a passwordless SSH login. Typically, by copying your ~/.ssh/id_rsa.pub key into the target machine's ~/.ssh/authorized_keys file, passwordless SSH should work. Search google for more information.\n\nFor an Ubuntu/Debian Machine:\n\n    knife bootstrap -r recipe['cassandra'] --sudo -x root <publicDNS>\n\nFor an Ubuntu Machine on EC2:\n\n    knife bootstrap -r recipe['cassandra'] --sudo -x ubuntu <publicDNS>\n\nFor a CentOS 5 Machine:\n\n    knife bootstrap -r \"recipe['cassandra']\" --sudo -x root -d centos5-gems <publicDNS>\n\nFor a RedHat 5 Machine (Untested):\n\n    wget http://goo.gl/0k8mV -O- > ~/.chef/bootstrap/rhel5-rbel.erb\n    knife bootstrap --sudo -x root -d rhel5-rbel <publicDNS>\n    knife bootstrap -r recipe['cassandra'] --sudo -x root -d rhel5-rbel <publicDNS>\n\n\n== Other Useful Debugging Commands\n\n    knife node show Server01 --format json\n    knife cookbook metadata cassandra -o cookbooks\n    \n",
+  "recipes": {
+    "cassandra::additional_settings": "Additional settings for optimal performance for the cluster.",
+    "cassandra::required_packages": "Not doing anything currently.",
+    "cassandra::setup_repos": "Sets up the Apache Cassandra and DataStax Repos.",
+    "cassandra::write_configs": "Writes the configurations for Cassandra.",
+    "cassandra::optional_packages": "Installs extra tools for Cassandra maintenance.",
+    "cassandra::default": "Runs the full list of scripts needed.",
+    "cassandra::token_generation": "Generates the token positions for the cluster.",
+    "cassandra::install": "Installs the actual Cassandra package.",
+    "cassandra::create_seed_list": "Generates the seed lists for the cluster.",
+    "cassandra::restart_service": "Restarts the Cassandra service."
+  },
+  "suggestions": {
+  },
+  "description": "Install and configure Cassandra in a multi-node environment",
+  "name": "cassandra/",
   "attributes": {
-    "setup/current_role": {
-      "choice": [
-
-      ],
-      "default": "cassandra",
-      "required": "recommended",
-      "calculated": false,
-      "type": "string",
-      "recipes": [
-        "cassandra::default"
-      ],
-      "display_name": "Current Role Being Assigned",
-      "description": "The role that the cluster is being assigned"
-    },
-    "cassandra/MAX_NEWSIZE": {
-      "choice": [
-
-      ],
-      "required": "recommended",
-      "calculated": false,
-      "type": "string",
-      "recipes": [
-        "cassandra::default"
-      ],
-      "display_name": "MAX NEWSIZE",
-      "description": "You will want to set this, but it will calculate based on system size to a default"
-    },
-    "cassandra/confPath": {
-      "choice": [
-
-      ],
-      "default": "/etc/cassandra/",
-      "required": "recommended",
-      "calculated": false,
-      "type": "string",
-      "recipes": [
-        "cassandra::default"
-      ],
-      "display_name": "Cassandra Settings Path",
-      "description": "The path for cassandra.yaml and cassandra-env.sh"
-    },
-    "cassandra/data_dir": {
-      "choice": [
-
-      ],
-      "default": "/var/lib",
-      "required": "recommended",
-      "calculated": false,
-      "type": "string",
-      "recipes": [
-        "cassandra::default"
-      ],
-      "display_name": "Cassandra Data Directory",
-      "description": "The location for the data directory (preferably on it's own drive or RAID0 device)"
-    },
-    "internal/prime": {
-      "choice": [
-
-      ],
-      "default": "true",
-      "required": "recommended",
-      "calculated": false,
-      "type": "string",
-      "recipes": [
-        "cassandra::default"
-      ],
-      "display_name": "Internal Hash Primer",
-      "description": "Primes a datastore for internal use only"
-    },
-    "internal": {
-      "choice": [
-
-      ],
-      "required": "recommended",
-      "calculated": false,
-      "type": "hash",
-      "recipes": [
-        "cassandra::default"
-      ],
-      "display_name": "Internal Hash",
-      "description": "Hash of Internal attributes"
-    },
-    "cassandra/seed": {
-      "choice": [
-
-      ],
-      "default": "false",
-      "required": "recommended",
-      "calculated": false,
-      "type": "string",
-      "recipes": [
-        "cassandra::default"
-      ],
-      "display_name": "Cassandra Seed Server",
-      "description": "The comma seperated list of seeds (Make sure to include one seed from each datacenter minimum)"
-    },
-    "setup/cluster_size": {
-      "choice": [
-
-      ],
-      "default": "4",
-      "required": "recommended",
-      "calculated": false,
-      "type": "string",
-      "recipes": [
-        "cassandra::default"
-      ],
-      "display_name": "Cluster Size",
-      "description": "Total number of nodes in the cluster"
-    },
     "cassandra/commitlog_dir": {
       "choice": [
 
       ],
       "default": "/var/lib",
-      "required": "recommended",
       "calculated": false,
+      "display_name": "Cassandra Commit Log Directory",
       "type": "string",
+      "required": "recommended",
       "recipes": [
         "cassandra::default"
       ],
-      "display_name": "Cassandra Commit Log Directory",
       "description": "The location for the commit log (preferably on it's own drive or RAID0 device)"
     },
-    "cassandra/cluster_name": {
+    "setup/current_role": {
       "choice": [
 
       ],
-      "default": "Cassandra Cluster",
-      "required": "recommended",
+      "default": "cassandra",
       "calculated": false,
+      "display_name": "Current Role Being Assigned",
       "type": "string",
-      "recipes": [
-        "cassandra::default"
-      ],
-      "display_name": "Cassandra Cluster Name",
-      "description": "Keeps clusters together, not allowing servers from other clusters to talk"
-    },
-    "setup": {
-      "choice": [
-
-      ],
       "required": "recommended",
-      "calculated": false,
-      "type": "hash",
       "recipes": [
         "cassandra::default"
       ],
-      "display_name": "Setup Configurations",
-      "description": "Hash of Setup Configurations"
+      "description": "The role that the cluster is being assigned"
     },
     "setup/deployment": {
       "choice": [
 
       ],
       "default": "08x",
-      "required": "recommended",
       "calculated": false,
+      "display_name": "Deployment Version",
       "type": "string",
+      "required": "recommended",
       "recipes": [
         "cassandra::default"
       ],
-      "display_name": "Deployment Version",
       "description": "The deployment version for Cassandra. Choices are '07x', or '08x'"
     },
-    "cassandra/MAX_HEAP_SIZE": {
+    "internal/prime": {
       "choice": [
 
       ],
-      "required": "recommended",
+      "default": "true",
       "calculated": false,
+      "display_name": "Internal Hash Primer",
       "type": "string",
+      "required": "recommended",
       "recipes": [
         "cassandra::default"
       ],
-      "display_name": "MAX HEAP SIZE",
-      "description": "You will want to set this, but it will calculate based on system size to a default"
-    },
-    "cassandra/initial_token": {
-      "choice": [
-
-      ],
-      "default": "false",
-      "required": "recommended",
-      "calculated": false,
-      "type": "string",
-      "recipes": [
-        "cassandra::default"
-      ],
-      "display_name": "Cassandra Initial Token",
-      "description": "The standard initial token"
+      "description": "Primes a datastore for internal use only"
     },
     "cassandra/token_position": {
       "choice": [
 
       ],
       "default": "false",
-      "required": "recommended",
       "calculated": false,
+      "display_name": "Cassandra Initial Token Position",
       "type": "string",
+      "required": "recommended",
       "recipes": [
         "cassandra::default"
       ],
-      "display_name": "Cassandra Initial Token Position",
       "description": "For use when adding a node that may have previously failed or been destroyed"
+    },
+    "cassandra/data_dir": {
+      "choice": [
+
+      ],
+      "default": "/var/lib",
+      "calculated": false,
+      "display_name": "Cassandra Data Directory",
+      "type": "string",
+      "required": "recommended",
+      "recipes": [
+        "cassandra::default"
+      ],
+      "description": "The location for the data directory (preferably on it's own drive or RAID0 device)"
+    },
+    "cassandra/cluster_name": {
+      "choice": [
+
+      ],
+      "default": "Cassandra Cluster",
+      "calculated": false,
+      "display_name": "Cassandra Cluster Name",
+      "type": "string",
+      "required": "recommended",
+      "recipes": [
+        "cassandra::default"
+      ],
+      "description": "Keeps clusters together, not allowing servers from other clusters to talk"
     },
     "cassandra": {
       "choice": [
 
       ],
-      "required": "recommended",
       "calculated": false,
+      "display_name": "Cassandra",
       "type": "hash",
+      "required": "recommended",
       "recipes": [
         "cassandra::default"
       ],
-      "display_name": "Cassandra",
       "description": "Hash of Cassandra attributes"
+    },
+    "setup/cluster_size": {
+      "choice": [
+
+      ],
+      "default": "4",
+      "calculated": false,
+      "display_name": "Cluster Size",
+      "type": "string",
+      "required": "recommended",
+      "recipes": [
+        "cassandra::default"
+      ],
+      "description": "Total number of nodes in the cluster"
+    },
+    "setup": {
+      "choice": [
+
+      ],
+      "calculated": false,
+      "display_name": "Setup Configurations",
+      "type": "hash",
+      "required": "recommended",
+      "recipes": [
+        "cassandra::default"
+      ],
+      "description": "Hash of Setup Configurations"
+    },
+    "cassandra/MAX_NEWSIZE": {
+      "choice": [
+
+      ],
+      "calculated": false,
+      "display_name": "MAX NEWSIZE",
+      "type": "string",
+      "required": "recommended",
+      "recipes": [
+        "cassandra::default"
+      ],
+      "description": "You will want to set this, but it will calculate based on system size to 50%"
+    },
+    "cassandra/initial_token": {
+      "choice": [
+
+      ],
+      "default": "false",
+      "calculated": false,
+      "display_name": "Cassandra Initial Token",
+      "type": "string",
+      "required": "recommended",
+      "recipes": [
+        "cassandra::default"
+      ],
+      "description": "The standard initial token"
+    },
+    "cassandra/seed": {
+      "choice": [
+
+      ],
+      "default": "false",
+      "calculated": false,
+      "display_name": "Cassandra Seed Server",
+      "type": "string",
+      "required": "recommended",
+      "recipes": [
+        "cassandra::default"
+      ],
+      "description": "The comma seperated list of seeds (Make sure to include one seed from each datacenter minimum)"
+    },
+    "cassandra/confPath": {
+      "choice": [
+
+      ],
+      "default": "/etc/cassandra/",
+      "calculated": false,
+      "display_name": "Cassandra Settings Path",
+      "type": "string",
+      "required": "recommended",
+      "recipes": [
+        "cassandra::default"
+      ],
+      "description": "The path for cassandra.yaml and cassandra-env.sh"
     },
     "cassandra/rpc_address": {
       "choice": [
 
       ],
       "default": "false",
-      "required": "recommended",
       "calculated": false,
+      "display_name": "Cassandra RPC Address",
       "type": "string",
+      "required": "recommended",
       "recipes": [
         "cassandra::default"
       ],
-      "display_name": "Cassandra RPC Address",
       "description": "The address to bind the Thrift RPC service to (False sets RPC Address to the private IP)"
+    },
+    "cassandra/MAX_HEAP_SIZE": {
+      "choice": [
+
+      ],
+      "calculated": false,
+      "display_name": "MAX HEAP SIZE",
+      "type": "string",
+      "required": "recommended",
+      "recipes": [
+        "cassandra::default"
+      ],
+      "description": "You will want to set this, but it will calculate based on system size to 80% of memory"
+    },
+    "internal": {
+      "choice": [
+
+      ],
+      "calculated": false,
+      "display_name": "Internal Hash",
+      "type": "hash",
+      "required": "recommended",
+      "recipes": [
+        "cassandra::default"
+      ],
+      "description": "Hash of Internal attributes"
     }
   },
-  "long_description": "= DESCRIPTION:\n\nThis script launches a Apache Cassandra cluster of a predetermined size.\n\nThis has been tested in Ubuntu 10.10 and CentOS 5.5, but should support your version of Ubuntu, CentOS, and RedHat.\n\nThis script will be developed and housed at: https://github.com/riptano/chef.\n\n= REQUIREMENTS:\n\nFollow the instructions as listed here: http://wiki.opscode.com/display/chef/Quick+Start.\n\n== Configure cloud access\n\nProceed to configure your cloud access by adding these following lines to your ~/.chef/knife.rb file.\n\n    # Information can be found at: https://manage.rackspacecloud.com/APIAccess.do\n    knife[:rackspace_api_username] = \"USER\"\n    knife[:rackspace_api_key]      = \"KEY\"\n\n    # Information can be found at: https://aws-portal.amazon.com/gp/aws/developer/account?ie=UTF8&action=access-key\n    knife[:aws_access_key_id]     = \"ID\"\n    knife[:aws_secret_access_key] = \"KEY\"\n\nPlace this directory into your cookbooks folder.\n\nDownload and place the apt cookbook in your cookbooks folder. \nThe apt cookbook can be found here: http://community.opscode.com/cookbooks/apt.\n\nThen run:\n\n    knife cookbook upload -a -o cookbooks/\n\nYou should see something similar to:\n\n    Uploading apt                     [1.1.2]\n    Uploading cassandra               [0.1.4]\n    Uploading chef-client             [0.99.5]\n    upload complete\n\n= ATTRIBUTES:\n\nThe main attributes to look can be found at $CHEF_HOME/cookbooks/cassandra/attributes/default.rb and are:\n\n    # Needed for the Chef script to function properly\n    default[:setup][:deployment] = \"08x\"    # Choices are \"07x\", or \"08x\"\n    default[:setup][:cluster_size] = 4\n    default[:setup][:current_role] = \"cassandra\"\n\n    # A unique name is preferred to stop the risk of different clusters joining each other\n    default[:cassandra][:cluster_name] = \"Cassandra Cluster\"\n\n    # It is best to have the commit log and the data\n    # directory on two seperate drives\n    default[:cassandra][:commitlog_dir] = \"/var/lib\"\n    default[:cassandra][:data_dir] = \"/var/lib\"\n\nFor more information, look over $CHEF_HOME/cookbooks/cassandra/metadata.rb.\n\nTo obtain a free OpsCenter license, please visit: http://www.datastax.com/opscenter.\n\nAfter properly configuring the attributes, upload the cookbook files again by running:\n\n    knife cookbook upload -a -o cookbooks/\n\n= USAGE:\n\n== Configure roles\n\nRun this line from your default chef folder:\n\n    knife role create cassandra\n\nwhere \"cassandra\" is the value declared as default[:setup][:current_role]. Edit the file to look very similar to this:\n\n    {\n      \"name\": \"cassandra\",\n      \"default_attributes\": {\n      },\n      \"json_class\": \"Chef::Role\",\n      \"env_run_lists\": {\n      },\n      \"run_list\": [\n        \"recipe[cassandra]\"  # This is the line of importance\n      ],\n      \"description\": \"\",\n      \"chef_type\": \"role\",\n      \"override_attributes\": {\n      }\n    }\n\nThis means that the role, that you can assign to many machines, will run this recipe upon assignment and will be bound within a group for easy clustering.\n\n== Ports Needed\n\nThe list of the ports required to be open are as follows:\n\n    Public Facing:\n        Cassandra:\n            9160: Cassandra client port\n            7199: Cassandra JMX port, (8080 in 07x)\n    Internal:\n        Cassandra:\n            7000: Cassandra intra-node port\n\n== Starting up a cluster\n\nAn Ubuntu 10.10 cloud in Rackspace (login as root):\n\n    knife rackspace server create -r \"role[cassandra]\" -I 69 -f 6 -S Server01 -N Server01\n    knife rackspace server create -r \"role[cassandra]\" -I 69 -f 6 -S Server02 -N Server02\n    knife rackspace server create -r \"role[cassandra]\" -I 69 -f 6 -S Server03 -N Server03\n    knife rackspace server create -r \"role[cassandra]\" -I 69 -f 6 -S Server04 -N Server04\n\nAn Ubuntu 10.10 cloud in EC2 (login as ubuntu):\n\n    pemname=<pemFileName>  # do not include \".pem\"\n    group=<securityGroupName>\n    knife ec2 server create -r \"role[cassandra]\" -I ami-08f40561 --flavor m1.large -S $pemname -G $group -x ubuntu -N Server01\n    knife ec2 server create -r \"role[cassandra]\" -I ami-08f40561 --flavor m1.large -S $pemname -G $group -x ubuntu -N Server02\n    knife ec2 server create -r \"role[cassandra]\" -I ami-08f40561 --flavor m1.large -S $pemname -G $group -x ubuntu -N Server03\n    knife ec2 server create -r \"role[cassandra]\" -I ami-08f40561 --flavor m1.large -S $pemname -G $group -x ubuntu -N Server04\n\nNOTE: These AMIs only work in the US-East region. For all other regions, see http://cloud.ubuntu.com/ami/.\n\nA Debian 6.0 (Squeeze) cloud in Rackspace (login as root):\n\n    knife rackspace server create -r \"role[cassandra]\" -I 75 -f 6 -S Server01 -N Server01\n    knife rackspace server create -r \"role[cassandra]\" -I 75 -f 6 -S Server02 -N Server02\n    knife rackspace server create -r \"role[cassandra]\" -I 75 -f 6 -S Server03 -N Server03\n    knife rackspace server create -r \"role[cassandra]\" -I 75 -f 6 -S Server04 -N Server04\n\nA CentOS 5.5 cloud in Rackspace (login as root):\n\n    knife rackspace server create -r \"role[cassandra]\" -I 51 -f 6 -d centos5-gems -S Server01 -N Server01\n    knife rackspace server create -r \"role[cassandra]\" -I 51 -f 6 -d centos5-gems -S Server02 -N Server02\n    knife rackspace server create -r \"role[cassandra]\" -I 51 -f 6 -d centos5-gems -S Server03 -N Server03\n    knife rackspace server create -r \"role[cassandra]\" -I 51 -f 6 -d centos5-gems -S Server04 -N Server04\n\nNOTE: You can run these lines more times as long as the attributes are set properly. Also, these lines should be run consecutively and never in parallel.\n\nKeep in mind that these commands start up ONE cluster. By running these same four commands repeatedly, you will keep manipulating the same logical cluster of nodes which may serve unintended results. To create different clusters, either create new roles or remove the previous nodes from OpsCodes's Managment Console (https://manage.opscode.com/nodes). This is due to the fact that these scripts need to know the end size that Cassandra will grow to become to evenly parse the ring.\n\nIf you wish to add more nodes to the same cluster, however, then simply change ([:cassandra][:token_position] or [:cassandra][:initial_token]) and [:setup][:cluster_size].\n\n== Bootstrapping Commands\n\nIn order to run bootstrapping commands, you must be able to complete a passwordless SSH login. Typically, by copying your ~/.ssh/id_rsa.pub key into the target machine's ~/.ssh/authorized_keys file, passwordless SSH should work. Search google for more information.\n\nFor an Ubuntu/Debian Machine:\n\n    knife bootstrap -r recipe['cassandra'] --sudo -x root <publicDNS>\n\nFor an Ubuntu Machine on EC2:\n\n    knife bootstrap -r recipe['cassandra'] --sudo -x ubuntu <publicDNS>\n\nFor a CentOS 5 Machine:\n\n    knife bootstrap -r \"recipe['cassandra']\" --sudo -x root -d centos5-gems <publicDNS>\n\nFor a RedHat 5 Machine (Untested):\n\n    wget http://goo.gl/0k8mV -O- > ~/.chef/bootstrap/rhel5-rbel.erb\n    knife bootstrap --sudo -x root -d rhel5-rbel <publicDNS>\n    knife bootstrap -r recipe['cassandra'] --sudo -x root -d rhel5-rbel <publicDNS>\n\n\n== Other Useful Debugging Commands\n\n    knife node show Server01 --format json\n    knife cookbook metadata cassandra -o cookbooks\n    \n",
-  "description": "Install and configure Cassandra in a multi-node environment"
+  "replacing": {
+  }
 }

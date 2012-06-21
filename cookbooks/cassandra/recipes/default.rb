@@ -23,11 +23,19 @@ include_recipe "cassandra::additional_settings"
 include_recipe "cassandra::install"
 
 #start service if not running
-
 service "cassandra" do
     action :enable
     supports :status => true, :restart => true, :reload => true
     #action :start
+end
+
+
+if node[:sys_firewall][:enabled] == "enabled"
+  log "Opening Cassandra Storage firewall port:#{node[:Cassandra][:storage_port]}"
+  sys_firewall "#{node[:Cassandra][:storage_port]}"
+
+  log "Opening Cassandra RPC firewall port:#{node[:Cassandra][:rpc_port]}"
+  sys_firewall "#{node[:Cassandra][:rpc_port]}"
 end
 
 right_link_tag "cassandra:cluster_name=#{node[:Cassandra][:cluster_name]}" do

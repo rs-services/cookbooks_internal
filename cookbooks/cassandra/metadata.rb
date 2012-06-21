@@ -4,7 +4,10 @@ license          "Apache License"
 description      "Install and configure Cassandra in a multi-node environment"
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.rdoc'))
 version          "0.1.4"
+
 depends "apt"
+depends "rs_utils"
+depends "sys_firewall"
 
 recipe           "cassandra::default", "Runs the full list of scripts needed."
 recipe           "cassandra::setup_repos", "Sets up the Apache Cassandra and DataStax Repos."

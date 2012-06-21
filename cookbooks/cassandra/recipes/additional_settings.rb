@@ -13,8 +13,6 @@
 # 
 ###################################################
 
-#execute "rm -rf /etc/motd"
-#execute "touch /etc/motd"
 #
 
 execute 'sudo bash -c "ulimit -n 32768"'
