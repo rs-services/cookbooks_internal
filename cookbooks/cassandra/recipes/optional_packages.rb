@@ -21,11 +21,6 @@ case node[:platform]
     package "maven2"
     package "git-core"
 
-    # Addtional optional program for RAID management
-    package "mdadm" do
-      options "--no-install-recommends"
-      action :install
-    end
   when "centos", "redhat", "fedora"
     # Addtional optional program for RAID management
     package "mdadm"
@@ -36,7 +31,6 @@ package "python"
 package "htop"
 package "iftop"
 package "pbzip2"
-package "ant"
 package "emacs"
 package "sysstat"
 package "zip"
