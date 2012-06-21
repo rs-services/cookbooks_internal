@@ -17,10 +17,10 @@
 case node[:platform]
   when "ubuntu", "debian"
     # Ensure all native components are up to date
-      execute 'sudo apt-get -y upgrade'
+      execute 'apt-get -y upgrade'
 	  
     
   when "centos", "redhat", "fedora"
     # Ensure all native components are up to date
-    execute 'sudo yum -y update'
+    execute 'yum -y update'
 end

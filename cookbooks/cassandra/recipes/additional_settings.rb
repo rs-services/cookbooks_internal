@@ -13,7 +13,7 @@
 # 
 ###################################################
 
-execute 'sudo bash -c "ulimit -n 32768"'
+execute 'bash -c "ulimit -n 32768"'
 execute 'echo "* soft nofile 32768" | sudo tee -a /etc/security/limits.conf'
 execute 'echo "* hard nofile 32768" | sudo tee -a /etc/security/limits.conf'
 execute 'sync'
