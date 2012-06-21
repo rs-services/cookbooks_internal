@@ -21,10 +21,10 @@ execute "clear-data" do
   action :nothing
 end
 
-service "cassandra" do 
-  supports :status => true, :restart => true, :reload => true
-  action [ :enable, :start ]
-end
+#service "cassandra" do 
+#  supports :status => true, :restart => true, :reload => true
+#  action [ :enable, :start ]
+#end
 
 # Sets up a user to own the data directories
 node[:internal][:package_user] = "cassandra"
@@ -57,10 +57,6 @@ template "/etc/cassandra/cassandra.yaml" do
    group "cassandra"
    mode "0644"
    source "cassandra.yaml.erb"
-   variables(
-   	:commitlog_total_space => node[:memory][:total]/1024/2,
-   	:memtable_total_space => node[:memory][:total]/1024/2
-   	)
 end
 
 template "/etc/cassandra/cassandra-topology.properties" do
@@ -72,5 +68,5 @@ template "/etc/cassandra/cassandra-topology.properties" do
 	#variables(
 	#	:t => t
 	#)
-   notifies :restart , resources(:service => "cassandra")
+#   notifies :restart , resources(:service => "cassandra")
 end
