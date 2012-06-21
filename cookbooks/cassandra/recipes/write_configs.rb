@@ -12,11 +12,21 @@
 # Write Configs and Start Services
 # 
 ###################################################
+directory "#{node[:cassandra][:data_dir]}" do
+  owner "#{node[:internal][:package_user]}"
+  group "#{node[:internal][:package_user]}"
+  mode "0755"
+  recursive true
+  action :create
+end
 
-execute "sudo mkdir -p #{node[:cassandra][:data_dir]}"
-execute "sudo mkdir -p #{node[:cassandra][:commitlog_dir]}"
-execute "sudo chown -R #{node[:internal][:package_user]}:#{node[:internal][:package_user]} #{node[:cassandra][:data_dir]}"
-execute "sudo chown -R #{node[:internal][:package_user]}:#{node[:internal][:package_user]} #{node[:cassandra][:commitlog_dir]}"
+directory "#{node[:cassandra][:commitlog_dir]}" do
+  owner "#{node[:internal][:package_user]}"
+  group "#{node[:internal][:package_user]}"
+  mode "0755"
+  recursive true
+  action :create
+end
 
 ruby_block "buildCassandraEnv" do
   block do
