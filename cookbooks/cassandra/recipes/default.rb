@@ -1,4 +1,4 @@
-#
+#:
 # Cookbook Name:: cassandra
 # Recipe:: default
 #
@@ -6,6 +6,11 @@
 # 
 # Apache License
 #
+rs_utils_marker :begin
+###################################################
+# 
+# Public Variable Declarations
+# 
 ###################################################
 
 include_recipe "cassandra::setup_repos"
@@ -39,3 +44,5 @@ end
 right_link_tag "cassandra:initial_token=#{node[:cassandra][:initial_token]}" do
   action :publish
 end
+
+rs_utils_marker :end
