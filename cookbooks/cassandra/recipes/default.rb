@@ -22,11 +22,10 @@ include_recipe "cassandra::optional_packages"
 include_recipe "cassandra::additional_settings"
 include_recipe "cassandra::install"
 
-#start service if not running
+log "enabling cassandra service"
 service "cassandra" do
-    action :enable
-    supports :status => true, :restart => true, :reload => true
-    #action :start
+    action [ :enable, :start]
+    supports :status => true, :restart => true, :reload => true  
 end
 
 

@@ -42,10 +42,10 @@ if node[:setup][:deployment] == "08x" or node[:setup][:deployment] == "07x" or  
   end
 end
 
-service "cassandra" do 
-  supports :status => true, :restart => true, :reload => true
-  action [ :enable, :start ]
-end
+#service "cassandra" do 
+#  supports :status => true, :restart => true, :reload => true
+#  action [ :enable, :start ]
+#end
 
 # Drop the config.
 template "/etc/cassandra/cassandra-env.sh" do
@@ -53,7 +53,7 @@ template "/etc/cassandra/cassandra-env.sh" do
    group "cassandra"
    mode "0755"
    source "cassandra-env.sh.erb"
-   notifies :restart , resources(:service => "cassandra")
+   #notifies :restart , resources(:service => "cassandra")
 end
 
 template "/etc/cassandra/cassandra.yaml" do
@@ -65,7 +65,7 @@ template "/etc/cassandra/cassandra.yaml" do
    	:commitlog_total_space => node[:memory][:total]/1024/2,
    	:memtable_total_space => node[:memory][:total]/1024/2
    	)
-   notifies :restart , resources(:service => "cassandra")
+   #notifies :restart , resources(:service => "cassandra")
 end
 
 template "/etc/cassandra/cassandra-topology.properties" do
@@ -77,5 +77,5 @@ template "/etc/cassandra/cassandra-topology.properties" do
 	#variables(
 	#	:t => t
 	#)
-   notifies :restart , resources(:service => "cassandra")
+   #notifies :restart , resources(:service => "cassandra")
 end
