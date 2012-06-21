@@ -22,8 +22,6 @@ case node[:platform]
     package "git-core"
 
   when "centos", "redhat", "fedora"
-    # Addtional optional program for RAID management
-    package "mdadm"
     package "git"
 end
 
