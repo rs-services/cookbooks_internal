@@ -21,13 +21,13 @@ recipe           "cassandra::restart_service", "Restarts the Cassandra service."
 
 attribute "cassandra/MAX_HEAP_SIZE",
   :display_name => "MAX HEAP SIZE",
-  :description => "You will want to set this, but it will calculate based on system size to 80% of memory",
+  :description => "You may  want to set this, but it will calculate based on system size to 80% of memory",
   :required     => "recommended",
   :recipes      => ["cassandra::default"]
 
 attribute "cassandra/MAX_NEWSIZE",
   :display_name => "MAX NEWSIZE",
-  :description => "You will want to set this, but it will calculate based on system size to 50%",
+  :description => "You may want to set this, but it will calculate based on system size to 50%",
   :required     => "recommended",
   :recipes      => ["cassandra::default"]
 
@@ -40,8 +40,8 @@ attribute "setup",
 
 attribute "setup/deployment",
   :display_name => "Deployment Version",
-  :description => "The deployment version for Cassandra. Choices are '07x', or '08x'",
-  :default => "08x",
+  :description => "The deployment version for Cassandra. Choices are '07x', or '08x', or '10x', or 11x'",
+  :default => "11x",
   :required     => "recommended",
   :recipes      => ["cassandra::default"]
 

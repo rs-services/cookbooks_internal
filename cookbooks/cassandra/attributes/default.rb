@@ -1,5 +1,5 @@
 # Needed for the Chef script to function properly
-default[:setup][:deployment] = "11x"    # Choices are "07x", or "08x"
+default[:setup][:deployment] = "11x"    
 default[:setup][:cluster_size] = 4
 default[:setup][:current_role] = "cassandra"
 
