@@ -36,18 +36,10 @@ case node[:platform]
       distribution="EL"
     end
 
-    # Install EPEL (Extra Packages for Enterprise Linux) repository
-    platformMajor = node[:platform_version].split(".")[0]
+    # Install EPEL (Extra Packages for Enterprise Linux) repository  Installing for x86_64 only...
     epelInstalled = File::exists?("/etc/yum.repos.d/epel.repo") or File::exists?("/etc/yum.repos.d/epel-testing.repo")
     if !epelInstalled
-      case platformMajor
-        when "6"
-          execute "rpm -Uvh http://dl.fedoraproject.org/pub/epel/6/#{node[:kernel][:machine]}/epel-release-6-5.noarch.rpm"
-        when "5"
-          execute "rpm -Uvh http://dl.fedoraproject.com/pub/epel/5/#{node[:kernel][:machine]}/epel-release-5-4.noarch.rpm"
-        when "4"
-          execute "rpm -Uvh http://dl.fedoraproject.com/pub/epel/4/#{node[:kernel][:machine]}/epel-release-4-10.noarch.rpm"
-      end
+          execute "rpm -Uvh http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-7.noarch.rpm"
     end
 
     execute "yum clean all"
