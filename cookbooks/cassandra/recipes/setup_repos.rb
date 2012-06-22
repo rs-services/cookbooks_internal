@@ -39,7 +39,7 @@ case node[:platform]
     # Install EPEL (Extra Packages for Enterprise Linux) repository  Installing for x86_64 only...
     epelInstalled = File::exists?("/etc/yum.repos.d/epel.repo") or File::exists?("/etc/yum.repos.d/epel-testing.repo")
     if !epelInstalled
-          execute "rpm -Uvh http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-7.noarch.rpm"
+          execute "rpm -Uvh --aid http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-7.noarch.rpm"
     end
 
     execute "yum clean all"
