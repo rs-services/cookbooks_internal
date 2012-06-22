@@ -38,7 +38,7 @@ if node[:setup][:deployment] == "08x" or node[:setup][:deployment] == "07x" or  
       end
 
     when "centos", "redhat", "fedora"
-      package "cassandra08" do
+      package "cassandra" do
         notifies :run, resources(:execute => "clear-data"), :immediately
       end
   end
