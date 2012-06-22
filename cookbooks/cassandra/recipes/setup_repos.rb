@@ -51,8 +51,5 @@ case node[:platform]
       end
     end
 
-# Download cassandra rpm based on OS choice..  (hard set to 8 for the time being)
-    execute "rpm -Uvh http://cassandra-rpm.googlecode.com/files/apache-cassandra-0.8.5-0.el5.noarch.rpm"
-
     execute "yum clean all"
 end

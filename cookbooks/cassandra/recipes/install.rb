@@ -38,9 +38,11 @@ if node[:setup][:deployment] == "08x" or node[:setup][:deployment] == "07x" or  
       end
 
     when "centos", "redhat", "fedora"
-      package "cassandra" do
-        notifies :run, resources(:execute => "clear-data"), :immediately
-      end
+#   Download cassandra rpm based on OS choice..  (hard set to 8 for the time being)
+       execute "rpm -Uvh http://cassandra-rpm.googlecode.com/files/apache-cassandra-0.8.5-0.el5.noarch.rpm"
+#      package "cassandra" do
+#        notifies :run, resources(:execute => "clear-data"), :immediately
+#      end
   end
 end
 
