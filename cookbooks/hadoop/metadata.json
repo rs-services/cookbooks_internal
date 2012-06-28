@@ -1,0 +1,103 @@
+{
+  "conflicting": {
+  },
+  "recommendations": {
+  },
+  "recipes": {
+    "hadoop::do_attach_request": "Attach request",
+    "hadoop::do_config": "Configure hadoop",
+    "hadoop::do_stop": "Stop Hadoop",
+    "hadoop::do_init": "Creates formats the namenode",
+    "hadoop::do_detach_all": "Handle Detach All",
+    "hadoop::handle_detach": "Handle Detach",
+    "hadoop::do_attach_all": "Handle Attach All",
+    "hadoop::do_detach_request": "Detach request",
+    "hadoop::handle_attach": "Handle Attach",
+    "hadoop::do_start": "Start Hadoop",
+    "hadoop::do_restart": "Restart Hadoop",
+    "hadoop::install": "Install hadoop"
+  },
+  "providing": {
+  },
+  "suggestions": {
+  },
+  "maintainer_email": "premium@rightscale.com",
+  "name": "hadoop",
+  "groupings": {
+  },
+  "attributes": {
+    "hadoop/dns/namenode/fqdn": {
+      "choice": [
+
+      ],
+      "display_name": "Hadoop namenode hostname ",
+      "recipes": [
+        "hadoop::do_init",
+        "hadoop::do_config"
+      ],
+      "type": "string",
+      "required": "required",
+      "calculated": false,
+      "description": "FQDN of the NameNode"
+    },
+    "hadoop/dfs/replication": {
+      "choice": [
+
+      ],
+      "display_name": "Hadoop namenode dfs.replicaton property ",
+      "recipes": [
+        "hadoop::do_config"
+      ],
+      "type": "string",
+      "required": "optional",
+      "calculated": false,
+      "description": "Hadoop namenode dfs.replicaton property"
+    },
+    "hadoop/dns/namenode/id": {
+      "choice": [
+
+      ],
+      "display_name": "Hadoop Host Id ",
+      "recipes": [
+        "hadoop::do_init"
+      ],
+      "type": "string",
+      "required": "optional",
+      "calculated": false,
+      "description": "DNS Service ID for namenode"
+    },
+    "hadoop/node/type": {
+      "choice": [
+        "namenode",
+        "datanode",
+        "tasktracker",
+        "jobtracker"
+      ],
+      "display_name": "Hadoop node type",
+      "recipes": [
+        "hadoop::do_init",
+        "hadoop::do_config"
+      ],
+      "type": "string",
+      "required": "optional",
+      "calculated": false,
+      "default": "namenode",
+      "description": "Hadoop node type, used for managing slaves and masters"
+    }
+  },
+  "dependencies": {
+    "sys_firewall": ">= 0.0.0",
+    "block_device": ">= 0.0.0",
+    "rs_utils": ">= 0.0.0",
+    "sys_dns": ">= 0.0.0"
+  },
+  "platforms": {
+  },
+  "maintainer": "RightScale Inc",
+  "license": "All rights reserved",
+  "replacing": {
+  },
+  "long_description": "Description\n===========\nInstall and Configure Apache Hadoop 1.03\n\nRequirements\n============\n\nAttributes\n==========\n\nUsage\n=====\n\n",
+  "version": "0.0.1",
+  "description": "Install and Configure Apache Hadoop"
+}

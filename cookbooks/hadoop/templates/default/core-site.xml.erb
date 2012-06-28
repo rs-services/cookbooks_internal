@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+
+<!-- Put site-specific property overrides in this file. -->
+
+<configuration>
+
+  <property>
+    <name>fs.default.name</name>
+    <value>hdfs://<%= node[:hadoop][:dns][:namenode][:fqdn]  %>/</value>
+  </property>
+  <% if node[:hadoop][:node][:type]=='namenode'%>
+    <property>
+    <name>dfs.replication</name>
+    <value><%= node[:hadoop][:dfs][:replication]%></value>
+  </property>
+  <% end %>
+</configuration>
