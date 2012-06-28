@@ -11,7 +11,7 @@ cookbook_file "/tmp/hadoop-#{node[:hadoop][:version]}-bin.tar.gz" do
   source "hadoop-#{node[:hadoop][:version]}-bin.tar.gz"
   mode "0644"  
   owner "#{node[:hadoop][:user]}"
-  group "#{node[:tomcat][:group]}"
+  group "#{node[:hadoop][:group]}"
   cookbook 'hadoop'
 end
   
