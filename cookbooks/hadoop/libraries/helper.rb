@@ -22,8 +22,7 @@ module RightScale
         node[:server_collection]['hosts'].to_hash.values.each do |tags|
           ip = RightScale::Utils::Helper.get_tag_value('server:private_ip_0', tags)
           hadoop_servers.add?(ip)
-        end
-        log "hosts #{hadoop_servers.inspect}"
+        end    
         hadoop_servers
       end
       
