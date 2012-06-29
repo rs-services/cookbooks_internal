@@ -12,6 +12,7 @@ define :hadoop_register_node do
   # Do this first so that DNS can propagate while the recipe runs
   private_ip = node[:cloud][:private_ips][0]
   log "  Setting nodename  #{node[:hadoop][:dns][:namenode][:fqdn]} to #{private_ip}"
+
   sys_dns "default" do
     id node[:hadoop][:dns][:namenode][:id]
     address private_ip

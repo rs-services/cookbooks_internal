@@ -13,7 +13,7 @@ depends "sys_dns"
 
 recipe 'hadoop::install', 'Install hadoop'
 recipe 'hadoop::do_config', 'Configure hadoop'
-recipe 'hadoop::do_init', 'Creates formats the namenode'
+recipe 'hadoop::do_init', 'Set private IP in DNS server, format the namenode'
 recipe "hadoop::do_start", "Start Hadoop"
 recipe "hadoop::do_stop", "Stop Hadoop"
 recipe "hadoop::do_restart", "Restart Hadoop"

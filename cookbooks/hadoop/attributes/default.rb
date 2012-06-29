@@ -8,8 +8,8 @@
 set[:hadoop][:version] = '1.0.3'
 set[:hadoop][:install_dir]='/home/hadoop'
 set[:env][:java_home]='/usr/java/default'
-set[:hadoop][:user]='hadoop'
-set[:hadoop][:group]='hadoop'
+set[:hadoop][:user]='root'
+set[:hadoop][:group]='root'
 
 default[:hadoop][:name_dir]='/mnt/storage/logs'
 default[:hadoop][:data_dir]='/mnt/storage/data'
