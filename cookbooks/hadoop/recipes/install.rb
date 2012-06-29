@@ -6,6 +6,26 @@
 # if applicable, other agreements such as a RightScale Master Subscription Agreement.
 
 rs_utils_marker :begin
+
+log "Create User and Group hadoop"
+
+user "hadoop" do
+  username "hadoop"
+  action :create
+end
+
+group "hadoop" do
+ members ["hadoop"] 
+end
+
+user "hadoop" do
+  username "hadoop"
+  gid "hadoop"
+  action :modify
+end
+
+
+
 log "  Installing Hadoop to #{node[:hadoop][:install_dir]}"
 cookbook_file "/tmp/hadoop-#{node[:hadoop][:version]}-bin.tar.gz" do
   source "hadoop-#{node[:hadoop][:version]}-bin.tar.gz"
@@ -23,10 +43,10 @@ bash "install hadoop" do
   only_if do ::File.exists?("/tmp/hadoop-#{node[:hadoop][:version]}-bin.tar.gz")  end
 end
   
-link "/home/hadoop-#{node[:hadoop][:version]}  " do 
+link "#{node[:hadoop][:install_dir]}" do 
   action :create
   link_type :symbolic
-  to "#{node[:hadoop][:install_dir]}"
+  to "/home/hadoop-#{node[:hadoop][:version]}" 
 end
 
 rs_utils_marker :end
