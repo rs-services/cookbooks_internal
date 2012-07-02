@@ -56,7 +56,7 @@ attribute "hadoop/dfs/replication",
   :required => "optional",
   :recipes => [ "hadoop::do_config" ]
 
-attribute "hadoop/namenode/address/ports",
+attribute "hadoop/namenode/address/port",
   :display_name => "Namenode firewall ports ",
   :description => "Set the firewall ports used by the namenode",
   :type => "string",
@@ -64,8 +64,8 @@ attribute "hadoop/namenode/address/ports",
   :required => "optional",
   :recipes => [ "hadoop::do_allow","hadooop:do_disallow" ]
 
-attribute "hadoop/namenode/http/ports",
-  :display_name => "Namenode firewall ports ",
+attribute "hadoop/namenode/http/port",
+  :display_name => "Namenode http firewall ports ",
   :description => "Set the firewall ports used by the namenode http server",
   :type => "string",
   :default =>"50070",
@@ -73,6 +73,14 @@ attribute "hadoop/namenode/http/ports",
   :recipes => [ "hadoop::do_allow","hadooop:do_disallow" ]
 
 attribute "hadoop/datanode/address/port",
+  :display_name => "Datanode ipc firewall port ",
+  :description => "Set the firewall port used by the datanode ipc address",
+  :type => "string",
+  :default =>"50010",
+  :required => "optional",
+  :recipes => [ "hadoop::do_allow","hadooop:do_disallow" ]
+
+attribute "hadoop/datanode/ipc/port",
   :display_name => "Datanode ipc firewall port ",
   :description => "Set the firewall port used by the datanode ipc address",
   :type => "string",
@@ -84,7 +92,7 @@ attribute "hadoop/datanode/http/port",
   :display_name => "Datanode http firewall port ",
   :description => "Set the firewall port used by the datanode http server",
   :type => "string",
-  :default =>"50070",
+  :default =>"50075",
   :required => "optional",
   :recipes => [ "hadoop::do_allow","hadooop:do_disallow" ]
 
