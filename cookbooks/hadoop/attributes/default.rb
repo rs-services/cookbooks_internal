@@ -13,6 +13,12 @@ set[:hadoop][:group]='root'
 
 default[:hadoop][:name_dir]='/mnt/storage/logs'
 default[:hadoop][:data_dir]='/mnt/storage/data'
+#ports
+default[:hadoop][:namenode][:address][:port]='8020'
+default[:hadoop][:namenode][:http][:port]='50070'
+default[:hadoop][:datanode][:address][:port]='50010'
+default[:hadoop][:datanode][:ipc][:port]='50020'
+default[:hadoop][:datanode][:http][:port]='50075'
 
 # This is a set instead of set_unless to support start/stop when the IP changes.
 set[:hadoop][:ip] = node[:cloud][:private_ips][0]
