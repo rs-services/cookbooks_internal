@@ -12,6 +12,12 @@ class Chef::Recipe
 end
 
 slaves = get_hosts('datanode')
+masters = get_hosts('namenode')
+
+# add nodenames as masters
+masters.each do |m|
+  slaves.add?(m)
+end
 
 create_hosts "Add all datanodes" do
   hosts  slaves
@@ -21,7 +27,7 @@ create_hosts "Add all datanodes" do
   only_if node[:hadoop][:node][:type]=='namenode' 
 end
 
-masters = get_hosts('namenode')
+
 create_hosts "Add all namenodes" do
   hosts  masters
   file 'masters'

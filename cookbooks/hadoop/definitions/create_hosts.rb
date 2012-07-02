@@ -9,11 +9,8 @@
 define :create_hosts ,:restart=>false, :hosts=>Set.new, :file=>'slaves' do
   file = File.new("#{node[:hadoop][:install_dir]}/conf/#{params[:file]}",'w')
   
- 
-
   
   params[:hosts].each do |h|
-    log "host #{h}"
     file.puts(h)
   end
   file.close

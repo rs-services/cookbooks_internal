@@ -14,7 +14,7 @@ define :add_host,:restart=>false, :file=>'slaves' do
   if params[:restart]
     log "Start new nodes"
     hadoop "Start hadoop" do
-      action :start
+      action :restart
     end
   end
   

@@ -43,7 +43,6 @@ action :attach do
   add_host new_resource.backend_ip do
     file 'slaves'
     restart true
-    only_if node[:hadoop][:node][:type]=='datanode'
   end 
   
   add_host new_resource.backend_ip do
