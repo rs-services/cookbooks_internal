@@ -11,19 +11,19 @@ class Chef::Recipe
   include RightScale::Hadoop::Helper
 end
 
-hosts = get_hosts('datanode')
+slaves = get_hosts('datanode')
 
 create_hosts "Add all datanodes" do
-  hosts  hosts
+  hosts  slaves
   file 'slaves'
   restart  false
   #only add slaves to namenode hosts
   only_if node[:hadoop][:node][:type]=='namenode' 
 end
 
-hosts = get_hosts('namenodes')
+masters = get_hosts('namenode')
 create_hosts "Add all namenodes" do
-  hosts  hosts
+  hosts  masters
   file 'masters'
   restart  true
   # only add masters to datanode hosts
