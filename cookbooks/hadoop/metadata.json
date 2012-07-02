@@ -1,103 +1,135 @@
 {
-  "conflicting": {
-  },
-  "recommendations": {
-  },
-  "recipes": {
-    "hadoop::do_attach_request": "Attach request",
-    "hadoop::do_config": "Configure hadoop",
-    "hadoop::do_stop": "Stop Hadoop",
-    "hadoop::do_init": "Creates formats the namenode",
-    "hadoop::do_detach_all": "Handle Detach All",
-    "hadoop::handle_detach": "Handle Detach",
-    "hadoop::do_attach_all": "Handle Attach All",
-    "hadoop::do_detach_request": "Detach request",
-    "hadoop::handle_attach": "Handle Attach",
-    "hadoop::do_start": "Start Hadoop",
-    "hadoop::do_restart": "Restart Hadoop",
-    "hadoop::install": "Install hadoop"
-  },
-  "providing": {
-  },
+  "maintainer": "RightScale Inc",
+  "description": "Install and Configure Apache Hadoop",
   "suggestions": {
   },
+  "replacing": {
+  },
+  "recipes": {
+    "hadoop::handle_attach": "Handle Attach",
+    "hadoop::install": "Install hadoop",
+    "hadoop::handle_detach": "Handle Detach",
+    "hadoop::do_allow": "Allow connections between cluster hosts",
+    "hadoop::do_detach_all": "Handle Detach All",
+    "hadoop::do_start": "Start Hadoop",
+    "hadoop::do_attach_request": "Attach request",
+    "hadoop::do_detach_request": "Detach request",
+    "hadoop::do_attach_all": "Handle Attach All",
+    "hadoop::do_config": "Configure hadoop",
+    "hadoop::do_disallow": "Disallow connections between cluster hosts",
+    "hadoop::do_restart": "Restart Hadoop",
+    "hadoop::do_stop": "Stop Hadoop",
+    "hadoop::do_init": "Set private IP in DNS server, format the namenode"
+  },
+  "version": "0.0.1",
+  "platforms": {
+  },
   "maintainer_email": "premium@rightscale.com",
+  "recommendations": {
+  },
+  "license": "All rights reserved",
   "name": "hadoop",
+  "conflicting": {
+  },
+  "dependencies": {
+    "rs_utils": ">= 0.0.0",
+    "block_device": ">= 0.0.0",
+    "sys_firewall": ">= 0.0.0",
+    "sys_dns": ">= 0.0.0"
+  },
   "groupings": {
   },
   "attributes": {
-    "hadoop/dns/namenode/fqdn": {
+    "hadoop/namenode/ports": {
+      "description": "Set the firewall ports used by the namenode",
+      "calculated": false,
+      "display_name": "Namenode firewall ports ",
+      "recipes": [
+        "hadoop::do_allow",
+        "hadooop:do_disallow"
+      ],
+      "required": "optional",
       "choice": [
 
       ],
-      "display_name": "Hadoop namenode hostname ",
+      "type": "string",
+      "defaul": " 8020"
+    },
+    "hadoop/node/type": {
+      "description": "Hadoop node type, used for managing slaves and masters",
+      "calculated": false,
+      "display_name": "Hadoop node type",
       "recipes": [
         "hadoop::do_init",
         "hadoop::do_config"
       ],
-      "type": "string",
-      "required": "required",
-      "calculated": false,
-      "description": "FQDN of the NameNode"
-    },
-    "hadoop/dfs/replication": {
-      "choice": [
-
-      ],
-      "display_name": "Hadoop namenode dfs.replicaton property ",
-      "recipes": [
-        "hadoop::do_config"
-      ],
-      "type": "string",
       "required": "optional",
-      "calculated": false,
-      "description": "Hadoop namenode dfs.replicaton property"
-    },
-    "hadoop/dns/namenode/id": {
-      "choice": [
-
-      ],
-      "display_name": "Hadoop Host Id ",
-      "recipes": [
-        "hadoop::do_init"
-      ],
-      "type": "string",
-      "required": "optional",
-      "calculated": false,
-      "description": "DNS Service ID for namenode"
-    },
-    "hadoop/node/type": {
+      "default": "namenode",
       "choice": [
         "namenode",
         "datanode",
         "tasktracker",
         "jobtracker"
       ],
-      "display_name": "Hadoop node type",
+      "type": "string"
+    },
+    "hadoop/dns/namenode/id": {
+      "description": "DNS Service ID for namenode",
+      "calculated": false,
+      "display_name": "Hadoop Host Id ",
+      "recipes": [
+        "hadoop::do_init"
+      ],
+      "required": "optional",
+      "choice": [
+
+      ],
+      "type": "string"
+    },
+    "hadoop/datanode/ports": {
+      "description": "Set the firewall ports used by the datanode",
+      "calculated": false,
+      "display_name": "Datanode firewall ports ",
+      "recipes": [
+        "hadoop::do_allow",
+        "hadooop:do_disallow"
+      ],
+      "required": "optional",
+      "choice": [
+
+      ],
+      "type": "string",
+      "defaul": " 8020, 50000-50100"
+    },
+    "hadoop/dfs/replication": {
+      "description": "Hadoop namenode dfs.replicaton property",
+      "calculated": false,
+      "display_name": "Hadoop namenode dfs.replicaton property ",
+      "recipes": [
+        "hadoop::do_config"
+      ],
+      "required": "optional",
+      "choice": [
+
+      ],
+      "type": "string"
+    },
+    "hadoop/dns/namenode/fqdn": {
+      "description": "FQDN of the NameNode",
+      "calculated": false,
+      "display_name": "Hadoop namenode hostname ",
       "recipes": [
         "hadoop::do_init",
         "hadoop::do_config"
       ],
-      "type": "string",
-      "required": "optional",
-      "calculated": false,
-      "default": "namenode",
-      "description": "Hadoop node type, used for managing slaves and masters"
+      "required": "required",
+      "choice": [
+
+      ],
+      "type": "string"
     }
   },
-  "dependencies": {
-    "sys_firewall": ">= 0.0.0",
-    "block_device": ">= 0.0.0",
-    "rs_utils": ">= 0.0.0",
-    "sys_dns": ">= 0.0.0"
+  "providing": {
   },
-  "platforms": {
-  },
-  "maintainer": "RightScale Inc",
-  "license": "All rights reserved",
-  "replacing": {
-  },
-  "long_description": "Description\n===========\nInstall and Configure Apache Hadoop 1.03\n\nRequirements\n============\n\nAttributes\n==========\n\nUsage\n=====\n\n",
-  "version": "0.0.1",
-  "description": "Install and Configure Apache Hadoop"
+  "long_description": "Description\n===========\nInstall and Configure Apache Hadoop 1.03\n\nRequirements\n============\nJava\n\n\nAttributes\n==========\n\nUsage\n=====\n\nTo create a Hadoop Cluster, create multiple servers.  Each server will be \ndesignated as a namenode (master) or datanode (slave).  \n\nSet the hadoop/dfs/replication input to the size of your datanode replication size.\n\n"
 }

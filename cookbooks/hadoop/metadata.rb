@@ -23,6 +23,8 @@ recipe "hadoop::do_attach_all", "Handle Attach All"
 recipe "hadoop::do_detach_request", "Detach request"
 recipe "hadoop::handle_detach", "Handle Detach"
 recipe "hadoop::do_detach_all", "Handle Detach All"
+recipe "hadoop::do_allow", "Allow connections between cluster hosts"
+recipe "hadoop::do_disallow", "Disallow connections between cluster hosts"
 
 attribute "hadoop/node/type",
   :display_name => "Hadoop node type",
@@ -54,5 +56,19 @@ attribute "hadoop/dfs/replication",
   :required => "optional",
   :recipes => [ "hadoop::do_config" ]
 
+attribute "hadoop/namenode/ports",
+  :display_name => "Namenode firewall ports ",
+  :description => "Set the firewall ports used by the namenode",
+  :type => "string",
+  :defaul =>" 8020",
+  :required => "optional",
+  :recipes => [ "hadoop::do_allow","hadooop:do_disallow" ]
 
+attribute "hadoop/datanode/ports",
+  :display_name => "Datanode firewall ports ",
+  :description => "Set the firewall ports used by the datanode",
+  :type => "string",
+  :defaul =>" 8020, 50000-50100",
+  :required => "optional",
+  :recipes => [ "hadoop::do_allow","hadooop:do_disallow" ]
 
