@@ -9,17 +9,47 @@ rs_utils_marker :begin
 
 
 # Adding iptables rule to allow hadoop servers connections
-  sys_firewall "Open this appserver's ports to all loadbalancers" do
+  log "Setting up namenode firewall ports for #{node[:hadoop][:namenode][:address][:ports]}"
+  sys_firewall "Open  hadoop port" do
     machine_tag "hadoop:node_type=namenode"
-    port node[:hadoop][:ports]
+    port node[:hadoop][:namenode][:address][:port].to_i
     enable true
     action :update
-  end
-  sys_firewall "Open this appserver's ports to all loadbalancers" do
-    machine_tag "hadoop:node_type=datanode"
-    port node[:hadoop][:ports]
-    enable true
-    action :update
+    only_if node[:hadoop][:node][:type]=='name'
   end
 
+  log "Setting up namenode http firewall ports for #{node[:hadoop][:namenode][:http][:ports]}"
+  sys_firewall "Open  hadoop port" do
+    machine_tag "hadoop:node_type=namenode"
+    port node[:hadoop][:namenode][:http][:port].to_i
+    enable true
+    action :update
+    only_if node[:hadoop][:node][:type]=='namenode'
+  end
+
+  log "Setting up datanode address firewall ports for #{node[:hadoop][:datanode][:address][:port]}"
+  sys_firewall "Open hadoop port" do
+    machine_tag "hadoop:node_type=datanode"
+    port node[:hadoop][:datanode][:address][:port].to_i
+    enable true
+    action :update
+    only_if node[:hadoop][:node][:type]=='datanode'
+  end
+
+ log "Setting up datanode  ipc firewall ports for #{node[:hadoop][:datanode][:ipc][:port]}"
+  sys_firewall "Open hadoop port" do
+    machine_tag "hadoop:node_type=datanode"
+    port node[:hadoop][:datanode][:ipc][:port].to_i
+    enable true
+    action :update
+    only_if node[:hadoop][:node][:type]=='datanode'
+  end
+   log "Setting up datanode  http firewall ports for #{node[:hadoop][:datanode][:http][:port]}"
+  sys_firewall "Open hadoop port" do
+    #machine_tag "hadoop:node_type=datanode"
+    port node[:hadoop][:datanode][:http][:port].to_i
+    enable true
+    action :update
+    only_if node[:hadoop][:node][:type]=='datanode'
+  end
 rs_utils_marker :end
