@@ -7,20 +7,53 @@
 
 rs_utils_marker :begin
 
-
 # Adding iptables rule to allow hadoop servers connections
-  sys_firewall "Open this appserver's ports to all loadbalancers" do
-    machine_tag "hadoop:node_type=namenode"
-    port node[:hadoop][:namenode][:ports]
-    enable false
-    action :update
-  end
-  sys_firewall "Open this appserver's ports to all loadbalancers" do
+#default port 8020
+if node[:hadoop][:node][:type]=='namenode'
+  log "Setting up namenode firewall ports for #{node[:hadoop][:namenode][:address][:port]}"
+  sys_firewall node[:hadoop][:namenode][:address][:port].to_i do
     machine_tag "hadoop:node_type=datanode"
-    port node[:hadoop][:datanode][:ports]
     enable false
     action :update
   end
+end
 
+# default port 50070
+if node[:hadoop][:node][:type]=='namenode'
+  log "Setting up namenode http firewall ports for #{node[:hadoop][:namenode][:http][:port]}"
+  sys_firewall node[:hadoop][:namenode][:http][:port].to_i do
+    enable false
+    action :update
+  end
+  
+end
 
-rs_utils_marker  :end
+ #default port 50010 (on all hosts)
+  log "Setting up datanode address firewall ports for #{node[:hadoop][:datanode][:address][:port]}"
+  sys_firewall node[:hadoop][:datanode][:address][:port].to_i do
+    machine_tag "hadoop:node_type=*"
+    enable false
+    action :update
+  end
+  
+# default port 50020
+if node[:hadoop][:node][:type]=='datanode'
+  log "Setting up datanode  ipc firewall ports for #{node[:hadoop][:datanode][:ipc][:port]}"
+  sys_firewall node[:hadoop][:datanode][:ipc][:port].to_i do
+    machine_tag "hadoop:node_type=namenode"
+    enable false
+    action :update
+  end
+end 
+
+# default port 50075 
+if node[:hadoop][:node][:type]=='datanode'
+  log "Setting up datanode http firewall ports for #{node[:hadoop][:datanode][:http][:port]}"
+  sys_firewall node[:hadoop][:datanode][:http][:port].to_i do
+    port 
+    enable false
+    action :update
+  end
+end
+
+rs_utils_marker :end
