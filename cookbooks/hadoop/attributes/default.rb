@@ -10,6 +10,7 @@ set[:hadoop][:install_dir]='/home/hadoop'
 set[:env][:java_home]='/usr/java/default'
 set[:hadoop][:user]='root'
 set[:hadoop][:group]='root'
+default[:hadoop][:dfs][:replication]='1'
 
 default[:hadoop][:name_dir]='/mnt/storage/logs'
 default[:hadoop][:data_dir]='/mnt/storage/data'
