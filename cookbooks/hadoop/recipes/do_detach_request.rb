@@ -6,7 +6,7 @@
 # if applicable, other agreements such as a RightScale Master Subscription Agreement.
 
 
-rs_utils_marker :begin
+rightscale_marker :begin
 
     
 hadoop "Detach Request for #{node[:hadoop][:ip]}" do
@@ -17,4 +17,4 @@ end
 
 
 
-rs_utils_marker :end
+rightscale_marker :end

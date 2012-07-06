@@ -5,7 +5,7 @@
 # RightScale Terms of Service available at http://www.rightscale.com/terms.php and,
 # if applicable, other agreements such as a RightScale Master Subscription Agreement.
 
-rs_utils_marker :begin
+rightscale_marker :begin
 
 include_recipe "hadoop::default"
 log "Installing hadoop hadoop-env.sh to #{node[:hadoop][:install_dir]}/conf"
@@ -48,4 +48,4 @@ template "#{node[:hadoop][:install_dir]}/conf/slaves" do
   mode "0644"
 end
 
-rs_utils_marker :end
+rightscale_marker :end

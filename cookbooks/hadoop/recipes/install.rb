@@ -5,7 +5,7 @@
 # RightScale Terms of Service available at http://www.rightscale.com/terms.php and,
 # if applicable, other agreements such as a RightScale Master Subscription Agreement.
 
-rs_utils_marker :begin
+rightscale_marker :begin
 
 log "  Installing Hadoop "
 cookbook_file "/tmp/hadoop-#{node[:hadoop][:version]}-bin.tar.gz" do
@@ -34,4 +34,4 @@ link "#{node[:hadoop][:install_dir]}" do
   to "/home/hadoop-#{node[:hadoop][:version]}" 
 end
 
-rs_utils_marker :end
+rightscale_marker :end

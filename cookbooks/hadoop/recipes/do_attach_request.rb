@@ -6,7 +6,7 @@
 # if applicable, other agreements such as a RightScale Master Subscription Agreement.
 
 
-rs_utils_marker :begin
+rightscale_marker :begin
 
 class Chef::Recipe
   include RightScale::Hadoop::Helper
@@ -25,4 +25,4 @@ end
 #end
 
 
-rs_utils_marker :end
+rightscale_marker :end

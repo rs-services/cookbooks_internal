@@ -5,7 +5,7 @@
 # RightScale Terms of Service available at http://www.rightscale.com/terms.php and,
 # if applicable, other agreements such as a RightScale Master Subscription Agreement.
 
-rs_utils_marker :begin
+rightscale_marker :begin
 
 # Adding iptables rule to allow hadoop servers connections
 #default port 8020
@@ -56,4 +56,4 @@ if node[:hadoop][:node][:type]=='datanode'
   end
 end
 
-rs_utils_marker :end
+rightscale_marker :end
