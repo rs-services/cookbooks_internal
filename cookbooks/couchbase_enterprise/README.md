@@ -1,5 +1,6 @@
 Description
 ===========
+* Couchbase Enterprise
 
 Requirements
 ============
