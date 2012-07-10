@@ -1,5 +1,5 @@
 default[:cb][:install_dir] = '/usr/local/couchbase'
-default[:couchbase][:conf_dir] = node[:solr][:install_dir] + '/conf'
-default[:couchbase][:lib_dir] = node[:solr][:install_dir] + '/lib'
-default[:couchbase][:data_dir] = node[:solr][:install_dir] + '/data'
+default[:couchbase][:conf_dir] = node[:couchbase][:install_dir] + '/conf'
+default[:couchbase][:lib_dir] = node[:couchbase][:install_dir] + '/lib'
+default[:couchbase][:data_dir] = node[:couchbase][:install_dir] + '/data'
 default[:couchbase][:storage_type] = 'ephemeral'

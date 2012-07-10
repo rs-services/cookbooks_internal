@@ -1,0 +1,44 @@
+{
+  "recommendations": {
+  },
+  "description": "Installs/Configures couchbase",
+  "attributes": {
+  },
+  "license": "All rights reserved",
+  "name": "couchbase_enterprise",
+  "long_description": "",
+  "conflicting": {
+  },
+  "maintainer_email": "premium@rightscale.com",
+  "suggestions": {
+  },
+  "version": "0.0.0",
+  "recipes": {
+    "couchbase::install_example_app": "installs solr example app",
+    "couchbase::do_storage_create": "creates volume, and sets up solr on the volume",
+    "couchbase::do_primary_backup_schedule_enable": "enables random cron for do_storage_backup",
+    "couchbase::do_storage_backup": "backs up solr volumes",
+    "couchbase::configure_solr_and_solrconfig": "configures solr.xml and solrconfig.xml",
+    "couchbase::do_primary_backup_schedule_disable": "disables cron for do_storage_backup",
+    "couchbase::do_storage_restore": "restores volume and restarts tomcat",
+    "couchbase::setup_redirect_page": "sets up redirect page for port 80",
+    "couchbase::replication": "configures replication",
+    "couchbase::default": "installs solr",
+    "couchbase::install_mysql_connector_in_solr_lib": "installs mysql connector in solr lib dir"
+  },
+  "providing": {
+  },
+  "maintainer": "RightScale Inc",
+  "replacing": {
+  },
+  "platforms": {
+  },
+  "groupings": {
+  },
+  "dependencies": {
+    "sys_firewall": ">= 0.0.0",
+    "sys_dns": ">= 0.0.0",
+    "block_device": ">= 0.0.0",
+    "rs_utils": ">= 0.0.0"
+  }
+}
