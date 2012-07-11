@@ -7,6 +7,12 @@
 
 rightscale_marker :begin
 
+class Chef::Recipe
+  include RightScale::Hadoop::Helper
+end
+
+namenodes = get_hosts('namenodes')
+
 include_recipe "hadoop::default"
 log "Installing hadoop hadoop-env.sh to #{node[:hadoop][:install_dir]}/conf"
 template "#{node[:hadoop][:install_dir]}/conf/hadoop-env.sh" do
@@ -14,6 +20,7 @@ template "#{node[:hadoop][:install_dir]}/conf/hadoop-env.sh" do
   owner "#{node[:hadoop][:user]}"
   group "#{node[:hadoop][:group]}"
   mode "0644"
+  
 end
 
 log "Installing hadoop core-site.xml to #{node[:hadoop][:install_dir]}/conf"
@@ -22,6 +29,7 @@ template "#{node[:hadoop][:install_dir]}/conf/core-site.xml" do
   owner "#{node[:hadoop][:user]}"
   group "#{node[:hadoop][:group]}"
   mode "0644"
+ variables(:hosts =>namenodes )
 end
 
 log "Installing hadoop hdfs-site.xml to #{node[:hadoop][:install_dir]}/conf"
@@ -30,6 +38,7 @@ template "#{node[:hadoop][:install_dir]}/conf/hdfs-site.xml" do
   owner "#{node[:hadoop][:user]}"
   group "#{node[:hadoop][:group]}"
   mode "0644"
+ variables(:hosts =>namenodes )
 end
 
 log "Installing hadoop masters to #{node[:hadoop][:install_dir]}/conf"
@@ -38,6 +47,7 @@ template "#{node[:hadoop][:install_dir]}/conf/masters" do
   owner "#{node[:hadoop][:user]}"
   group "#{node[:hadoop][:group]}"
   mode "0644"
+  variables(:hosts =>namenodes )
 end
 
 log "Installing hadoop slaves to #{node[:hadoop][:install_dir]}/conf"
@@ -46,6 +56,7 @@ template "#{node[:hadoop][:install_dir]}/conf/slaves" do
   owner "#{node[:hadoop][:user]}"
   group "#{node[:hadoop][:group]}"
   mode "0644"
+  variables(:hosts => namenodes )
 end
 
 rightscale_marker :end

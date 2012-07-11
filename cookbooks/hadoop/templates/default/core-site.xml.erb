@@ -6,8 +6,8 @@
 <configuration>
 
   <property>
-    <name>fs.default.name</name>
-    <value>hdfs://<%= node[:hadoop][:dns][:namenode][:fqdn]  %>/</value>
+    <name>fs.default.name</name>   
+    <value>hdfs://<%= @hosts[0] %>/</value>
   </property>
   <% if node[:hadoop][:node][:type]=='namenode'%>
     <property>
