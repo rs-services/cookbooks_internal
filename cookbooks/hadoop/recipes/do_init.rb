@@ -11,7 +11,6 @@ class Chef::Recipe
   include RightScale::Hadoop::Helper
 end
 
-right_link_tag "hadoop:node_type=#{node[:hadoop][:node][:type]}"
 if node[:hadoop][:node][:type]=='namenode'
   log "  Format namenode"
   execute "namenode formt" do

@@ -6,3 +6,6 @@
 #
 # All rights reserved - Do Not Redistribute
 #
+
+
+right_link_tag "hadoop:node_type=#{node[:hadoop][:node][:type]}"

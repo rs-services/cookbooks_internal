@@ -7,7 +7,7 @@
 
   <property>
     <name>fs.default.name</name>   
-    <value>hdfs://<%= @hosts[0] %>/</value>
+    <value>hdfs://<%= @namenodes[0] unless @namenode.empty? %>/</value>
   </property>
   <% if node[:hadoop][:node][:type]=='namenode'%>
     <property>
