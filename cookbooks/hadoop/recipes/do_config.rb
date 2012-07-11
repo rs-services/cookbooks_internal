@@ -15,7 +15,6 @@ include_recipe "hadoop::default"
 
 namenodes = get_hosts('namenode')
 
-
 log "Installing hadoop hadoop-env.sh to #{node[:hadoop][:install_dir]}/conf"
 template "#{node[:hadoop][:install_dir]}/conf/hadoop-env.sh" do
   source "hadoop-env.sh.erb"
@@ -58,7 +57,7 @@ template "#{node[:hadoop][:install_dir]}/conf/slaves" do
   owner "#{node[:hadoop][:user]}"
   group "#{node[:hadoop][:group]}"
   mode "0644"
-  variables(:namenode =>namenode )
+  variables(:namenodes =>namenodes )
 end
 
 rightscale_marker :end
