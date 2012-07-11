@@ -11,7 +11,7 @@ class Chef::Recipe
   include RightScale::Hadoop::Helper
 end
 
-namenodes = get_hosts('namenodes')
+namenodes = get_hosts('namenode')
 
 include_recipe "hadoop::default"
 log "Installing hadoop hadoop-env.sh to #{node[:hadoop][:install_dir]}/conf"
