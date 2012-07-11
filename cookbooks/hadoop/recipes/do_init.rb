@@ -7,16 +7,21 @@
 
 rightscale_marker :begin
 
+class Chef::Recipe
+  include RightScale::Hadoop::Helper
+end
 
 right_link_tag "hadoop:node_type=#{node[:hadoop][:node][:type]}"
 if node[:hadoop][:node][:type]=='namenode'
-  log "  Format namenode #{node[:hadoop][:dns][:namenode][:fqdn]}"
+  log "  Format namenode"
   execute "namenode formt" do
     command "#{node[:hadoop][:install_dir]}/bin/hadoop namenode -format"
     action :run
     not_if "test -e /mnt/storage/logs"
   end
 end
+
+add_public_key(node[:ssh][:public_ssh_key])
 
 
 hadoop "start hadoop" do

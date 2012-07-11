@@ -26,6 +26,23 @@ module RightScale
         hadoop_servers
       end
       
+      # Add public key for root to ssh to itself as needed by hadoop.
+      #
+      # @param public_ssh_key [string] public key to add
+      #
+      # @raises [RuntimeError] if ssh key string is empty
+      def add_public_key(public_ssh_key)
+        Chef::Log.info("  Updating authorized_keys ")
+
+        if "#{public_ssh_key}" != ""
+         
+          # Writing key to file
+          system("echo '#{public_ssh_key}' >> ~/root/.ssh/authorized_keys")
+          # Setting permissions
+          system("chmod 0600 ~/root/.ssh/authorized_keys")
+        end
+
+      end
     
     end
   end
