@@ -10,7 +10,6 @@ rightscale_marker :begin
 
 right_link_tag "hadoop:node_type=#{node[:hadoop][:node][:type]}"
 if node[:hadoop][:node][:type]=='namenode'
-  hadoop_register_node
   log "  Format namenode #{node[:hadoop][:dns][:namenode][:fqdn]}"
   execute "namenode formt" do
     command "#{node[:hadoop][:install_dir]}/bin/hadoop namenode -format"
