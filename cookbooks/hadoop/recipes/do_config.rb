@@ -13,7 +13,7 @@ end
 
 include_recipe "hadoop::default"
 
-namenodes = get_hosts('namenode')
+namenodes = get_hosts('namenode').to_a
 
 log "Installing hadoop hadoop-env.sh to #{node[:hadoop][:install_dir]}/conf"
 template "#{node[:hadoop][:install_dir]}/conf/hadoop-env.sh" do
