@@ -27,13 +27,13 @@ create_hosts "Add all datanodes" do
   only_if node[:hadoop][:node][:type]=='namenode' 
 end
 
-
-create_hosts "Add all namenodes" do
-  hosts  masters
-  file 'masters'
-  restart  true
-  # only add masters to datanode hosts
-  only_if node[:hadoop][:node][:type]=='datanode'
+if node[:hadoop][:node][:type]=='datanode'
+  create_hosts "Add all namenodes" do
+    hosts  masters
+    file 'masters'
+    restart  true
+ 
+  end
 end
 
 
