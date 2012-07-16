@@ -12,7 +12,7 @@ bash "downloading oracle.zip" do
   cwd location
   flags "-ex"
   code <<-EOF
-  aria2c linux.x64_11gR2_client.zip -x 16 -d #{location}
+  aria2c http://ps-cf.rightscale.com/oracle/linux.x64_11gR2_client.zip -x 16 -d #{location}
   unzip -q -u linux.x64_11gR2_client.zip
 EOF
 end
