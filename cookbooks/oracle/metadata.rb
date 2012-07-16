@@ -19,6 +19,8 @@ recipe "oracle::install_oracle_client", "installs oracle client"
 
 depends "rightscale"
 depends "bootstrap"
+depends "sysctl"
+depends "block_device"
 
 attribute "oracle/starterdb/password/all", 
   :display_name => "Starterdb ALL Password",
