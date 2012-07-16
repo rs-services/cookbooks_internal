@@ -21,6 +21,7 @@ depends "rightscale"
 depends "bootstrap"
 depends "sysctl"
 depends "block_device"
+depends "sys_firewall"
 
 attribute "oracle/starterdb/password/all", 
   :display_name => "Starterdb ALL Password",
