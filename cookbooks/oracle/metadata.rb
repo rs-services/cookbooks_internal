@@ -17,7 +17,7 @@ recipe "oracle::add_audit_user", "add_audit_user"
 recipe "oracle::tune_oracle_memory", "tunes oracle memory to 60% of available ram"
 recipe "oracle::install_oracle_client", "installs oracle client"
 
-depends "rs_utils"
+depends "rightscale"
 depends "bootstrap"
 
 attribute "oracle/starterdb/password/all", 

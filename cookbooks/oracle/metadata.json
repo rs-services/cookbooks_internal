@@ -1,206 +1,206 @@
 {
+  "version": "0.0.1",
+  "providing": {
+  },
+  "maintainer_email": "ps@rightscale.com",
+  "description": "Installs/Configures oracle",
+  "name": "oracle",
+  "suggestions": {
+  },
+  "maintainer": "RightScale Inc",
+  "conflicting": {
+  },
   "platforms": {
+  },
+  "recipes": {
+    "oracle::setup_swap": "configures swap of 100% of ram",
+    "oracle::download_oracle": "Downloads oracle from s3 with aria2c",
+    "oracle::install_oracle_client": "installs oracle client",
+    "oracle::tune_oracle_memory": "tunes oracle memory to 60% of available ram",
+    "oracle::add_backup_to_cron": "add the backup script to cron at a random interval, once per hour",
+    "oracle::install_oracle": "installs oracle 11G and dependencies",
+    "oracle::add_audit_user": "add_audit_user",
+    "oracle::restore_oracle_using_impdp": "restores db using impdp",
+    "oracle::backup_oracle_using_expdp": "backs up the db using expdp",
+    "oracle::install_local_and_sandbox_oci8_rubygem_on_server": "installs ruby oci-8 on the oracle db server",
+    "oracle::open_oracle_port": "Oracle port 1521 to the world"
+  },
+  "dependencies": {
+    "bootstrap": ">= 0.0.0",
+    "rightscale": ">= 0.0.0"
+  },
+  "license": "All rights reserved",
+  "groupings": {
   },
   "replacing": {
   },
-  "recommendations": {
-  },
-  "maintainer": "RightScale Inc",
-  "version": "0.0.1",
-  "recipes": {
-    "oracle::tune_oracle_memory": "tunes oracle memory to 60% of available ram",
-    "oracle::add_audit_user": "add_audit_user",
-    "oracle::open_oracle_port": "Oracle port 1521 to the world",
-    "oracle::download_oracle": "Downloads oracle from s3 with aria2c",
-    "oracle::add_backup_to_cron": "add the backup script to cron at a random interval, once per hour",
-    "oracle::install_oracle": "installs oracle 11G and dependencies",
-    "oracle::restore_oracle_using_impdp": "restores db using impdp",
-    "oracle::backup_oracle_using_expdp": "backs up the db using expdp",
-    "oracle::setup_swap": "configures swap of 100% of ram",
-    "oracle::install_oracle_client": "installs oracle client",
-    "oracle::install_local_and_sandbox_oci8_rubygem_on_server": "installs ruby oci-8 on the oracle db server"
-  },
-  "groupings": {
-  },
   "attributes": {
-    "oracle/backup/backup_prefix": {
+    "amazon/access_key_id": {
+      "choice": [
+
+      ],
+      "description": "Amazon Access Key",
+      "required": "required",
       "type": "string",
       "recipes": [
         "oracle::backup_oracle_using_expdp",
         "oracle::restore_oracle_using_impdp"
       ],
       "calculated": false,
-      "choice": [
-
-      ],
-      "display_name": "backup prefix for backups",
-      "description": "backup prefix for db backups, ex mydb",
-      "required": "required"
+      "display_name": "Amazon Access Key"
     },
     "oracle/starterdb/password/dbsnmp": {
+      "choice": [
+
+      ],
+      "description": "The DBSNMP password for the starter db",
+      "required": "optional",
       "type": "string",
       "recipes": [
         "oracle::install_oracle"
       ],
       "calculated": false,
-      "choice": [
-
-      ],
-      "display_name": "Starterdb DBSNMP Password",
-      "description": "The DBSNMP password for the starter db",
-      "required": "optional"
+      "display_name": "Starterdb DBSNMP Password"
     },
     "oracle/starterdb/password/sysman": {
-      "type": "string",
-      "recipes": [
-        "oracle::install_oracle"
-      ],
-      "calculated": false,
       "choice": [
 
       ],
-      "display_name": "Starterdb SYSMAN Password",
       "description": "The SYSMAN password for the starter db",
-      "required": "optional"
-    },
-    "oracle/install_file1_url": {
-      "type": "string",
-      "recipes": [
-        "oracle::download_oracle"
-      ],
-      "calculated": false,
-      "choice": [
-
-      ],
-      "default": "http://ps-cf.rightscale.com/oracle/linux.x64_11gR2_database_1of2.zip",
-      "display_name": "Oracle Install ZipFile 1",
-      "description": "Url to the oracle zip file",
-      "required": "optional"
-    },
-    "amazon/access_key_id": {
-      "type": "string",
-      "recipes": [
-        "oracle::backup_oracle_using_expdp",
-        "oracle::restore_oracle_using_impdp"
-      ],
-      "calculated": false,
-      "choice": [
-
-      ],
-      "display_name": "Amazon Access Key",
-      "description": "Amazon Access Key",
-      "required": "required"
-    },
-    "oracle/starterdb/password/sys": {
+      "required": "optional",
       "type": "string",
       "recipes": [
         "oracle::install_oracle"
       ],
       "calculated": false,
-      "choice": [
-
-      ],
-      "display_name": "Starterdb SYS Password",
-      "description": "The SYS password for the starter db",
-      "required": "optional"
-    },
-    "oracle/install_file2_url": {
-      "type": "string",
-      "recipes": [
-        "oracle::download_oracle"
-      ],
-      "calculated": false,
-      "choice": [
-
-      ],
-      "default": "http://ps-cf.rightscale.com/oracle/linux.x64_11gR2_database_2of2.zip",
-      "display_name": "Oracle Install ZipFile 2",
-      "description": "Url to the oracle zip file",
-      "required": "optional"
-    },
-    "oracle/starterdb/password/all": {
-      "type": "string",
-      "recipes": [
-        "oracle::install_oracle"
-      ],
-      "calculated": false,
-      "choice": [
-
-      ],
-      "display_name": "Starterdb ALL Password",
-      "description": "The ALL password for the starter db \n  Oracle recommends that the ADMIN password entered should be at least 8 characters in length, contain at least 1 uppercase character, 1 lower case character and 1 digit [0-9]",
-      "required": "optional"
-    },
-    "oracle/backup/bucket": {
-      "type": "string",
-      "recipes": [
-        "oracle::backup_oracle_using_expdp",
-        "oracle::restore_oracle_using_impdp"
-      ],
-      "calculated": false,
-      "choice": [
-
-      ],
-      "display_name": "amazon s3 bucket for backups",
-      "description": "amazon s3 bucket for db backups",
-      "required": "required"
+      "display_name": "Starterdb SYSMAN Password"
     },
     "amazon/secret_access_key": {
-      "type": "string",
-      "recipes": [
-        "oracle::backup_oracle_using_expdp",
-        "oracle::restore_oracle_using_impdp"
-      ],
-      "calculated": false,
       "choice": [
 
       ],
-      "display_name": "Amazon Secret Access Key",
       "description": "Amazon Secret Access Key",
-      "required": "required"
-    },
-    "oracle/backup/restore_schemas": {
+      "required": "required",
       "type": "string",
       "recipes": [
         "oracle::backup_oracle_using_expdp",
         "oracle::restore_oracle_using_impdp"
       ],
       "calculated": false,
-      "choice": [
-
-      ],
-      "display_name": "oracle schemas to restore",
-      "description": "Comma separated list of schemas to restore",
-      "required": "required"
+      "display_name": "Amazon Secret Access Key"
     },
     "oracle/starterdb/password/system": {
+      "choice": [
+
+      ],
+      "description": "The SYSTEM password for the starter db",
+      "required": "optional",
       "type": "string",
       "recipes": [
         "oracle::install_oracle",
         "restore_oracle_using_expdp"
       ],
       "calculated": false,
+      "display_name": "Starterdb SYSTEM Password"
+    },
+    "oracle/backup/restore_schemas": {
       "choice": [
 
       ],
-      "display_name": "Starterdb SYSTEM Password",
-      "description": "The SYSTEM password for the starter db",
-      "required": "optional"
+      "description": "Comma separated list of schemas to restore",
+      "required": "required",
+      "type": "string",
+      "recipes": [
+        "oracle::backup_oracle_using_expdp",
+        "oracle::restore_oracle_using_impdp"
+      ],
+      "calculated": false,
+      "display_name": "oracle schemas to restore"
+    },
+    "oracle/backup/backup_prefix": {
+      "choice": [
+
+      ],
+      "description": "backup prefix for db backups, ex mydb",
+      "required": "required",
+      "type": "string",
+      "recipes": [
+        "oracle::backup_oracle_using_expdp",
+        "oracle::restore_oracle_using_impdp"
+      ],
+      "calculated": false,
+      "display_name": "backup prefix for backups"
+    },
+    "oracle/install_file1_url": {
+      "choice": [
+
+      ],
+      "description": "Url to the oracle zip file",
+      "required": "optional",
+      "type": "string",
+      "default": "http://ps-cf.rightscale.com/oracle/linux.x64_11gR2_database_1of2.zip",
+      "recipes": [
+        "oracle::download_oracle"
+      ],
+      "calculated": false,
+      "display_name": "Oracle Install ZipFile 1"
+    },
+    "oracle/backup/bucket": {
+      "choice": [
+
+      ],
+      "description": "amazon s3 bucket for db backups",
+      "required": "required",
+      "type": "string",
+      "recipes": [
+        "oracle::backup_oracle_using_expdp",
+        "oracle::restore_oracle_using_impdp"
+      ],
+      "calculated": false,
+      "display_name": "amazon s3 bucket for backups"
+    },
+    "oracle/starterdb/password/sys": {
+      "choice": [
+
+      ],
+      "description": "The SYS password for the starter db",
+      "required": "optional",
+      "type": "string",
+      "recipes": [
+        "oracle::install_oracle"
+      ],
+      "calculated": false,
+      "display_name": "Starterdb SYS Password"
+    },
+    "oracle/install_file2_url": {
+      "choice": [
+
+      ],
+      "description": "Url to the oracle zip file",
+      "required": "optional",
+      "type": "string",
+      "default": "http://ps-cf.rightscale.com/oracle/linux.x64_11gR2_database_2of2.zip",
+      "recipes": [
+        "oracle::download_oracle"
+      ],
+      "calculated": false,
+      "display_name": "Oracle Install ZipFile 2"
+    },
+    "oracle/starterdb/password/all": {
+      "choice": [
+
+      ],
+      "description": "The ALL password for the starter db \n  Oracle recommends that the ADMIN password entered should be at least 8 characters in length, contain at least 1 uppercase character, 1 lower case character and 1 digit [0-9]",
+      "required": "optional",
+      "type": "string",
+      "recipes": [
+        "oracle::install_oracle"
+      ],
+      "calculated": false,
+      "display_name": "Starterdb ALL Password"
     }
   },
-  "dependencies": {
-    "rs_utils": ">= 0.0.0",
-    "bootstrap": ">= 0.0.0"
+  "recommendations": {
   },
-  "license": "All rights reserved",
-  "name": "oracle",
-  "providing": {
-  },
-  "suggestions": {
-  },
-  "maintainer_email": "ps@rightscale.com",
-  "conflicting": {
-  },
-  "long_description": "Description\n===========\nhttp://www.oracle-base.com/articles/11g/OracleDB11gR2InstallationOnEnterpriseLinux5.php\nhttp://docs.oracle.com/cd/E11882_01/install.112/e24321/toc.htm\nhttp://www.oracle-base.com/articles/10g/OracleDataPump10g.php\nRequirements\n============\n\nAttributes\n==========\n\nUsage\n=====\n\n",
-  "description": "Installs/Configures oracle"
+  "long_description": "Description\n===========\nhttp://www.oracle-base.com/articles/11g/OracleDB11gR2InstallationOnEnterpriseLinux5.php\nhttp://docs.oracle.com/cd/E11882_01/install.112/e24321/toc.htm\nhttp://www.oracle-base.com/articles/10g/OracleDataPump10g.php\nRequirements\n============\n\nAttributes\n==========\n\nUsage\n=====\n\n"
 }
