@@ -64,5 +64,6 @@ template "/etc/profile.d/oracle_profile.sh" do
   owner "root"
   group "root"
   mode "0777"
+  variables( :db_home => "client_1" )
   action :create
 end

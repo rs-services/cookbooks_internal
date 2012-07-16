@@ -76,7 +76,11 @@ end
 
 template "/etc/profile.d/oracle_profile.sh" do
   source "oracle_profile.sh.erb"
+  owner "root"
+  group "root"
   mode "0777"
+  variables( :db_home => "dbhome_1" )
+  action :create
 end
 
 directory "/opt/oracle/inventory" do
