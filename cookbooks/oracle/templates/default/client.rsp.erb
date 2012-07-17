@@ -76,7 +76,7 @@ ORACLE_BASE=/opt/oracle/app
 #
 #Example    : INSTALL_TYPE = "Administrator"
 #------------------------------------------------------------------------------
-oracle.install.client.installType=InstantClient
+oracle.install.client.installType=Custom
 #-------------------------------------------------------------------------------
 # Name       : oracle.install.client.customComponents
 # Datatype   : StringList
@@ -112,7 +112,7 @@ oracle.install.client.installType=InstantClient
 #
 # Example    : oracle.install.client.customComponents="oracle.precomp:11.2.0.1.0","oracle.ons:11.2.0.0.0","oracle.oraolap.mgmt:11.2.0.1.0","oracle.rdbms.scheduler:11.2.0.1.0"
 #-------------------------------------------------------------------------------
-oracle.install.client.customComponents=
+oracle.install.client.customComponents=oracle.rdbms.util:11.2.0.1.0,oracle.javavm.client:11.2.0.1.0,oracle.sqlplus:11.2.0.1.0,oracle.dbjava.jdbc:11.2.0.1.0,oracle.rdbms.oci:11.2.0.1.0,oracle.precomp:11.2.0.1.0,oracle.network.client:11.2.0.1.0,oracle.network.cman:11.2.0.1.0,oracle.network.listener:11.2.0.1.0,oracle.odbc:11.2.0.1.0,oracle.dbdev:11.2.0.1.0
 #-------------------------------------------------------------------------------
 #Name       : MTS_PORT
 #Datatype   : int 

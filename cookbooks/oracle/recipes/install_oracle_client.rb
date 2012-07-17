@@ -67,3 +67,8 @@ template "/etc/profile.d/oracle_profile.sh" do
   variables( :db_home => "client_1" )
   action :create
 end
+
+execute "/opt/oracle/app/product/11.2.0/client/root.sh" do
+  creates "/etc/oratab"
+  action :run
+end
