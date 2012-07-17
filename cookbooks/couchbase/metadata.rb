@@ -5,7 +5,7 @@ description      "Installs/Configures couchbase"
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version          "0.0.1"
 
-depends 'rightscale'
+depends 'rs_utils'
 depends 'sys_firewall'
 depends 'sys_dns'
 depends "block_device"
