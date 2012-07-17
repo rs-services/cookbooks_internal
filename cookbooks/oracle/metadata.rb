@@ -97,3 +97,8 @@ attribute "oracle/backup/restore_schemas",
     :recipes => [ "oracle::backup_oracle_using_expdp","oracle::restore_oracle_using_impdp" ],
     :required => "required"
 
+attribute "oracle/server/private_ip",
+    :display_name => "Server Private Ip",
+    :description => "Server Private IP", 
+    :recipes => [ "oracle::install_oracle_client" ],
+    :required => "required"

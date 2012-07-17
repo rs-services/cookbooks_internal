@@ -72,3 +72,12 @@ execute "/opt/oracle/app/product/11.2.0/client_1/root.sh" do
   creates "/etc/oratab"
   action :run
 end
+
+template "/opt/oracle/app/product/11.2.0/client_1/network/admin/tnsnames.ora" do
+  source "tnsnames.ora.erb"
+  owner "root"
+  group "root"
+  mode  "0777"
+  variables( :db_server => node[:oracle][:server][:private_ip] )
+  action :create
+end
