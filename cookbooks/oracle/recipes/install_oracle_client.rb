@@ -68,7 +68,7 @@ template "/etc/profile.d/oracle_profile.sh" do
   action :create
 end
 
-execute "/opt/oracle/app/product/11.2.0/client/root.sh" do
+execute "/opt/oracle/app/product/11.2.0/client_1/root.sh" do
   creates "/etc/oratab"
   action :run
 end
