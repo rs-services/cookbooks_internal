@@ -10,9 +10,9 @@ rs_utils_marker :begin
 
   initial_setup = node[:couchbase][:initial_setup]
 
-log "Couchbase initial setup set to #{initial_setup}"
+log "Couchbase initial setup set to #{node[:couchbase][:initial_setup]}"
 
-case initial_setup
+case node[:couchbase][:initial_setup]
   when "TRUE"
     include_recipe "block_device::setup_block_device"
   else
