@@ -9,7 +9,7 @@
   "maintainer_email": "premium@rightscale.com",
   "attributes": {
     "couchbase/initial_launch": {
-      "required": "required",
+      "required": "optional",
       "calculated": false,
       "choice": [
         "TRUE",
