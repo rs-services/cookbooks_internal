@@ -35,18 +35,29 @@ module RightScale
         Chef::Log.info("  Updating authorized_keys ")
        
         directory "/root/.ssh" do
+          mode "0700"
           recursive true
+          action :create
         end
+        
+        file "/root/.ssh/authorized_keys" do
+          mode "0600"
+          action :create_if_missing
+        end       
+        
         if "#{public_ssh_key}" != ""
-         
-          # Writing key to file
-          system("echo '#{public_ssh_key}' >> /root/.ssh/authorized_keys")
-          # Setting permissions
-          system("chmod 0600 /root/.ssh/authorized_keys")
+          ruby_block "create_authorized_keys" do
+            block do
+              # Writing key to file
+              system("echo '#{public_ssh_key}' >> /root/.ssh/authorized_keys")
+              # Setting permissions
+              system("chmod 0600 /root/.ssh/authorized_keys")
+            end
+          end
+        else
+          raise "  Missing Public ssh key"
         end
-
-      end
     
+      end
     end
   end
-end
