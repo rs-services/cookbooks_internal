@@ -1,9 +1,9 @@
 {
   "dependencies": {
     "sys_dns": ">= 0.0.0",
+    "rightscale": ">= 0.0.0",
     "sys_firewall": ">= 0.0.0",
-    "block_device": ">= 0.0.0",
-    "rs_utils": ">= 0.0.0"
+    "block_device": ">= 0.0.0"
   },
   "name": "couchbase",
   "maintainer_email": "premium@rightscale.com",
@@ -20,7 +20,7 @@
       "recipes": [
         "couchbase::setup_or_restore"
       ],
-      "display_name": "Couchbase INITIAL_RUN?",
+      "display_name": "Couchbase INITIAL Launch?",
       "description": "Specify TRUE or FALSE (create block device, or restore)"
     }
   },

@@ -5,7 +5,7 @@ description      "Installs/Configures couchbase"
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version          "0.0.1"
 
-depends 'rs_utils'
+depends 'rightscale'
 depends 'sys_firewall'
 depends 'sys_dns'
 depends "block_device"
@@ -23,7 +23,7 @@ recipe "couchbase::setup_or_restore", "runs setup or restore of block device"
 
 # Required Input #
 attribute "couchbase/initial_launch",
-   :display_name => "Couchbase INITIAL_RUN?",
+   :display_name => "Couchbase INITIAL Launch?",
    :description => "Specify TRUE or FALSE (create block device, or restore)",
    :required => "optional",
    :type => "string",
