@@ -46,7 +46,7 @@ action :attach do
   end 
   
   add_host new_resource.backend_ip do
-    file 'master'
+    file 'masters'
     restart true
     only_if node[:hadoop][:node][:type]=='namenode'
   end 
@@ -76,7 +76,7 @@ action :detach do
   end 
   
   remove_host new_resource.backend_ip do
-    file 'master'
+    file 'masters'
     restart true
     only_if node[:hadoop][:node][:type]=='namenode'
   end 
