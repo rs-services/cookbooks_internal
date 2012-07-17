@@ -5,9 +5,22 @@
     "block_device": ">= 0.0.0",
     "rs_utils": ">= 0.0.0"
   },
-  "name": "couchbase_enterprise",
+  "name": "couchbase",
   "maintainer_email": "premium@rightscale.com",
   "attributes": {
+    "couchbase/initial_launch": {
+      "required": "required",
+      "calculated": false,
+      "choice": [
+
+      ],
+      "type": "string",
+      "recipes": [
+        "couchbase::setup_or_restore"
+      ],
+      "display_name": "Couchbase INITIAL_RUN?",
+      "description": "Specify TRUE or FALSE (create block device, or restore)"
+    }
   },
   "license": "All rights reserved",
   "suggestions": {
@@ -15,8 +28,8 @@
   "platforms": {
   },
   "maintainer": "RightScale Inc",
-  "long_description": "",
-  "version": "0.0.0",
+  "long_description": "Description\n===========\n* Couchbase Enterprise for Shuffle Master (PSST-50)\n\nRequirements\n============\nblock_device\n\nAttributes\n==========\n\nUsage\n=====\n\n",
+  "version": "0.0.1",
   "recommendations": {
   },
   "recipes": {
