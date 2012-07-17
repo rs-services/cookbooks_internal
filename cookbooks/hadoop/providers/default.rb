@@ -31,9 +31,9 @@ end
 # Restart hadoop
 action :restart do
   log "  Running restart sequence"
-  action :stop
+  action_stop
   sleep 10
-  action :start
+  action_start
 end
 
 
