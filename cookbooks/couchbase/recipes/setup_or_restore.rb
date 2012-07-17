@@ -8,7 +8,7 @@
 
 rs_utils_marker :begin
 
-  initial_setup = node[:couchbase][:INITIAL_SETUP]
+  initial_setup = node[:couchbase][:initial_setup]
 
 log "Couchbase initial setup set to #{initial_setup}"
 

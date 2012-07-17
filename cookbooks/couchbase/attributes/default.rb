@@ -1,6 +1,6 @@
-default[:couchbase][:install_dir] = '/usr/local/couchbase'
+default[:couchbase][:install_dir] = '/opt/couchbase'
 default[:couchbase][:conf_dir] = node[:CB][:install_dir] + '/conf'
 default[:couchbase][:lib_dir] = node[:CB][:install_dir] + '/lib'
 default[:couchbase][:data_dir] = node[:CB][:install_dir] + '/data'
 default[:couchbase][:storage_type] = 'ephemeral'
-default[:couchbase][:INITIAL_LAUNCH] = 'TRUE'
+default[:couchbase][:initial_launch] = 'TRUE'
