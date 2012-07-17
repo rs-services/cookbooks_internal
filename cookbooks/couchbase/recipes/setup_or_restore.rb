@@ -8,11 +8,11 @@
 
 rs_utils_marker :begin
 
-  initial_setup = node[:couchbase][:initial_setup]
+  initial_launch = node[:couchbase][:initial_launch]
 
-log "Couchbase initial setup set to #{node[:couchbase][:initial_setup]}"
+log "Couchbase initial setup set to #{initial_launch}"
 
-case node[:couchbase][:initial_setup]
+case initial_launch
   when "TRUE"
     include_recipe "block_device::setup_block_device"
   else
