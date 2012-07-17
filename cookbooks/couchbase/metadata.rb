@@ -26,5 +26,8 @@ attribute "couchbase/initial_launch",
    :display_name => "Couchbase INITIAL_RUN?",
    :description => "Specify TRUE or FALSE (create block device, or restore)",
    :required => "required",
+   :type => "string",
+   :choice => ['TRUE', 'FALSE'],
+   :default => 'TRUE',
    :recipes => ["couchbase::setup_or_restore"]
 

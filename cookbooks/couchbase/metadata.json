@@ -12,8 +12,10 @@
       "required": "required",
       "calculated": false,
       "choice": [
-
+        "TRUE",
+        "FALSE"
       ],
+      "default": "TRUE",
       "type": "string",
       "recipes": [
         "couchbase::setup_or_restore"
