@@ -6,9 +6,9 @@ export PATH=$PATH:$ORACLE_HOME:$ORACLE_HOME/bin:/usr/local/bin
 export LD_LIBRARY_PATH=$ORACLE_HOME/lib:$ORACLE_HOME:$LD_LIBRARY_PATH
 export ORAENV_ASK=NO
 
-if [ -e /usr/local/bin/oraenv ]; then
-  . /usr/local/bin/oraenv
-fi
+#if [ -e /usr/local/bin/oraenv ]; then
+#  . /usr/local/bin/oraenv
+#fi
 if [ "$USER" = "oracle" ]; then
         if [ $SHELL = "/bin/ksh" ]; then
               ulimit -p 16384
