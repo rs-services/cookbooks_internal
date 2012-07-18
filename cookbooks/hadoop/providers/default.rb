@@ -45,11 +45,12 @@ action :attach do
     restart true
   end 
   
-  add_host new_resource.backend_ip do
-    file 'masters'
-    restart true
-    only_if node[:hadoop][:node][:type]=='namenode'
-  end 
+  if node[:hadoop][:node][:type]=='namenode'
+    add_host new_resource.backend_ip do
+      file 'masters'
+      restart true
+    end 
+  end
 end
 
 action :attach_request do
