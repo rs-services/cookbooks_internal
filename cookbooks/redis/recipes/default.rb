@@ -77,6 +77,8 @@ service "#{node[:redis][:service_name]}" do
   action [:enable,:start]
 end
 
+sys_firewall "#{node[:redis][:port]}"
+
 remote_file "/tmp/redis-2.1.1.gem" do
   source "http://rubygems.org/downloads/redis-2.1.1.gem"
   owner "root" 
