@@ -19,6 +19,7 @@ hadoop "Attach Request for #{node[:hadoop][:ip]}" do
 
   backend_id node[:rightscale][:instance_uuid]
   backend_ip node[:hadoop][:ip]
+  node_type node[:hadoop][:node][:type]
   #backend_port node[:app][:port].to_i
   action :attach_request
 end

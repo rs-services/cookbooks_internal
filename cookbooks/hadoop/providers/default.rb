@@ -45,7 +45,7 @@ action :attach do
     restart true
   end 
   
-  if node[:hadoop][:node][:type]=='namenode'
+  if new_resource.node_type=='namenode'
     add_host new_resource.backend_ip do
       file 'masters'
       restart true
@@ -62,6 +62,7 @@ action :attach_request do
     attributes :remote_recipe => {
       :backend_ip => new_resource.backend_ip,
       :backend_id => new_resource.backend_id,
+      :node_type => new_resource.node_type
     }
     recipients_tags "hadoop:node_type=namenode"
   end
