@@ -6,7 +6,7 @@
 # All rights reserved - Do Not Redistribute
 #
 
-rs_utils_marker :begin
+rightscale_marker :begin
 
   initial_launch = node[:couchbase][:initial_launch]
 
@@ -20,4 +20,4 @@ case initial_launch
 end
 
 
-rs_utils_marker :end
+rightscale_marker :end
