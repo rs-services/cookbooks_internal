@@ -15,4 +15,5 @@ set_unless[:db_couchbase][:cluster][:username] = "Administrator"
 set_unless[:db_couchbase][:cluster][:password] = "password"
 set_unless[:db_couchbase][:cluster][:tag] = ""
 
+set[:couchbase][:ip] = node[:cloud][:private_ips][0]
 default[:couchbase][:initial_launch] = 'TRUE'

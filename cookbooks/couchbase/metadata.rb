@@ -10,10 +10,10 @@ depends 'sys_firewall'
 depends 'sys_dns'
 depends "block_device"
 
-recipe "couchbase::default", "installs couchbase"
-recipe "couchbase::install_example_app", "installs couchbase example app"
-recipe "couchbase::replication", "configures replication"
-recipe "couchbase::setup_redirect_page", "sets up redirect page for port 80"
+recipe "couchbase::default", "installs couchbase package, no configuration"
+recipe "couchbase::bucket_create", "sets up cb buckets"
+recipe "couchbase::init_cluster", "Run to init a new cb cluster, sets cluster_ip tag"
+recipe "couchbase::join_cluster", "Run on instance to join a cb cluster using the cluster_ip tag"
 recipe "couchbase::do_storage_restore", "restores volume and restarts tomcat"
 recipe "couchbase::do_storage_create", "creates volume, and sets up couchbase on the volume"
 recipe "couchbase::do_storage_backup", "backs up couchbase volumes"

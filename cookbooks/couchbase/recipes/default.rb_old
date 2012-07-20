@@ -93,18 +93,15 @@ execute "creating bucket: #{node[:db_couchbase][:bucket][:name]}" do
   action :run
 end
 
-#RS begin of rewrite to use server_collection and rs_tags
-
-
 cluster_tag = node[:db_couchbase][:cluster][:tag]
 log("db_couchbase/cluster/tag: #{cluster_tag}")
 
-
-log"setting right_link_tag to couchbase:cluster_tag=#{cluster_tag}"
-right_link_tag "couchbase:cluster_tag=#{cluster_tag}"
-log"setting right_link_tag to couchbase:listen_ip=#{node[:couchbase][:ip]}"
-right_link_tag "couchbase:listen_ip=#{node[:couchbase][:ip]}"
-
-# END of RS tag section
+if cluster_tag and !cluster_tag.empty?
+  log("auto-joining nodes search...")
+  node_public_ips = search(:node, "name:db_couchbase_cluster_tag:#{node[:db_couchbase][:cluster][:tag]}").map do |n|
+    n[:cloud][:public_ips][0]
+  end
+  log("auto-joining nodes: #{node_public_ips}")
+end
 
 rightscale_marker :end
