@@ -12,8 +12,9 @@ class Chef::Recipe
 end
 
 namenodes = get_hosts('namenode').to_a
-if nodenames.empty? 
-  namenodes.push('localhost')
+
+if namenodes.empty? 
+  namenodes.push(node[:hadoop][:ip]) if node[:hadoop][:node][:type]=='namenode'
 end
 
 log "Installing hadoop hadoop-env.sh to #{node[:hadoop][:install_dir]}/conf"
