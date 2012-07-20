@@ -14,7 +14,7 @@ end
 namenodes = get_hosts('namenode').to_a
 
 if namenodes.empty? 
-  namenodes.push(node[:hadoop][:ip]) if node[:hadoop][:node][:type]=='namenode'
+  namenodes.push('localhost') if node[:hadoop][:node][:type]=='namenode'
 end
 
 log "Installing hadoop hadoop-env.sh to #{node[:hadoop][:install_dir]}/conf"
