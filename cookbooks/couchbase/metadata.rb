@@ -3,7 +3,7 @@ maintainer_email "premium@rightscale.com"
 license          "All rights reserved, parts Copyright Couchbase, Inc. Copyright RightScale, Inc. All rights reserved."
 description      "Installs/Configures couchbase"
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          "0.0.1"
+version          "0.1.3"
 
 depends "rightscale"
 depends 'sys_firewall'
@@ -30,4 +30,60 @@ attribute "couchbase/initial_launch",
    :choice => ['TRUE', 'FALSE'],
    :default => 'TRUE',
    :recipes => ["couchbase::setup_or_restore"]
+
+attribute "db_couchbase/cluster/username",
+      :description => "Cluster REST/Web Administrator Username",
+      :recipes => [ "couchbase::default" ],
+      :type => "string",
+      :default => "Administrator",
+      :display_name => "Cluster REST/Web Username",
+      :required => "optional"
+
+attribute "db_couchbase/cluster/password",
+      :description => "Cluster REST/Web Administrator Password",
+      :recipes => [ "couchbase::default" ],
+      :type => "string",
+      :default =>  "password",
+      :display_name => "Cluster REST/Web Password",
+      :required => "optional"
+
+attribute "db_couchbase/cluster/tag",
+      :description => "Cluster Tag used to auto-join nodes of the same tag, when non-empty",
+      :recipes => [ "couchbase::default" ],
+      :type => "string",
+      :default => "",
+      :display_name => "Cluster Tag",
+      :required => "optional"
+
+attribute "db_couchbase/bucket/name",
+      :description => "Bucket Name",
+      :recipes => [ "couchbase::default" ],
+      :type => "string",
+      :default => "default",
+      :display_name => "Bucket Name",
+      :required => "optional"
+
+attribute "db_couchbase/bucket/password",
+      :description => "Bucket Password",
+      :recipes => [ "couchbase::default" ],
+      :type => "string",
+      :default => "",
+      :display_name => "Bucket Password",
+      :required => "optional"
+
+attribute "db_couchbase/bucket/ram",
+      :description => "Bucket RAM Quota in MB",
+      :recipes => [ "couchbase::default" ],
+      :type => "string",
+      :default => "2000",
+      :display_name => "Bucket RAM Quota",
+      :required => "optional"
+
+attribute "db_couchbase/bucket/replica",
+      :description => "Bucket Replica Count",
+      :recipes => [ "couchbase::default" ],
+      :type => "string",
+      :default => "1",
+      :display_name => "Bucket Replica Count",
+      :required => "optional"
 

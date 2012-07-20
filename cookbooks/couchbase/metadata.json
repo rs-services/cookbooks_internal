@@ -8,6 +8,76 @@
   "name": "couchbase",
   "maintainer_email": "premium@rightscale.com",
   "attributes": {
+    "db_couchbase/bucket/name": {
+      "required": "optional",
+      "calculated": false,
+      "choice": [
+
+      ],
+      "default": "default",
+      "type": "string",
+      "recipes": [
+        "couchbase::default"
+      ],
+      "description": "Bucket Name",
+      "display_name": "Bucket Name"
+    },
+    "db_couchbase/bucket/ram": {
+      "required": "optional",
+      "calculated": false,
+      "choice": [
+
+      ],
+      "default": "2000",
+      "type": "string",
+      "recipes": [
+        "couchbase::default"
+      ],
+      "description": "Bucket RAM Quota in MB",
+      "display_name": "Bucket RAM Quota"
+    },
+    "db_couchbase/bucket/replica": {
+      "required": "optional",
+      "calculated": false,
+      "choice": [
+
+      ],
+      "default": "1",
+      "type": "string",
+      "recipes": [
+        "couchbase::default"
+      ],
+      "description": "Bucket Replica Count",
+      "display_name": "Bucket Replica Count"
+    },
+    "db_couchbase/bucket/password": {
+      "required": "optional",
+      "calculated": false,
+      "choice": [
+
+      ],
+      "default": "",
+      "type": "string",
+      "recipes": [
+        "couchbase::default"
+      ],
+      "description": "Bucket Password",
+      "display_name": "Bucket Password"
+    },
+    "db_couchbase/cluster/username": {
+      "required": "optional",
+      "calculated": false,
+      "choice": [
+
+      ],
+      "default": "Administrator",
+      "type": "string",
+      "recipes": [
+        "couchbase::default"
+      ],
+      "description": "Cluster REST/Web Administrator Username",
+      "display_name": "Cluster REST/Web Username"
+    },
     "couchbase/initial_launch": {
       "required": "optional",
       "calculated": false,
@@ -22,6 +92,34 @@
       ],
       "display_name": "Couchbase INITIAL Launch?",
       "description": "Specify TRUE or FALSE (create block device, or restore)"
+    },
+    "db_couchbase/cluster/tag": {
+      "required": "optional",
+      "calculated": false,
+      "choice": [
+
+      ],
+      "default": "",
+      "type": "string",
+      "recipes": [
+        "couchbase::default"
+      ],
+      "description": "Cluster Tag used to auto-join nodes of the same tag, when non-empty",
+      "display_name": "Cluster Tag"
+    },
+    "db_couchbase/cluster/password": {
+      "required": "optional",
+      "calculated": false,
+      "choice": [
+
+      ],
+      "default": "password",
+      "type": "string",
+      "recipes": [
+        "couchbase::default"
+      ],
+      "description": "Cluster REST/Web Administrator Password",
+      "display_name": "Cluster REST/Web Password"
     }
   },
   "license": "All rights reserved, parts Copyright Couchbase, Inc. Copyright RightScale, Inc. All rights reserved.",
@@ -31,7 +129,7 @@
   },
   "maintainer": "RightScale Inc",
   "long_description": "Description\n===========\n* Couchbase Enterprise for Shuffle Master (PSST-50)\n\nRequirements\n============\nblock_device\n\nAttributes\n==========\n\nUsage\n=====\n\n",
-  "version": "0.0.1",
+  "version": "0.1.3",
   "recommendations": {
   },
   "recipes": {
