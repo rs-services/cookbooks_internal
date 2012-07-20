@@ -11,6 +11,7 @@ depends "block_device"
 depends "sys_firewall"
 depends "sys_dns"
 
+recipe 'hadoop::default', "Install, configure and init hadoop"
 recipe 'hadoop::install', 'Install hadoop'
 recipe 'hadoop::do_config', 'Configure hadoop'
 recipe 'hadoop::do_init', 'Format the namenode'
