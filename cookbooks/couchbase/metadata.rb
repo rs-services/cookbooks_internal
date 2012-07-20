@@ -1,11 +1,11 @@
 maintainer       "RightScale Inc"
 maintainer_email "premium@rightscale.com"
-license          "All rights reserved"
+license          "All rights reserved, parts Copyright Couchbase, Inc. Copyright RightScale, Inc. All rights reserved."
 description      "Installs/Configures couchbase"
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version          "0.0.1"
 
-depends 'rs_utils'
+depends "rightscale"
 depends 'sys_firewall'
 depends 'sys_dns'
 depends "block_device"
