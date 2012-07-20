@@ -11,9 +11,10 @@ class Chef::Recipe
   include RightScale::Hadoop::Helper
 end
 
-include_recipe "hadoop::default"
-
 namenodes = get_hosts('namenode').to_a
+if nodenames.empty? 
+  namenodes.push('localhost')
+end
 
 log "Installing hadoop hadoop-env.sh to #{node[:hadoop][:install_dir]}/conf"
 template "#{node[:hadoop][:install_dir]}/conf/hadoop-env.sh" do
