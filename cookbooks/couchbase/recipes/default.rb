@@ -28,19 +28,12 @@ package "couchbase-server" do
   action :install
 end
 
-log "configuring #{couchbase_package}"
+log "relocating #{couchbase_package}"
 
-log("/opt/couchbase/bin/couchbase-cli cluster-init" +
-    "        -c 127.0.0.1:8091" +
-    "        --cluster-init-username=#{node[:db_couchbase][:cluster][:username]}")
-execute "initializing cluster with username: #{node[:db_couchbase][:cluster][:username]}" do
-  command("sleep 10" +
-          " && /opt/couchbase/bin/couchbase-cli cluster-init" +
-          "        -c 127.0.0.1:8091" +
-          "        --cluster-init-username=#{node[:db_couchbase][:cluster][:username]}" +
-          "        --cluster-init-password=#{node[:db_couchbase][:cluster][:password]}")
-  action :run
-end
+  execute "stopping server" do
+    command "/etc/init.d/couchbase-server stop && sleep 15"
+    action :run
+  end
 
 unless (node[:block_device].nil? or
         node[:block_device][:devices].nil? or
@@ -49,11 +42,6 @@ unless (node[:block_device].nil? or
   mount_point = node[:block_device][:devices][:device1][:mount_point]
 
   log "configuring to mount_point: #{mount_point}"
-
-  execute "stopping server" do
-    command "/etc/init.d/couchbase-server stop && sleep 5"
-    action :run
-  end
 
   execute "moving directory" do
     command "mv /opt/couchbase #{mount_point}"
@@ -69,6 +57,20 @@ unless (node[:block_device].nil? or
     command "/etc/init.d/couchbase-server start && sleep 10"
     action :run
   end
+end
+
+log "configuring #{couchbase_package}"
+
+log("/opt/couchbase/bin/couchbase-cli cluster-init" +
+    "        -c 127.0.0.1:8091" +
+    "        --cluster-init-username=#{node[:db_couchbase][:cluster][:username]}")
+execute "initializing cluster with username: #{node[:db_couchbase][:cluster][:username]}" do
+  command("sleep 20" +
+          " && /opt/couchbase/bin/couchbase-cli cluster-init" +
+          "        -c 127.0.0.1:8091" +
+          "        --cluster-init-username=#{node[:db_couchbase][:cluster][:username]}" +
+          "        --cluster-init-password=#{node[:db_couchbase][:cluster][:password]}")
+  action :run
 end
 
 log("/opt/couchbase/bin/couchbase-cli bucket-create" +
