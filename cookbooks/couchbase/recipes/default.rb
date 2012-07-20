@@ -52,11 +52,30 @@ unless (node[:block_device].nil? or
     command "ln -s #{mount_point}/couchbase /opt/"
     action :run
   end
-
-  execute "starting server" do
-    command "/etc/init.d/couchbase-server start && sleep 10"
+  
+  log("/opt/couchbase/bin/couchbase-cli bucket-create" +
+      "    -c 127.0.0.1:8091" +
+      "    -u #{node[:db_couchbase][:cluster][:username]}" +
+      "    --bucket=#{node[:db_couchbase][:bucket][:name]}" +
+      "    --bucket-type=couchbase" +
+      "    --bucket-ramsize=#{node[:db_couchbase][:bucket][:ram]}" +
+      "    --bucket-replica=#{node[:db_couchbase][:bucket][:replica]}")
+  execute "creating bucket: #{node[:db_couchbase][:bucket][:name]}" do
+    command("/opt/couchbase/bin/couchbase-cli bucket-create" +
+            "    -c 127.0.0.1:8091" +
+            "    -u #{node[:db_couchbase][:cluster][:username]}" +
+            "    -p #{node[:db_couchbase][:cluster][:password]}" +
+            "    --bucket=#{node[:db_couchbase][:bucket][:name]}" +
+            "    --bucket-type=couchbase" +
+            "    --bucket-password=\"#{node[:db_couchbase][:bucket][:password]}\"" +
+            "    --bucket-ramsize=#{node[:db_couchbase][:bucket][:ram]}" +
+            "    --bucket-replica=#{node[:db_couchbase][:bucket][:replica]}")
     action :run
   end
+end
+execute "starting server" do
+  command "/etc/init.d/couchbase-server start && sleep 10"
+    action :run
 end
 
 # RS  rs_tags
