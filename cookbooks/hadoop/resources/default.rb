@@ -17,6 +17,7 @@ end
 # Attaching/Detaching options
 attribute :backend_id, :kind_of => String, :default => ""
 attribute :backend_ip, :kind_of => String, :default => ""
+attribute :node_type, :kind_of => String, :default => ""
 
 
 add_action :start
