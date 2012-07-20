@@ -59,41 +59,7 @@ unless (node[:block_device].nil? or
   end
 end
 
-log "configuring #{couchbase_package}"
-
-log("/opt/couchbase/bin/couchbase-cli cluster-init" +
-    "        -c 127.0.0.1:8091" +
-    "        --cluster-init-username=#{node[:db_couchbase][:cluster][:username]}")
-execute "initializing cluster with username: #{node[:db_couchbase][:cluster][:username]}" do
-  command("sleep 20" +
-          " && /opt/couchbase/bin/couchbase-cli cluster-init" +
-          "        -c 127.0.0.1:8091" +
-          "        --cluster-init-username=#{node[:db_couchbase][:cluster][:username]}" +
-          "        --cluster-init-password=#{node[:db_couchbase][:cluster][:password]}")
-  action :run
-end
-
-log("/opt/couchbase/bin/couchbase-cli bucket-create" +
-    "    -c 127.0.0.1:8091" +
-    "    -u #{node[:db_couchbase][:cluster][:username]}" +
-    "    --bucket=#{node[:db_couchbase][:bucket][:name]}" +
-    "    --bucket-type=couchbase" +
-    "    --bucket-ramsize=#{node[:db_couchbase][:bucket][:ram]}" +
-    "    --bucket-replica=#{node[:db_couchbase][:bucket][:replica]}")
-execute "creating bucket: #{node[:db_couchbase][:bucket][:name]}" do
-  command("/opt/couchbase/bin/couchbase-cli bucket-create" +
-          "    -c 127.0.0.1:8091" +
-          "    -u #{node[:db_couchbase][:cluster][:username]}" +
-          "    -p #{node[:db_couchbase][:cluster][:password]}" +
-          "    --bucket=#{node[:db_couchbase][:bucket][:name]}" +
-          "    --bucket-type=couchbase" +
-          "    --bucket-password=\"#{node[:db_couchbase][:bucket][:password]}\"" +
-          "    --bucket-ramsize=#{node[:db_couchbase][:bucket][:ram]}" +
-          "    --bucket-replica=#{node[:db_couchbase][:bucket][:replica]}")
-  action :run
-end
-
-#RS begin of rewrite to use server_collection and rs_tags
+# RS  rs_tags
 
 
 cluster_tag = node[:db_couchbase][:cluster][:tag]
@@ -102,6 +68,7 @@ log("db_couchbase/cluster/tag: #{cluster_tag}")
 
 log"setting right_link_tag to couchbase:cluster_tag=#{cluster_tag}"
 right_link_tag "couchbase:cluster_tag=#{cluster_tag}"
+
 log"setting right_link_tag to couchbase:listen_ip=#{node[:couchbase][:ip]}"
 right_link_tag "couchbase:listen_ip=#{node[:couchbase][:ip]}"
 
