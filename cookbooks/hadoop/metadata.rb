@@ -40,7 +40,7 @@ attribute "hadoop/node/type",
   :choice => ['namenode','datanode','tasktracker', 'jobtracker'],
   :default=>'namenode',
   :type => "string",
-  :recipes => [ "hadoop::do_init","hadoop::do_config" ]
+  :recipes => [  "hadoop::default","hadoop::do_init","hadoop::do_config" ]
 
 attribute "hadoop/dfs/replication",
   :display_name => "Hadoop namenode dfs.replicaton property ",
