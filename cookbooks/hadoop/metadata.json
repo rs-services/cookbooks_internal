@@ -1,168 +1,170 @@
 {
   "version": "0.0.1",
-  "suggestions": {
-  },
   "conflicting": {
   },
-  "recommendations": {
-  },
-  "license": "All rights reserved",
-  "maintainer": "RightScale Inc",
-  "long_description": "Description\n===========\nInstall and Configure Apache Hadoop 1.03\n\nRequirements\n============\nJava\n\n\nAttributes\n==========\n\nUsage\n=====\n\nTo create a Hadoop Cluster, create multiple servers.  Each server will be \ndesignated as a namenode (master) or datanode (slave).  \n\nSet the hadoop/dfs/replication input to the size of your datanode replication size.\n",
-  "replacing": {
-  },
-  "providing": {
-  },
-  "dependencies": {
-    "block_device": ">= 0.0.0",
-    "sys_firewall": ">= 0.0.0",
-    "sys_dns": ">= 0.0.0",
-    "rightscale": ">= 0.0.0"
-  },
-  "maintainer_email": "premium@rightscale.com",
-  "groupings": {
-  },
-  "name": "hadoop",
   "attributes": {
     "hadoop/namenode/address/port": {
-      "type": "string",
-      "display_name": "Namenode firewall port",
-      "choice": [
-
-      ],
-      "calculated": false,
-      "default": "8020",
-      "required": "optional",
       "description": "Set the firewall port used by the namenode",
+      "default": "8020",
+      "type": "string",
       "recipes": [
         "hadoop::do_allow",
         "hadooop:do_disallow"
-      ]
-    },
-    "hadoop/dfs/replication": {
-      "type": "string",
-      "display_name": "Hadoop namenode dfs.replicaton property ",
-      "choice": [
-
       ],
       "calculated": false,
       "required": "optional",
-      "description": "Hadoop namenode dfs.replicaton property",
+      "display_name": "Namenode firewall port",
+      "choice": [
+
+      ]
+    },
+    "ssh/public_ssh_key": {
+      "description": "Hadoop needs a public ssh key which it can use to ssh to \nsystems in it's cluster. This key should also match the private key supplied in ssh/private_ssh_key",
+      "type": "string",
       "recipes": [
+        "hadoop::default",
+        "hadoop::do_init"
+      ],
+      "calculated": false,
+      "required": "required",
+      "display_name": "public ssh key ",
+      "choice": [
+
+      ]
+    },
+    "hadoop/dfs/replication": {
+      "description": "Hadoop namenode dfs.replicaton property",
+      "type": "string",
+      "recipes": [
+        "hadoop::default",
         "hadoop::do_config"
+      ],
+      "calculated": false,
+      "required": "optional",
+      "display_name": "Hadoop namenode dfs.replicaton property ",
+      "choice": [
+
+      ]
+    },
+    "hadoop/datanode/ipc/port": {
+      "description": "Set the firewall port used by the datanode ipc address",
+      "default": "50020",
+      "type": "string",
+      "recipes": [
+        "hadoop::do_allow",
+        "hadooop:do_disallow"
+      ],
+      "calculated": false,
+      "required": "optional",
+      "display_name": "Datanode ipc firewall port ",
+      "choice": [
+
+      ]
+    },
+    "hadoop/namenode/http/port": {
+      "description": "Set the firewall port used by the namenode http server",
+      "default": "50070",
+      "type": "string",
+      "recipes": [
+        "hadoop::do_allow",
+        "hadooop:do_disallow"
+      ],
+      "calculated": false,
+      "required": "optional",
+      "display_name": "Namenode http firewall port",
+      "choice": [
+
+      ]
+    },
+    "hadoop/datanode/address/port": {
+      "description": "Set the firewall port used by the datanode address",
+      "default": "50010",
+      "type": "string",
+      "recipes": [
+        "hadoop::do_allow",
+        "hadooop:do_disallow"
+      ],
+      "calculated": false,
+      "required": "optional",
+      "display_name": "Datanode address firewall port",
+      "choice": [
+
       ]
     },
     "hadoop/node/type": {
+      "description": "Hadoop node type, used for managing slaves and masters",
+      "default": "namenode",
       "type": "string",
+      "recipes": [
+        "hadoop::default",
+        "hadoop::do_init",
+        "hadoop::do_config"
+      ],
+      "calculated": false,
+      "required": "optional",
       "display_name": "Hadoop node type",
       "choice": [
         "namenode",
         "datanode",
         "tasktracker",
         "jobtracker"
-      ],
-      "calculated": false,
-      "default": "namenode",
-      "required": "optional",
-      "description": "Hadoop node type, used for managing slaves and masters",
-      "recipes": [
-        "hadoop::default",
-        "hadoop::do_init",
-        "hadoop::do_config"
-      ]
-    },
-    "hadoop/datanode/address/port": {
-      "type": "string",
-      "display_name": "Datanode address firewall port",
-      "choice": [
-
-      ],
-      "calculated": false,
-      "default": "50010",
-      "required": "optional",
-      "description": "Set the firewall port used by the datanode address",
-      "recipes": [
-        "hadoop::do_allow",
-        "hadooop:do_disallow"
-      ]
-    },
-    "hadoop/namenode/http/port": {
-      "type": "string",
-      "display_name": "Namenode http firewall port",
-      "choice": [
-
-      ],
-      "calculated": false,
-      "default": "50070",
-      "required": "optional",
-      "description": "Set the firewall port used by the namenode http server",
-      "recipes": [
-        "hadoop::do_allow",
-        "hadooop:do_disallow"
-      ]
-    },
-    "hadoop/datanode/ipc/port": {
-      "type": "string",
-      "display_name": "Datanode ipc firewall port ",
-      "choice": [
-
-      ],
-      "calculated": false,
-      "default": "50020",
-      "required": "optional",
-      "description": "Set the firewall port used by the datanode ipc address",
-      "recipes": [
-        "hadoop::do_allow",
-        "hadooop:do_disallow"
       ]
     },
     "hadoop/datanode/http/port": {
-      "type": "string",
-      "display_name": "Datanode http firewall port ",
-      "choice": [
-
-      ],
-      "calculated": false,
-      "default": "50075",
-      "required": "optional",
       "description": "Set the firewall port used by the datanode http server",
+      "default": "50075",
+      "type": "string",
       "recipes": [
         "hadoop::do_allow",
         "hadooop:do_disallow"
-      ]
-    },
-    "ssh/public_ssh_key": {
-      "type": "string",
-      "display_name": "public ssh key ",
-      "choice": [
-
       ],
       "calculated": false,
-      "required": "required",
-      "description": "Hadoop needs a public ssh key which it can use to ssh to \nsystems in it's cluster. This key should also match the private key supplied in ssh/private_ssh_key",
-      "recipes": [
-        "hadoop::do_init"
+      "required": "optional",
+      "display_name": "Datanode http firewall port ",
+      "choice": [
+
       ]
     }
   },
+  "description": "Install and Configure Apache Hadoop",
+  "replacing": {
+  },
+  "maintainer_email": "premium@rightscale.com",
+  "maintainer": "RightScale Inc",
   "recipes": {
-    "hadoop::handle_attach": "Handle Attach",
-    "hadoop::do_restart": "Restart Hadoop",
-    "hadoop::do_disallow": "Disallow connections between cluster hosts",
-    "hadoop::do_attach_all": "Handle Attach All",
     "hadoop::do_attach_request": "Attach request",
-    "hadoop::do_detach_all": "Handle Detach All",
-    "hadoop::do_allow": "Allow connections between cluster hosts",
-    "hadoop::install": "Install hadoop",
     "hadoop::default": "Install, configure and init hadoop",
+    "hadoop::do_restart": "Restart Hadoop",
+    "hadoop::handle_attach": "Handle Attach",
+    "hadoop::do_allow": "Allow connections between cluster hosts",
+    "hadoop::do_detach_all": "Handle Detach All",
+    "hadoop::install": "Install hadoop",
+    "hadoop::do_disallow": "Disallow connections between cluster hosts",
     "hadoop::handle_detach": "Handle Detach",
-    "hadoop::do_config": "Configure hadoop",
-    "hadoop::do_detach_request": "Detach request",
+    "hadoop::do_attach_all": "Handle Attach All",
     "hadoop::do_stop": "Stop Hadoop",
     "hadoop::do_init": "Format the namenode",
-    "hadoop::do_start": "Start Hadoop"
+    "hadoop::do_config": "Configure hadoop",
+    "hadoop::do_start": "Start Hadoop",
+    "hadoop::do_detach_request": "Detach request"
   },
+  "suggestions": {
+  },
+  "long_description": "Description\n===========\nInstall and Configure Apache Hadoop 1.03\n\nRequirements\n============\nJava\n\n\nAttributes\n==========\n\nUsage\n=====\n\nTo create a Hadoop Cluster, create multiple servers.  Each server will be \ndesignated as a namenode (master) or datanode (slave).  \n\nSet the hadoop/dfs/replication input to the size of your datanode replication size.\n",
+  "license": "All rights reserved",
   "platforms": {
   },
-  "description": "Install and Configure Apache Hadoop"
+  "name": "hadoop",
+  "groupings": {
+  },
+  "dependencies": {
+    "rightscale": ">= 0.0.0",
+    "sys_firewall": ">= 0.0.0",
+    "block_device": ">= 0.0.0",
+    "sys_dns": ">= 0.0.0"
+  },
+  "providing": {
+  },
+  "recommendations": {
+  }
 }

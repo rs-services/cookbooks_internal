@@ -32,7 +32,7 @@ attribute "ssh/public_ssh_key",
   :description => "Hadoop needs a public ssh key which it can use to ssh to 
 systems in it's cluster. This key should also match the private key supplied in ssh/private_ssh_key",
   :required => "required",
-  :recipes => [ "hadoop::do_init" ]
+  :recipes => [ "hadoop::default", "hadoop::do_init" ]
 
 attribute "hadoop/node/type",
   :display_name => "Hadoop node type",
@@ -47,7 +47,7 @@ attribute "hadoop/dfs/replication",
   :description => "Hadoop namenode dfs.replicaton property",
   :type => "string",
   :required => "optional",
-  :recipes => [ "hadoop::do_config" ]
+  :recipes => ["hadoop::default", "hadoop::do_config" ]
 
 attribute "hadoop/namenode/address/port",
   :display_name => "Namenode firewall port",
