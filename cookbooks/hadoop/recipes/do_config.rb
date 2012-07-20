@@ -13,9 +13,10 @@ end
 
 namenodes = get_hosts('namenode').to_a
 
-if namenodes.empty? 
-  namenodes.push('localhost') if node[:hadoop][:node][:type]=='namenode'
-end
+log "    NAMENODES: #{namenodes}"
+#if namenodes.empty? 
+#  namenodes.push('localhost') if node[:hadoop][:node][:type]=='namenode'
+#end
 
 log "Installing hadoop hadoop-env.sh to #{node[:hadoop][:install_dir]}/conf"
 template "#{node[:hadoop][:install_dir]}/conf/hadoop-env.sh" do
