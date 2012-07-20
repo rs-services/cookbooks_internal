@@ -16,6 +16,7 @@ log("/opt/couchbase/bin/couchbase-cli bucket-create" +
     "    --bucket-type=couchbase" +
     "    --bucket-ramsize=#{node[:db_couchbase][:bucket][:ram]}" +
     "    --bucket-replica=#{node[:db_couchbase][:bucket][:replica]}")
+
 execute "creating bucket: #{node[:db_couchbase][:bucket][:name]}" do
   command("/opt/couchbase/bin/couchbase-cli bucket-create" +
           "    -c 127.0.0.1:8091" +
@@ -23,7 +24,7 @@ execute "creating bucket: #{node[:db_couchbase][:bucket][:name]}" do
           "    -p #{node[:db_couchbase][:cluster][:password]}" +
           "    --bucket=#{node[:db_couchbase][:bucket][:name]}" +
           "    --bucket-type=couchbase" +
-          "    --bucket-password=\"#{node[:db_couchbase][:bucket][:password]}\"" +
+          "    --bucket-password=\"#{node[:db_couchbase][:bucket][:password]}\" +
           "    --bucket-ramsize=#{node[:db_couchbase][:bucket][:ram]}" +
           "    --bucket-replica=#{node[:db_couchbase][:bucket][:replica]}")
   action :run
