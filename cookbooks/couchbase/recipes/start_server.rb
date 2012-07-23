@@ -9,7 +9,11 @@ rightscale_marker :begin
 
 log("service couchbase-server start")
 
-command "/etc/init.d/couchbase-server start && sleep 15"
+ execute "starting server" do
+    command "/etc/init.d/couchbase-server start && sleep 15"
+    action :run
+  end
+
 
 rightscale_marker :end
 

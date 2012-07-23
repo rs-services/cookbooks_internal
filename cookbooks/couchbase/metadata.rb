@@ -20,6 +20,8 @@ recipe "couchbase::do_storage_backup", "backs up couchbase volumes"
 recipe "couchbase::do_primary_backup_schedule_enable", "enables random cron for do_storage_backup"
 recipe "couchbase::do_primary_backup_schedule_disable", "disables cron for do_storage_backup"
 recipe "couchbase::setup_or_restore", "runs setup or restore of block device"
+recipe "couchbase::start_server", "starts couchbase server"
+recipe "couchbase::stop_server", "stops couchbase server"
 
 # Required Input #
 attribute "couchbase/initial_launch",
