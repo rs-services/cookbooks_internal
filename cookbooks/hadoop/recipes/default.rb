@@ -8,9 +8,12 @@
 #
 
 rightscale_marker :begin
-right_link_tag "hadoop:node_type=#{node[:hadoop][:node][:type]}"
 
-#include_recipe 'hadoop::install'
-#include_recipe 'hadoop::do_config'
-#include_recipe 'hadoop::do_init'
+r = right_link_tag "hadoop:node_type=#{node[:hadoop][:node][:type]}" do
+ action :nothing
+end
+
+include_recipe 'hadoop::install'
+include_recipe 'hadoop::do_config'
+include_recipe 'hadoop::do_init'
 rightscale_marker :end
