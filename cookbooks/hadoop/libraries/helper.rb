@@ -9,6 +9,10 @@ module RightScale
   module Hadoop
     module Helper
             
+      def set_node_type_tag(type)
+        right_link_tag "hadoop:node_type=#{type}"
+      end
+      
       # get a list of hosts from the server tags
       def get_hosts(type) 
         hadoop_servers = Set.new
