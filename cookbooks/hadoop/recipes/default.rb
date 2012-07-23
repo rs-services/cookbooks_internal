@@ -12,8 +12,8 @@ end
 
 rightscale_marker :begin
 
-#right_link_tag "hadoop:node_type=#{node[:hadoop][:node][:type]}"
-set_node_type_tag(node[:hadoop][:node][:type])
+right_link_tag "hadoop:node_type=#{node[:hadoop][:node][:type]}"
+#set_node_type_tag(node[:hadoop][:node][:type])
 
 
 include_recipe 'hadoop::install'

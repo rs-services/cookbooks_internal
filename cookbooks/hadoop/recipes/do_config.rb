@@ -14,15 +14,15 @@ rightscale_marker :begin
 #namenodes = get_hosts('namenode').to_a
 namenodes = Array.new
         
-r= rightscale_server_collection "hosts" do
+rightscale_server_collection "namenodes" do
   tags ["hadoop:node_type=#{node[:hadoop][:node][:type]}"]
   empty_ok false
   action :nothing
 end
-r.run_action(:load)
+#r.run_action(:load)
         
-log "HOSTS: #{node[:server_collection]['hosts'].inspect}"
-node[:server_collection]['hosts'].to_hash.values.each do |tags|
+log "HOSTS: #{node[:server_collection]['namenodes'].inspect}"
+node[:server_collection]['namenodes'].to_hash.values.each do |tags|
   ip = RightScale::Utils::Helper.get_tag_value('server:private_ip_0', tags)
   namenodes.push(ip)
 end    

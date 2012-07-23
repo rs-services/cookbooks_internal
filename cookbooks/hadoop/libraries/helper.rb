@@ -9,31 +9,31 @@ module RightScale
   module Hadoop
     module Helper
             
-      def set_node_type_tag(type)
-        r= right_link_tag "hadoop:node_type=#{type}" do
-          action :nothing
-        end
-        r.run_action(:publish)
-      end
+#      def set_node_type_tag(type)
+#        r= right_link_tag "hadoop:node_type=#{type}" do
+#          action :nothing
+#        end
+#        r.run_action(:publish)
+#      end
       
       # get a list of hosts from the server tags
-      def get_hosts(type) 
-        hadoop_servers = Set.new
-        
-        r=  rightscale_server_collection "hosts" do
-          tags ["hadoop:node_type=#{type}"]
-          empty_ok false
-          action :nothing
-        end
-        r.run_action(:load)
-        
-        log "HOSTS: #{node[:server_collection]['hosts'].inspect}"
-        node[:server_collection]['hosts'].to_hash.values.each do |tags|
-          ip = RightScale::Utils::Helper.get_tag_value('server:private_ip_0', tags)
-          hadoop_servers.add?(ip)
-        end    
-        hadoop_servers
-      end
+#      def get_hosts(type) 
+#        hadoop_servers = Set.new
+#        
+#        r=  rightscale_server_collection "hosts" do
+#          tags ["hadoop:node_type=#{type}"]
+#          empty_ok false
+#          action :nothing
+#        end
+#        r.run_action(:load)
+#        
+#        log "HOSTS: #{node[:server_collection]['hosts'].inspect}"
+#        node[:server_collection]['hosts'].to_hash.values.each do |tags|
+#          ip = RightScale::Utils::Helper.get_tag_value('server:private_ip_0', tags)
+#          hadoop_servers.add?(ip)
+#        end    
+#        hadoop_servers
+#      end
       
       # Add public key for root to ssh to itself as needed by hadoop.
       #
