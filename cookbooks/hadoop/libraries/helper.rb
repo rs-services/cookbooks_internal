@@ -23,7 +23,6 @@ module RightScale
         r=  rightscale_server_collection "hosts" do
           tags ["hadoop:node_type=#{type}"]
           empty_ok false
-          timeout 120
           action :nothing
         end
         r.run_action(:load)
