@@ -13,14 +13,14 @@ module RightScale
       def get_hosts(type) 
         hadoop_servers = Set.new
         
-        r=  server_collection "hosts" do
+        r=  rightscale_server_collection "hosts" do
           tags "hadoop:node_type=#{type}"
           action :nothing
         end
         r.run_action(:load)
         
         log "HOSTS: #{node[:server_collection]['hosts'].inspect}"
-        node[:server_collection]['hosts'].to_hash.values.each do |tags|
+        node[:rightscale_server_collection]['hosts'].to_hash.values.each do |tags|
           ip = RightScale::Utils::Helper.get_tag_value('server:private_ip_0', tags)
           hadoop_servers.add?(ip)
         end    
