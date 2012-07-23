@@ -7,8 +7,6 @@ Cookbook Name:: couchbase
 
 rightscale_marker :begin
 
-service couchbase-server stop
-
 log("/opt/couchbase/bin/couchbase-cli bucket-create" +
     "    -c 127.0.0.1:8091" +
     "    -u #{node[:db_couchbase][:cluster][:username]}" +
@@ -29,8 +27,6 @@ execute "creating bucket: #{node[:db_couchbase][:bucket][:name]}" do
           "    --bucket-replica=#{node[:db_couchbase][:bucket][:replica]}")
   action :run
 end
-
-service couchbase-server start
 
 rightscale_marker :end
 
