@@ -10,7 +10,10 @@ module RightScale
     module Helper
             
       def set_node_type_tag(type)
-        right_link_tag "hadoop:node_type=#{type}"
+        r= right_link_tag "hadoop:node_type=#{type}" do
+          action :nothing
+        end
+        r.run_action(:load)
       end
       
       # get a list of hosts from the server tags
