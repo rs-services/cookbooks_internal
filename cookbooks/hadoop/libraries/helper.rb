@@ -15,6 +15,7 @@ module RightScale
         
         r=  rightscale_server_collection "hosts" do
           tags ["hadoop:node_type=#{type}", "server:*"]
+          empty_ok false
           action :nothing
         end
         r.run_action(:load)
