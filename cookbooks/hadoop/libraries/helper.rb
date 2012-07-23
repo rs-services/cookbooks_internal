@@ -19,8 +19,8 @@ module RightScale
         end
         r.run_action(:load)
         
-        log "HOSTS: #{node[:rightscale_server_collection]['hosts'].inspect}"
-        node[:rightscale_server_collection]['hosts'].to_hash.values.each do |tags|
+        log "HOSTS: #{node[:server_collection]['hosts'].inspect}"
+        node[:server_collection]['hosts'].to_hash.values.each do |tags|
           ip = RightScale::Utils::Helper.get_tag_value('server:private_ip_0', tags)
           hadoop_servers.add?(ip)
         end    
