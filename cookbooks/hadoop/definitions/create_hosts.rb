@@ -6,7 +6,7 @@
 # if applicable, other agreements such as a RightScale Master Subscription Agreement.
 
 # update the masters or slaves files.  Ran from do_attach_all
-define :create_hosts ,:restart=>false, :hosts=>Set.new, :file=>'slaves' do
+define :create_hosts ,:restart=>false, :hosts=>Array.new, :file=>'slaves' do
   file = File.new("#{node[:hadoop][:install_dir]}/conf/#{params[:file]}",'w')
   
   

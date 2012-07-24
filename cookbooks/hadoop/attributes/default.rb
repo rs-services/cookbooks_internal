@@ -24,7 +24,6 @@ default[:hadoop][:datanode][:http][:port]='50075'
 # This is a set instead of set_unless to support start/stop when the IP changes.
 set[:hadoop][:ip] = node[:cloud][:private_ips][0]
 
-default[:namenodes] = Array.new
-default[:hosts] = Array.new
-default[:slaves] = Array.new
-default[:masters] = Array.new
+set_unless[:namenodes] = Array.new
+set_unless[:hosts] = Array.new
+set_unless[:datanodes] = Array.new

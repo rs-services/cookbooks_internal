@@ -10,7 +10,7 @@ rightscale_marker :begin
 
 log "  Remote recipe executed by do_attach_request"
 
-  hadoop 'remote recipe for ' do
+  hadoop 'remote_recipe for :attach' do
     backend_id node[:remote_recipe][:backend_id]
     backend_ip node[:remote_recipe][:backend_ip]
     node_type node[:remote_recipe][:node_type]
