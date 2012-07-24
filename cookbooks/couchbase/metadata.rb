@@ -10,7 +10,8 @@ depends 'sys_firewall'
 depends 'sys_dns'
 depends "block_device"
 
-recipe "couchbase::default", "installs couchbase package, no configuration"
+recipe "couchbase::default", "Sets tags"
+recipe "couchbase::install_couchbase", "installs couchbase package, no configuration"
 recipe "couchbase::bucket_create", "sets up cb buckets"
 recipe "couchbase::init_cluster", "Run to init a new cb cluster, sets cluster_ip tag"
 recipe "couchbase::join_cluster", "Run on instance to join a cb cluster using the cluster_ip tag"
