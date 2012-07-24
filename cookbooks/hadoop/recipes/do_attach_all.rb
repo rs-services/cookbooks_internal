@@ -12,13 +12,11 @@ rightscale_marker :begin
         
 rightscale_server_collection "masters" do
   tags ["hadoop:node_type=namenode"]
-  empty_ok false
   action :load
 end
 
 rightscale_server_collection "slaves" do
   tags ["hadoop:node_type=datanode"]
-  empty_ok false
   action :load
 end  
 
