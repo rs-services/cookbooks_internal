@@ -8,47 +8,42 @@
 rightscale_marker :begin
 
 
+
+        
+rightscale_server_collection "masters" do
+  tags ["hadoop:node_type=namenode"]
+  empty_ok false
+  action :load
+end
+
+rightscale_server_collection "slaves" do
+  tags ["hadoop:node_type=datanode"]
+  empty_ok false
+  action :load
+end  
+
 ruby_block "attach" do
   block do
     
-    @slaves = Array.new
-    @masters = Array.new
-        
-    rightscale_server_collection "masters" do
-      tags ["hadoop:node_type=namenode"]
-      empty_ok false
-      action :load
-    end
-
-        
 
     node[:server_collection]['masters'].to_hash.values.each do |tags|
       ip = RightScale::Utils::Helper.get_tag_value('server:private_ip_0', tags)
-      @masters.push(ip)
+      node[:masters].push(ip)
     end
-
-    rightscale_server_collection "slaves" do
-      tags ["hadoop:node_type=datanode"]
-      empty_ok false
-      action :load
-    end
-
-        
-
     node[:server_collection]['slaves'].to_hash.values.each do |tags|
       ip = RightScale::Utils::Helper.get_tag_value('server:private_ip_0', tags)
-      @slaves.push(ip)
+      node[:slaves].push(ip)
     end
 
     # add nodenames as masters
-    @masters.each do |m|
-      @slaves.push(m)
+    node[:masters].each do |m|
+      node[:slaves].push(m)
     end
   end
 end
 
 create_hosts "Add all datanodes" do
-  hosts  slaves
+  hosts  node[:slaves]
   file 'slaves'
   restart  false
   #only add slaves to namenode hosts
@@ -57,7 +52,7 @@ end
 
 if node[:hadoop][:node][:type]=='datanode'
   create_hosts "Add all namenodes" do
-    hosts  masters
+    hosts  node[:masters]
     file 'masters'
     restart  true
  

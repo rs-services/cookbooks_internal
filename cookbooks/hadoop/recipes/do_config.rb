@@ -7,23 +7,22 @@
 
 rightscale_marker :begin
 
+
+#node[:namenodes] = Array.new
+        
+rightscale_server_collection "namenodes" do
+  tags ["hadoop:node_type=#{node[:hadoop][:node][:type]}"]
+  empty_ok false
+  action :load
+end
+
 ruby_block "update_namenodes" do
   block do
-    @namenodes = Array.new
-        
-    rightscale_server_collection "namenodes" do
-      tags ["hadoop:node_type=#{node[:hadoop][:node][:type]}"]
-      empty_ok false
-      action :load
-    end
-  
+
     node[:server_collection]['namenodes'].to_hash.values.each do |tags|
       ip = RightScale::Utils::Helper.get_tag_value('server:private_ip_0', tags)
-      @namenodes.push(ip)
+      node[:namenodes].push(ip)
     end    
-
-    log "    NAMENODES: #{@namenodes}"
-
   end
 end
 
@@ -42,7 +41,7 @@ template "#{node[:hadoop][:install_dir]}/conf/core-site.xml" do
   owner "#{node[:hadoop][:user]}"
   group "#{node[:hadoop][:group]}"
   mode "0644"
-  variables(:namenodes =>@namenodes )
+  variables(:namenodes =>node[:namenodes] )
 end
 
 log "Installing hadoop hdfs-site.xml to #{node[:hadoop][:install_dir]}/conf"
@@ -51,7 +50,7 @@ template "#{node[:hadoop][:install_dir]}/conf/hdfs-site.xml" do
   owner "#{node[:hadoop][:user]}"
   group "#{node[:hadoop][:group]}"
   mode "0644"
-  variables(:namenodes =>@namenodes )
+  variables(:namenodes =>node[:namenodes] )
 end
 
 log "Installing hadoop masters to #{node[:hadoop][:install_dir]}/conf"
@@ -60,7 +59,7 @@ template "#{node[:hadoop][:install_dir]}/conf/masters" do
   owner "#{node[:hadoop][:user]}"
   group "#{node[:hadoop][:group]}"
   mode "0644"
-  variables(:namenodes =>@namenodes )
+  variables(:namenodes =>node[:namenodes] )
 end
 
 log "Installing hadoop slaves to #{node[:hadoop][:install_dir]}/conf"
@@ -69,7 +68,7 @@ template "#{node[:hadoop][:install_dir]}/conf/slaves" do
   owner "#{node[:hadoop][:user]}"
   group "#{node[:hadoop][:group]}"
   mode "0644"
-  variables(:namenodes =>@namenodes )
+  variables(:namenodes =>node[:namenodes] )
 end
 
 rightscale_marker :end
