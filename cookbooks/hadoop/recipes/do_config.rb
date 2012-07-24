@@ -7,31 +7,25 @@
 
 rightscale_marker :begin
 
-#class Chef::Recipe
-#  include RightScale::Hadoop::Helper
-#end
-
-#namenodes = get_hosts('namenode').to_a
-namenodes = Array.new
+ruby_block "update_namenodes" do
+  block do
+    @namenodes = Array.new
         
-r=rightscale_server_collection "namenodes" do
-  tags ["hadoop:node_type=#{node[:hadoop][:node][:type]}"]
-  empty_ok false
-  action :nothing
+    rightscale_server_collection "namenodes" do
+      tags ["hadoop:node_type=#{node[:hadoop][:node][:type]}"]
+      empty_ok false
+      action :load
+    end
+  
+    node[:server_collection]['namenodes'].to_hash.values.each do |tags|
+      ip = RightScale::Utils::Helper.get_tag_value('server:private_ip_0', tags)
+      @namenodes.push(ip)
+    end    
+
+    log "    NAMENODES: #{@namenodes}"
+
+  end
 end
-r.run_action(:load)
-
-log "HOSTS: #{node[:server_collection]['namenodes'].inspect}"
-node[:server_collection]['namenodes'].to_hash.values.each do |tags|
-  ip = RightScale::Utils::Helper.get_tag_value('server:private_ip_0', tags)
-  namenodes.push(ip)
-end    
-
-log "    NAMENODES: #{namenodes}"
-
-#if namenodes.empty? 
-#  namenodes.push('localhost') if node[:hadoop][:node][:type]=='namenode'
-#end
 
 log "Installing hadoop hadoop-env.sh to #{node[:hadoop][:install_dir]}/conf"
 template "#{node[:hadoop][:install_dir]}/conf/hadoop-env.sh" do
@@ -48,7 +42,7 @@ template "#{node[:hadoop][:install_dir]}/conf/core-site.xml" do
   owner "#{node[:hadoop][:user]}"
   group "#{node[:hadoop][:group]}"
   mode "0644"
-  variables(:namenodes =>namenodes )
+  variables(:namenodes =>@namenodes )
 end
 
 log "Installing hadoop hdfs-site.xml to #{node[:hadoop][:install_dir]}/conf"
@@ -57,7 +51,7 @@ template "#{node[:hadoop][:install_dir]}/conf/hdfs-site.xml" do
   owner "#{node[:hadoop][:user]}"
   group "#{node[:hadoop][:group]}"
   mode "0644"
-  variables(:namenodes =>namenodes )
+  variables(:namenodes =>@namenodes )
 end
 
 log "Installing hadoop masters to #{node[:hadoop][:install_dir]}/conf"
@@ -66,7 +60,7 @@ template "#{node[:hadoop][:install_dir]}/conf/masters" do
   owner "#{node[:hadoop][:user]}"
   group "#{node[:hadoop][:group]}"
   mode "0644"
-  variables(:namenodes =>namenodes )
+  variables(:namenodes =>@namenodes )
 end
 
 log "Installing hadoop slaves to #{node[:hadoop][:install_dir]}/conf"
@@ -75,7 +69,7 @@ template "#{node[:hadoop][:install_dir]}/conf/slaves" do
   owner "#{node[:hadoop][:user]}"
   group "#{node[:hadoop][:group]}"
   mode "0644"
-  variables(:namenodes =>namenodes )
+  variables(:namenodes =>@namenodes )
 end
 
 rightscale_marker :end

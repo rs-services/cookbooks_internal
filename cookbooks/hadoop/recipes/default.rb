@@ -12,10 +12,8 @@ end
 
 rightscale_marker :begin
 
-r= right_link_tag "hadoop:node_type=#{node[:hadoop][:node][:type]}" do
-  action :nothing
-end
-r.run_action(:publish)
+right_link_tag "hadoop:node_type=#{node[:hadoop][:node][:type]}"
+
 #set_node_type_tag(node[:hadoop][:node][:type])
 
 
