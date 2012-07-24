@@ -45,7 +45,7 @@ if cluster_tag and !cluster_tag.empty?
       " --server-add-password=#{node[:db_couchbase][:cluster][:password]}" +
       " -p #{node[:db_couchbase][:cluster][:password]}" +
       " -u #{node[:db_couchbase][:cluster][:username]}" +
-      "#{couchbase_servers[0]}" 
+      " #{couchbase_servers[0]}" 
      )
   execute "Joining cluster  #{node[:db_couchbase][:cluster][:tag]}" do
     command("sleep 20 &&" +
@@ -55,7 +55,7 @@ if cluster_tag and !cluster_tag.empty?
       " --server-add-password=#{node[:db_couchbase][:cluster][:password]}" +
       " -p #{node[:db_couchbase][:cluster][:password]}" +
       " -u #{node[:db_couchbase][:cluster][:username]}" +
-      "#{couchbase_servers[0]}" 
+      " #{couchbase_servers[0]}" 
            )
     action :run
   end
