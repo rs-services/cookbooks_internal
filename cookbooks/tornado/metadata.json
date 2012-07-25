@@ -1,0 +1,31 @@
+{
+  "recipes": {
+    "tornado::default": "installs tornado"
+  },
+  "providing": {
+  },
+  "groupings": {
+  },
+  "license": "Apache 2.0",
+  "description": "Installs/Configures tornado",
+  "version": "0.0.1",
+  "maintainer_email": "premium@rightscale.com",
+  "attributes": {
+  },
+  "recommendations": {
+  },
+  "conflicting": {
+  },
+  "dependencies": {
+    "python": ">= 0.0.0"
+  },
+  "suggestions": {
+  },
+  "long_description": "Description\n===========\n\nRequirements\n============\n\nAttributes\n==========\n\nUsage\n=====\n\n",
+  "replacing": {
+  },
+  "platforms": {
+  },
+  "maintainer": "RightScale Inc",
+  "name": "tornado"
+}
