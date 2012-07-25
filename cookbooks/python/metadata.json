@@ -1,0 +1,49 @@
+{
+  "recipes": {
+    "python::default": "installs python, and set version"
+  },
+  "attributes": {
+    "python/version": {
+      "default": "2.6",
+      "choices": [
+        "2.4",
+        "2.6",
+        "3.0"
+      ],
+      "display_name": "Python Version",
+      "recipes": [
+
+      ],
+      "required": "optional",
+      "type": "string",
+      "choice": [
+
+      ],
+      "calculated": false,
+      "description": "Python Version to set"
+    }
+  },
+  "long_description": "Description\n===========\n\nRequirements\n============\n\nAttributes\n==========\n\nUsage\n=====\n\n",
+  "recommendations": {
+  },
+  "maintainer": "RightScale Inc",
+  "conflicting": {
+  },
+  "version": "0.0.1",
+  "replacing": {
+  },
+  "dependencies": {
+  },
+  "platforms": {
+  },
+  "maintainer_email": "premium@rightscale.com",
+  "name": "python",
+  "suggestions": {
+  },
+  "license": "Apache 2.0",
+  "groupings": {
+  },
+  "providing": {
+  },
+  "description": "Installs/Configures python"
+}
