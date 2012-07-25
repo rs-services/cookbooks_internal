@@ -38,4 +38,5 @@ cd tornado-2.3
 #{node[:python][:binary]} setup.py build
 #{node[:python][:binary]} setup.py install
 EOF
+end
 
