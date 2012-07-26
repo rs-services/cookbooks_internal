@@ -11,6 +11,7 @@ supports         "redhat", ">= 5.5"
 
 depends          "rs_utils"
 depends          "monit"
+depends          "sys_firewall"
 
 recipe           "redis::default", "Installs and configures redis"
 recipe           "redis::auto", "Configures and activates redis instances defined by attributes"
