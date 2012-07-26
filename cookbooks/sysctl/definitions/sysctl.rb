@@ -37,6 +37,7 @@ define :sysctl, :value => nil, :action => :set do
   end
 
   cookbook_file "/usr/bin/sysctl-reload.sh" do 
+    cookbook 'sysctl'
     source "sysctl-reload.sh"
     owner "root"
     group "root"
