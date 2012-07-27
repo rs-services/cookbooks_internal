@@ -156,12 +156,7 @@ while [ $file_exists == 0 ]; do
  fi 
 done
 successful_status=0
-#while [ $successful_status != 516 ]; do
-#  successful_status=`wc -c $log_file_name | cut -d ' ' -f 1`;
-#  echo "waiting for oracle to complete, sleeping 30 - count is $successful_status"; 
-#  sleep 30;
-#done
-
+rm -fr /mnt/ephemeral/database
 EOF
 end
 

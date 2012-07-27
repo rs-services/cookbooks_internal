@@ -8,6 +8,15 @@ bash "download-disk-1" do
 EOF
 end
 
+bash "extract" do
+  user "root"
+  cwd '/mnt/ephemeral'
+  code <<-EOF
+  unzip -q `basename #{node[:oracle][:install_file1_url]}`
+  rm -fr `basename #{node[:oracle][:install_file1_url]}`
+EOF
+end
+
 bash "download-disk-2" do
   user "root"
   cwd '/mnt/ephemeral'
@@ -21,6 +30,6 @@ bash "extract" do
   cwd '/mnt/ephemeral'
   code <<-EOF
   unzip -q `basename #{node[:oracle][:install_file1_url]}`
-  unzip -q `basename #{node[:oracle][:install_file2_url]}`
+  rm -fr `basename #{node[:oracle][:install_file1_url]}`
 EOF
 end
