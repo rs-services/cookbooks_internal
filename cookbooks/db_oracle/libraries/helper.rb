@@ -30,9 +30,6 @@ module RightScale
             Chef::Log.warn "  Please contact Rightscale to upgrade your account."
           end
           mount_point = new_resource.name
-          version = node[:db_mysql][:version].to_f > 5.1 ? :mysql55 : :mysql
-          Chef::Log.info "  Using version: #{version} : #{node[:db_mysql][:version]}"
-
           RightScale::Tools::Database.factory(version, new_resource.user, new_resource.password, mount_point, Chef::Log)
         end
 
@@ -41,15 +38,7 @@ module RightScale
         #
         # Duplicate IP's and server_id's may occur with cross cloud replication.
         def self.mycnf_uuid(node)
-          node[:db_mysql][:mycnf_uuid] = IPAddr.new(node[:cloud][:private_ips][0]).to_i
-        end
-
-        # Generate unique filename for relay_log used in slave db.
-        # Should only generate once.  Used to create unique relay_log files used for slave
-        # Always set to support stop/start
-        def self.mycnf_relay_log(node)
-          node[:db_mysql][:mycnf_relay_log] = Time.now.to_i.to_s + rand(9999).to_s.rjust(4,'0') if !node[:db_mysql][:mycnf_relay_log]
-          return node[:db_mysql][:mycnf_relay_log]
+          node[:db_oracle][:mycnf_uuid] = IPAddr.new(node[:cloud][:private_ips][0]).to_i
         end
 
         # Helper to load replication information
