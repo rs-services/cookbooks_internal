@@ -29,7 +29,7 @@ bash "extract" do
   user "root"
   cwd '/mnt/ephemeral'
   code <<-EOF
-  unzip -q `basename #{node[:oracle][:install_file1_url]}`
-  rm -fr `basename #{node[:oracle][:install_file1_url]}`
+  unzip -q `basename #{node[:oracle][:install_file2_url]}`
+  rm -fr `basename #{node[:oracle][:install_file2_url]}`
 EOF
 end
