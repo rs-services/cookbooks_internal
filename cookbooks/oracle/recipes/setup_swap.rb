@@ -6,6 +6,10 @@
 # if applicable, other agreements such as a RightScale Master Subscription Agreement.
 
 rightscale_marker :begin
+if node[:memory][:total].to_i < node[:memory][:swap][:total].to_i
+  log "Swap Higher then Total Memory, no need for swap file"
+  exit 0
+end
 
 total_memory = `grep MemTotal /proc/meminfo | awk '{print $2}'`.strip
 swap_size = (total_memory.to_i/1024)+128
