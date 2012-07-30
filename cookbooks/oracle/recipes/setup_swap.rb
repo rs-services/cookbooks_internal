@@ -8,8 +8,7 @@
 rightscale_marker :begin
 if node[:memory][:total].to_i < node[:memory][:swap][:total].to_i
   log "Swap Higher then Total Memory, no need for swap file"
-  exit 0
-end
+else
 
 total_memory = `grep MemTotal /proc/meminfo | awk '{print $2}'`.strip
 swap_size = (total_memory.to_i/1024)+128
@@ -112,5 +111,5 @@ else
     create_swap(swap_file,swap_size)
   end
 end
-
+end
 rightscale_marker :end
