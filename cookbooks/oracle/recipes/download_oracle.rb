@@ -1,5 +1,14 @@
 include_recipe"bootstrap::aria2c"
 
+
+directory "/mnt/ephemeral" do
+  owner "root"
+  group "root"
+  mode "0755"
+  action :create
+  not_if "test -e /mnt/ephemeral"
+end
+
 bash "download-disk-1" do
   user "root"
   cwd '/mnt/ephemeral'
