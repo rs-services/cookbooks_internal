@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: db_mysql
+# Cookbook Name:: db_oracle
 #
 # Copyright RightScale, Inc. All rights reserved.  All access and use subject to the
 # RightScale Terms of Service available at http://www.rightscale.com/terms.php and,
@@ -7,7 +7,7 @@
 
 module RightScale
   module Database
-    module MySQL
+    module Oracle
       module Helper
 
         require 'timeout'
@@ -17,11 +17,11 @@ module RightScale
         SNAPSHOT_POSITION_FILENAME = 'rs_snapshot_position.yaml'
         DEFAULT_CRITICAL_TIMEOUT = 7
 
-        # Create new MySQL object
+        # Create new Oracle object
         #
         # @param [Object] new_resource Resource which will be initialized
         #
-        # @return [Mysql] MySQL object
+        # @return [Oracle] Oracle object
         def init(new_resource)
           begin
             require 'rightscale_tools'
@@ -34,11 +34,11 @@ module RightScale
         end
 
         # Create numeric UUID
-        # MySQL server_id must be a unique number  - use the ip address integer representation
+        # Oracle server_id must be a unique number  - use the ip address integer representation
         #
         # Duplicate IP's and server_id's may occur with cross cloud replication.
         def self.mycnf_uuid(node)
-          node[:db_oracle][:mycnf_uuid] = IPAddr.new(node[:cloud][:private_ips][0]).to_i
+          node[:db_oracle][:ora_uuid] = IPAddr.new(node[:cloud][:private_ips][0]).to_i
         end
 
         # Helper to load replication information
@@ -52,7 +52,7 @@ module RightScale
         end
 
         # Loading information about replication master status.
-        # If that file exists, the MySQL server has already previously been configured for replication,
+        # If that file exists, the Oracle server has already previously been configured for replication,
         #
         # @param [Hash] node  Node name
         def self.load_master_info_file(node)
@@ -67,35 +67,38 @@ module RightScale
           return master_info
         end
 
-        # Create new Mysql connection
+        # Create new Oracle connection
         #
         # @param [Hash] node Node name
         # @param [String] hostname Hostname FQDN, default is 'localhost'
         #
-        # @return [Mysql] MySQL connection
-        def self.get_mysql_handle(node, hostname = 'localhost')
-          info_msg = "  MySQL connection to #{hostname}"
-          info_msg << ": opening NEW MySQL connection."
-          con = Mysql.new(hostname, node[:db][:admin][:user], node[:db][:admin][:password])
+        # @return [Oracle] Oracle connection
+        def self.get_oracle_handle(node, hostname = 'localhost')
+          require 'oci8'
+          #require '/opt/oracle/.ora_creds/ora_creds.rb'
+          #ora_conn = OCI8.new(@user, @pass, nil, :SYSDBA)
+          info_msg = "  Oracle connection to #{hostname}"
+          info_msg << ": opening NEW Oracle connection."
+          con = OCI8.new(hostname, node[:db][:admin][:user], node[:db][:admin][:password])
           Chef::Log.info info_msg
           # this raises if the connection has gone away
           con.ping
           return con
         end
 
-        # Perform sql query to MySql server
+        # Perform sql query to Oracle server
         #
         # @param [Hash] node Node name
         # @param [String] hostname Hostname FQDN, default is 'localhost'
         # @param [Integer] timeout Timeout value
         # @param [Integer] tries Connection attempts number
         #
-        # @return [Mysql::Result] MySQL query result
+        # @return [Mysql::Result] Oracle query result
         #
         # @raises [TimeoutError] if timeout exceeded
         # @raises [RuntimeError] if connection try attempts limit reached
         def self.do_query(node, query, hostname = 'localhost', timeout = nil, tries = 1)
-          require 'mysql'
+          require 'oci8'
 
           loop do
             begin
@@ -107,7 +110,7 @@ module RightScale
               if timeout
                 SystemTimer.timeout_after(timeout) do
                   con = get_mysql_handle(node, hostname)
-                  result = con.query(query)
+                  result = con.exec(query)
                 end
               else
                 con = get_mysql_handle(node, hostname)
@@ -131,11 +134,13 @@ module RightScale
         # @param [String] newmaster_logfile Replication log filename
         # @param [Integer] newmaster_position Last record position in replication log
         def self.reconfigure_replication(node, hostname = 'localhost', newmaster_host = nil, newmaster_logfile=nil, newmaster_position=nil)
+          Chef::Log.info "Not Implemented"
+          =begin
           Chef::Log.info "  Configuring with #{newmaster_host} logfile #{newmaster_logfile} position #{newmaster_position}"
 
           # The slave stop can fail once (only throws warning if slave is already stopped)
           2.times do
-            RightScale::Database::MySQL::Helper.do_query(node, "STOP SLAVE", hostname)
+            RightScale::Database::Oracle::Helper.do_query(node, "STOP SLAVE", hostname)
           end
 
           cmd = "CHANGE MASTER TO MASTER_HOST='#{newmaster_host}'"
@@ -145,12 +150,12 @@ module RightScale
           # don't log replication user and password
           cmd +=   ", MASTER_USER='#{node[:db][:replication][:user]}'"
           cmd +=   ", MASTER_PASSWORD='#{node[:db][:replication][:password]}'"
-          RightScale::Database::MySQL::Helper.do_query(node, cmd, hostname)
+          RightScale::Database::Oracle::Helper.do_query(node, cmd, hostname)
 
-          RightScale::Database::MySQL::Helper.do_query(node, "START SLAVE", hostname)
+          RightScale::Database::Oracle::Helper.do_query(node, "START SLAVE", hostname)
           started=false
           10.times do
-            row = RightScale::Database::MySQL::Helper.do_query(node, "SHOW SLAVE STATUS", hostname)
+            row = RightScale::Database::Oracle::Helper.do_query(node, "SHOW SLAVE STATUS", hostname)
             slave_IO = row["Slave_IO_Running"].strip.downcase
             slave_SQL = row["Slave_SQL_Running"].strip.downcase
             if( slave_IO == "yes" and slave_SQL == "yes" ) then
@@ -167,6 +172,7 @@ module RightScale
             Chef::Log.info "  Error: slave threads in the master do not seem to be up and running..."
           end
         end
+        =end
       end
     end
   end
