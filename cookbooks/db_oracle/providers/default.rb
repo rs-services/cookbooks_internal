@@ -6,7 +6,7 @@
 # if applicable, other agreements such as a RightScale Master Subscription Agreement.
 
 include RightScale::Database::Helper
-include RightScale::Database::MySQL::Helper
+include RightScale::Database::Oracle::Helper
 
 action :stop do
   service node[:db_mysql][:service_name] do
