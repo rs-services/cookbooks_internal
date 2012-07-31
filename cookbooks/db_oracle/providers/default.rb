@@ -9,21 +9,26 @@ include RightScale::Database::Helper
 include RightScale::Database::Oracle::Helper
 
 action :stop do
-  service node[:db_mysql][:service_name] do
-    action :stop
+  bash "stopping oracle service" do
+    user "root"
+    code <<-EOF
+      su -l -c '/opt/oracle/app/product/11.2.0/dbhome_1/bin/dbshut' oracle
+    EOF
   end
 end
 
 action :start do
-  service node[:db_mysql][:service_name] do
-    action :start
+  bash "starting oracle service" do
+    user "root"
+    code <<-EOF
+      su -l -c '/opt/oracle/app/product/11.2.0/dbhome_1/bin/start' oracle
+    EOF
   end
 end
 
 action :restart do
-  service node[:db_mysql][:service_name] do
-    action :restart
-  end
+  self.stop
+  self.start
 end
 
 action :status do
