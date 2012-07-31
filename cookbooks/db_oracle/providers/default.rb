@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: db_mysql
+# Cookbook Name:: db_oracle
 #
 # Copyright RightScale, Inc. All rights reserved.  All access and use subject to the
 # RightScale Terms of Service available at http://www.rightscale.com/terms.php and,
@@ -9,19 +9,19 @@ include RightScale::Database::Helper
 include RightScale::Database::Oracle::Helper
 
 action :stop do
-  service node[:db_mysql][:service_name] do
+  service node[:db_oracle][:service_name] do
     action :stop
   end
 end
 
 action :start do
-  service node[:db_mysql][:service_name] do
+  service node[:db_oracle][:service_name] do
     action :start
   end
 end
 
 action :restart do
-  service node[:db_mysql][:service_name] do
+  service node[:db_oracle][:service_name] do
     action :restart
   end
 end
@@ -53,9 +53,9 @@ action :reset do
 end
 
 action :firewall_update_request do
-  sys_firewall "Sending request to open port 3306 (MySQL) allowing this server to connect" do
+  sys_firewall "Sending request to open port 1521 (Oracle) allowing this server to connect" do
     machine_tag new_resource.machine_tag
-    port 3306
+    port 1521
     enable new_resource.enable
     ip_addr new_resource.ip_addr
     action :update_request
@@ -63,9 +63,9 @@ action :firewall_update_request do
 end
 
 action :firewall_update do
-  sys_firewall "Opening port 3306 (MySQL) for tagged '#{new_resource.machine_tag}' to connect" do
+  sys_firewall "Opening port 1521 (Oracle) for tagged '#{new_resource.machine_tag}' to connect" do
     machine_tag new_resource.machine_tag
-    port 3306
+    port 1521
     enable new_resource.enable
     action :update
   end
@@ -89,7 +89,7 @@ action :write_backup_info do
   end
 
   # Save the db provider (MySQL) and version number as set in the node
-  version=node[:db_mysql][:version]
+  version=node[:db_oracle][:version]
   provider=node[:db][:provider]
   log "  Saving #{provider} version #{version} in master info file"
   masterstatus['DB_Provider']=provider
@@ -115,8 +115,8 @@ action :post_restore_cleanup do
       # Not all 11H2 snapshots (prior to 5.5 release) saved provider or version.
       # Assume MySQL 5.1 if nil
       snap_version=master_info['DB_Version']||='5.1'
-      snap_provider=master_info['DB_Provider']||='db_mysql'
-      current_version= node[:db_mysql][:version]
+      snap_provider=master_info['DB_Provider']||='db_oracle'
+      current_version= node[:db_oracle][:version]
       current_provider=master_info['DB_Provider']||=node[:db][:provider]
       Chef::Log.info "  Snapshot from #{snap_provider} version #{snap_version}"
       # skip check if restore version check is false
@@ -148,7 +148,7 @@ action :set_privileges do
   priv_username = new_resource.privilege_username
   priv_password = new_resource.privilege_password
   priv_database = new_resource.privilege_database
-  db_mysql_set_privileges "setup db privileges" do
+  db_oracle_set_privileges "setup db privileges" do
     preset priv
     username priv_username
     password priv_password
@@ -159,7 +159,7 @@ end
 action :install_client do
 
   # Uninstall certain packages
-  packages = node[:db_mysql][:client_packages_uninstall]
+  packages = node[:db_oracle][:client_packages_uninstall]
   log "  Packages to uninstall: #{packages.join(",")}" unless packages == ""
   packages.each do |p|
     r = package p do
@@ -176,7 +176,7 @@ action :install_client do
     `rpm --import #{gpgkey}`
   end
 
-  packages = node[:db_mysql][:client_packages_install]
+  packages = node[:db_oracle][:client_packages_install]
   log "  Packages to install: #{packages.join(",")}" unless packages == ""
   packages.each do |p|
     r = package p do
@@ -210,7 +210,7 @@ action :install_server do
   action_install_client
 
   # Uninstall certain packages
-  packages = node[:db_mysql][:server_packages_uninstall]
+  packages = node[:db_oracle][:server_packages_uninstall]
   log "  Packages to uninstall: #{packages.join(",")}" unless packages == ""
   packages.each do |p|
      package p do
@@ -219,7 +219,7 @@ action :install_server do
   end unless packages == ""
 
   # Install MySQL 5.1 and other packages
-  packages = node[:db_mysql][:server_packages_install]
+  packages = node[:db_oracle][:server_packages_install]
   packages.each do |p|
     package p
   end unless packages == ""
@@ -242,14 +242,14 @@ action :install_server do
     not_if { ::File.exists?(touchfile) }
     block do
       require 'fileutils'
-      remove_files = ::Dir.glob(::File.join(node[:db_mysql][:datadir], 'ib_logfile*')) + ::Dir.glob(::File.join(node[:db_mysql][:datadir], 'ibdata*'))
+      remove_files = ::Dir.glob(::File.join(node[:db_oracle][:datadir], 'ib_logfile*')) + ::Dir.glob(::File.join(node[:db_oracle][:datadir], 'ibdata*'))
       FileUtils.rm_rf(remove_files)
       ::File.open(touchfile,'a'){}
     end
   end
 
   # Initialize the binlog dir
-  binlog = ::File.dirname(node[:db_mysql][:log_bin])
+  binlog = ::File.dirname(node[:db_oracle][:log_bin])
   directory binlog do
     owner "mysql"
     group "mysql"
@@ -257,7 +257,7 @@ action :install_server do
   end
 
   # Create the tmp directory
-  directory node[:db_mysql][:tmpdir] do
+  directory node[:db_oracle][:tmpdir] do
     owner "mysql"
     group "mysql"
     mode 0770
@@ -279,19 +279,19 @@ action :install_server do
   end
 
   # Setup my.cnf
-  db_mysql_set_mycnf "setup_mycnf" do
+  db_oracle_set_mycnf "setup_mycnf" do
     server_id RightScale::Database::MySQL::Helper.mycnf_uuid(node)
     relay_log RightScale::Database::MySQL::Helper.mycnf_relay_log(node)
   end
 
   # Setup MySQL user limits
-  mysql_file_ulimit = node[:db_mysql][:file_ulimit]
+  mysql_file_ulimit = node[:db_oracle][:file_ulimit]
   template "/etc/security/limits.d/mysql.limits.conf" do
     source "mysql.limits.conf.erb"
     variables(
       :ulimit => mysql_file_ulimit
     )
-    cookbook 'db_mysql'
+    cookbook 'db_oracle'
   end
 
   # Change root's limitations for THIS shell.  The entry in the limits.d will be
@@ -306,10 +306,10 @@ action :install_server do
   #
   log_msg = ( platform =~ /redhat|centos/ ) ?  "  Setting mysql startup timeout" : "  Skipping mysql startup timeout setting for Ubuntu"
   log log_msg
-  template "/etc/sysconfig/#{node[:db_mysql][:service_name]}" do
+  template "/etc/sysconfig/#{node[:db_oracle][:service_name]}" do
     source "sysconfig-mysqld.erb"
     mode "0755"
-    cookbook 'db_mysql'
+    cookbook 'db_oracle'
     only_if { platform =~ /redhat|centos/ }
   end
 
@@ -321,20 +321,20 @@ action :install_server do
     only_if { platform == "ubuntu" }
     mode "0600"
     source "debian.cnf"
-    cookbook 'db_mysql'
+    cookbook 'db_oracle'
   end
 
   cookbook_file "/etc/mysql/debian-start" do
     only_if { platform == "ubuntu" }
     mode "0755"
     source "debian-start"
-    cookbook 'db_mysql'
+    cookbook 'db_oracle'
   end
 
   # Fix permissions
   # During the first startup after install some of the file are created with root:root
   # so MySQL can not read them.
-  dir=node[:db_mysql][:datadir]
+  dir=node[:db_oracle][:datadir]
   bash "chown mysql #{dir}" do
     flags "-ex"
     code <<-EOH
@@ -369,9 +369,9 @@ action :setup_monitoring do
   ruby_block "evaluate db type" do
     block do
       if node[:db][:init_status].to_sym == :initialized
-        node[:db_mysql][:collectd_master_slave_mode] = ( node[:db][:this_is_master] == true ? "Master" : "Slave" ) + "Stats true"
+        node[:db_oracle][:collectd_master_slave_mode] = ( node[:db][:this_is_master] == true ? "Master" : "Slave" ) + "Stats true"
       else
-        node[:db_mysql][:collectd_master_slave_mode] = ""
+        node[:db_oracle][:collectd_master_slave_mode] = ""
       end
     end
   end
@@ -394,7 +394,7 @@ action :setup_monitoring do
     source "collectd-plugin-mysql.conf.erb"
     mode "0644"
     backup false
-    cookbook 'db_mysql'
+    cookbook 'db_oracle'
     notifies :restart, resources(:service => "collectd")
   end
 
@@ -419,7 +419,7 @@ end
 action :promote do
   db_state_get node
 
-  x = node[:db_mysql][:log_bin]
+  x = node[:db_oracle][:log_bin]
   logbin_dir = x.gsub(/#{::File.basename(x)}$/, "")
   directory logbin_dir do
     action :create
@@ -429,12 +429,12 @@ action :promote do
   end
 
   # Set read/write in my.cnf
-  node[:db_mysql][:tunable][:read_only] = 0
+  node[:db_oracle][:tunable][:read_only] = 0
   # Enable binary logging in my.cnf
-  node[:db_mysql][:log_bin_enabled] = true
+  node[:db_oracle][:log_bin_enabled] = true
 
   # Setup my.cnf
-  db_mysql_set_mycnf "setup_mycnf" do
+  db_oracle_set_mycnf "setup_mycnf" do
     server_id RightScale::Database::MySQL::Helper.mycnf_uuid(node)
     relay_log RightScale::Database::MySQL::Helper.mycnf_relay_log(node)
   end
@@ -567,19 +567,19 @@ action :enable_replication do
   end
 
   # Disable binary logging
-  node[:db_mysql][:log_bin_enabled] = false
+  node[:db_oracle][:log_bin_enabled] = false
 
   # Setup my.cnf
   unless current_restore_process == :no_restore
     # Setup my.cnf
-    db_mysql_set_mycnf "setup_mycnf" do
+    db_oracle_set_mycnf "setup_mycnf" do
       server_id RightScale::Database::MySQL::Helper.mycnf_uuid(node)
       relay_log RightScale::Database::MySQL::Helper.mycnf_relay_log(node)
     end
   end
 
   # empty out the binary log dir
-  directory ::File.dirname(node[:db_mysql][:log_bin]) do
+  directory ::File.dirname(node[:db_oracle][:log_bin]) do
     not_if { current_restore_process == :no_restore }
     action [:delete, :create]
     recursive true
@@ -627,7 +627,7 @@ action :enable_replication do
     end
   end
 
-  node[:db_mysql][:tunable][:read_only] = 1
+  node[:db_oracle][:tunable][:read_only] = 1
 
 end
 
