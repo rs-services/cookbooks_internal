@@ -9,21 +9,26 @@ include RightScale::Database::Helper
 include RightScale::Database::Oracle::Helper
 
 action :stop do
-  service node[:db_oracle][:service_name] do
-    action :stop
+  bash "stopping oracle service" do
+    user "root"
+    code <<-EOF
+      su -l -c '/opt/oracle/app/product/11.2.0/dbhome_1/bin/dbshut' oracle
+    EOF
   end
 end
 
 action :start do
-  service node[:db_oracle][:service_name] do
-    action :start
+  bash "starting oracle service" do
+    user "root"
+    code <<-EOF
+      su -l -c '/opt/oracle/app/product/11.2.0/dbhome_1/bin/start' oracle
+    EOF
   end
 end
 
 action :restart do
-  service node[:db_oracle][:service_name] do
-    action :restart
-  end
+  self.stop
+  self.start
 end
 
 action :status do
@@ -73,6 +78,7 @@ end
 
 
 action :write_backup_info do
+=begin
   db_state_get node
   masterstatus = Hash.new
   masterstatus = RightScale::Database::MySQL::Helper.do_query(node, 'SHOW MASTER STATUS')
@@ -88,7 +94,7 @@ action :write_backup_info do
     masterstatus['Position'] = slavestatus['Exec_Master_Log_Pos']
   end
 
-  # Save the db provider (MySQL) and version number as set in the node
+  # Save the db provider (Oracle) and version number as set in the node
   version=node[:db_oracle][:version]
   provider=node[:db][:provider]
   log "  Saving #{provider} version #{version} in master info file"
@@ -99,14 +105,18 @@ action :write_backup_info do
   ::File.open(::File.join(node[:db][:data_dir], RightScale::Database::MySQL::Helper::SNAPSHOT_POSITION_FILENAME), ::File::CREAT|::File::TRUNC|::File::RDWR) do |out|
     YAML.dump(masterstatus, out)
   end
+=end
 end
 
 action :pre_restore_check do
+=begin
   @db = init(new_resource)
   @db.pre_restore_sanity_check
+=end
 end
 
 action :post_restore_cleanup do
+=begin
   # Performs checks for snapshot compatibility with current server
   ruby_block "validate_backup" do
     block do
@@ -131,16 +141,21 @@ action :post_restore_cleanup do
   @db = init(new_resource)
   @db.symlink_datadir("/var/lib/mysql", node[:db][:data_dir])
   @db.post_restore_cleanup
+=end
 end
 
 action :pre_backup_check do
+=begin
   @db = init(new_resource)
   @db.pre_backup_check
+=end
 end
 
 action :post_backup_cleanup do
+=begin
   @db = init(new_resource)
   @db.post_backup_steps
+=end
 end
 
 action :set_privileges do
@@ -157,7 +172,6 @@ action :set_privileges do
 end
 
 action :install_client do
-
   # Uninstall certain packages
   packages = node[:db_oracle][:client_packages_uninstall]
   log "  Packages to uninstall: #{packages.join(",")}" unless packages == ""
@@ -203,7 +217,6 @@ action :install_client do
 end
 
 action :install_server do
-
   # Installing MySQL server
   platform = node[:platform]
   # MySQL server depends on MySQL client
