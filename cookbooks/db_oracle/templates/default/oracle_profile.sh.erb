@@ -1,0 +1,19 @@
+export DECLINE_SECURITY_UPDATES=true
+export ORACLE_BASE=/opt/oracle/app
+export ORACLE_SID=PROD
+export ORACLE_HOME=$ORACLE_BASE/product/11.2.0/<%= @db_home %>
+export PATH=$PATH:$ORACLE_HOME:$ORACLE_HOME/bin:/usr/local/bin
+export LD_LIBRARY_PATH=$ORACLE_HOME/lib:$ORACLE_HOME:$LD_LIBRARY_PATH
+export ORAENV_ASK=NO
+
+#if [ -e /usr/local/bin/oraenv ]; then
+#  . /usr/local/bin/oraenv
+#fi
+if [ "$USER" = "oracle" ]; then
+        if [ $SHELL = "/bin/ksh" ]; then
+              ulimit -p 16384
+              ulimit -n 63536
+        else
+              ulimit -u 16384 -n 63536
+        fi
+fi

@@ -1,0 +1,5 @@
+USERID="<%= @backup_user %>"
+SCHEMAS=<%= @schemas %>
+DIRECTORY=backup
+DUMPFILE=<%= node[:oracle][:backup][:dmpfile] %>-%U.dmp
+LOGFILE=<%= node[:oracle][:backup][:logfile] %>
