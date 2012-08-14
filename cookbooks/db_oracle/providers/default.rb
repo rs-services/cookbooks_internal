@@ -172,24 +172,8 @@ action :set_privileges do
 end
 
 action :install_client do
-  # Uninstall certain packages
-  packages = node[:db_oracle][:client_packages_uninstall]
-  log "  Packages to uninstall: #{packages.join(",")}" unless packages == ""
-  packages.each do |p|
-    r = package p do
-      action :nothing
-    end
-    r.run_action(:remove)
-  end
 
   # Install MySQL client packages
-  # Must install during the compile stage because mysql gem build depends on the libs
-  if node[:platform] =~ /redhat|centos/
-    # Install MySQL GPG Key (http://download.oracle.com/docs/cd/E17952_01/refman-5.5-en/checking-gpg-signature.html)
-    gpgkey = ::File.join(::File.dirname(__FILE__), "..", "files", "centos", "mysql_pubkey.asc")
-    `rpm --import #{gpgkey}`
-  end
-
   packages = node[:db_oracle][:client_packages_install]
   log "  Packages to install: #{packages.join(",")}" unless packages == ""
   packages.each do |p|
@@ -199,21 +183,6 @@ action :install_client do
     r.run_action(:install)
   end
 
-  # Install MySQL client gem
-  #
-  # Also installs in compile phase
-  gem_package 'mysql' do
-    gem_binary '/opt/rightscale/sandbox/bin/gem'
-    version '2.7'
-    options '-- --build-flags --with-mysql-config'
-  end
-
-  ruby_block 'clear gem paths for mysql' do
-    block do
-      Gem.clear_paths
-    end
-  end
-  log "  Gem reload forced with Gem.clear_paths"
 end
 
 action :install_server do
