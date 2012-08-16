@@ -28,7 +28,6 @@ ruby_block "update_namenodes" do
 end
 
 
-log "NAMENODES: #{node[:namenodes].inspect}"
 log "Installing hadoop hadoop-env.sh to #{node[:hadoop][:install_dir]}/conf"
 template "#{node[:hadoop][:install_dir]}/conf/hadoop-env.sh" do
   source "hadoop-env.sh.erb"
