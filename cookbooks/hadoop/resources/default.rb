@@ -19,6 +19,7 @@ attribute :backend_id, :kind_of => String, :default => ""
 attribute :backend_ip, :kind_of => String, :default => ""
 attribute :node_type, :kind_of => String, :default => ""
 #attribute :namenodes, :kind_of => String, :default => ""
+attribute :destination, :kind_of => String
 
 
 add_action :start
@@ -28,6 +29,7 @@ add_action :attach
 add_action :attach_request
 add_action :detach
 add_action :detach_request
+add_action :code_update
 
 
 actions @action_list

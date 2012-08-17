@@ -21,6 +21,14 @@ default[:hadoop][:datanode][:address][:port]='50010'
 default[:hadoop][:datanode][:ipc][:port]='50020'
 default[:hadoop][:datanode][:http][:port]='50075'
 
+# mapreduce attributes
+default[:mapreduce][:input] = "/mapreduce/input"
+default[:mapreduce][:output] = "/mapreduce/output"
+default[:mapreduce][:destination] = "/mapreduce"
+default[:mapreduce][:name] = "MyMapReduce"
+
+
+
 # This is a set instead of set_unless to support start/stop when the IP changes.
 set[:hadoop][:ip] = node[:cloud][:private_ips][0]
 

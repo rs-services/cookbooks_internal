@@ -10,6 +10,7 @@ depends 'rightscale'
 depends "block_device"
 depends "sys_firewall"
 depends "sys_dns"
+depends "repo"
 
 recipe 'hadoop::default', "Install, configure and init hadoop"
 recipe 'hadoop::install', 'Install hadoop'
@@ -26,8 +27,11 @@ recipe "hadoop::handle_detach", "Handle Detach"
 recipe "hadoop::do_detach_all", "Handle Detach All"
 recipe "hadoop::do_allow", "Allow connections between cluster hosts"
 recipe "hadoop::do_disallow", "Disallow connections between cluster hosts"
+recipe "hadoop::do_data_import", "Download data from a cloud provider and copy it into the hadoop FS."
+recipe "hadoop::do_map_reduce", "Run MapReduce command.  command and uploads output to cloud provider."
 
-attribute "ssh/public_ssh_key",
+
+attribute "rightscale/public_ssh_key",
   :display_name => "public ssh key ",
   :description => "Hadoop needs a public ssh key which it can use to ssh to 
 systems in it's cluster. This key should also match the private key supplied in ssh/private_ssh_key",
@@ -37,7 +41,7 @@ systems in it's cluster. This key should also match the private key supplied in 
 attribute "hadoop/node/type",
   :display_name => "Hadoop node type",
   :description => "Hadoop node type, used for managing slaves and masters",
-  :choice => ['namenode','datanode','tasktracker', 'jobtracker'],
+  :choice => ['namenode','datanode'],
   :default=>'namenode',
   :type => "string",
   :recipes => [  "hadoop::default","hadoop::do_init","hadoop::do_config" ]
@@ -89,3 +93,86 @@ attribute "hadoop/datanode/http/port",
   :required => "optional",
   :recipes => [ "hadoop::do_allow","hadooop:do_disallow" ]
 
+
+attribute "mapreduce/input",
+  :display_name => "Hadoop Input Directory",
+  :description => "Input directory to copy data",
+  :type => "string",
+  :default =>"input",
+  :required => "optional",
+  :recipes => [ "hadoop::do_map_reduce" ]
+
+attribute "mapreduce/output",
+  :display_name => "Hadoop Output Directory",
+  :description => "Output directory to place data after job is done. ",
+  :type => "string",
+  :default =>"output",
+  :required => "optional",
+  :recipes => [ "hadoop::do_map_reduce" ]
+
+attribute "mapreduce/compile",
+  :display_name => "Hadoop mapreduce compile command",
+  :description => "Command to compile java code.  Example: javac -classpath 
+ /home/hadoop/hadoop-core-1.0.3.jar -d wordcount_classes WordCount.java ",
+  :type => "string",
+  :default =>"output",
+  :required => "optional",
+  :recipes => [ "hadoop::do_map_reduce" ]
+
+attribute "mapreduce/destination",
+  :display_name => "Location of jar file for Hadoop Map Reduce command",
+  :description => "Hadoop Command to run MapReduce.  Example: bin/hadoop jar 
+   /mapreduce/MyMapReduce.jar org.myorg.MyMapReduce wordcount/input wordcount/output2",
+  :type => "string",
+  :default =>"output",
+  :required => "optional",
+  :recipes => ["hadoop::do_map_reduce" ]
+
+attribute "mapreduce/command",
+  :display_name => "Hadoop mapreduce jar command",
+  :description => "Hadoop Command to run MapReduce.  Example: bin/hadoop jar 
+   /root/mapreduce/wordcount.jar org.myorg.WordCount wordcount/input wordcount/output2",
+  :type => "string",
+  :default =>"output",
+  :required => "optional",
+  :recipes => [ "hadoop::do_map_reduce" ]
+
+attribute "mapreduce/name",
+  :display_name => "Hadoop mapreduce program name",
+  :description => "Hadoop MapReduce program name.  Example:  MyMapReduce",
+  :type => "string",
+  :default =>"output",
+  :required => "optional",
+  :recipes => ["hadoop::do_map_reduce" ]
+
+# hadoop data to MapReduce
+attribute "mapreduce/data/storage_account_provider",
+  :display_name => "Dump Storage Account Provider",
+  :description => "Location where the data file will be retrieved from. Used by dump recipes to back up to Amazon S3 or Rackspace Cloud Files.",
+  :required => "optional",
+  :choice => [ "s3", "cloudfiles", "cloudfilesuk", "SoftLayer_Dallas", "SoftLayer_Singapore", "SoftLayer_Amsterdam" ],
+  :recipes => [ "hadoop::do_map_reduce" ]
+
+attribute "mapreduce/data/storage_account_id",
+  :display_name => "Data Storage Account ID",
+  :description => "In order to download the data file to the specified cloud storage location, you need to provide cloud authentication credentials. For Amazon S3, use your Amazon access key ID (e.g., cred:AWS_ACCESS_KEY_ID). For Rackspace Cloud Files, use your Rackspace login username (e.g., cred:RACKSPACE_USERNAME).",
+  :required => "optional",
+  :recipes => [ "db::do_dump_import", ]
+
+attribute "mapreduce/data/storage_account_secret",
+  :display_name => "Data Storage Account Secret",
+  :description => "In order to get the data file to the specified cloud storage location, you will need to provide cloud authentication credentials. For Amazon S3, use your AWS secret access key (e.g., cred:AWS_SECRET_ACCESS_KEY). For Rackspace Cloud Files, use your Rackspace account API key (e.g., cred:RACKSPACE_AUTH_KEY).",
+  :required => "required",
+  :recipes => [ "hadoop::do_data_import" ]
+
+attribute "mapreduce/data/container",
+  :display_name => "Dump Container",
+  :description => "The cloud storage location where the data file will be saved to or restored from. For Amazon S3, use the bucket name. For Rackspace Cloud Files, use the container name.",
+  :required => "optional",
+  :recipes => [ "hadoop::do_data_import" ]
+
+attribute "mapreduce/data/name",
+  :display_name => "Data file name to download",
+  :description => "The name that will be used to name/locate the data file.  should be a .zip file",
+  :required => "optional",
+  :recipes => [ "hadoop::do_data_import"]

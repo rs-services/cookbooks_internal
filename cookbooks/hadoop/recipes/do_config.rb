@@ -54,7 +54,6 @@ template "#{node[:hadoop][:install_dir]}/conf/hdfs-site.xml" do
   mode "0644"
 end
 
-log "masters #{node[:namenodes]}"
 log "Installing hadoop masters to #{node[:hadoop][:install_dir]}/conf"
 template "#{node[:hadoop][:install_dir]}/conf/masters" do
   source "masters.erb"
@@ -64,7 +63,6 @@ template "#{node[:hadoop][:install_dir]}/conf/masters" do
   #variables(:namenodes =>node[:namenodes] )
 end
 
-log "slaves #{node[:namenodes]}"
 log "Installing hadoop slaves to #{node[:hadoop][:install_dir]}/conf"
 template "#{node[:hadoop][:install_dir]}/conf/slaves" do
   source "slaves.erb"

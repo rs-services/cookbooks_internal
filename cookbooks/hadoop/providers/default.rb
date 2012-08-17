@@ -98,3 +98,21 @@ action :detach_request do
   end
 
 end # action :detach_request do
+
+# checkout mapreduce code from repository
+action :code_update do
+  deploy_dir = new_resource.destination
+
+  log "  Starting code update sequence"
+  log "  Current project doc root is set to #{deploy_dir}"
+
+  log "  Starting source code download sequence..."
+  # Calling "repo" LWRP to download remote project repository
+  repo "default" do
+    destination deploy_dir
+    action node[:repo][:default][:perform_action].to_sym
+    #app_user node[:app_passenger][:apache][:user]
+    repository node[:repo][:default][:repository]
+    persist false
+  end
+end
