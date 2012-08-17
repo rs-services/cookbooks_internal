@@ -20,7 +20,7 @@ if node[:hadoop][:node][:type]=='namenode'
   end
 end
 
-add_public_key(node[:rightsale][:public_ssh_key])
+add_public_key(node[:rightscale][:public_ssh_key])
 
 template "/root/.ssh/config" do
   source "ssh_config.erb"
