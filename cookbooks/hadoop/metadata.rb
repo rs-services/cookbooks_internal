@@ -100,7 +100,7 @@ attribute "mapreduce/input",
   :type => "string",
   :default =>"input",
   :required => "optional",
-  :recipes => [ "db::do_dump_import", "hadoop::do_map_reduce" ]
+  :recipes => [ "db::do_data_import", "hadoop::do_map_reduce" ]
 
 attribute "mapreduce/output",
   :display_name => "Hadoop Output Directory",
@@ -108,42 +108,41 @@ attribute "mapreduce/output",
   :type => "string",
   :default =>"output",
   :required => "optional",
-  :recipes => [ "db::do_dump_import", "hadoop::do_map_reduce" ]
+  :recipes => [ "db::do_data_import", "hadoop::do_map_reduce" ]
 
 attribute "mapreduce/compile",
   :display_name => "Hadoop mapreduce compile command",
   :description => "Command to compile java code.  Example: javac -classpath 
  /home/hadoop/hadoop-core-1.0.3.jar -d wordcount_classes WordCount.java ",
   :type => "string",
-  :default =>"output",
+  :default =>"javac -classpath /home/hadoop/hadoop-core-1.0.3.jar -d /mapreduce ClassName.java",
   :required => "optional",
-  :recipes => [ "db::do_dump_import", "hadoop::do_map_reduce" ]
+  :recipes => [ "db::do_data_import", "hadoop::do_map_reduce" ]
 
 attribute "mapreduce/destination",
   :display_name => "Location of jar file for Hadoop Map Reduce command",
-  :description => "Hadoop Command to run MapReduce.  Example: bin/hadoop jar 
-   /mapreduce/MyMapReduce.jar org.myorg.MyMapReduce wordcount/input wordcount/output2",
+  :description => "Location where data file will be placed.",
   :type => "string",
-  :default =>"output",
+  :default =>"/mapreduce",
   :required => "optional",
-  :recipes => ["db::do_dump_import", "hadoop::do_map_reduce" ]
+  :recipes => ["db::do_data_import", "hadoop::do_map_reduce" ]
 
 attribute "mapreduce/command",
   :display_name => "Hadoop mapreduce jar command",
   :description => "Hadoop Command to run MapReduce.  Example: bin/hadoop jar 
-   /root/mapreduce/wordcount.jar org.myorg.WordCount wordcount/input wordcount/output2",
+   /root/mapreduce/wordcount.jar org.myorg.MyMapReduce input output",
   :type => "string",
-  :default =>"output",
+  :default =>"bin/hadoop jar /mapreduce/wordcount.jar org.myorg.ClassName input output",
   :required => "optional",
-  :recipes => [ "db::do_dump_import", "hadoop::do_map_reduce" ]
+  :recipes => [ "db::do_data_import", "hadoop::do_map_reduce" ]
 
 attribute "mapreduce/name",
   :display_name => "Hadoop mapreduce program name",
   :description => "Hadoop MapReduce program name.  Example:  MyMapReduce",
   :type => "string",
-  :default =>"output",
+  :default =>"MyMapReduce",
   :required => "optional",
-  :recipes => ["db::do_dump_import", "hadoop::do_map_reduce" ]
+  :recipes => ["db::do_data_import", "hadoop::do_map_reduce" ]
 
 # hadoop data to MapReduce
 attribute "mapreduce/data/storage_account_provider",
@@ -151,28 +150,28 @@ attribute "mapreduce/data/storage_account_provider",
   :description => "Location where the data file will be retrieved from. Used by dump recipes to back up to Amazon S3 or Rackspace Cloud Files.",
   :required => "optional",
   :choice => [ "s3", "cloudfiles", "cloudfilesuk", "SoftLayer_Dallas", "SoftLayer_Singapore", "SoftLayer_Amsterdam" ],
-  :recipes => [ "db::do_dump_import", "hadoop::do_map_reduce" ]
+  :recipes => [ "db::do_data_import", "hadoop::do_map_reduce" ]
 
 attribute "mapreduce/data/storage_account_id",
   :display_name => "Data Storage Account ID",
   :description => "In order to download the data file to the specified cloud storage location, you need to provide cloud authentication credentials. For Amazon S3, use your Amazon access key ID (e.g., cred:AWS_ACCESS_KEY_ID). For Rackspace Cloud Files, use your Rackspace login username (e.g., cred:RACKSPACE_USERNAME).",
   :required => "optional",
-  :recipes => [ "db::do_dump_import", "hadoop::do_map_reduce" ]
+  :recipes => [ "db::do_data_import", "hadoop::do_map_reduce" ]
 
 attribute "mapreduce/data/storage_account_secret",
   :display_name => "Data Storage Account Secret",
   :description => "In order to get the data file to the specified cloud storage location, you will need to provide cloud authentication credentials. For Amazon S3, use your AWS secret access key (e.g., cred:AWS_SECRET_ACCESS_KEY). For Rackspace Cloud Files, use your Rackspace account API key (e.g., cred:RACKSPACE_AUTH_KEY).",
-  :required => "required",
-  :recipes => [ "db::do_dump_import", "hadoop::do_map_reduce" ]
+  :required => "optional",
+  :recipes => [ "db::do_data_import", "hadoop::do_map_reduce" ]
 
 attribute "mapreduce/data/container",
   :display_name => "Dump Container",
   :description => "The cloud storage location where the data file will be saved to or restored from. For Amazon S3, use the bucket name. For Rackspace Cloud Files, use the container name.",
   :required => "optional",
-  :recipes => ["db::do_dump_import", "hadoop::do_map_reduce" ]
+  :recipes => ["db::do_data_import", "hadoop::do_map_reduce" ]
 
 attribute "mapreduce/data/name",
   :display_name => "Data file name to download",
   :description => "The name that will be used to name/locate the data file.  should be a .zip file",
   :required => "optional",
-  :recipes => ["db::do_dump_import", "hadoop::do_map_reduce"]
+  :recipes => ["db::do_data_import", "hadoop::do_map_reduce"]

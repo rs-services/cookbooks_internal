@@ -8,14 +8,15 @@
 rightscale_marker :begin
 
 
+log "data file #{node[:mapreduce]}"
 # Check for valid prefix / dump filename
 dump_file_regex = '(^\w+)(-\d{1,12})*$'
-raise "Data filename  #{node[:hadoop][:data][:name]} invalid.  It is restricted to word characters (letter, number, underscore) and an optional partial timestamp -YYYYMMDDHHMM.  (=~/#{dump_file_regex}/ is the ruby regex used). ex: myapp_prod_dump, myapp_prod_dump-201203080035 or myapp_prod_dump-201203" unless node[:hadoop][:data][:name] =~ /#{dump_file_regex}/ ||node[:hadoop][:data][:name] == ""
+raise "Data filename  #{node[:mapreduce][:data][:name]} invalid.  It is restricted to word characters (letter, number, underscore) and an optional partial timestamp -YYYYMMDDHHMM.  (=~/#{dump_file_regex}/ is the ruby regex used). ex: myapp_prod_dump, myapp_prod_dump-201203080035 or myapp_prod_dump-201203" unless node[:mapreduce][:data][:name] =~ /#{dump_file_regex}/ ||node[:mapreduce][:data][:name] == ""
 
 # Check variables and log/skip if not set
-skip, reason = true, "Name not profiled"                   if node[:hadoop][:data][:name] == ""
-skip, reason = true, "Storage account provider not provided" if node[:hadoop][:data][:storage_account_provider] == ""
-skip, reason = true, "Container not provided"                if node[:hadoop][:data][:container] == ""
+skip, reason = true, "Name not profiled"                   if node[:mapreduce][:data][:name] == ""
+skip, reason = true, "Storage account provider not provided" if node[:mapreduce][:data][:storage_account_provider] == ""
+skip, reason = true, "Container not provided"                if node[:mapreduce][:data][:container] == ""
 skip, reason = true, "MapReduce is only run on a namenode"   if node[:hadoop][:node][:type] != 'datanode'
 
 if skip
@@ -23,18 +24,18 @@ if skip
 else
 
   
-  prefix       = node[:hadoop][:data][:name]
+  prefix       = node[:mapreduce][:data][:name]
   dumpfilepath = "/tmp/" + prefix 
-  container    = node[:hadoop][:data][:container]
-  cloud        = node[:hadoop][:data][:storage_account_provider]
+  container    = node[:mapreduce][:data][:container]
+  cloud        = node[:mapreduce][:data][:storage_account_provider]
 
   # Obtain the data file from ROS 
   execute "Download dumpfile from Remote Object Store" do
     command "/opt/rightscale/sandbox/bin/ros_util get --cloud #{cloud} --container #{container} --dest #{dumpfilepath} --source #{prefix} --latest"
     creates dumpfilepath
     environment ({
-        'STORAGE_ACCOUNT_ID' => node[:hadoop][:data][:storage_account_id],
-        'STORAGE_ACCOUNT_SECRET' => node[:hadoop][:data][:storage_account_secret]
+        'STORAGE_ACCOUNT_ID' => node[:mapreduce][:data][:storage_account_id],
+        'STORAGE_ACCOUNT_SECRET' => node[:mapreduce][:data][:storage_account_secret]
       })
   end
 
