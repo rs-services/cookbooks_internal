@@ -8,13 +8,14 @@
 rightscale_marker :begin
 
 
-raise "MapReduce is only run on a namenode" if node[:hadoop][:node][:type] != 'datanode'
+raise "MapReduce is only run on a namenode" if node[:hadoop][:node][:type] == 'datanode'
 
 
 bash "Make hadoop directories" do
   flags "-ex"
   code <<-EOH
-      #{node[:hadoop][:install_dir]}/bin/hadoop fs -mkdir #{node[:mapreduce][:input]} #{node[:mapreduce][:output]} 
+     
+      #{node[:hadoop][:install_dir]}/bin/hadoop fs -mkdir #{node[:mapreduce][:output]} 
   EOH
   
 end
@@ -28,7 +29,7 @@ end
 bash "Compile MapReduce JAVA Code" do
   flags "-ex"
   code <<-EOH
-      javac -classpath #{node[:hadoop][:install_dir]}/hadoop-core-1.0.3.jar #{node[:mapreduce][:compile]}
+       #{node[:mapreduce][:compile]}
       jar -cvf /root/#{node[:mapreduce][:name]}.jar -C #{node[:mapreduce][:destination]} .
   EOH
   
@@ -41,7 +42,7 @@ bash "Run MapReduce Command #{node[:mapreduce][:command]}" do
   EOH
   
 end
-dumpfilename = node[:mapreduce][:data][:name]+"-output" + "-" + Time.now.strftime("%Y%m%d%H%M") + ".zip"
+dumpfilename = node[:mapreduce][:data][:output_prefix] + "-" + Time.now.strftime("%Y%m%d%H%M") + ".zip"
 dumpfilepath = "/tmp/#{dumpfilename}"
 
 
@@ -51,7 +52,7 @@ bash "Output data to ROS" do
   flags "-ex"
   code <<-EOH
        #{node[:hadoop][:install_dir]}/bin/hadoop -copyToLocal /tmp/output #{node[:mapreduce][:output]}
-       cd /tmp/output; zip -r #{dumpfilepath}.zip .
+       cd /tmp/output; tar -zcvf #{dumpfilepath}.tar.gz .
   EOH
  end
 

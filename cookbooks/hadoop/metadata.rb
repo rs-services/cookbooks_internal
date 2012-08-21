@@ -117,7 +117,7 @@ attribute "mapreduce/compile",
   :type => "string",
   :default =>"javac -classpath /home/hadoop/hadoop-core-1.0.3.jar -d /mapreduce ClassName.java",
   :required => "optional",
-  :recipes => [ "hadoop::do_data_import", "hadoop::do_map_reduce" ]
+  :recipes => [ "hadoop::do_map_reduce" ]
 
 attribute "mapreduce/destination",
   :display_name => "Location of jar file for Hadoop Map Reduce command",
@@ -134,7 +134,7 @@ attribute "mapreduce/command",
   :type => "string",
   :default =>"bin/hadoop jar /mapreduce/wordcount.jar org.myorg.ClassName input output",
   :required => "optional",
-  :recipes => [ "hadoop::do_data_import", "hadoop::do_map_reduce" ]
+  :recipes => [  "hadoop::do_map_reduce" ]
 
 attribute "mapreduce/name",
   :display_name => "Hadoop mapreduce program name",
@@ -142,7 +142,7 @@ attribute "mapreduce/name",
   :type => "string",
   :default =>"MyMapReduce",
   :required => "optional",
-  :recipes => ["hadoop::do_data_import", "hadoop::do_map_reduce" ]
+  :recipes => [ "hadoop::do_map_reduce" ]
 
 # hadoop data to MapReduce
 attribute "mapreduce/data/storage_account_provider",
@@ -170,8 +170,14 @@ attribute "mapreduce/data/container",
   :required => "optional",
   :recipes => ["hadoop::do_data_import", "hadoop::do_map_reduce" ]
 
-attribute "mapreduce/data/name",
-  :display_name => "Data file name to download",
-  :description => "The name that will be used to name/locate the data file.  should be a .zip file",
+attribute "mapreduce/data/prefix",
+  :display_name => "Data file name prefix to download",
+  :description => "The name that will be used to name/locate the data file.  Should be a .tar.gz file",
   :required => "optional",
-  :recipes => ["hadoop::do_data_import", "hadoop::do_map_reduce"]
+  :recipes => ["hadoop::do_data_import"]
+
+attribute "mapreduce/data/output_prefix",
+  :display_name => "Prefix of output file name to upload",
+  :description => "The prifix of the output filename.  Should be a .tar.gz file",
+  :required => "optional",
+  :recipes => ["hadoop::do_map_reduce" ]

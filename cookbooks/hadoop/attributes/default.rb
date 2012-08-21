@@ -22,8 +22,8 @@ default[:hadoop][:datanode][:ipc][:port]='50020'
 default[:hadoop][:datanode][:http][:port]='50075'
 
 # mapreduce attributes
-default[:mapreduce][:input] = "/mapreduce/input"
-default[:mapreduce][:output] = "/mapreduce/output"
+default[:mapreduce][:input] = "input"
+default[:mapreduce][:output] = "output"
 default[:mapreduce][:destination] = "/mapreduce"
 default[:mapreduce][:name] = "MyMapReduce"
 
