@@ -26,7 +26,7 @@ default[:mapreduce][:input] = "input"
 default[:mapreduce][:output] = "output"
 default[:mapreduce][:destination] = "/mapreduce"
 default[:mapreduce][:name] = "MyMapReduce"
-
+default[:mapreduce][:cleanup] = "no"
 
 
 # This is a set instead of set_unless to support start/stop when the IP changes.

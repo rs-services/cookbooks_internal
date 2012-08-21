@@ -7,22 +7,24 @@
  
 rightscale_marker :begin
 
+include_recipe "hadoop::do_cleanup"
 
 raise "MapReduce is only run on a namenode" if node[:hadoop][:node][:type] == 'datanode'
 
 
-bash "Make hadoop directories" do
-  flags "-ex"
-  code <<-EOH
-     
-      #{node[:hadoop][:install_dir]}/bin/hadoop fs -mkdir #{node[:mapreduce][:output]} 
-  EOH
-  
+directory "#{node[:mapreduce][:destination]}/source" do
+  recursive true
+  action :create
 end
 
 hadoop "code update" do
-  destination node[:mapreduce][:destination]
+  destination "#{node[:mapreduce][:destination]}/source"
   action :code_update
+end
+
+directory "#{node[:mapreduce][:destination]}/classes" do
+  recursive true
+  action :create
 end
 
 
@@ -30,7 +32,7 @@ bash "Compile MapReduce JAVA Code" do
   flags "-ex"
   code <<-EOH
        #{node[:mapreduce][:compile]}
-      jar -cvf /root/#{node[:mapreduce][:name]}.jar -C #{node[:mapreduce][:destination]} .
+      jar -cvf #{node[:mapreduce][:destination]}/#{node[:mapreduce][:name]}.jar -C #{node[:mapreduce][:destination]}/classes .
   EOH
   
 end
@@ -38,23 +40,31 @@ end
 bash "Run MapReduce Command #{node[:mapreduce][:command]}" do
   flags "-ex"
   code <<-EOH
-       #{node[:hadoop][:install_dir]}/bin/hadoop #{node[:mapreduce][:command]} #{node[:mapreduce][:input]} #{node[:mapreduce][:output]}
+       #{node[:hadoop][:install_dir]}/bin/hadoop #{node[:mapreduce][:command]}
   EOH
   
 end
-dumpfilename = node[:mapreduce][:data][:output_prefix] + "-" + Time.now.strftime("%Y%m%d%H%M") + ".zip"
-dumpfilepath = "/tmp/#{dumpfilename}"
+dumpfilename = node[:mapreduce][:data][:output_prefix] + "-" + Time.now.strftime("%Y%m%d%H%M")+".tar.gz"
+dumpfilepath = "#{node[:mapreduce][:destination]}/#{dumpfilename}"
 
-
+directory "#{node[:mapreduce][:destination]}/output" do
+  action :create
+end
 
 
 bash "Output data to ROS" do
   flags "-ex"
   code <<-EOH
-       #{node[:hadoop][:install_dir]}/bin/hadoop -copyToLocal /tmp/output #{node[:mapreduce][:output]}
-       cd /tmp/output; tar -zcvf #{dumpfilepath}.tar.gz .
+       #{node[:hadoop][:install_dir]}/bin/hadoop fs -copyToLocal #{node[:mapreduce][:output]}/* #{node[:mapreduce][:destination]}/output
   EOH
- end
+end
+
+bash "Tar output file " do
+  flags "-ex"
+  code <<-EOH
+       cd #{node[:mapreduce][:destination]}/output; tar -zcvf #{dumpfilepath} .
+  EOH
+end
 
 container   = node[:mapreduce][:data][:container]
 cloud       = node[:mapreduce][:data][:storage_account_provider]
@@ -63,19 +73,10 @@ cloud       = node[:mapreduce][:data][:storage_account_provider]
 execute "Upload dumpfile to Remote Object Store" do
   command "/opt/rightscale/sandbox/bin/ros_util put --cloud #{cloud} --container #{container} --dest #{dumpfilename} --source #{dumpfilepath}"
   environment ({
-    'STORAGE_ACCOUNT_ID' => node[:mapreduce][:data][:storage_account_id],
-    'STORAGE_ACCOUNT_SECRET' => node[:mapreduce][:data][:storage_account_secret]
-  })
+      'STORAGE_ACCOUNT_ID' => node[:mapreduce][:data][:storage_account_id],
+      'STORAGE_ACCOUNT_SECRET' => node[:mapreduce][:data][:storage_account_secret]
+    })
 end
 
-# Delete the local file
-file dumpfilepath do
-  backup false
-  action :delete
-end
-file "/tmp/output" do
-  backup false
-  action :delete
-end
 
 rightscale_marker :end

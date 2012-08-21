@@ -29,6 +29,7 @@ recipe "hadoop::do_allow", "Allow connections between cluster hosts"
 recipe "hadoop::do_disallow", "Disallow connections between cluster hosts"
 recipe "hadoop::do_data_import", "Download data from a cloud provider and copy it into the hadoop FS."
 recipe "hadoop::do_map_reduce", "Run MapReduce command.  command and uploads output to cloud provider."
+recipe "hadoop::do_cleanup", "Remove working directories and mapreduce input/output directories"
 
 
 attribute "rightscale/public_ssh_key",
@@ -44,7 +45,7 @@ attribute "hadoop/node/type",
   :choice => ['namenode','datanode'],
   :default=>'namenode',
   :type => "string",
-  :recipes => [  "hadoop::default","hadoop::do_init","hadoop::do_config" ]
+  :recipes => [  "hadoop::default","hadoop::do_init","hadoop::do_config","hadoop::do_data_import", "hadoop::do_cleanup" ]
 
 attribute "hadoop/dfs/replication",
   :display_name => "Hadoop namenode dfs.replicaton property ",
@@ -181,3 +182,11 @@ attribute "mapreduce/data/output_prefix",
   :description => "The prifix of the output filename.  Should be a .tar.gz file",
   :required => "optional",
   :recipes => ["hadoop::do_map_reduce" ]
+
+attribute "mapreduce/cleanup",
+  :display_name => "Delete the destination and Hadoop input/output directories",
+  :description => "Removes all the working directories.",
+  :choice => [ "yes", "no"],
+  :default=>"no",
+  :required => "optional",
+  :recipes => ["hadoop::do_cleanup" ]

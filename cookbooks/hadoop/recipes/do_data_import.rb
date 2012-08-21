@@ -8,6 +8,7 @@
 rightscale_marker :begin
 
 
+include_recipe "hadoop::do_cleanup"
 
 # Check for valid prefix / dump filename
 dump_file_regex = '(^\w+)(-\d{1,12})*$'
@@ -32,7 +33,7 @@ else
   # Delete the local file.
   directory node[:mapreduce][:destination] do
     recursive true
-    action :delete
+    action :create
   end
   
   # Obtain the data file from ROS 
@@ -63,11 +64,6 @@ else
  
   end
   
-  # Delete the local file.
-  directory node[:mapreduce][:destination] do
-    recursive true
-    action :delete
-  end
 
 end
 
