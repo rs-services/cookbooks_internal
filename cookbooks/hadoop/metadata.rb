@@ -97,29 +97,29 @@ attribute "hadoop/datanode/http/port",
 
 attribute "mapreduce/input",
   :display_name => "Hadoop Input Directory",
-  :description => "Input directory to copy data",
+  :description => "Directory created in HDFS for input data.",
   :type => "string",
   :default =>"input",
   :required => "optional",
-  :recipes => [ "hadoop::do_data_import", "hadoop::do_map_reduce" ]
+  :recipes => [ "hadoop::do_data_import" ]
 
 attribute "mapreduce/output",
   :display_name => "Hadoop Output Directory",
-  :description => "Output directory to place data after job is done. ",
+  :description => "Output directory to place data when MapReduce is run. ",
   :type => "string",
   :default =>"output",
   :required => "optional",
-  :recipes => [ "hadoop::do_data_import", "hadoop::do_map_reduce" ]
+  :recipes => [ "hadoop::do_map_reduce" ]
 
 attribute "mapreduce/compile",
-  :display_name => "Hadoop mapreduce source files to compile.",
-  :description => "Source files to complile. Example org/myorg/*.java org/myorg/foo/*.java",
+  :display_name => "Hadoop MapReduce source files to compile.",
+  :description => "Source files to complile. Example: org/myorg/*.java org/myorg/foo/*.java",
   :type => "string",
   :required => "optional",
   :recipes => [ "hadoop::do_map_reduce" ]
 
 attribute "mapreduce/destination",
-  :display_name => "Location of jar file for Hadoop Map Reduce command",
+  :display_name => "Location of all download and compiled files for Hadoop MapReduce command",
   :description => "Location where data file will be placed.",
   :type => "string",
   :default =>"/mapreduce",
@@ -145,38 +145,48 @@ attribute "mapreduce/name",
 # hadoop data to MapReduce
 attribute "mapreduce/data/storage_account_provider",
   :display_name => "Data Storage Account Provider",
-  :description => "Location where the data file will be retrieved from. Used by dump recipes to back up to Amazon S3 or Rackspace Cloud Files.",
+  :description => "Location where the data file will be imported from and uploaded to. 
+   Used by dump recipes to back up to Amazon S3 or Rackspace Cloud Files.",
   :required => "optional",
   :choice => [ "s3", "cloudfiles", "cloudfilesuk", "SoftLayer_Dallas", "SoftLayer_Singapore", "SoftLayer_Amsterdam" ],
   :recipes => [ "hadoop::do_data_import", "hadoop::do_map_reduce" ]
 
 attribute "mapreduce/data/storage_account_id",
   :display_name => "Data Storage Account ID",
-  :description => "In order to download the data file to the specified cloud storage location, you need to provide cloud authentication credentials. For Amazon S3, use your Amazon access key ID (e.g., cred:AWS_ACCESS_KEY_ID). For Rackspace Cloud Files, use your Rackspace login username (e.g., cred:RACKSPACE_USERNAME).",
+  :description => "In order to download the data file to the specified cloud 
+   storage location, you need to provide cloud authentication credentials. 
+   For Amazon S3, use your Amazon access key ID (e.g., cred:AWS_ACCESS_KEY_ID). 
+   For Rackspace Cloud Files, use your Rackspace login username (e.g., cred:RACKSPACE_USERNAME).",
   :required => "optional",
   :recipes => [ "hadoop::do_data_import", "hadoop::do_map_reduce" ]
 
 attribute "mapreduce/data/storage_account_secret",
   :display_name => "Data Storage Account Secret",
-  :description => "In order to get the data file to the specified cloud storage location, you will need to provide cloud authentication credentials. For Amazon S3, use your AWS secret access key (e.g., cred:AWS_SECRET_ACCESS_KEY). For Rackspace Cloud Files, use your Rackspace account API key (e.g., cred:RACKSPACE_AUTH_KEY).",
+  :description => "In order to get the data file to the specified cloud storage 
+   location, you will need to provide cloud authentication credentials. 
+   For Amazon S3, use your AWS secret access key (e.g., cred:AWS_SECRET_ACCESS_KEY). 
+   For Rackspace Cloud Files, use your Rackspace account API key (e.g., cred:RACKSPACE_AUTH_KEY).",
   :required => "optional",
   :recipes => [ "hadoop::do_data_import", "hadoop::do_map_reduce" ]
 
 attribute "mapreduce/data/container",
-  :display_name => "Dump Container",
-  :description => "The cloud storage location where the data file will be saved to or restored from. For Amazon S3, use the bucket name. For Rackspace Cloud Files, use the container name.",
+  :display_name => "Data file Container",
+  :description => "The cloud storage location where the data file will be downloaded from or uploaded to. 
+  For Amazon S3, use the bucket name. For Rackspace Cloud Files, use the container name.",
   :required => "optional",
   :recipes => ["hadoop::do_data_import", "hadoop::do_map_reduce" ]
 
 attribute "mapreduce/data/prefix",
   :display_name => "Data file name prefix to download",
-  :description => "The name that will be used to name/locate the data file.  Should be a .tar.gz file",
+  :description => "The prefix that will be used to name/locate.  If there are 
+  multiple version, use a timestamp in the filename.  The newest will be 
+  picked up first.  Should be a .tar.gz file",
   :required => "optional",
   :recipes => ["hadoop::do_data_import"]
 
 attribute "mapreduce/data/output_prefix",
   :display_name => "Prefix of output file name to upload",
-  :description => "The prifix of the output filename.  Should be a .tar.gz file",
+  :description => "The prefix of the output filename.  Output file is tar.gz'd",
   :required => "optional",
   :recipes => ["hadoop::do_map_reduce" ]
 
