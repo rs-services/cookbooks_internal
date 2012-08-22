@@ -7,7 +7,6 @@
  
 rightscale_marker :begin
 
-include_recipe "hadoop::do_cleanup"
 
 raise "MapReduce is only run on a namenode" if node[:hadoop][:node][:type] == 'datanode'
 
@@ -17,7 +16,7 @@ directory "#{node[:mapreduce][:destination]}/source" do
   action :create
 end
 
-hadoop "code update" do
+hadoop "code update: #{node[:mapreduce][:destination]}/source" do
   destination "#{node[:mapreduce][:destination]}/source"
   action :code_update
 end
@@ -31,16 +30,16 @@ end
 bash "Compile MapReduce JAVA Code" do
   flags "-ex"
   code <<-EOH
-       #{node[:mapreduce][:compile]}
-      jar -cvf #{node[:mapreduce][:destination]}/#{node[:mapreduce][:name]}.jar -C #{node[:mapreduce][:destination]}/classes .
+       javac -classpath /home/hadoop/hadoop-core-#{node[:hadoop][:version]}.jar -d #{node[:mapreduce][:destination]}/classes  #{node[:mapreduce][:destination]}/source/#{node[:mapreduce][:compile]}
+       jar -cvf #{node[:mapreduce][:destination]}/#{node[:mapreduce][:name]}.jar -C #{node[:mapreduce][:destination]}/classes .
   EOH
   
 end
 
-bash "Run MapReduce Command #{node[:mapreduce][:command]}" do
+bash "Run MapReduce Command: #{node[:mapreduce][:command]}" do
   flags "-ex"
   code <<-EOH
-       #{node[:hadoop][:install_dir]}/bin/hadoop #{node[:mapreduce][:command]}
+       #{node[:hadoop][:install_dir]}/bin/hadoop jar #{node[:mapreduce][:destination]}/#{node[:mapreduce][:name]}.jar #{node[:mapreduce][:command]}
   EOH
   
 end
@@ -52,14 +51,14 @@ directory "#{node[:mapreduce][:destination]}/output" do
 end
 
 
-bash "Output data to ROS" do
+bash "Copy output to Local FS: #{node[:mapreduce][:destination]}/output" do
   flags "-ex"
   code <<-EOH
        #{node[:hadoop][:install_dir]}/bin/hadoop fs -copyToLocal #{node[:mapreduce][:output]}/* #{node[:mapreduce][:destination]}/output
   EOH
 end
 
-bash "Tar output file " do
+bash "Tar output file to upload to ROS " do
   flags "-ex"
   code <<-EOH
        cd #{node[:mapreduce][:destination]}/output; tar -zcvf #{dumpfilepath} .

@@ -112,11 +112,9 @@ attribute "mapreduce/output",
   :recipes => [ "hadoop::do_data_import", "hadoop::do_map_reduce" ]
 
 attribute "mapreduce/compile",
-  :display_name => "Hadoop mapreduce compile command",
-  :description => "Command to compile java code.  Example: javac -classpath 
- /home/hadoop/hadoop-core-1.0.3.jar -d wordcount_classes WordCount.java ",
+  :display_name => "Hadoop mapreduce source files to compile.",
+  :description => "Source files to complile. Example org/myorg/*.java org/myorg/foo/*.java",
   :type => "string",
-  :default =>"javac -classpath /home/hadoop/hadoop-core-1.0.3.jar -d /mapreduce ClassName.java",
   :required => "optional",
   :recipes => [ "hadoop::do_map_reduce" ]
 
@@ -129,25 +127,24 @@ attribute "mapreduce/destination",
   :recipes => ["hadoop::do_data_import", "hadoop::do_map_reduce" ]
 
 attribute "mapreduce/command",
-  :display_name => "Hadoop mapreduce jar command",
-  :description => "Hadoop Command to run MapReduce.  Example: bin/hadoop jar 
-   /root/mapreduce/wordcount.jar org.myorg.MyMapReduce input output",
+  :display_name => "Hadoop MapReduce class and arguments to run.",
+  :description => "The class and arguments to run the Job.  This input is 
+  appended to the end of the 'hadoop jar jarfile' command.  
+  Example: org.myorg.MyMapReduce input output",
   :type => "string",
-  :default =>"bin/hadoop jar /mapreduce/wordcount.jar org.myorg.ClassName input output",
   :required => "optional",
   :recipes => [  "hadoop::do_map_reduce" ]
 
 attribute "mapreduce/name",
-  :display_name => "Hadoop mapreduce program name",
-  :description => "Hadoop MapReduce program name.  Example:  MyMapReduce",
+  :display_name => "Hadoop MapReduce program name",
+  :description => "Used as namespace for paths and commands:  Example MyMapReduce",
   :type => "string",
-  :default =>"MyMapReduce",
   :required => "optional",
   :recipes => [ "hadoop::do_map_reduce" ]
 
 # hadoop data to MapReduce
 attribute "mapreduce/data/storage_account_provider",
-  :display_name => "Dump Storage Account Provider",
+  :display_name => "Data Storage Account Provider",
   :description => "Location where the data file will be retrieved from. Used by dump recipes to back up to Amazon S3 or Rackspace Cloud Files.",
   :required => "optional",
   :choice => [ "s3", "cloudfiles", "cloudfilesuk", "SoftLayer_Dallas", "SoftLayer_Singapore", "SoftLayer_Amsterdam" ],
