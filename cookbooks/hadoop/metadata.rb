@@ -186,4 +186,4 @@ attribute "mapreduce/cleanup",
   :choice => [ "yes", "no"],
   :default=>"no",
   :required => "optional",
-  :recipes => ["hadoop::do_cleanup" ]
+  :recipes => ["hadoop::do_data_import","hadoop::do_cleanup" ]

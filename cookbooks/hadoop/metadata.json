@@ -1,299 +1,60 @@
 {
-  "groupings": {
-  },
+  "version": "0.0.1",
+  "maintainer_email": "premium@rightscale.com",
   "replacing": {
   },
-  "suggestions": {
+  "providing": {
+  },
+  "platforms": {
   },
   "name": "hadoop",
+  "recommendations": {
+  },
   "attributes": {
-    "mapreduce/data/container": {
+    "mapreduce/compile": {
       "type": "string",
-      "recipes": [
-        "hadoop::do_data_import",
-        "hadoop::do_map_reduce"
-      ],
-      "calculated": false,
-      "display_name": "Dump Container",
-      "required": "optional",
-      "description": "The cloud storage location where the data file will be saved to or restored from. For Amazon S3, use the bucket name. For Rackspace Cloud Files, use the container name.",
       "choice": [
 
-      ]
-    },
-    "mapreduce/command": {
-      "type": "string",
+      ],
       "recipes": [
         "hadoop::do_map_reduce"
       ],
-      "calculated": false,
-      "display_name": "Hadoop mapreduce jar command",
       "required": "optional",
-      "description": "Hadoop Command to run MapReduce.  Example: bin/hadoop jar \n   /root/mapreduce/wordcount.jar org.myorg.MyMapReduce input output",
-      "choice": [
-
-      ],
-      "default": "bin/hadoop jar /mapreduce/wordcount.jar org.myorg.ClassName input output"
-    },
-    "hadoop/dfs/replication": {
-      "type": "string",
-      "recipes": [
-        "hadoop::default",
-        "hadoop::do_config"
-      ],
       "calculated": false,
-      "display_name": "Hadoop namenode dfs.replicaton property ",
-      "required": "optional",
-      "description": "Hadoop namenode dfs.replicaton property",
-      "choice": [
-
-      ]
-    },
-    "mapreduce/data/output_prefix": {
-      "type": "string",
-      "recipes": [
-        "hadoop::do_map_reduce"
-      ],
-      "calculated": false,
-      "display_name": "Prefix of output file name to upload",
-      "required": "optional",
-      "description": "The prifix of the output filename.  Should be a .tar.gz file",
-      "choice": [
-
-      ]
-    },
-    "hadoop/namenode/address/port": {
-      "type": "string",
-      "recipes": [
-        "hadoop::do_allow",
-        "hadooop:do_disallow"
-      ],
-      "calculated": false,
-      "display_name": "Namenode firewall port",
-      "required": "optional",
-      "description": "Set the firewall port used by the namenode",
-      "choice": [
-
-      ],
-      "default": "8020"
-    },
-    "mapreduce/data/prefix": {
-      "type": "string",
-      "recipes": [
-        "hadoop::do_data_import"
-      ],
-      "calculated": false,
-      "display_name": "Data file name prefix to download",
-      "required": "optional",
-      "description": "The name that will be used to name/locate the data file.  Should be a .tar.gz file",
-      "choice": [
-
-      ]
-    },
-    "mapreduce/data/storage_account_id": {
-      "type": "string",
-      "recipes": [
-        "hadoop::do_data_import",
-        "hadoop::do_map_reduce"
-      ],
-      "calculated": false,
-      "display_name": "Data Storage Account ID",
-      "required": "optional",
-      "description": "In order to download the data file to the specified cloud storage location, you need to provide cloud authentication credentials. For Amazon S3, use your Amazon access key ID (e.g., cred:AWS_ACCESS_KEY_ID). For Rackspace Cloud Files, use your Rackspace login username (e.g., cred:RACKSPACE_USERNAME).",
-      "choice": [
-
-      ]
-    },
-    "mapreduce/name": {
-      "type": "string",
-      "recipes": [
-        "hadoop::do_map_reduce"
-      ],
-      "calculated": false,
-      "display_name": "Hadoop mapreduce program name",
-      "required": "optional",
-      "description": "Hadoop MapReduce program name.  Example:  MyMapReduce",
-      "choice": [
-
-      ],
-      "default": "MyMapReduce"
-    },
-    "mapreduce/destination": {
-      "type": "string",
-      "recipes": [
-        "hadoop::do_data_import",
-        "hadoop::do_map_reduce"
-      ],
-      "calculated": false,
-      "display_name": "Location of jar file for Hadoop Map Reduce command",
-      "required": "optional",
-      "description": "Location where data file will be placed.",
-      "choice": [
-
-      ],
-      "default": "/mapreduce"
-    },
-    "hadoop/datanode/ipc/port": {
-      "type": "string",
-      "recipes": [
-        "hadoop::do_allow",
-        "hadooop:do_disallow"
-      ],
-      "calculated": false,
-      "display_name": "Datanode ipc firewall port ",
-      "required": "optional",
-      "description": "Set the firewall port used by the datanode ipc address",
-      "choice": [
-
-      ],
-      "default": "50020"
-    },
-    "hadoop/node/type": {
-      "type": "string",
-      "recipes": [
-        "hadoop::default",
-        "hadoop::do_init",
-        "hadoop::do_config",
-        "hadoop::do_data_import",
-        "hadoop::do_cleanup"
-      ],
-      "calculated": false,
-      "display_name": "Hadoop node type",
-      "required": "optional",
-      "description": "Hadoop node type, used for managing slaves and masters",
-      "choice": [
-        "namenode",
-        "datanode"
-      ],
-      "default": "namenode"
+      "display_name": "Hadoop mapreduce source files to compile.",
+      "description": "Source files to complile. Example org/myorg/*.java org/myorg/foo/*.java"
     },
     "mapreduce/input": {
       "type": "string",
+      "default": "input",
+      "choice": [
+
+      ],
       "recipes": [
         "hadoop::do_data_import",
         "hadoop::do_map_reduce"
       ],
+      "required": "optional",
       "calculated": false,
       "display_name": "Hadoop Input Directory",
-      "required": "optional",
-      "description": "Input directory to copy data",
-      "choice": [
-
-      ],
-      "default": "input"
+      "description": "Input directory to copy data"
     },
     "mapreduce/data/storage_account_secret": {
       "type": "string",
+      "choice": [
+
+      ],
       "recipes": [
         "hadoop::do_data_import",
         "hadoop::do_map_reduce"
       ],
+      "required": "optional",
       "calculated": false,
       "display_name": "Data Storage Account Secret",
-      "required": "optional",
-      "description": "In order to get the data file to the specified cloud storage location, you will need to provide cloud authentication credentials. For Amazon S3, use your AWS secret access key (e.g., cred:AWS_SECRET_ACCESS_KEY). For Rackspace Cloud Files, use your Rackspace account API key (e.g., cred:RACKSPACE_AUTH_KEY).",
-      "choice": [
-
-      ]
-    },
-    "hadoop/datanode/http/port": {
-      "type": "string",
-      "recipes": [
-        "hadoop::do_allow",
-        "hadooop:do_disallow"
-      ],
-      "calculated": false,
-      "display_name": "Datanode http firewall port ",
-      "required": "optional",
-      "description": "Set the firewall port used by the datanode http server",
-      "choice": [
-
-      ],
-      "default": "50075"
-    },
-    "mapreduce/compile": {
-      "type": "string",
-      "recipes": [
-        "hadoop::do_map_reduce"
-      ],
-      "calculated": false,
-      "display_name": "Hadoop mapreduce compile command",
-      "required": "optional",
-      "description": "Command to compile java code.  Example: javac -classpath \n /home/hadoop/hadoop-core-1.0.3.jar -d wordcount_classes WordCount.java ",
-      "choice": [
-
-      ],
-      "default": "javac -classpath /home/hadoop/hadoop-core-1.0.3.jar -d /mapreduce ClassName.java"
-    },
-    "mapreduce/output": {
-      "type": "string",
-      "recipes": [
-        "hadoop::do_data_import",
-        "hadoop::do_map_reduce"
-      ],
-      "calculated": false,
-      "display_name": "Hadoop Output Directory",
-      "required": "optional",
-      "description": "Output directory to place data after job is done. ",
-      "choice": [
-
-      ],
-      "default": "output"
-    },
-    "rightscale/public_ssh_key": {
-      "type": "string",
-      "recipes": [
-        "hadoop::default",
-        "hadoop::do_init"
-      ],
-      "calculated": false,
-      "display_name": "public ssh key ",
-      "required": "required",
-      "description": "Hadoop needs a public ssh key which it can use to ssh to \nsystems in it's cluster. This key should also match the private key supplied in ssh/private_ssh_key",
-      "choice": [
-
-      ]
-    },
-    "mapreduce/cleanup": {
-      "type": "string",
-      "recipes": [
-        "hadoop::do_cleanup"
-      ],
-      "calculated": false,
-      "display_name": "Delete the destination and Hadoop input/output directories",
-      "required": "optional",
-      "description": "Removes all the working directories.",
-      "choice": [
-        "yes",
-        "no"
-      ],
-      "default": "no"
-    },
-    "hadoop/datanode/address/port": {
-      "type": "string",
-      "recipes": [
-        "hadoop::do_allow",
-        "hadooop:do_disallow"
-      ],
-      "calculated": false,
-      "display_name": "Datanode address firewall port",
-      "required": "optional",
-      "description": "Set the firewall port used by the datanode address",
-      "choice": [
-
-      ],
-      "default": "50010"
+      "description": "In order to get the data file to the specified cloud storage location, you will need to provide cloud authentication credentials. For Amazon S3, use your AWS secret access key (e.g., cred:AWS_SECRET_ACCESS_KEY). For Rackspace Cloud Files, use your Rackspace account API key (e.g., cred:RACKSPACE_AUTH_KEY)."
     },
     "mapreduce/data/storage_account_provider": {
       "type": "string",
-      "recipes": [
-        "hadoop::do_data_import",
-        "hadoop::do_map_reduce"
-      ],
-      "calculated": false,
-      "display_name": "Dump Storage Account Provider",
-      "required": "optional",
-      "description": "Location where the data file will be retrieved from. Used by dump recipes to back up to Amazon S3 or Rackspace Cloud Files.",
       "choice": [
         "s3",
         "cloudfiles",
@@ -301,63 +62,300 @@
         "SoftLayer_Dallas",
         "SoftLayer_Singapore",
         "SoftLayer_Amsterdam"
-      ]
+      ],
+      "recipes": [
+        "hadoop::do_data_import",
+        "hadoop::do_map_reduce"
+      ],
+      "required": "optional",
+      "calculated": false,
+      "display_name": "Data Storage Account Provider",
+      "description": "Location where the data file will be retrieved from. Used by dump recipes to back up to Amazon S3 or Rackspace Cloud Files."
     },
-    "hadoop/namenode/http/port": {
+    "hadoop/namenode/address/port": {
       "type": "string",
+      "default": "8020",
+      "choice": [
+
+      ],
       "recipes": [
         "hadoop::do_allow",
         "hadooop:do_disallow"
       ],
-      "calculated": false,
-      "display_name": "Namenode http firewall port",
       "required": "optional",
-      "description": "Set the firewall port used by the namenode http server",
+      "calculated": false,
+      "display_name": "Namenode firewall port",
+      "description": "Set the firewall port used by the namenode"
+    },
+    "mapreduce/cleanup": {
+      "type": "string",
+      "default": "no",
+      "choice": [
+        "yes",
+        "no"
+      ],
+      "recipes": [
+        "hadoop::do_data_import",
+        "hadoop::do_cleanup"
+      ],
+      "required": "optional",
+      "calculated": false,
+      "display_name": "Delete the destination and Hadoop input/output directories",
+      "description": "Removes all the working directories."
+    },
+    "mapreduce/data/prefix": {
+      "type": "string",
       "choice": [
 
       ],
-      "default": "50070"
+      "recipes": [
+        "hadoop::do_data_import"
+      ],
+      "required": "optional",
+      "calculated": false,
+      "display_name": "Data file name prefix to download",
+      "description": "The name that will be used to name/locate the data file.  Should be a .tar.gz file"
+    },
+    "hadoop/namenode/http/port": {
+      "type": "string",
+      "default": "50070",
+      "choice": [
+
+      ],
+      "recipes": [
+        "hadoop::do_allow",
+        "hadooop:do_disallow"
+      ],
+      "required": "optional",
+      "calculated": false,
+      "display_name": "Namenode http firewall port",
+      "description": "Set the firewall port used by the namenode http server"
+    },
+    "mapreduce/command": {
+      "type": "string",
+      "choice": [
+
+      ],
+      "recipes": [
+        "hadoop::do_map_reduce"
+      ],
+      "required": "optional",
+      "calculated": false,
+      "display_name": "Hadoop MapReduce class and arguments to run.",
+      "description": "The class and arguments to run the Job.  This input is \n  appended to the end of the 'hadoop jar jarfile' command.  \n  Example: org.myorg.MyMapReduce input output"
+    },
+    "hadoop/datanode/http/port": {
+      "type": "string",
+      "default": "50075",
+      "choice": [
+
+      ],
+      "recipes": [
+        "hadoop::do_allow",
+        "hadooop:do_disallow"
+      ],
+      "required": "optional",
+      "calculated": false,
+      "display_name": "Datanode http firewall port ",
+      "description": "Set the firewall port used by the datanode http server"
+    },
+    "hadoop/node/type": {
+      "type": "string",
+      "default": "namenode",
+      "choice": [
+        "namenode",
+        "datanode"
+      ],
+      "recipes": [
+        "hadoop::default",
+        "hadoop::do_init",
+        "hadoop::do_config",
+        "hadoop::do_data_import",
+        "hadoop::do_cleanup"
+      ],
+      "required": "optional",
+      "calculated": false,
+      "display_name": "Hadoop node type",
+      "description": "Hadoop node type, used for managing slaves and masters"
+    },
+    "rightscale/public_ssh_key": {
+      "type": "string",
+      "choice": [
+
+      ],
+      "recipes": [
+        "hadoop::default",
+        "hadoop::do_init"
+      ],
+      "required": "required",
+      "calculated": false,
+      "display_name": "public ssh key ",
+      "description": "Hadoop needs a public ssh key which it can use to ssh to \nsystems in it's cluster. This key should also match the private key supplied in ssh/private_ssh_key"
+    },
+    "mapreduce/data/output_prefix": {
+      "type": "string",
+      "choice": [
+
+      ],
+      "recipes": [
+        "hadoop::do_map_reduce"
+      ],
+      "required": "optional",
+      "calculated": false,
+      "display_name": "Prefix of output file name to upload",
+      "description": "The prifix of the output filename.  Should be a .tar.gz file"
+    },
+    "mapreduce/data/container": {
+      "type": "string",
+      "choice": [
+
+      ],
+      "recipes": [
+        "hadoop::do_data_import",
+        "hadoop::do_map_reduce"
+      ],
+      "required": "optional",
+      "calculated": false,
+      "display_name": "Dump Container",
+      "description": "The cloud storage location where the data file will be saved to or restored from. For Amazon S3, use the bucket name. For Rackspace Cloud Files, use the container name."
+    },
+    "mapreduce/output": {
+      "type": "string",
+      "default": "output",
+      "choice": [
+
+      ],
+      "recipes": [
+        "hadoop::do_data_import",
+        "hadoop::do_map_reduce"
+      ],
+      "required": "optional",
+      "calculated": false,
+      "display_name": "Hadoop Output Directory",
+      "description": "Output directory to place data after job is done. "
+    },
+    "hadoop/datanode/address/port": {
+      "type": "string",
+      "default": "50010",
+      "choice": [
+
+      ],
+      "recipes": [
+        "hadoop::do_allow",
+        "hadooop:do_disallow"
+      ],
+      "required": "optional",
+      "calculated": false,
+      "display_name": "Datanode address firewall port",
+      "description": "Set the firewall port used by the datanode address"
+    },
+    "mapreduce/data/storage_account_id": {
+      "type": "string",
+      "choice": [
+
+      ],
+      "recipes": [
+        "hadoop::do_data_import",
+        "hadoop::do_map_reduce"
+      ],
+      "required": "optional",
+      "calculated": false,
+      "display_name": "Data Storage Account ID",
+      "description": "In order to download the data file to the specified cloud storage location, you need to provide cloud authentication credentials. For Amazon S3, use your Amazon access key ID (e.g., cred:AWS_ACCESS_KEY_ID). For Rackspace Cloud Files, use your Rackspace login username (e.g., cred:RACKSPACE_USERNAME)."
+    },
+    "mapreduce/name": {
+      "type": "string",
+      "choice": [
+
+      ],
+      "recipes": [
+        "hadoop::do_map_reduce"
+      ],
+      "required": "optional",
+      "calculated": false,
+      "display_name": "Hadoop MapReduce program name",
+      "description": "Used as namespace for paths and commands:  Example MyMapReduce"
+    },
+    "hadoop/dfs/replication": {
+      "type": "string",
+      "choice": [
+
+      ],
+      "recipes": [
+        "hadoop::default",
+        "hadoop::do_config"
+      ],
+      "required": "optional",
+      "calculated": false,
+      "display_name": "Hadoop namenode dfs.replicaton property ",
+      "description": "Hadoop namenode dfs.replicaton property"
+    },
+    "mapreduce/destination": {
+      "type": "string",
+      "default": "/mapreduce",
+      "choice": [
+
+      ],
+      "recipes": [
+        "hadoop::do_data_import",
+        "hadoop::do_map_reduce"
+      ],
+      "required": "optional",
+      "calculated": false,
+      "display_name": "Location of jar file for Hadoop Map Reduce command",
+      "description": "Location where data file will be placed."
+    },
+    "hadoop/datanode/ipc/port": {
+      "type": "string",
+      "default": "50020",
+      "choice": [
+
+      ],
+      "recipes": [
+        "hadoop::do_allow",
+        "hadooop:do_disallow"
+      ],
+      "required": "optional",
+      "calculated": false,
+      "display_name": "Datanode ipc firewall port ",
+      "description": "Set the firewall port used by the datanode ipc address"
     }
   },
-  "providing": {
+  "license": "All rights reserved",
+  "groupings": {
+  },
+  "recipes": {
+    "hadoop::do_cleanup": "Remove working directories and mapreduce input/output directories",
+    "hadoop::do_map_reduce": "Run MapReduce command.  command and uploads output to cloud provider.",
+    "hadoop::do_detach_request": "Detach request",
+    "hadoop::do_config": "Configure hadoop",
+    "hadoop::default": "Install, configure and init hadoop",
+    "hadoop::do_detach_all": "Handle Detach All",
+    "hadoop::do_start": "Start Hadoop",
+    "hadoop::do_attach_all": "Handle Attach All",
+    "hadoop::handle_attach": "Handle Attach",
+    "hadoop::do_restart": "Restart Hadoop",
+    "hadoop::do_stop": "Stop Hadoop",
+    "hadoop::do_init": "Format the namenode",
+    "hadoop::do_data_import": "Download data from a cloud provider and copy it into the hadoop FS.",
+    "hadoop::do_allow": "Allow connections between cluster hosts",
+    "hadoop::do_disallow": "Disallow connections between cluster hosts",
+    "hadoop::do_attach_request": "Attach request",
+    "hadoop::handle_detach": "Handle Detach",
+    "hadoop::install": "Install hadoop"
   },
   "conflicting": {
   },
-  "maintainer_email": "premium@rightscale.com",
-  "long_description": "Description\n===========\nInstall and Configure Apache Hadoop 1.03\n\nRequirements\n============\nJava\n\n\nAttributes\n==========\n\nUsage\n=====\n\nTo create a Hadoop Cluster, create multiple servers.  Each server will be \ndesignated as a namenode (master) or datanode (slave).  \n\nSet the hadoop/dfs/replication input to the size of your datanode replication size.\n",
-  "license": "All rights reserved",
-  "recipes": {
-    "hadoop::do_detach_all": "Handle Detach All",
-    "hadoop::do_stop": "Stop Hadoop",
-    "hadoop::do_init": "Format the namenode",
-    "hadoop::install": "Install hadoop",
-    "hadoop::do_map_reduce": "Run MapReduce command.  command and uploads output to cloud provider.",
-    "hadoop::do_start": "Start Hadoop",
-    "hadoop::do_data_import": "Download data from a cloud provider and copy it into the hadoop FS.",
-    "hadoop::do_allow": "Allow connections between cluster hosts",
-    "hadoop::do_cleanup": "Remove working directories and mapreduce input/output directories",
-    "hadoop::do_detach_request": "Detach request",
-    "hadoop::do_restart": "Restart Hadoop",
-    "hadoop::do_config": "Configure hadoop",
-    "hadoop::handle_attach": "Handle Attach",
-    "hadoop::do_attach_request": "Attach request",
-    "hadoop::do_disallow": "Disallow connections between cluster hosts",
-    "hadoop::handle_detach": "Handle Detach",
-    "hadoop::do_attach_all": "Handle Attach All",
-    "hadoop::default": "Install, configure and init hadoop"
-  },
-  "maintainer": "RightScale Inc",
   "dependencies": {
-    "repo": ">= 0.0.0",
-    "block_device": ">= 0.0.0",
-    "sys_firewall": ">= 0.0.0",
     "sys_dns": ">= 0.0.0",
-    "rightscale": ">= 0.0.0"
+    "repo": ">= 0.0.0",
+    "sys_firewall": ">= 0.0.0",
+    "rightscale": ">= 0.0.0",
+    "block_device": ">= 0.0.0"
   },
-  "platforms": {
+  "suggestions": {
   },
-  "version": "0.0.1",
-  "recommendations": {
-  },
-  "description": "Install and Configure Apache Hadoop"
+  "long_description": "Description\n===========\nInstall and Configure Apache Hadoop 1.03\n\nRequirements\n============\nJava\n\n\nAttributes\n==========\n\nUsage\n=====\n\nTo create a Hadoop Cluster, create multiple servers.  Each server will be \ndesignated as a namenode (master) or datanode (slave).  \n\nSet the hadoop/dfs/replication input to the size of your datanode replication size.\n\n\nMapReduce\n\nThere are three recipes for MapReduce \n 1. hadoop::do_data_import - runs hadoop::do_cleanup (if mapreduce/cleanup==yes then downloads data and copies it to the hadoop HDFS\n 2. hadoop::do_map_reduce - downloads MapReduce code from Repository compiles it, \n    runs MapReduce program and uploads it to the ROS\n\nSet MapReduce inputs\n  map",
+  "description": "Install and Configure Apache Hadoop",
+  "maintainer": "RightScale Inc"
 }
