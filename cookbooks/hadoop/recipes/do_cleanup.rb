@@ -8,7 +8,6 @@
 rightscale_marker :begin
 
 
-raise "This only runs if mapreduce/cleanup==yes: " if node[:mapreduce][:cleanup]=="no"
 raise "MapReduce recipes run on a namenode only: hadoop/node/type=#{node[:hadoop][:node][:type]} " if node[:hadoop][:node][:type] == 'datanode'
 
 if node[:mapreduce][:cleanup]=="yes"
@@ -25,4 +24,6 @@ if node[:mapreduce][:cleanup]=="yes"
     EOH
    
   end
+else
+  log "hadoop::do_cleanup only runs with mapreduce/cleanup==yes"
 end
