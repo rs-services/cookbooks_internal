@@ -11,6 +11,7 @@ depends "block_device"
 depends "sys_firewall"
 depends "sys_dns"
 depends "repo"
+depends "bootstrap"
 
 recipe 'hadoop::default', "Install, configure and init hadoop"
 recipe 'hadoop::install', 'Install hadoop'

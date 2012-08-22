@@ -27,3 +27,5 @@ if node[:mapreduce][:cleanup]=="yes"
 else
   log "hadoop::do_cleanup only runs with mapreduce/cleanup==yes"
 end
+
+rightscale_marker :end

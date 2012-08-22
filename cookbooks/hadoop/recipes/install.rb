@@ -8,14 +8,16 @@
 rightscale_marker :begin
 
 log "  Installing Hadoop "
-cookbook_file "/tmp/hadoop-#{node[:hadoop][:version]}-bin.tar.gz" do
-  source "hadoop-#{node[:hadoop][:version]}-bin.tar.gz"
-  mode "0644"  
-  owner "#{node[:hadoop][:user]}"
-  group "#{node[:hadoop][:group]}"
-  cookbook 'hadoop'
+include_recipe"bootstrap::aria2c"
+
+bash "Download Hadoop" do
+  user "root"
+  cwd '/tmp'
+  code <<-EOF
+  aria2c http://ps-cf.rightscale.com/hadoop/hadoop-#{node[:hadoop][:version]}-bin.tar.gz -x 16 -d /tmp
+  EOF
 end
-  
+
 bash "install hadoop" do
   flags "-ex"
   code <<-EOH
