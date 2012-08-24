@@ -27,3 +27,4 @@ default[:db_oracle][:backup][:backup_prefix] = "expdp"
 default[:db_oracle][:backup][:dmpfile] = "#{node[:db_oracle][:backup][:backup_prefix]}-#{backup_string}"
 default[:db_oracle][:backup][:logfile] = "#{node[:db_oracle][:backup][:backup_prefix]}_full-#{backup_string}.log"
 
+default[:db_oracle][:version]='11.2.0'

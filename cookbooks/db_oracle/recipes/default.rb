@@ -7,13 +7,15 @@
 
 rightscale_marker :begin
 
-version = node[:db_mysql][:version]
+version = node[:db_oracle][:version]
 
-case version
-when '5.1', '5.5'
-  include_recipe "db_mysql::default_#{version.gsub('.', '_')}"
-else
-  raise "Unsupported MySQL version: #{version}"
-end
+node[:db_oracle][:client_packages_install] = 
+  %w{elfutils-libelf-devel glibc-devel gcc gcc-c++ libaio 
+glibc-devel libaio-devel libstdc++ libstdc++ libstdc++-devel 
+libgcc libstdc++-devel unixODBC unixODBC-devel}
+
+node[:db_oracle][:server_packages_uninstall]=
+node[:db_oracle][:server_packages_install] = %w{compat-libstdc++-33 glibc-devel libaio-devel 
+sysstat unixODBC-devel pdksh elfutils-libelf-devel unixODBC}
 
 rightscale_marker :end

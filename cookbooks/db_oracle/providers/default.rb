@@ -173,7 +173,7 @@ end
 
 action :install_client do
 
-  # Install MySQL client packages
+  # Install Oracle client packages
   packages = node[:db_oracle][:client_packages_install]
   log "  Packages to install: #{packages.join(",")}" unless packages == ""
   packages.each do |p|
@@ -182,6 +182,7 @@ action :install_client do
     end
     r.run_action(:install)
   end
+  
   location = '/mnt/ephemeral/Oracle.Installers'
   directory location do
     owner "root"
@@ -198,14 +199,9 @@ action :install_client do
     code <<-EOF
   aria2c http://ps-cf.rightscale.com/oracle/linux.x64_11gR2_client.zip -x 16 -d #{location}
   unzip -q -u linux.x64_11gR2_client.zip
-  EOF
+    EOF
   end
 
-  %w{elfutils-libelf-devel glibc-devel gcc gcc-c++ libaio glibc-devel libaio-devel libstdc++ libstdc++ libstdc++-devel libgcc libstdc++-devel unixODBC unixODBC-devel}.each do |pkg|
-    package pkg do
-      action :install
-    end
-  end
 
   sysctl "net.ipv4.ip_local_port_range" do
     value "1024 65535"
@@ -277,154 +273,167 @@ action :install_server do
   packages = node[:db_oracle][:server_packages_uninstall]
   log "  Packages to uninstall: #{packages.join(",")}" unless packages == ""
   packages.each do |p|
-     package p do
-       action :remove
-     end
-  end unless packages == ""
-
-  # Install MySQL 5.1 and other packages
-  packages = node[:db_oracle][:server_packages_install]
-  packages.each do |p|
-    package p
-  end unless packages == ""
-
-  # Stop mysql service
-  db node[:db][:data_dir] do
-    action :stop
-    persist false
-  end
-
-  # Create MySQL server system tables
-  touchfile = ::File.expand_path "~/.mysql_installed"
-  execute "/usr/bin/mysql_install_db ; touch #{touchfile}" do
-    creates touchfile
-  end
-
-  # moves mysql default db to storage location, removes ib_logfiles for re-config of innodb_log_file_size
-  touchfile = ::File.expand_path "~/.mysql_dbmoved"
-  ruby_block "clean innodb logfiles" do
-    not_if { ::File.exists?(touchfile) }
-    block do
-      require 'fileutils'
-      remove_files = ::Dir.glob(::File.join(node[:db_oracle][:datadir], 'ib_logfile*')) + ::Dir.glob(::File.join(node[:db_oracle][:datadir], 'ibdata*'))
-      FileUtils.rm_rf(remove_files)
-      ::File.open(touchfile,'a'){}
+    package p do
+      action :remove
     end
+  end unless packages == ""
+  
+  packages = node[:db_oracle][:server_packages_install]
+  log "  Packages to install: #{packages.join(",")}" unless packages == ""
+  packages.each do |p|
+    package p do
+      action :install
+    end
+  end unless packages == ""
+
+  link "/opt/oracle" do
+    to "/mnt/storage"
+    only_if "test -d /mnt/storage"
   end
 
-  # Initialize the binlog dir
-  binlog = ::File.dirname(node[:db_oracle][:log_bin])
-  directory binlog do
-    owner "mysql"
-    group "mysql"
-    recursive true
+  user "oracle" do 
+    comment "Oracle User"
+    shell "/bin/bash"
+    home "/opt/oracle"
   end
 
-  # Create the tmp directory
-  directory node[:db_oracle][:tmpdir] do
-    owner "mysql"
-    group "mysql"
-    mode 0770
-    recursive true
+  group "oinstall" do 
+    members ['oracle']
+    action :create
   end
 
-  # Create it so mysql can use it if configured
-  file "/var/log/mysqlslow.log" do
-    owner "mysql"
-    group "mysql"
+  group "dba" do
+    members ['oracle']
+    action :create
   end
 
-  # Ensure that config directories exist
-  directory "/etc/mysql/conf.d" do
-    owner "mysql"
-    group "mysql"
-    mode 0644
-    recursive true
+  group "oper" do
+    members ['oracle']
+    action :create
   end
 
-  # Setup my.cnf
-  db_oracle_set_mycnf "setup_mycnf" do
-    server_id RightScale::Database::MySQL::Helper.mycnf_uuid(node)
-    relay_log RightScale::Database::MySQL::Helper.mycnf_relay_log(node)
+  group "asmadmin" do
+    members ['oracle']
+    action :create
   end
 
-  # Setup MySQL user limits
-  mysql_file_ulimit = node[:db_oracle][:file_ulimit]
-  template "/etc/security/limits.d/mysql.limits.conf" do
-    source "mysql.limits.conf.erb"
+  template "/mnt/ephemeral/database/db.rsp" do 
+    source "db.rsp.erb"
+    mode "0755"
     variables(
-      :ulimit => mysql_file_ulimit
+      :starterdb_password_all => node[:oracle][:starterdb][:password][:all],
+      :starterdb_password_sys => node[:oracle][:starterdb][:password][:sys],
+      :starterdb_password_system => node[:oracle][:starterdb][:password][:system],
+      :starterdb_password_sysman => node[:oracle][:starterdb][:password][:sysman],
+      :starterdb_password_dbsnmp => node[:oracle][:starterdb][:password][:dbsnmp]
     )
-    cookbook 'db_oracle'
   end
 
-  # Change root's limitations for THIS shell.  The entry in the limits.d will be
-  # used for future logins.
-  # The setting needs to be in place before mysql is started.
-  execute "ulimit -n #{mysql_file_ulimit}"
-
-  # Setup custom mysqld init script via /etc/sysconfig/mysqld.
-  #
-  # Timeouts enabled.
-  # Ubuntu's init script does not support configurable startup timeout
-  #
-  log_msg = ( platform =~ /redhat|centos/ ) ?  "  Setting mysql startup timeout" : "  Skipping mysql startup timeout setting for Ubuntu"
-  log log_msg
-  template "/etc/sysconfig/#{node[:db_oracle][:service_name]}" do
-    source "sysconfig-mysqld.erb"
-    mode "0755"
-    cookbook 'db_oracle'
-    only_if { platform =~ /redhat|centos/ }
+  template "/etc/profile.d/oracle_profile.sh" do
+    source "oracle_profile.sh.erb"
+    owner "root"
+    group "root"
+    mode "0777"
+    variables( :db_home => "dbhome_1" )
+    action :create
   end
 
-  # Specific configs for ubuntu
-  # - set config file localhost access w/ root and no password
-  # - disable the 'check_for_crashed_tables'.
-  #
-  cookbook_file "/etc/mysql/debian.cnf" do
-    only_if { platform == "ubuntu" }
-    mode "0600"
-    source "debian.cnf"
-    cookbook 'db_oracle'
+  directory "/opt/oracle/inventory" do
+    owner "oracle"
+    group "oracle"
+    mode "0775"
+    action :create
   end
 
-  cookbook_file "/etc/mysql/debian-start" do
-    only_if { platform == "ubuntu" }
-    mode "0755"
-    source "debian-start"
-    cookbook 'db_oracle'
+  directory "/mnt/ephemeral/oracle" do
+    owner "oracle"
+    group "oracle"
+    mode "0775"
+    action :create
   end
 
-  # Fix permissions
-  # During the first startup after install some of the file are created with root:root
-  # so MySQL can not read them.
-  dir=node[:db_oracle][:datadir]
-  bash "chown mysql #{dir}" do
-    flags "-ex"
-    code <<-EOH
-      chown -R mysql:mysql #{dir}
-    EOH
+  directory "/mnt/ephemeral/oracle/starterdb" do
+    owner "oracle"
+    group "oracle"
+    mode "0775"
+    action :create
   end
 
-  # Start MySQL
-  log "  Server installed.  Starting MySQL"
-  db node[:db][:data_dir] do
-    action :start
-    persist false
+  bash "oracle-system-update" do 
+    user "root"
+    cwd "/mnt/ephemeral/database/"
+    code <<-EOF
+cat <<EOH>> /etc/sysctl.conf
+fs.suid_dumpable = 1
+fs.aio-max-nr = 1048576
+fs.file-max = 6815744
+kernel.shmall = 2097152
+kernel.shmmax = 536870912
+kernel.shmmni = 4096
+# semaphores: semmsl, semmns, semopm, semmni
+kernel.sem = 250 32000 100 128
+net.ipv4.ip_local_port_range = 9000 65500
+net.core.rmem_default=4194304
+net.core.rmem_max=4194304
+net.core.wmem_default=262144
+net.core.wmem_max=1048586
+EOH
+sysctl -p
+
+cat <<EOH>> /etc/security/limits.conf
+oracle              soft    nproc   2047
+oracle              hard    nproc   16384
+oracle              soft    nofile  4096
+oracle              hard    nofile  65536
+oracle              soft    stack   10240
+EOH
+
+yum install glibc-devel unixODBC -y -q
+ldconfig
+    EOF
   end
 
-  # Verify mysql has started before completing this action.
-  # Allows mysql to start before running other commands that would fail
-  # unless mysql has completed starting.
-  bash "verifying mysql running" do
-    retries 15
-    retry_delay 2
-    flags "-ex"
-    code <<-EOH
-      mysql -e "SHOW STATUS LIKE 'uptime'"
-    EOH
+  bash "oracle-install" do 
+    user "oracle"
+    cwd "/mnt/ephemeral/database"
+    code <<-EOF
+su -l -c '/mnt/ephemeral/database/runInstaller -silent -responseFile /mnt/ephemeral/database/db.rsp -waitforcompletion' oracle
+file_exists=0
+while [ $file_exists == 0 ]; do 
+  echo "file_exists = "$file_exists
+  if [ -e /opt/oracle/inventory/logs/*.out ]; then 
+    file_exists=1;
+    log_file_name=`ls -1 /opt/oracle/inventory/logs/*.out`;
+    echo $log_file_name;
+  else
+    sleep 30; 
+    echo "File Does not Exist";
+ fi 
+done
+successful_status=0
+rm -fr /mnt/ephemeral/database
+    EOF
   end
 
+  bash "/opt/oracle/inventory/orainstRoot.sh" do
+    user "root"
+    code <<-EOF
+  /opt/oracle/inventory/orainstRoot.sh
+    EOF
+  end
+
+  bash "root.sh" do
+    user "root"
+    code <<-EOF
+  /opt/oracle/app/product/11.2.0/dbhome_1/root.sh
+  cat /opt/oracle/app/product/11.2.0/dbhome_1/install/root*.log
+    EOF
+  end
+
+  template "/etc/oratab" do 
+    source "oratab.erb"
+    mode "0744"
+  end
 end
 
 action :setup_monitoring do
@@ -572,7 +581,7 @@ action :promote do
       # Unlocking oldmaster
       RightScale::Database::MySQL::Helper.do_query(node, 'UNLOCK TABLES', previous_master)
       SystemTimer.timeout_after(RightScale::Database::MySQL::Helper::DEFAULT_CRITICAL_TIMEOUT) do
-      # Demote oldmaster
+        # Demote oldmaster
         Chef::Log.info "  Calling reconfigure replication with host: #{previous_master} ip: #{node[:cloud][:private_ips][0]} file: #{newmaster_file} position: #{newmaster_position}"
         RightScale::Database::MySQL::Helper.reconfigure_replication(node, previous_master, node[:cloud][:private_ips][0], newmaster_file, newmaster_position)
       end
@@ -600,13 +609,13 @@ action :enable_replication do
         if master_info['Master_instance_uuid'] != node[:db][:current_master_uuid]
           raise "FATAL: snapshot was taken from a different master! snap_master was:#{master_info['Master_instance_uuid']} != current master: #{node[:db][:current_master_uuid]}"
         end
-      # 11H1 backup
+        # 11H1 backup
       elsif master_info['Master_instance_id']
         Chef::Log.info "  Detected 11H1 snapshot to migrate"
         if master_info['Master_instance_id'] != node[:db][:current_master_ec2_id]
           raise "FATAL: snapshot was taken from a different master! snap_master was:#{master_info['Master_instance_id']} != current master: #{node[:db][:current_master_ec2_id]}"
         end
-      # File not found or does not contain info
+        # File not found or does not contain info
       else
         raise "Position and file not saved!"
       end

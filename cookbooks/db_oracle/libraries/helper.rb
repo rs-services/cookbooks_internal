@@ -135,45 +135,46 @@ module RightScale
         # @param [Integer] newmaster_position Last record position in replication log
         def self.reconfigure_replication(node, hostname = 'localhost', newmaster_host = nil, newmaster_logfile=nil, newmaster_position=nil)
           Chef::Log.info "Not Implemented"
-          =begin
-          Chef::Log.info "  Configuring with #{newmaster_host} logfile #{newmaster_logfile} position #{newmaster_position}"
+=begin
+            Chef::Log.info "  Configuring with #{newmaster_host} logfile #{newmaster_logfile} position #{newmaster_position}"
 
-          # The slave stop can fail once (only throws warning if slave is already stopped)
-          2.times do
-            RightScale::Database::Oracle::Helper.do_query(node, "STOP SLAVE", hostname)
-          end
+            # The slave stop can fail once (only throws warning if slave is already stopped)
+            2.times do
+              RightScale::Database::Oracle::Helper.do_query(node, "STOP SLAVE", hostname)
+            end
 
-          cmd = "CHANGE MASTER TO MASTER_HOST='#{newmaster_host}'"
-          cmd +=   ", MASTER_LOG_FILE='#{newmaster_logfile}'" if newmaster_logfile
-          cmd +=   ", MASTER_LOG_POS=#{newmaster_position}" if newmaster_position
-          Chef::Log.info "Reconfiguring replication on localhost: \n#{cmd}"
-          # don't log replication user and password
-          cmd +=   ", MASTER_USER='#{node[:db][:replication][:user]}'"
-          cmd +=   ", MASTER_PASSWORD='#{node[:db][:replication][:password]}'"
-          RightScale::Database::Oracle::Helper.do_query(node, cmd, hostname)
+            cmd = "CHANGE MASTER TO MASTER_HOST='#{newmaster_host}'"
+            cmd +=   ", MASTER_LOG_FILE='#{newmaster_logfile}'" if newmaster_logfile
+            cmd +=   ", MASTER_LOG_POS=#{newmaster_position}" if newmaster_position
+            Chef::Log.info "Reconfiguring replication on localhost: \n#{cmd}"
+            # don't log replication user and password
+            cmd +=   ", MASTER_USER='#{node[:db][:replication][:user]}'"
+            cmd +=   ", MASTER_PASSWORD='#{node[:db][:replication][:password]}'"
+            RightScale::Database::Oracle::Helper.do_query(node, cmd, hostname)
 
-          RightScale::Database::Oracle::Helper.do_query(node, "START SLAVE", hostname)
-          started=false
-          10.times do
-            row = RightScale::Database::Oracle::Helper.do_query(node, "SHOW SLAVE STATUS", hostname)
-            slave_IO = row["Slave_IO_Running"].strip.downcase
-            slave_SQL = row["Slave_SQL_Running"].strip.downcase
-            if( slave_IO == "yes" and slave_SQL == "yes" ) then
-              started=true
-              break
+            RightScale::Database::Oracle::Helper.do_query(node, "START SLAVE", hostname)
+            started=false
+            10.times do
+              row = RightScale::Database::Oracle::Helper.do_query(node, "SHOW SLAVE STATUS", hostname)
+              slave_IO = row["Slave_IO_Running"].strip.downcase
+              slave_SQL = row["Slave_SQL_Running"].strip.downcase
+              if( slave_IO == "yes" and slave_SQL == "yes" ) then
+                started=true
+                break
+              else
+                Chef::Log.info "  Threads at new slave not started yet...waiting a bit more..."
+                sleep 2
+              end
+            end
+            if( started )
+              Chef::Log.info "  Slave threads on the master are up and running."
             else
-              Chef::Log.info "  Threads at new slave not started yet...waiting a bit more..."
-              sleep 2
+              Chef::Log.info "  Error: slave threads in the master do not seem to be up and running..."
             end
           end
-          if( started )
-            Chef::Log.info "  Slave threads on the master are up and running."
-          else
-            Chef::Log.info "  Error: slave threads in the master do not seem to be up and running..."
-          end
-        end
-        =end
+=end
       end
     end
   end
-end
+  end
+  end
