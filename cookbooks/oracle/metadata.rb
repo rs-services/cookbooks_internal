@@ -18,7 +18,7 @@ recipe "oracle::tune_oracle_memory", "tunes oracle memory to 60% of available ra
 recipe "oracle::install_oracle_client", "installs oracle client"
 
 depends "rightscale"
-depends "bootstrap"
+depends "aria2"
 depends "sysctl"
 depends "block_device"
 depends "sys_firewall"
