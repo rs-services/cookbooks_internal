@@ -209,6 +209,7 @@ action :install_client do
   end
 
   template "#{location}/client.rsp" do
+    cookbook "db_oracle"
     source "client.rsp.erb"
     owner "root"
     group "root"
@@ -240,6 +241,7 @@ action :install_client do
   end
 
   template "/etc/profile.d/oracle_profile.sh" do
+    cookbook "db_oracle"
     source "oracle_profile.sh.erb"
     owner "root"
     group "root"
@@ -254,6 +256,7 @@ action :install_client do
   end
 
   template "/opt/oracle/app/product/11.2.0/client_1/network/admin/tnsnames.ora" do
+    cookbook "db_oracle"
     source "tnsnames.ora.erb"
     owner "root"
     group "root"
