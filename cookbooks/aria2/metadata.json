@@ -1,0 +1,57 @@
+{
+  "providing": {
+  },
+  "recommendations": {
+  },
+  "replacing": {
+  },
+  "name": "aria2",
+  "version": "0.0.1",
+  "attributes": {
+    "aria2/download_dir": {
+      "required": "required",
+      "type": "string",
+      "calculated": false,
+      "description": "Directory to download file to",
+      "recipes": [
+        "aria2::download_file"
+      ],
+      "display_name": "Directory to download file to",
+      "choice": [
+
+      ]
+    },
+    "aria2/download_file": {
+      "required": "required",
+      "type": "string",
+      "calculated": false,
+      "description": "File to Download via aria2",
+      "recipes": [
+        "aria2::download_file"
+      ],
+      "display_name": "File to Download via aria2",
+      "choice": [
+
+      ]
+    }
+  },
+  "long_description": "Description\n===========\n\nRequirements\n============\n\nAttributes\n==========\n\nUsage\n=====\n\n",
+  "description": "Installs/Configures aria2",
+  "conflicting": {
+  },
+  "maintainer_email": "premium@rightscale.com",
+  "recipes": {
+    "aria2::default": "installs aria2",
+    "aria2::download_file": "downloads a specific file via aria2"
+  },
+  "dependencies": {
+  },
+  "maintainer": "RightScale Inc",
+  "groupings": {
+  },
+  "suggestions": {
+  },
+  "platforms": {
+  },
+  "license": "Apache 2.0"
+}
