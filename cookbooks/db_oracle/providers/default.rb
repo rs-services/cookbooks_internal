@@ -236,7 +236,7 @@ action :install_client do
     flags "-x"
     code <<-EOF
       su -l -c '#{location}/client/runInstaller -silent -responseFile #{location}/client.rsp -waitforcompletion' oracle
-      /opt/oracle/app/oraInventory/orainstRoot.sh
+      /opt/oracle/oraInventory/orainstRoot.sh
     EOF
   end
 
