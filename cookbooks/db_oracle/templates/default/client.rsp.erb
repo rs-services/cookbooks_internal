@@ -26,7 +26,7 @@ ORACLE_HOSTNAME=localhost
 UNIX_GROUP_NAME=oracle
 #-------------------------------------------------------------------------------
 # Inventory location.
-INVENTORY_LOCATION=/opt/oracle/app/oraInventory
+INVENTORY_LOCATION=/opt/oracle/oraInventory
 #-------------------------------------------------------------------------------
 # Specify the languages in which the components will be installed.             
 #
@@ -112,7 +112,7 @@ oracle.install.client.installType=Custom
 #
 # Example    : oracle.install.client.customComponents="oracle.precomp:11.2.0.1.0","oracle.ons:11.2.0.0.0","oracle.oraolap.mgmt:11.2.0.1.0","oracle.rdbms.scheduler:11.2.0.1.0"
 #-------------------------------------------------------------------------------
-oracle.install.client.customComponents=oracle.rdbms.util:11.2.0.1.0,oracle.javavm.client:11.2.0.1.0,oracle.sqlplus:11.2.0.1.0,oracle.dbjava.jdbc:11.2.0.1.0,oracle.rdbms.oci:11.2.0.1.0,oracle.precomp:11.2.0.1.0,oracle.network.client:11.2.0.1.0,oracle.network.cman:11.2.0.1.0,oracle.network.listener:11.2.0.1.0,oracle.odbc:11.2.0.1.0,oracle.dbdev:11.2.0.1.0
+oracle.install.client.customComponents=oracle.sqlj:11.2.0.1.0,oracle.rdbms.util:11.2.0.1.0,oracle.javavm.client:11.2.0.1.0,oracle.sqlplus:11.2.0.1.0,oracle.dbjava.jdbc:11.2.0.1.0,oracle.ldap.client:11.2.0.1.0,oracle.rdbms.oci:11.2.0.1.0,oracle.precomp:11.2.0.1.0,oracle.xdk:11.2.0.1.0,oracle.network.aso:11.2.0.1.0,oracle.assistants.oemlt:11.2.0.1.0,oracle.oraolap.mgmt:11.2.0.1.0,oracle.network.client:11.2.0.1.0,oracle.network.cman:11.2.0.1.0,oracle.network.listener:11.2.0.1.0,oracle.ordim.client:11.2.0.1.0,oracle.odbc:11.2.0.1.0,oracle.has.client:11.2.0.1.0,oracle.dbdev:11.2.0.1.0,oracle.rdbms.scheduler:11.2.0.1.0
 #-------------------------------------------------------------------------------
 #Name       : MTS_PORT
 #Datatype   : int 
@@ -132,7 +132,7 @@ oracle.install.client.oramtsPortNumber=
 #
 # Example    : oracle.install.client.schedulerAgentHostName = acme.domain.com
 #------------------------------------------------------------------------------
-oracle.install.client.schedulerAgentHostName=
+oracle.install.client.schedulerAgentHostName=localhost
 
 #------------------------------------------------------------------------------
 # Port number to be used for by the Oracle Scheduler Agent.
@@ -141,4 +141,4 @@ oracle.install.client.schedulerAgentHostName=
 #
 # Example: oracle.install.client.schedulerAgentPortNumber = 1500
 #------------------------------------------------------------------------------
-oracle.install.client.schedulerAgentPortNumber=
+oracle.install.client.schedulerAgentPortNumber=1500
