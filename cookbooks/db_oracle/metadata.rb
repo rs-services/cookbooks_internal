@@ -25,5 +25,5 @@ attribute "db_oracle",
 attribute "oracle/server/private_ip",
     :display_name => "Server Private Ip",
     :description => "Server Private IP.  Use env:PRIVATE_IP/Oracle Server ", 
-    :recipes => [ "db::install_client" ],
+    :recipes => [ "db_oracle::default" ],
     :required => "required"
