@@ -361,6 +361,7 @@ action :install_server do
   end
 
   template "/mnt/ephemeral/database/db.rsp" do 
+    cookbook "db_oracle"
     source "db.rsp.erb"
     mode "0755"
     variables(
@@ -372,6 +373,7 @@ action :install_server do
   end
 
   template "/etc/profile.d/oracle_profile.sh" do
+    cookbook "db_oracle"
     source "oracle_profile.sh.erb"
     owner "root"
     group "root"
@@ -473,6 +475,7 @@ rm -fr /mnt/ephemeral/database
   end
 
   template "/etc/oratab" do 
+    cookbook "db_oracle"
     source "oratab.erb"
     mode "0744"
   end
