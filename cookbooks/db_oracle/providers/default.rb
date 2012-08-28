@@ -365,10 +365,10 @@ action :install_server do
     source "db.rsp.erb"
     mode "0755"
     variables(
-      :starterdb_password_sys => node[:oracle][:starterdb][:password][:sys],
-      :starterdb_password_system => node[:oracle][:starterdb][:password][:system],
-      :starterdb_password_sysman => node[:oracle][:starterdb][:password][:sysman],
-      :starterdb_password_dbsnmp => node[:oracle][:starterdb][:password][:dbsnmp]
+      :starterdb_password_sys => node[:db][:sys][:password],
+      :starterdb_password_system => node[:db][:system][:password],
+      :starterdb_password_sysman => node[:db][:sysman][:password],
+      :starterdb_password_dbsnmp => node[:db][:dbsnmp][:password]
     )
   end
 
