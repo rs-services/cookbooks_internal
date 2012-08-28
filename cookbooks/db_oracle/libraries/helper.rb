@@ -178,5 +178,3 @@ module RightScale
       end
     end
 end
-end
-end
