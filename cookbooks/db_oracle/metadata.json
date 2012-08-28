@@ -1,147 +1,147 @@
 {
-  "description": "Installs/configures a Oracle database client and server.",
-  "groupings": {
-  },
-  "name": "db_oracle",
-  "version": "12.1.0",
-  "license": "Copyright RightScale, Inc. All rights reserved.",
-  "replacing": {
-  },
-  "platforms": {
-    "centos": "~> 5.8",
-    "ubuntu": "~> 10.04.0",
-    "redhat": "~> 5.8"
-  },
   "recipes": {
     "db_oracle::default": "Set the DB Oracle provider. Sets version and node variables specific to the chosen MySQL version.",
     "db_oracle::install_local_and_sandbox_oci8_rubygem_on_server": "installs ruby oci-8 on the oracle db server"
   },
+  "providing": {
+  },
   "conflicting": {
   },
-  "recommendations": {
+  "long_description": "= RightScale Oracle Database Cookbook\n\n== DESCRIPTION:\n\nProvides the Oracle implementation of the 'db' resource to install and manage\nOracle database stand-alone servers and clients.\n\n== REQUIREMENTS:\n\n* Requires a server launched from a RightScale managed RightImage.\n\n== COOKBOOKS DEPENDENCIES:\n\nPlease see <tt>metadata.rb</tt> file for the latest dependencies.\n\n== KNOWN LIMITATIONS:\n\nThere are no known limitations.\n\n== SETUP:\n\n* Place the <tt>db_oracle::default</tt> recipe into your runlist to load the\n  Oracle provider, tuning parameters, as well as other Oracle-specific attributes\n  into the node as inputs.\n\n* Place the <tt>db::default</tt> recipe into your runlist to set up the 'db' resource.\n  When using a RightScale ServerTemplate, this will also automatically add the\n  common database attributes to your ServerTemplate's inputs.\n\n== USAGE:\n\n=== Basic usage\n\nOnce setup, use the recipes in the 'db' cookbook to install and manage your\nOracle database servers and clients. See the <tt>db/README.rdoc</tt> for usage\ndetails.\n\n=== Oracle Tuning\n\nCustom tuning parameters can be applied by overriding the\n<tt>oracle_tuning.rb</tt> attributes file. For more information and an example\noverride repository please see: {Override Chef Cookbooks}[http://support.rightscale.com/12-Guides/Chef_Cookbooks_Developer_Guide/08-Chef_Development/Override_Chef_Cookbooks].\n\n== DETAILS:\n\nThe 'db' implementation is defined by a Lightweight Provider, which can be\nfound in the <tt>providers/default.rb</tt> file.\n\n= LICENSE:\n\nCopyright RightScale, Inc. All rights reserved.  All access and use subject to\nthe RightScale Terms of Service available at http://www.rightscale.com/terms.php\nand, if applicable, other agreements such as a RightScale Master Subscription\nAgreement.\n",
+  "suggestions": {
   },
+  "maintainer_email": "support@rightscale.com",
   "attributes": {
-    "oracle/starterdb/password/sys": {
-      "description": "The SYS password for the starter db",
-      "calculated": false,
-      "choice": [
-
-      ],
-      "recipes": [
-        "db_oracle::default"
-      ],
-      "type": "string",
-      "display_name": "Starterdb SYS Password",
-      "required": "optional"
-    },
-    "oracle/starterdb/password/sysman": {
-      "description": "The SYSMAN password for the starter db",
-      "calculated": false,
-      "choice": [
-
-      ],
-      "recipes": [
-        "db_oracle::default"
-      ],
-      "type": "string",
-      "display_name": "Starterdb SYSMAN Password",
-      "required": "optional"
-    },
-    "oracle/starterdb/password/dbsnmp": {
-      "description": "The DBSNMP password for the starter db",
-      "calculated": false,
-      "choice": [
-
-      ],
-      "recipes": [
-        "db_oracle::default"
-      ],
-      "type": "string",
-      "display_name": "Starterdb DBSNMP Password",
-      "required": "optional"
-    },
-    "oracle/install_file1_url": {
-      "description": "Url to the oracle zip file",
-      "default": "http://ps-cf.rightscale.com/oracle/linux.x64_11gR2_database_1of2.zip",
-      "calculated": false,
-      "choice": [
-
-      ],
-      "recipes": [
-        "db_oracle::default"
-      ],
-      "type": "string",
-      "display_name": "Oracle Install ZipFile 1",
-      "required": "optional"
-    },
-    "db_oracle": {
-      "calculated": false,
-      "choice": [
-
-      ],
-      "recipes": [
-
-      ],
-      "type": "hash",
-      "display_name": "General Database Options",
-      "required": "optional"
-    },
-    "oracle/install_file2_url": {
-      "description": "Url to the oracle zip file",
-      "default": "http://ps-cf.rightscale.com/oracle/linux.x64_11gR2_database_2of2.zip",
-      "calculated": false,
-      "choice": [
-
-      ],
-      "recipes": [
-        "db_oracle::default"
-      ],
-      "type": "string",
-      "display_name": "Oracle Install ZipFile 2",
-      "required": "optional"
-    },
-    "oracle/starterdb/password/system": {
-      "description": "The SYSTEM password for the starter db",
-      "calculated": false,
-      "choice": [
-
-      ],
+    "db/system/password": {
       "recipes": [
         "db_oracle::default",
         "restore_oracle_using_expdp"
       ],
-      "type": "string",
-      "display_name": "Starterdb SYSTEM Password",
-      "required": "optional"
-    },
-    "oracle/server/private_ip": {
-      "description": "Server Private IP.  Use env:PRIVATE_IP/Oracle Server ",
       "calculated": false,
       "choice": [
 
       ],
+      "description": "The SYSTEM password for the starter db",
+      "display_name": "Oracle SYSTEM Password",
+      "required": "required",
+      "type": "string"
+    },
+    "db/sys/password": {
       "recipes": [
         "db_oracle::default"
       ],
+      "calculated": false,
+      "choice": [
+
+      ],
+      "description": "The SYS password for the starter db",
+      "display_name": "Oracle SYS Password",
+      "required": "required",
+      "type": "string"
+    },
+    "oracle/install_file1_url": {
+      "recipes": [
+        "db_oracle::default"
+      ],
+      "calculated": false,
+      "choice": [
+
+      ],
+      "description": "Url to the oracle zip file",
+      "display_name": "Oracle Install ZipFile 1",
+      "required": "optional",
       "type": "string",
+      "default": "http://ps-cf.rightscale.com/oracle/linux.x64_11gR2_database_1of2.zip"
+    },
+    "db_oracle": {
+      "recipes": [
+
+      ],
+      "calculated": false,
+      "choice": [
+
+      ],
+      "display_name": "General Database Options",
+      "type": "hash",
+      "required": "optional"
+    },
+    "oracle/install_file2_url": {
+      "recipes": [
+        "db_oracle::default"
+      ],
+      "calculated": false,
+      "choice": [
+
+      ],
+      "description": "Url to the oracle zip file",
+      "display_name": "Oracle Install ZipFile 2",
+      "required": "optional",
+      "type": "string",
+      "default": "http://ps-cf.rightscale.com/oracle/linux.x64_11gR2_database_2of2.zip"
+    },
+    "db/dbsnmp/password": {
+      "recipes": [
+        "db_oracle::default"
+      ],
+      "calculated": false,
+      "choice": [
+
+      ],
+      "description": "The DBSNMP password for the starter db",
+      "display_name": "Oracle DBSNMP Password",
+      "required": "required",
+      "type": "string"
+    },
+    "db/sysman/password": {
+      "recipes": [
+        "db_oracle::default"
+      ],
+      "calculated": false,
+      "choice": [
+
+      ],
+      "description": "The SYSMAN password for the starter db",
+      "display_name": "Oracle SYSMAN Password",
+      "required": "required",
+      "type": "string"
+    },
+    "oracle/server/private_ip": {
+      "recipes": [
+        "db_oracle::default"
+      ],
+      "calculated": false,
+      "choice": [
+
+      ],
+      "description": "Server Private IP.  Use env:PRIVATE_IP/Oracle Server ",
       "display_name": "Server Private Ip",
-      "required": "required"
+      "required": "required",
+      "type": "string"
     }
+  },
+  "maintainer": "RightScale, Inc.",
+  "description": "Installs/configures a Oracle database client and server.",
+  "version": "12.1.0",
+  "recommendations": {
+  },
+  "groupings": {
+  },
+  "replacing": {
   },
   "dependencies": {
     "sys_firewall": ">= 0.0.0",
-    "block_device": ">= 0.0.0",
     "aria2": ">= 0.0.0",
-    "rightscale": ">= 0.0.0",
+    "sysctl": ">= 0.0.0",
     "sys_dns": ">= 0.0.0",
     "db": ">= 0.0.0",
-    "sysctl": ">= 0.0.0"
+    "block_device": ">= 0.0.0",
+    "rightscale": ">= 0.0.0"
   },
-  "suggestions": {
+  "platforms": {
+    "ubuntu": "~> 10.04.0",
+    "redhat": "~> 5.8",
+    "centos": "~> 5.8"
   },
-  "maintainer_email": "support@rightscale.com",
-  "providing": {
-  },
-  "maintainer": "RightScale, Inc.",
-  "long_description": "= RightScale Oracle Database Cookbook\n\n== DESCRIPTION:\n\nProvides the Oracle implementation of the 'db' resource to install and manage\nOracle database stand-alone servers and clients.\n\n== REQUIREMENTS:\n\n* Requires a server launched from a RightScale managed RightImage.\n\n== COOKBOOKS DEPENDENCIES:\n\nPlease see <tt>metadata.rb</tt> file for the latest dependencies.\n\n== KNOWN LIMITATIONS:\n\nThere are no known limitations.\n\n== SETUP:\n\n* Place the <tt>db_oracle::default</tt> recipe into your runlist to load the\n  Oracle provider, tuning parameters, as well as other Oracle-specific attributes\n  into the node as inputs.\n\n* Place the <tt>db::default</tt> recipe into your runlist to set up the 'db' resource.\n  When using a RightScale ServerTemplate, this will also automatically add the\n  common database attributes to your ServerTemplate's inputs.\n\n== USAGE:\n\n=== Basic usage\n\nOnce setup, use the recipes in the 'db' cookbook to install and manage your\nOracle database servers and clients. See the <tt>db/README.rdoc</tt> for usage\ndetails.\n\n=== Oracle Tuning\n\nCustom tuning parameters can be applied by overriding the\n<tt>oracle_tuning.rb</tt> attributes file. For more information and an example\noverride repository please see: {Override Chef Cookbooks}[http://support.rightscale.com/12-Guides/Chef_Cookbooks_Developer_Guide/08-Chef_Development/Override_Chef_Cookbooks].\n\n== DETAILS:\n\nThe 'db' implementation is defined by a Lightweight Provider, which can be\nfound in the <tt>providers/default.rb</tt> file.\n\n= LICENSE:\n\nCopyright RightScale, Inc. All rights reserved.  All access and use subject to\nthe RightScale Terms of Service available at http://www.rightscale.com/terms.php\nand, if applicable, other agreements such as a RightScale Master Subscription\nAgreement.\n"
+  "license": "Copyright RightScale, Inc. All rights reserved.",
+  "name": "db_oracle"
 }

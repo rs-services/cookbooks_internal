@@ -46,27 +46,27 @@ attribute "oracle/install_file2_url",
   :default => "http://ps-cf.rightscale.com/oracle/linux.x64_11gR2_database_2of2.zip",
   :recipes => [ "db_oracle::default" ]
 
-attribute "oracle/starterdb/password/sys",
-  :display_name => "Starterdb SYS Password",
+attribute "db/sys/password",
+  :display_name => "Oracle SYS Password",
   :description => "The SYS password for the starter db",
-  :required => "optional",
+  :required => "required",
   :recipes => [ "db_oracle::default" ]
 
-attribute "oracle/starterdb/password/system",
-  :display_name => "Starterdb SYSTEM Password",
+attribute "db/system/password",
+  :display_name => "Oracle SYSTEM Password",
   :description => "The SYSTEM password for the starter db",
-  :required => "optional",
+  :required => "required",
   :recipes => [ "db_oracle::default","restore_oracle_using_expdp" ]
 
-attribute "oracle/starterdb/password/sysman",
-  :display_name => "Starterdb SYSMAN Password",
+attribute "db/sysman/password",
+  :display_name => "Oracle SYSMAN Password",
   :description => "The SYSMAN password for the starter db",
-  :required => "optional",
+  :required => "required",
   :recipes => [ "db_oracle::default" ]
 
-attribute "oracle/starterdb/password/dbsnmp",
-  :display_name => "Starterdb DBSNMP Password",
+attribute "db/dbsnmp/password",
+  :display_name => "Oracle DBSNMP Password",
   :description => "The DBSNMP password for the starter db",
-  :required => "optional",
+  :required => "required",
   :recipes => [ "db_oracle::default" ]
 
