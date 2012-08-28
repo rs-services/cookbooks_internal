@@ -449,15 +449,15 @@ rm -fr /mnt/ephemeral/database
   bash "/opt/oracle/inventory/orainstRoot.sh" do
     user "root"
     code <<-EOF
-  /opt/oracle/inventory/orainstRoot.sh
+    /opt/oracle/oraInventory/orainstRoot.sh
     EOF
   end
 
   bash "root.sh" do
     user "root"
     code <<-EOF
-  /opt/oracle/app/product/11.2.0/dbhome_1/root.sh
-  cat /opt/oracle/app/product/11.2.0/dbhome_1/install/root*.log
+    /opt/oracle/app/product/11.2.0/dbhome_1/root.sh
+    cat /opt/oracle/app/product/11.2.0/dbhome_1/install/root*.log
     EOF
   end
 
