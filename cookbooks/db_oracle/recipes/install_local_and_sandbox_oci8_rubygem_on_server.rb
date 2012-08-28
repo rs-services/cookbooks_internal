@@ -6,6 +6,9 @@
 # if applicable, other agreements such as a RightScale Master Subscription Agreement.
 
 rightscale_marker :begin
+
+location = "/tmp"
+
 bash "downloading ruby-oci8-2.0.6.tar.gz" do
   user "root"
   cwd location
