@@ -442,19 +442,6 @@ ldconfig
     cwd "/mnt/ephemeral/database"
     code <<-EOF
 su -l -c '/mnt/ephemeral/database/runInstaller -silent -responseFile /mnt/ephemeral/database/db.rsp -waitforcompletion' oracle
-file_exists=0
-while [ $file_exists == 0 ]; do 
-  echo "file_exists = "$file_exists
-  if [ -e /opt/oracle/inventory/logs/*.out ]; then 
-    file_exists=1;
-    log_file_name=`ls -1 /opt/oracle/inventory/logs/*.out`;
-    echo $log_file_name;
-  else
-    sleep 30; 
-    echo "File Does not Exist";
- fi 
-done
-successful_status=0
 rm -fr /mnt/ephemeral/database
     EOF
   end
@@ -462,15 +449,15 @@ rm -fr /mnt/ephemeral/database
   bash "/opt/oracle/inventory/orainstRoot.sh" do
     user "root"
     code <<-EOF
-  /opt/oracle/inventory/orainstRoot.sh
+    /opt/oracle/oraInventory/orainstRoot.sh
     EOF
   end
 
   bash "root.sh" do
     user "root"
     code <<-EOF
-  /opt/oracle/app/product/11.2.0/dbhome_1/root.sh
-  cat /opt/oracle/app/product/11.2.0/dbhome_1/install/root*.log
+    /opt/oracle/app/product/11.2.0/dbhome_1/root.sh
+    cat /opt/oracle/app/product/11.2.0/dbhome_1/install/root*.log
     EOF
   end
 
