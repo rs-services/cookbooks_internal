@@ -280,11 +280,11 @@ action :install_server do
   end
 
   bash "download-disk-1" do
-   user "root"
-   cwd '/mnt/ephemeral'
-   code <<-EOF
+    user "root"
+    cwd '/mnt/ephemeral'
+    code <<-EOF
      aria2c #{node[:oracle][:install_file1_url]} -x 16 -d /mnt/ephemeral
-   EOF
+    EOF
   end
 
   bash "extract" do
@@ -499,17 +499,16 @@ action :setup_monitoring do
   end
 
   platform = node[:platform]
-  collectd_version = node[:rightscale][:collectd_packages_version]
   # Centos specific items
   collectd_version = node[:rightscale][:collectd_packages_version]
-  package "collectd-mysql" do
+  package "collectd-oracle" do
     action :install
     version "#{collectd_version}" unless collectd_version == "latest"
     only_if { platform =~ /redhat|centos/ }
   end
 
-  template ::File.join(node[:rightscale][:collectd_plugin_dir], 'mysql.conf') do
-    source "collectd-plugin-mysql.conf.erb"
+  template ::File.join(node[:rightscale][:collectd_plugin_dir], 'oracle.conf') do
+    source "collectd-plugin-oracle.conf.erb"
     mode "0644"
     backup false
     cookbook 'db_oracle'
@@ -517,7 +516,7 @@ action :setup_monitoring do
   end
 
   # Send warning if not centos/redhat or ubuntu
-  log "  WARNING: attempting to install collectd-mysql on unsupported platform #{platform}, continuing.." do
+  log "  WARNING: attempting to install collectd-oracle on unsupported platform #{platform}, continuing.." do
     not_if { platform =~ /centos|redhat|ubuntu/ }
     level :warn
   end
@@ -525,6 +524,8 @@ action :setup_monitoring do
 end
 
 action :grant_replication_slave do
+  Chef::Log.info ":grant_replication_slave is not implemented yet."
+=begin  
   require 'mysql'
 
   Chef::Log.info "GRANT REPLICATION SLAVE to #{node[:db][:replication][:user]}"
@@ -532,9 +533,13 @@ action :grant_replication_slave do
   con.query("GRANT REPLICATION SLAVE ON *.* TO '#{node[:db][:replication][:user]}'@'%' IDENTIFIED BY '#{node[:db][:replication][:password]}'")
   con.query("FLUSH PRIVILEGES")
   con.close
+=end
 end
 
 action :promote do
+  Chef::Log.info ":promote is not implemented yet."
+
+=begin
   db_state_get node
 
   x = node[:db_oracle][:log_bin]
@@ -569,6 +574,7 @@ action :promote do
       	false
       end
     end
+   
   end
 
   RightScale::Database::MySQL::Helper.do_query(node, "SET GLOBAL READ_ONLY=0", 'localhost', RightScale::Database::MySQL::Helper::DEFAULT_CRITICAL_TIMEOUT)
@@ -636,10 +642,13 @@ action :promote do
   rescue => e
     Chef::Log.info("  WARNING: rescuing exception #{e}, continuing with promote")
   end
+=end 
 end
 
 
 action :enable_replication do
+Chef::Log.info(":enable_replication is not implemented yet")
+=begin
   db_state_get node
   current_restore_process = new_resource.restore_process
 
@@ -746,22 +755,24 @@ action :enable_replication do
   end
 
   node[:db_oracle][:tunable][:read_only] = 1
-
+=end
 end
 
 action :generate_dump_file do
-
+  Chef::Log.info(":generate_dump_file is not implemented yet")
+=begin
   db_name     = new_resource.db_name
   dumpfile    = new_resource.dumpfile
 
   execute "Write the mysql DB backup file" do
     command "mysqldump --single-transaction -u root #{db_name} | gzip -c > #{dumpfile}"
   end
-
+=end
 end
 
 action :restore_from_dump_file do
-
+  Chef::Log.info(":restore_from_dump_file is not implemented yet")
+=begin
   db_name   = new_resource.db_name
   dumpfile  = new_resource.dumpfile
   db_check  = `mysql -e "SHOW DATABASES LIKE '#{db_name}'"`
@@ -789,5 +800,5 @@ action :restore_from_dump_file do
       gunzip < #{dumpfile} | mysql -u root -b #{db_name}
     EOH
   end
-
+=end
 end

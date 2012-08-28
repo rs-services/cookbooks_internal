@@ -37,7 +37,7 @@ module RightScale
         # Oracle server_id must be a unique number  - use the ip address integer representation
         #
         # Duplicate IP's and server_id's may occur with cross cloud replication.
-        def self.mycnf_uuid(node)
+        def self.oracle_uuid(node)
           node[:db_oracle][:ora_uuid] = IPAddr.new(node[:cloud][:private_ips][0]).to_i
         end
 
@@ -93,7 +93,7 @@ module RightScale
         # @param [Integer] timeout Timeout value
         # @param [Integer] tries Connection attempts number
         #
-        # @return [Mysql::Result] Oracle query result
+        # @return [Oracle::Result] Oracle query result
         #
         # @raises [TimeoutError] if timeout exceeded
         # @raises [RuntimeError] if connection try attempts limit reached
@@ -109,17 +109,17 @@ module RightScale
               result = nil
               if timeout
                 SystemTimer.timeout_after(timeout) do
-                  con = get_mysql_handle(node, hostname)
+                  con = get_oracle_handle(node, hostname)
                   result = con.exec(query)
                 end
               else
-                con = get_mysql_handle(node, hostname)
+                con = get_oracle_handle(node, hostname)
                 result = con.query(query)
               end
               return result.fetch_hash if result
               return result
             rescue Timeout::Error => e
-              Chef::Log.info("  Timeout occured during mysql query:#{e}")
+              Chef::Log.info("  Timeout occured during oracle query:#{e}")
               tries -= 1
               raise "FATAL: retry count reached" if tries == 0
             end

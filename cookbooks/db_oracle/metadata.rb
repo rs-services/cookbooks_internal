@@ -1,7 +1,7 @@
 maintainer       "RightScale, Inc."
 maintainer_email "support@rightscale.com"
 license          "Copyright RightScale, Inc. All rights reserved."
-description      "Installs/configures a MySQL database client and server."
+description      "Installs/configures a Oracle database client and server."
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.rdoc'))
 version          "12.1.0"
 
@@ -17,7 +17,7 @@ depends "aria2"
 depends "sysctl"
 depends "sys_firewall"
 
-recipe  "db_oracle::default", "Set the DB MySQL provider. Sets version and node variables specific to the chosen MySQL version."
+recipe  "db_oracle::default", "Set the DB Oracle provider. Sets version and node variables specific to the chosen MySQL version."
 recipe  "db_oracle::install_local_and_sandbox_oci8_rubygem_on_server", "installs ruby oci-8 on the oracle db server"
 
 attribute "db_oracle",

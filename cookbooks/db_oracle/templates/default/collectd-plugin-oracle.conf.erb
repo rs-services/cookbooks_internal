@@ -1,0 +1,61 @@
+# 
+# Cookbook Name:: db_oracle
+#
+# Copyright RightScale, Inc. All rights reserved.  All access and use subject to the
+# RightScale Terms of Service available at http://www.rightscale.com/terms.php and,
+# if applicable, other agreements such as a RightScale Master Subscription Agreement.
+# 
+# Managed by RightScale
+# DO NOT EDIT BY HAND
+#
+
+LoadPlugin oracle
+<Plugin oracle> 
+  <Query "db_efficientcy">
+    Statement "SELECT round(sum(decode(METRIC_NAME, 'Database Wait Time Ratio', value)),2) AS DATABASE_WAIT_TIME_RATIO, \
+    round(sum(decode(METRIC_NAME, 'Database CPU Time Ratio', value)),2) AS DATABASE_CPU_TIME_RATIO, \
+    'DB_EFFICIENCY' AS DB_EFFICIENCY \
+    FROM SYS.V_$SYSMETRIC \
+    WHERE METRIC_NAME IN ('Database CPU Time Ratio', 'Database Wait Time Ratio') \
+    AND INTSIZE_CSEC = (SELECT max(INTSIZE_CSEC) FROM SYS.V_$SYSMETRIC)"
+    <Result>
+      Type "disk_time"
+      InstancesFrom "DB_EFFICIENCY"
+      ValuesFrom "DATABASE_WAIT_TIME_RATIO" "DATABASE_CPU_TIME_RATIO"
+    </Result>
+  </Query>
+  <Query "io_per_tablespace">
+    Statement "SELECT sum(vf.PHYBLKRD)*8192 AS PHY_BLK_R, \
+    sum(vf.PHYBLKWRT)*8192 AS PHY_BLK_W, \
+    'tablespace' AS i_prefix, \
+    dt.tablespace_name \
+    FROM ((dba_data_files dd JOIN v$filestat vf ON dd.file_id = vf.file# ) \
+    JOIN dba_tablespaces dt ON dd.tablespace_name = dt.tablespace_name) \
+    GROUP BY dt.tablespace_name"
+    <Result>
+      Type "io_octets"
+      InstancesFrom "i_prefix" "TABLESPACE_NAME"
+      ValuesFrom "PHY_BLK_R" "PHY_BLK_W"
+    </Result>
+  </Query>
+  <Query "db_efficientcy">
+    Statement "SELECT round(sum(decode(METRIC_NAME, 'Database Wait Time Ratio', value)),2) AS DATABASE_WAIT_TIME_RATIO, \
+    round(sum(decode(METRIC_NAME, 'Database CPU Time Ratio', value)),2) AS DATABASE_CPU_TIME_RATIO, \
+    'DB_EFFICIENCY' AS DB_EFFICIENCY \
+    FROM SYS.V_$SYSMETRIC \
+    WHERE METRIC_NAME IN ('Database CPU Time Ratio', 'Database Wait Time Ratio') \
+    AND INTSIZE_CSEC = (SELECT max(INTSIZE_CSEC) FROM SYS.V_$SYSMETRIC)"
+    <Result>
+      Type "disk_time"
+      InstancesFrom "DB_EFFICIENCY"
+      ValuesFrom "DATABASE_WAIT_TIME_RATIO" "DATABASE_CPU_TIME_RATIO"
+    </Result>
+  </Query>
+
+  <Database "product_information">
+    ConnectID "db01"
+    Username "oracle"
+    Password "secret"
+    Query "out_of_stock"
+  </Database>
+</Plugin>
