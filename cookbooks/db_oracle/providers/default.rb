@@ -267,10 +267,12 @@ action :install_client do
 end
 
 action :install_server do
-  # Installing MySQL server
+  log "Installing Oracle Server"
   platform = node[:platform]
-  # MySQL server depends on MySQL client
-  action_install_client
+  
+  log "Downloading Oracle Files"
+  download_oracle_files
+  
 
   # Uninstall certain packages
   packages = node[:db_oracle][:server_packages_uninstall]

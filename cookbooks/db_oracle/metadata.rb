@@ -30,3 +30,18 @@ attribute "oracle/server/private_ip",
     :description => "Server Private IP.  Use env:PRIVATE_IP/Oracle Server ", 
     :recipes => [ "db_oracle::default" ],
     :required => "required"
+
+attribute "oracle/install_file1_url", 
+  :display_name => "Oracle Install ZipFile 1",
+  :description => "Url to the oracle zip file", 
+  :required => "optional", 
+  :default => "http://ps-cf.rightscale.com/oracle/linux.x64_11gR2_database_1of2.zip",
+  :recipes => [ "db_oracle::default" ]
+
+attribute "oracle/install_file2_url",
+  :display_name => "Oracle Install ZipFile 2",
+  :description => "Url to the oracle zip file",
+  :required => "optional",
+  :default => "http://ps-cf.rightscale.com/oracle/linux.x64_11gR2_database_2of2.zip",
+  :recipes => [ "db_oracle::default" ]
+
