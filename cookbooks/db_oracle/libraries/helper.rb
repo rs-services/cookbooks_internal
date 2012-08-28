@@ -173,7 +173,7 @@ module RightScale
             end
           end
 =end   
-        def download_oracle_files
+        def self.download_oracle_files
           directory "/mnt/ephemeral" do
             owner "root"
             group "root"

@@ -271,8 +271,8 @@ action :install_server do
   platform = node[:platform]
   
   log "Downloading Oracle Files"
-  download_oracle_files
-  
+  @db =init(new_resource)
+  @db.download_oracle_files
 
   # Uninstall certain packages
   packages = node[:db_oracle][:server_packages_uninstall]
