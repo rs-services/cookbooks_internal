@@ -17,7 +17,7 @@ def check_password(user,password)
 end
 
 check_password("sys", node[:db][:sys][:password])
-check_password("sysdba", node[:db][:sysdba][:password])
+check_password("sysman", node[:db][:sysman][:password])
 check_password("system", node[:db][:system][:password])
 check_password("dbsnmp", node[:db][:dbsnmp][:password])
 check_password(node[:db][:admin][:user], node[:db][:admin][:password])
