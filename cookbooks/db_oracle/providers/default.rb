@@ -159,16 +159,46 @@ action :post_backup_cleanup do
 end
 
 action :set_privileges do
-  priv = new_resource.privilege
-  priv_username = new_resource.privilege_username
-  priv_password = new_resource.privilege_password
-  priv_database = new_resource.privilege_database
+  admin_password = node[:db][:admin][:password]
+  password = node[:db][:sys][:password] 
+  admin_username = node[:db][:admin][:user]
+  app_username = node[:db][:application][:user]
+  app_password = node[:db][:application][:password]
   db_oracle_set_privileges "setup db privileges" do
-    preset priv
-    username priv_username
-    password priv_password
-    database priv_database
+    admin_username admin_username
+    admin_password admin_password
+    password password # sys password
+    app_username app_username
+    app_password app_password
   end
+=begin
+  bash "set-oracle-privs" do
+    user "root"
+    cwd "/"
+    code <<-EOF
+cat <<EOH> /tmp/privs.sql
+grant DBA to SYSMAN;
+grant MGMT_USER to SYSMAN with admin option;
+grant ALTER SESSION to SYSMAN;
+grant ALTER USER to SYSMAN;
+grant CREATE ANY TABLE to SYSMAN;
+grant CREATE USER to SYSMAN;
+grant DROP USER to SYSMAN;
+grant SELECT ANY DICTIONARY to SYSMAN;
+grant UNLIMITED TABLESPACE to SYSMAN;
+GRANT CREATE TABLESPACE TO SYSMAN;
+ALTER SYSTEM SET open_cursors = 4000 SCOPE=BOTH;
+CREATE USER  #{node[:db][:admin][:user]} IDENTIFIED BY #{node[:db][:admin][:password]};
+GRANT SYSDBA TO #{node[:db][:admin][:user]};
+
+COMMIT; 
+EOH
+su -l -c '/opt/oracle/app/product/11.2.0/dbhome_1/bin/sqlplus "/ as sysdba" @/tmp/privs.sql' oracle
+su -l -c '/opt/oracle/app/product/11.2.0/dbhome_1/bin/dbshut' oracle
+su -l -c '/opt/oracle/app/product/11.2.0/dbhome_1/bin/dbstart' oracle
+    EOF
+  end
+=end
 end
 
 action :install_client do
@@ -634,7 +664,7 @@ end
 
 
 action :enable_replication do
-Chef::Log.info(":enable_replication is not implemented yet")
+  Chef::Log.info(":enable_replication is not implemented yet")
 =begin
   db_state_get node
   current_restore_process = new_resource.restore_process
