@@ -22,21 +22,19 @@ define :db_oracle_set_privileges, :admin_username=>nil, :admin_password=>nil, :p
       con = OCI8.new('sys',password,nil, :SYSDBA)
 
       # Now that we have a oracle object, let's sanitize our inputs
-      admin_password = con.escape_string(admin_password)
-      password = con.escape_string(password)
-      admin_username = con.escape_string(admin_username)
-      app_username = con.escape_string(app_username)
-      app_password = con.escape_string(app_password)
+      #admin_password = con.escape_string(admin_password)
+      #password = con.escape_string(password)
+      #admin_username = con.escape_string(admin_username)
+      #app_username = con.escape_string(app_username)
+      #app_password = con.escape_string(app_password)
       
 
       # Grant only the appropriate privs
-      con.query("CREATE USER  #{admin_username} IDENTIFIED BY #{admin_password}")
-      con.query("GRANT SYSDBA TO #{admin_username}")
-      con.query("CREATE USER  #{app_username} IDENTIFIED BY #{app_password}")
-      con.query("GRANT resource,connect TO #{app_username}")
- 
+      con.exec("CREATE USER  #{admin_username} IDENTIFIED BY #{admin_password}")
+      con.exec("GRANT SYSDBA TO #{admin_username}")
+      con.exec("CREATE USER  #{app_username} IDENTIFIED BY #{app_password}")
+      con.exec("GRANT resource,connect TO #{app_username}")
 
-      con.close
     end
   end
 
