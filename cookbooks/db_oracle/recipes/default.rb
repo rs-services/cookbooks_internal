@@ -17,11 +17,13 @@ def check_password(user,password)
 end
 
 def check_user_pass(user,password)
-  %w{sysman sys sysdba admin}.each { |name|
+  %w{sysman sys sysdba admin dbsnmp system}.each { |name|
     raise "User #{user} is a reserved user, please pick another username" if name.to_s == user.to_s
   }
   check_password(user,password)
 end
+
+raise "Admin and Application user names can not be the same" if node[:db][:admin][:user].to_s == node[:db][:application][:user].to_s
 
 check_password("sys", node[:db][:sys][:password])
 check_password("sysman", node[:db][:sysman][:password])
