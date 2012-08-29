@@ -16,13 +16,19 @@ def check_password(user,password)
   Chef::Log.info "Password check passed for #{user}!"
 end
 
+def check_user_pass(user,password)
+  %w{sysman sys sysdba admin}.each { |name|
+    raise "User #{user} is a reserved user, please pick another username" if name.to_s == user.to_s
+  }
+  check_password(user,password)
+end
+
 check_password("sys", node[:db][:sys][:password])
 check_password("sysman", node[:db][:sysman][:password])
 check_password("system", node[:db][:system][:password])
 check_password("dbsnmp", node[:db][:dbsnmp][:password])
-check_password(node[:db][:admin][:user], node[:db][:admin][:password])
-check_password(node[:db][:application][:user], node[:db][:application][:password])
-
+check_user_pass(node[:db][:admin][:user], node[:db][:admin][:password])
+check_user_pass(node[:db][:application][:user], node[:db][:application][:password])
 
 node[:db][:provider] = "db_oracle"
 version = node[:db_oracle][:version]
