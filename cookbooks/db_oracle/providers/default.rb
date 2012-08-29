@@ -291,7 +291,7 @@ action :install_client do
     owner "root"
     group "root"
     mode "0777"
-    variables( :db_server => node[:oracle][:server][:private_ip] )
+    variables( :db_server => node[:cloud][:private_ips][0] )
     action :create
   end
 end

@@ -26,12 +26,6 @@ attribute "db_oracle",
 
 # == Default attributes
 #
-attribute "oracle/server/private_ip",
-    :display_name => "Server Private Ip",
-    :description => "Server Private IP.  Use env:PRIVATE_IP/Oracle Server ", 
-    :recipes => [ "db_oracle::default" ],
-    :required => "required"
-
 attribute "oracle/install_file1_url", 
   :display_name => "Oracle Install ZipFile 1",
   :description => "Url to the oracle zip file", 
@@ -69,4 +63,3 @@ attribute "db/dbsnmp/password",
   :description => "The DBSNMP password for the starter db",
   :required => "required",
   :recipes => [ "db_oracle::default" ]
-
