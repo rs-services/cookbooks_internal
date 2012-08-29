@@ -160,12 +160,16 @@ end
 
 action :set_privileges do
   admin_password = node[:db][:admin][:password]
-  password = node[:db][:sys][:password]
-  username = node[:db][:admin][:user]
+  password = node[:db][:sys][:password] 
+  admin_username = node[:db][:admin][:user]
+  app_username = node[:db][:application][:user]
+  app_password = node[:db][:application][:password]
   db_oracle_set_privileges "setup db privileges" do
-    username username
+    admin_username admin_username
     admin_password admin_password
-    password password
+    password password # sys password
+    app_username app_username
+    app_password app_password
   end
 =begin
   bash "set-oracle-privs" do

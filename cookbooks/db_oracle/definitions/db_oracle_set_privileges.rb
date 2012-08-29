@@ -5,12 +5,13 @@
 # RightScale Terms of Service available at http://www.rightscale.com/terms.php and,
 # if applicable, other agreements such as a RightScale Master Subscription Agreement.
 
-define :db_oracle_set_privileges, :username=>nil, :admin_password=>nil, :password => nil do
+define :db_oracle_set_privileges, :admin_username=>nil, :admin_password=>nil, :password => nil, :app_username=> nil,:app_password=> nil do
 
   admin_password = params[:admin_password]
-  password = params[:password]
-  username = params[:username]
-
+  password = params[:password] # sys password
+  admin_username = params[:admin_username]
+  app_username = params[:app_username]
+  app_password = params[:app_password]
 
 
   ruby_block "set admin credentials" do
@@ -18,16 +19,21 @@ define :db_oracle_set_privileges, :username=>nil, :admin_password=>nil, :passwor
       require 'rubygems'
       require 'oci8'
 
-      con = OCI8.new('sys',password, :SYSDBA)
+      con = OCI8.new('sys',password,nil, :SYSDBA)
 
       # Now that we have a oracle object, let's sanitize our inputs
       admin_password = con.escape_string(admin_password)
       password = con.escape_string(password)
-      username = con.escape_string(username)
+      admin_username = con.escape_string(admin_username)
+      app_username = con.escape_string(app_username)
+      app_password = con.escape_string(app_password)
+      
 
       # Grant only the appropriate privs
-      con.query("CREATE USER  #{username} IDENTIFIED BY #{admin_password}")
-      con.query("GRANT SYSDBA TO #{username}")
+      con.query("CREATE USER  #{admin_username} IDENTIFIED BY #{admin_password}")
+      con.query("GRANT SYSDBA TO #{admin_username}")
+      con.query("CREATE USER  #{app_username} IDENTIFIED BY #{app_password}")
+      con.query("GRANT resource,connect TO #{app_username}")
  
 
       con.close
