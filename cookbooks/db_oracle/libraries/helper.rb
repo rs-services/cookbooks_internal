@@ -70,15 +70,16 @@ module RightScale
         # Create new Oracle connection
         #
         # @param [Hash] node Node name
-        # @param [String] hostname Hostname FQDN, default is 'localhost'
         #
         # @return [Oracle] Oracle connection
         def self.get_oracle_handle(node)
           require 'oci8'
-          #require '/opt/oracle/.ora_creds/ora_creds.rb'
-          #ora_conn = OCI8.new(@user, @pass, nil, :SYSDBA)
           info_msg = "  Oracle connection"
           info_msg << ": opening NEW Oracle connection."
+          ENV['ORACLE_HOME'] = '/opt/oracle/app/product/11.2.0/dbhome_1'
+          ENV['LD_LIBRARY_PATH'] = '/opt/oracle/app/product/11.2.0/dbhome_1/lib:/opt/rightscale/sandbox/lib/ruby/site_ruby/1.8/x86_64-linux/'
+          ENV['PATH'] = '/home/ec2/bin:/usr/kerberos/sbin:/usr/kerberos/bin:/home/ec2/bin:/usr/local/sbin:/usr/sbin:/sbin:/usr/bin:/bin:/opt/oracle/app/product/11.2.0/dbhome_1:/opt/oracle/app/product/11.2.0/dbhome_1/bin:/usr/local/bin:/home/ec2/bin:/root/bin:/home/ec2/bin:/opt/oracle/app/product/11.2.0/dbhome_1:/opt/oracle/app/product/11.2.0/dbhome_1/bin:/usr/local/bin'
+          ENV['ORACLE_SID'] = 'PROD'
           con = OCI8.new('sys', node[:db][:sys][:password],nil, :SYSDBA)
           Chef::Log.info info_msg
           # this raises if the connection has gone away
@@ -113,7 +114,7 @@ module RightScale
                 end
               else
                 con = get_oracle_handle(node)
-                result = con.query(query)
+                result = con.exec(query)
               end
               return result.fetch_hash if result
               return result
@@ -173,13 +174,7 @@ module RightScale
           end
 =end   
         end
-          
-        def self.check_password(user,password)
-          regex = /^(?=.*\d)(?=.*([a-z]|[A-Z])){8,20}/
-          raise "Password for #{user} is not strong enough. Password must include letters and numbers and be 8-20 characters long." unless password =~ /#{regex}/
-          Chef::Log.info "Password check passed for #{user}!"
-        end
-        
+                  
       end
     end
   end
