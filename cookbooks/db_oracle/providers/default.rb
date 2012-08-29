@@ -746,7 +746,7 @@ Chef::Log.info(":enable_replication is not implemented yet")
 end
 
 action :generate_dump_file do
-  Chef::Log.info(":generate_dump_file is not implemented yet")
+Chef::Log.info(":generate_dump_file is not implemented yet")
 =begin
   db_name     = new_resource.db_name
   dumpfile    = new_resource.dumpfile
