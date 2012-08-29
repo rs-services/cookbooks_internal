@@ -73,13 +73,13 @@ module RightScale
         # @param [String] hostname Hostname FQDN, default is 'localhost'
         #
         # @return [Oracle] Oracle connection
-        def self.get_oracle_handle(node, hostname = 'localhost')
+        def self.get_oracle_handle(node)
           require 'oci8'
           #require '/opt/oracle/.ora_creds/ora_creds.rb'
           #ora_conn = OCI8.new(@user, @pass, nil, :SYSDBA)
-          info_msg = "  Oracle connection to #{hostname}"
+          info_msg = "  Oracle connection"
           info_msg << ": opening NEW Oracle connection."
-          con = OCI8.new(hostname, node[:db][:admin][:user], node[:db][:admin][:password])
+          con = OCI8.new('sys', node[:db][:sys][:password],nil, :SYSDBA)
           Chef::Log.info info_msg
           # this raises if the connection has gone away
           con.ping
@@ -89,7 +89,6 @@ module RightScale
         # Perform sql query to Oracle server
         #
         # @param [Hash] node Node name
-        # @param [String] hostname Hostname FQDN, default is 'localhost'
         # @param [Integer] timeout Timeout value
         # @param [Integer] tries Connection attempts number
         #
@@ -102,18 +101,18 @@ module RightScale
 
           loop do
             begin
-              info_msg = "  Doing SQL Query: HOST=#{hostname}, QUERY=#{query}"
+              info_msg = "  Doing SQL Query: QUERY=#{query}"
               info_msg << ", TIMEOUT=#{timeout}" if timeout
               info_msg << ", NUM_TRIES=#{tries}" if tries > 1
               Chef::Log.info info_msg
               result = nil
               if timeout
                 SystemTimer.timeout_after(timeout) do
-                  con = get_oracle_handle(node, hostname)
+                  con = get_oracle_handle(node)
                   result = con.exec(query)
                 end
               else
-                con = get_oracle_handle(node, hostname)
+                con = get_oracle_handle(node)
                 result = con.query(query)
               end
               return result.fetch_hash if result

@@ -159,7 +159,16 @@ action :post_backup_cleanup do
 end
 
 action :set_privileges do
-   bash "set-oracle-privs" do
+  admin_password = node[:db][:admin][:password]
+  password = node[:db][:sys][:password]
+  username = node[:db][:admin][:user]
+  db_oracle_set_privileges "setup db privileges" do
+    username username
+    admin_password admin_password
+    password password
+  end
+=begin
+  bash "set-oracle-privs" do
     user "root"
     cwd "/"
     code <<-EOF
@@ -185,6 +194,7 @@ su -l -c '/opt/oracle/app/product/11.2.0/dbhome_1/bin/dbshut' oracle
 su -l -c '/opt/oracle/app/product/11.2.0/dbhome_1/bin/dbstart' oracle
     EOF
   end
+=end
 end
 
 action :install_client do
@@ -650,7 +660,7 @@ end
 
 
 action :enable_replication do
-Chef::Log.info(":enable_replication is not implemented yet")
+  Chef::Log.info(":enable_replication is not implemented yet")
 =begin
   db_state_get node
   current_restore_process = new_resource.restore_process
