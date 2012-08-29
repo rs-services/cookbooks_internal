@@ -13,7 +13,7 @@ define :db_oracle_set_privileges, :admin_username=>nil, :admin_password=>nil, :p
   app_username = params[:app_username]
   app_password = params[:app_password]
 
-
+  Gem.clear_paths
   ruby_block "set admin credentials" do
     block do
       require 'rubygems'

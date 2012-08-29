@@ -58,7 +58,7 @@ bash "install-local-ruby-oci8" do
   not_if "test -e /usr/lib/ruby/site_ruby/1.8/oci8.rb"
 end
 
-bash "install-local-ruby-oci8" do
+bash "install-sandbox-ruby-oci8" do
   user "root"
   cwd "/tmp"
   code <<-EOF
@@ -70,4 +70,6 @@ bash "install-local-ruby-oci8" do
   EOF
   not_if "test -e /opt/rightscale/sandbox/lib/ruby/site_ruby/1.8/oci8.rb"
 end
+
+Gem.clear_paths
 rightscale_marker :end
