@@ -8,6 +8,7 @@
 rightscale_marker :begin
 
 # check passwords first 
+include RightScale::Database::Helper
 include RightScale::Database::Oracle::Helper
 RightScale::Database::Oracle::Helper.check_password("sys", node[:db][:sys][:password])
 RightScale::Database::Oracle::Helper.check_password("sysdba", node[:db][:sysdba][:password])
