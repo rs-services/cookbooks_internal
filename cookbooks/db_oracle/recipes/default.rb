@@ -7,6 +7,16 @@
 
 rightscale_marker :begin
 
+# check passwords first 
+include RightScale::Database::Oracle::Helper
+check_password("sys", node[:db][:sys][:password])
+check_password("sysdba", node[:db][:sysdba][:password])
+check_password("system", node[:db][:system][:password])
+check_password("dbsnmp", node[:db][:dbsnmp][:password])
+check_password(node[:db][:admin][:user], node[:db][:admin][:password])
+check_password(node[:db][:application][:user], node[:db][:application][:password])
+
+
 node[:db][:provider] = "db_oracle"
 version = node[:db_oracle][:version]
 

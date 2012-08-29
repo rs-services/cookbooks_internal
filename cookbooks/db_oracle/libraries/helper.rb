@@ -172,8 +172,15 @@ module RightScale
             end
           end
 =end   
-          end
         end
+          
+        def self.check_password(user,password)
+          regex = /^(?=.*\d)(?=.*([a-z]|[A-Z])){8,20}/
+          raise "Password for #{user} is not strong enough. Password must include letters and numbers and be 8-20 characters long." unless password =~ /#{regex}/
+          Chef::Log.info "Password check passed for #{user}!"
+        end
+        
       end
     end
+  end
 end
