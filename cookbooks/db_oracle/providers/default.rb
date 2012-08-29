@@ -171,34 +171,7 @@ action :set_privileges do
     app_username app_username
     app_password app_password
   end
-=begin
-  bash "set-oracle-privs" do
-    user "root"
-    cwd "/"
-    code <<-EOF
-cat <<EOH> /tmp/privs.sql
-grant DBA to SYSMAN;
-grant MGMT_USER to SYSMAN with admin option;
-grant ALTER SESSION to SYSMAN;
-grant ALTER USER to SYSMAN;
-grant CREATE ANY TABLE to SYSMAN;
-grant CREATE USER to SYSMAN;
-grant DROP USER to SYSMAN;
-grant SELECT ANY DICTIONARY to SYSMAN;
-grant UNLIMITED TABLESPACE to SYSMAN;
-GRANT CREATE TABLESPACE TO SYSMAN;
-ALTER SYSTEM SET open_cursors = 4000 SCOPE=BOTH;
-CREATE USER  #{node[:db][:admin][:user]} IDENTIFIED BY #{node[:db][:admin][:password]};
-GRANT SYSDBA TO #{node[:db][:admin][:user]};
 
-COMMIT; 
-EOH
-su -l -c '/opt/oracle/app/product/11.2.0/dbhome_1/bin/sqlplus "/ as sysdba" @/tmp/privs.sql' oracle
-su -l -c '/opt/oracle/app/product/11.2.0/dbhome_1/bin/dbshut' oracle
-su -l -c '/opt/oracle/app/product/11.2.0/dbhome_1/bin/dbstart' oracle
-    EOF
-  end
-=end
 end
 
 action :install_client do
@@ -499,6 +472,8 @@ rm -fr /mnt/ephemeral/database
 end
 
 action :setup_monitoring do
+   Chef::Log.info ":setup_monitoring is not implemented yet."
+=begin  
   db_state_get node
 
   ruby_block "evaluate db type" do
@@ -537,7 +512,7 @@ action :setup_monitoring do
     not_if { platform =~ /centos|redhat|ubuntu/ }
     level :warn
   end
-
+=end
 end
 
 action :grant_replication_slave do
