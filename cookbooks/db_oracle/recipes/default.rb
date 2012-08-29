@@ -8,14 +8,20 @@
 rightscale_marker :begin
 
 # check passwords first 
-include RightScale::Database::Helper
-include RightScale::Database::Oracle::Helper
-RightScale::Database::Oracle::Helper.check_password("sys", node[:db][:sys][:password])
-RightScale::Database::Oracle::Helper.check_password("sysdba", node[:db][:sysdba][:password])
-RightScale::Database::Oracle::Helper.check_password("system", node[:db][:system][:password])
-RightScale::Database::Oracle::Helper.check_password("dbsnmp", node[:db][:dbsnmp][:password])
-RightScale::Database::Oracle::Helper.check_password(node[:db][:admin][:user], node[:db][:admin][:password])
-RightScale::Database::Oracle::Helper.check_password(node[:db][:application][:user], node[:db][:application][:password])
+#include RightScale::Database::Helper
+#include RightScale::Database::Oracle::Helper
+def check_password(user,password)
+  regex = /^(?=.*\d)(?=.*([a-z]|[A-Z])){8,20}/
+  raise "Password for #{user} is not strong enough. Password must include letters and numbers and be 8-20 characters long." unless password =~ /#{regex}/
+  Chef::Log.info "Password check passed for #{user}!"
+end
+
+check_password("sys", node[:db][:sys][:password])
+check_password("sysdba", node[:db][:sysdba][:password])
+check_password("system", node[:db][:system][:password])
+check_password("dbsnmp", node[:db][:dbsnmp][:password])
+check_password(node[:db][:admin][:user], node[:db][:admin][:password])
+check_password(node[:db][:application][:user], node[:db][:application][:password])
 
 
 node[:db][:provider] = "db_oracle"
