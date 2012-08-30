@@ -19,6 +19,7 @@ depends "sys_firewall"
 
 recipe  "db_oracle::default", "Set the DB Oracle provider. Sets version and node variables specific to the chosen MySQL version."
 recipe  "db_oracle::install_local_and_sandbox_oci8_rubygem_on_server", "installs ruby oci-8 on the oracle db server"
+recipe "db_oracle::register_master" , "Register master database server with DNS service"
 
 attribute "db_oracle",
   :display_name => "General Database Options",
@@ -26,12 +27,6 @@ attribute "db_oracle",
 
 # == Default attributes
 #
-attribute "oracle/server/private_ip",
-    :display_name => "Server Private Ip",
-    :description => "Server Private IP.  Use env:PRIVATE_IP/Oracle Server ", 
-    :recipes => [ "db_oracle::default" ],
-    :required => "required"
-
 attribute "oracle/install_file1_url", 
   :display_name => "Oracle Install ZipFile 1",
   :description => "Url to the oracle zip file", 
@@ -70,3 +65,13 @@ attribute "db/dbsnmp/password",
   :required => "required",
   :recipes => [ "db_oracle::default" ]
 
+attribute "db/dns/master/id",
+  :display_name => "Database Master DNS Record ID",
+  :description => "The unique identifier that is associated with the DNS A record 
+of the master database server. The unique identifier is assigned by the DNS provider 
+when you create a dynamic DNS A record. This ID is used to update the associated 
+A record with the private IP address of the master server when this recipe is run. 
+If you are using DNS Made Easy as your DNS provider, a 7-digit number is used 
+(e.g., 4403234).",
+  :required => "optional",
+  :recipes => [ "db_oracle::register_master" ]
