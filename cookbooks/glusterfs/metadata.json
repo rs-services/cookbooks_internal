@@ -21,9 +21,24 @@
   "replacing": {
   },
   "attributes": {
+    "glusterfs/volume_type": {
+      "display_name": "Volume Type",
+      "description": "The type of GlusterFS volume to create (distributed, replicated, etc)",
+      "required": "optional",
+      "default": "Replicated",
+      "choice": [
+        "Distributed",
+        "Replicated"
+      ],
+      "recipes": [
+        "glusterfs::server_create_cluster"
+      ],
+      "calculated": false,
+      "type": "string"
+    },
     "glusterfs/volume_name": {
       "display_name": "Volume Name",
-      "description": "The name of the exported volume on the GlusterFS server",
+      "description": "The name of the GlusterFS volume. Servers are tagged with this name and trusted pools are keyed off this name, meaning everyone who shares the same name will become part of the same pool/volume",
       "required": "required",
       "recipes": [
         "glusterfs::server_set_tags",
@@ -54,9 +69,9 @@
     },
     "glusterfs/server/replica_count": {
       "display_name": "Replica Count",
-      "description": "The directory path to be added to the volume as a brick",
+      "description": "The number of bricks to replicate files across for a Replicated volume type",
       "required": "optional",
-      "default": "1",
+      "default": "2",
       "recipes": [
         "glusterfs::server_create_cluster",
         "glusterfs::server_join_cluster"
