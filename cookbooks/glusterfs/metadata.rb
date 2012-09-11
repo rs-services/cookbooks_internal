@@ -30,7 +30,7 @@ recipe "glusterfs::client_mount_volume", "Runs mount(8) with `-t glusterfs' opti
 #    :default      => "",
 #    :recipes      => [ "glusterfs::install"]
 
-attribute "glusterfs/volume_type",
+attribute "glusterfs/server/volume_type",
     :display_name => "Volume Type",
     :description  => "The type of GlusterFS volume to create (distributed, replicated, etc)",
     :required     => "optional",

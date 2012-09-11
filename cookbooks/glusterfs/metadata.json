@@ -21,7 +21,7 @@
   "replacing": {
   },
   "attributes": {
-    "glusterfs/volume_type": {
+    "glusterfs/server/volume_type": {
       "display_name": "Volume Type",
       "description": "The type of GlusterFS volume to create (distributed, replicated, etc)",
       "required": "optional",
