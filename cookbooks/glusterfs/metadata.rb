@@ -36,13 +36,16 @@ attribute "glusterfs/server/volume_type",
     :required     => "optional",
     :default      => "Replicated",
     :choice       => [ "Distributed", "Replicated" ],
-    :recipes      => [ "glusterfs::server_create_cluster" ]
+    :recipes      => [ "glusterfs::default",
+                       "glusterfs::server_create_cluster",
+                       "glusterfs::server_join_cluster" ]
 
 attribute "glusterfs/volume_name",
     :display_name => "Volume Name",
     :description  => "The name of the GlusterFS volume. Servers are tagged with this name and trusted pools are keyed off this name, meaning everyone who shares the same name will become part of the same pool/volume",
     :required     => "required",
-    :recipes      => [ "glusterfs::server_set_tags",
+    :recipes      => [ "glusterfs::default",
+                       "glusterfs::server_set_tags",
                        "glusterfs::server_create_cluster",
                        "glusterfs::server_join_cluster",
                        "glusterfs::client_mount_volume" ]
@@ -51,7 +54,8 @@ attribute "glusterfs/server/storage_path",
     :display_name => "Storage Path",
     :description  => "The directory path to be used as a brick and added to the GlusterFS volume",
     :required     => "required",
-    :recipes      => [ "glusterfs::server_set_tags",
+    :recipes      => [ "glusterfs::default",
+                       "glusterfs::server_set_tags",
                        "glusterfs::server_create_cluster",
                        "glusterfs::server_join_cluster" ]
 
@@ -60,20 +64,23 @@ attribute "glusterfs/server/replica_count",
     :description  => "The number of bricks to replicate files across for a Replicated volume type",
     :required     => "optional",
     :default      => "2",
-    :recipes      => [ "glusterfs::server_create_cluster",
+    :recipes      => [ "glusterfs::default",
+                       "glusterfs::server_create_cluster",
                        "glusterfs::server_join_cluster" ]
 
 attribute "glusterfs/client/mount_point",
     :display_name => "Mount point",
-    :description => "(Client only) The directory path where the GlusterFS volume should be mounted (e.g., /mnt/storage).",
-    :type => "string",
-    :required => "recommended",
-    :default => "/mnt/ephemeral/glusterfs",
-    :recipes => [ "glusterfs::client_mount_volume"]
+    :description  => "(Client only) The directory path where the GlusterFS volume should be mounted (e.g., /mnt/storage).",
+    :type         => "string",
+    :required     => "recommended",
+    :default      => "/mnt/ephemeral/glusterfs",
+    :recipes      => [ "glusterfs::default",
+                       "glusterfs::client_mount_volume" ]
 
 attribute "glusterfs/client/mount_options",
     :display_name => "Mount Options",
     :description  => "(Client only) Extra options to be passed to the mount command",
     :required     => "optional",
-    :recipes      => [ "glusterfs::client_mount_volume"]
+    :recipes      => [ "glusterfs::default",
+                       "glusterfs::client_mount_volume" ]
 

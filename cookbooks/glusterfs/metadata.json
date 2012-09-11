@@ -31,7 +31,9 @@
         "Replicated"
       ],
       "recipes": [
-        "glusterfs::server_create_cluster"
+        "glusterfs::default",
+        "glusterfs::server_create_cluster",
+        "glusterfs::server_join_cluster"
       ],
       "calculated": false,
       "type": "string"
@@ -41,6 +43,7 @@
       "description": "The name of the GlusterFS volume. Servers are tagged with this name and trusted pools are keyed off this name, meaning everyone who shares the same name will become part of the same pool/volume",
       "required": "required",
       "recipes": [
+        "glusterfs::default",
         "glusterfs::server_set_tags",
         "glusterfs::server_create_cluster",
         "glusterfs::server_join_cluster",
@@ -57,6 +60,7 @@
       "description": "The directory path to be used as a brick and added to the GlusterFS volume",
       "required": "required",
       "recipes": [
+        "glusterfs::default",
         "glusterfs::server_set_tags",
         "glusterfs::server_create_cluster",
         "glusterfs::server_join_cluster"
@@ -73,6 +77,7 @@
       "required": "optional",
       "default": "2",
       "recipes": [
+        "glusterfs::default",
         "glusterfs::server_create_cluster",
         "glusterfs::server_join_cluster"
       ],
@@ -89,6 +94,7 @@
       "required": "recommended",
       "default": "/mnt/ephemeral/glusterfs",
       "recipes": [
+        "glusterfs::default",
         "glusterfs::client_mount_volume"
       ],
       "choice": [
@@ -101,6 +107,7 @@
       "description": "(Client only) Extra options to be passed to the mount command",
       "required": "optional",
       "recipes": [
+        "glusterfs::default",
         "glusterfs::client_mount_volume"
       ],
       "choice": [
