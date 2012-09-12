@@ -6,8 +6,10 @@
 
 rightscale_marker :begin
 
-# What to do here?
-# Need to learn about the "default" model we use
+  # debug
+  require 'pp'
+  pretty = PP.pp(node,'')
+  File.open('/tmp/node.js', 'w') { |f| f.write pretty }
 
 rightscale_marker :end
 

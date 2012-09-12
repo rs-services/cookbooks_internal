@@ -5,12 +5,12 @@ rightscale_marker :begin
 #     output in order to determine success.
 #
 CMD_LOG = "/tmp/gluster.out.#{$$}"
-
 peer_ip = node[:glusterfs][:server][:peer]
 
 log "===> Going to probe #{peer_ip}"
 ruby_block "gluster peer probe #{peer_ip}" do
   block do
+    # TODO netcat the port
     system "gluster peer probe #{peer_ip} &> #{CMD_LOG}"
     GlusterFS::Error.check(CMD_LOG, "Adding #{peer_ip} to cluster")
   end

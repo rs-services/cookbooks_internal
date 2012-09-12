@@ -8,12 +8,18 @@ CMD_LOG = "/tmp/gluster.out.#{$$}"
 
 # Constants as shortcuts for attributes
 #
-EXPORT_DIR = node[:glusterfs][:server][:storage_path]
-BRICK_NAME = "#{node[:cloud][:private_ips][0]}:#{EXPORT_DIR}"
-VOL_NAME   = node[:glusterfs][:volume_name]
-TAG_VOLUME = node[:glusterfs][:tag][:volume]
 TAG_ATTACH = node[:glusterfs][:tag][:attached]
 TAG_SPARE  = node[:glusterfs][:tag][:spare]
+TAG_VOLUME = node[:glusterfs][:tag][:volume]
+TAG_BRICK  = node[:glusterfs][:tag][:brick]
+VOL_TYPE   = node[:glusterfs][:server][:volume_type]
+REPL_COUNT = node[:glusterfs][:server][:replica_count].to_i
+IP_ADDR    = node[:cloud][:private_ips][0]
+
+list_tags = "rs_tag --list --format text |tr ' ' '\\n'"
+VOL_NAME   = `#{list_tags} |grep '#{TAG_VOLUME}=' |cut -f2 -d=`.chomp
+EXPORT_DIR = `#{list_tags} |grep '#{TAG_BRICK}='  |cut -f2 -d=`.chomp
+BRICK_NAME = "#{IP_ADDR}:#{EXPORT_DIR}"
 
 # FIXME Apparently there's no supported/native way to fetch tags with the
 #       RightLink `right_link_tag' resource. I sleuthed the provider code and
@@ -43,50 +49,50 @@ if ! check_attached.empty?
   raise "This server thinks it is already attached! (#{TAG_ATTACH}=true)"
 end
 
-# TODO Find other spares if we need to, based on REPL_COUNT, and add them as
-#      bricks
-#
-# TODO The following two resources should be a definition (since they are used
-#      identically in server_handle_detach_request), but I'm not sure how you
-#      force a definition to run in the compile phase (maybe the same way you
-#      do for any normal resource).
-#
-# find all servers marked as 'attached' (joined to the cluster)
-sc = rightscale_server_collection "glusterfs_attached" do
+if VOL_TYPE == "Replicated"
+  # Find all other spares and so we can add them to the trusted pool
+  find_all_spares "find_spares" do
+    tags "#{TAG_SPARE}=true"
+    secondary_tags "#{TAG_VOLUME}=#{VOL_NAME}"
+  end
+  #Chef::Log.info "SPARES: #{node[:glusterfs][:server][:spares].inspect}"
+
+  # Consider replica_count for replicated volume types
+  # (maybe we can't use ALL the spares, since the number of bricks we need must
+  # be a factor of replica_count)
+  prune_spares "factor_by_replica_count" do 
+    replica_count REPL_COUNT
+    myip IP_ADDR
+  end
+  #Chef::Log.info "PRUNED: #{node[:glusterfs][:server][:spares].inspect}"
+else
+  # If this isn't a replicated volume, then we're the only spare
+  # (only want to add ourself and our brick to the pool)
+  node[:glusterfs][:server][:spares] = [IP_ADDR]
+end
+
+# Find an existing host in the pool so he can invite us
+find_attached_peer "find_peer" do
   tags "#{TAG_ATTACH}=true"
   secondary_tags "#{TAG_VOLUME}=#{VOL_NAME}"
-  action :nothing
 end
-sc.run_action(:load)
+#Chef::Log.info "UUID: #{node[:glusterfs][:server][:peer_uuid_tag]}"
 
-# grab the uuid of the first one (doesn't matter which one we use)
-peer_uuid = ""
-rb = ruby_block "geet peer uuid" do
-  block do
-    node[:server_collection]["glusterfs_attached"].each do |id, tags|
-      peer_uuid = tags.detect { |u| u =~ /^server:uuid=/ }
-      ip_tag = tags.detect { |i| i =~ /^server:private_ip_0=/ }
-      ip = ip_tag.gsub(/^.*=/, '')
-      Chef::Log.info "===> Found attached peer #{ip}"
-      break # only need one host
-    end
-  end
-end
-rb.run_action(:create)
-
+# Run remote recipe on attached node 
+peer_uuid = node[:glusterfs][:server][:peer_uuid_tag]
 if ! peer_uuid.empty?
   log "===> Running remote recipe on attached peer"
   remote_recipe "Handle our probe request" do
     recipe "glusterfs::server_handle_probe_request"
     attributes :glusterfs => {
       :server => {
-        :peer => node[:cloud][:private_ips][0]
+        :peer => IP_ADDR
       }
     }
     recipients_tags peer_uuid #server:uuid
   end
 
-  # Wait for peer to probe us (so humiliating)
+  # Wait for probe request to complete
   bash "Wait for peer status" do
     code <<-EOF
       echo "  Waiting 2 min max"
@@ -108,28 +114,40 @@ if ! peer_uuid.empty?
     EOF
   end
 
-  bash "gluster volume add-brick" do
-    code <<-EOF
-      gluster volume add-brick #{VOL_NAME} #{BRICK_NAME} &> #{CMD_LOG}
-      if grep -qwi successful #{CMD_LOG}
-      then
-          echo "===> Brick successfully added to volume '#{VOL_NAME}'"
-          rm -f #{CMD_LOG}
-          exit 0
-      else
-          echo "!!!> Add-brick command failed: "
-          cat #{CMD_LOG} && rm -f #{CMD_LOG}
-          exit 1
-      fi
-    EOF
+  # Now that we're joined, let's add the other spares if we need to
+  if VOL_TYPE == "Replicated"
+    gluster_peer_probe "spares" do
+        peers node[:glusterfs][:server][:spares] 
+    end
   end
 
-  right_link_tag "#{TAG_ATTACH}=true" do
-    action :publish
+  # Add everyone's 
+  ruby_block "gluster volume add-brick" do
+    block do
+      Chef::Log.info "===> Adding brick(s) to volume '#{VOL_NAME}'"
+
+      # Build the command...
+      cmd = "gluster volume add-brick #{VOL_NAME}"
+      node[:glusterfs][:server][:spares].each do |ip|
+        # FIXME query tags and use exact brick name from each host
+        # (theoretically each server could have a unique export/brick name)
+        cmd += " #{ip}:#{EXPORT_DIR}"
+      end
+
+      # Run the command
+      system "#{cmd} &> #{CMD_LOG}"
+      GlusterFS::Error.check(CMD_LOG, "Adding bricks")
+    end
   end
 
-  right_link_tag "#{TAG_SPARE}=true" do
-    action :remove
+  # Remove TAG_SPARE from hosts and add TAG_ATTACH
+  #
+  # (the remote recipe being invoked is intelligent and only removes the tag if
+  # its brick is in fact part of the volume, thus safe to run on all hosts.)
+  log "===> Running remote recipes to update tags"
+  remote_recipe "update_tags" do
+    recipe "glusterfs::server_handle_tag_updates"
+    recipients_tags "#{TAG_SPARE}=true"
   end
 
 else

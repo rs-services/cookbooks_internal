@@ -8,13 +8,16 @@ CMD_LOG = "/tmp/gluster.out.#{$$}"
 
 # Constants as shortcuts for attributes
 #
-TAG_SPARE  = node[:glusterfs][:tag][:spare]
 TAG_ATTACH = node[:glusterfs][:tag][:attached]
+TAG_SPARE  = node[:glusterfs][:tag][:spare]
 TAG_VOLUME = node[:glusterfs][:tag][:volume]
-VOL_NAME   = node[:glusterfs][:volume_name]
+TAG_BRICK  = node[:glusterfs][:tag][:brick]
 IP_ADDR    = node[:cloud][:private_ips][0]
-EXPORT_DIR = node[:glusterfs][:server][:storage_path]
 REPL_COUNT = node[:glusterfs][:server][:replica_count].to_i
+
+list_tags = "rs_tag --list --format text |tr ' ' '\\n'"
+VOL_NAME   = `#{list_tags} |grep '#{TAG_VOLUME}=' |cut -f2 -d=`.chomp
+EXPORT_DIR = `#{list_tags} |grep '#{TAG_BRICK}='  |cut -f2 -d=`.chomp
 BRICK_NAME = "#{IP_ADDR}:#{EXPORT_DIR}"
 
 # Check if we actually have any peers
@@ -35,7 +38,7 @@ sh.run_action(:run)
 
 # Remove our brick from the volume
 #
-# TODO How to handle decomissioning a node when REPL_COUNT > 1 ?
+# TODO How to handle decomissioning a node from replicated volume ?
 #      Needs to run a remote recipe that takes out other nodes as well?
 #      Maybe there should be a decomm_safety input? How do you determine which
 #      nodes get removed?  Maybe an optional input for specifying?
@@ -50,36 +53,12 @@ ruby_block "gluster volume remove-brick" do
   only_if "gluster volume info #{VOL_NAME} | grep -Gqw #{BRICK_NAME}"
 end
 
-# TODO The following two resources should be a definition (since they are used
-#      identically in server_join_cluster), but I'm not sure how you force a
-#      definition to run in the compile phase (maybe the same way you do for
-#      any normal resource).
-#
-# Find servers marked as 'attached' (joined to the cluster)
-#
-sc = rightscale_server_collection "glusterfs_attached" do
+find_attached_peer "find_peer" do
   tags "#{TAG_ATTACH}=true"
   secondary_tags "#{TAG_VOLUME}=#{VOL_NAME}"
-  action :nothing
 end
-sc.run_action(:load)
-
-# Grab the uuid tag of one server so we can remote-recipe it
-#
-peer_uuid = ""
-rb = ruby_block "geet peer uuid" do
-  block do
-    node[:server_collection]["glusterfs_attached"].each do |id, tags|
-      ip_tag = tags.detect { |i| i =~ /^server:private_ip_0=/ }
-      ip = ip_tag.gsub(/^.*=/, '')
-      next if ip == IP_ADDR   # skip ourself (can't detach ourself)
-      Chef::Log.info "===> Found attached peer #{ip}"
-      peer_uuid = tags.detect { |u| u =~ /^server:uuid=/ }
-      break # only need one host
-    end
-  end
-end
-rb.run_action(:create)
+#Chef::Log.info "UUID: #{node[:glusterfs][:server][:peer_uuid_tag]}"
+peer_uuid = node[:glusterfs][:server][:peer_uuid_tag]
 
 if ! peer_uuid.empty?
   log "===> Running remote recipe on attached peer"
@@ -87,7 +66,7 @@ if ! peer_uuid.empty?
     recipe "glusterfs::server_handle_detach_request"
     attributes :glusterfs => {
       :server => {
-        :peer => node[:cloud][:private_ips][0]
+        :peer => IP_ADDR
       }
     }
     recipients_tags peer_uuid #server:uuid

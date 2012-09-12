@@ -7,91 +7,82 @@ rightscale_marker :begin
 CMD_LOG = "/tmp/gluster.out.#{$$}"
 
 # Constants as shortcuts for attributes
+#
 TAG_SPARE  = node[:glusterfs][:tag][:spare]
-VOL_NAME   = node[:glusterfs][:volume_name]
-EXPORT_DIR = node[:glusterfs][:server][:storage_path]
+TAG_VOLUME = node[:glusterfs][:tag][:volume]
+TAG_BRICK  = node[:glusterfs][:tag][:brick]
+VOL_TYPE   = node[:glusterfs][:server][:volume_type]
 REPL_COUNT = node[:glusterfs][:server][:replica_count].to_i
+IP_ADDR    = node[:cloud][:private_ips][0]
 
-# find all servers marked as 'spares'
-server_collection "glusterfs" do
+list_tags = "rs_tag --list --format text |tr ' ' '\\n'"
+VOL_NAME   = `#{list_tags} |grep '#{TAG_VOLUME}=' |cut -f2 -d=`.chomp
+EXPORT_DIR = `#{list_tags} |grep '#{TAG_BRICK}='  |cut -f2 -d=`.chomp
+
+Chef::Log.info "VOLUME INFORMATION:"
+Chef::Log.info "~~~~~~~~~~~~~~~~~~~"
+Chef::Log.info "Volume Name: #{VOL_NAME}"
+Chef::Log.info "Volume Type: #{VOL_TYPE}"
+Chef::Log.info "Replica Count: #{REPL_COUNT} " +
+               "(only used for Replicated volumes)"
+
+# Check if we already have a volume
+sh = bash "Check existing volume" do
+  code <<-EOF
+    if ! gluster volume info |grep -Gqx 'No volumes present'
+    then
+        echo "!!!> This host is already part of a volume!"
+        echo
+        gluster volume info
+        echo
+        echo "!!!> ABORTING"
+        exit 1
+    fi
+  EOF
+  action :nothing
+end
+sh.run_action(:run)
+
+# Find all other spares so we can create a trusted pool
+find_all_spares "find_spares" do
   tags "#{TAG_SPARE}=true"
+  secondary_tags "#{TAG_VOLUME}=#{VOL_NAME}"
+end
+#Chef::Log.info "SPARES: #{node[:glusterfs][:server][:spares].inspect}"
+
+# Consider replica_count for replicated volume types
+# (maybe we can't use ALL the spares, since the number of bricks we need must
+# be a factor of replica_count)
+if VOL_TYPE == "Replicated"
+  prune_spares "factor_by_replica_count" do
+    replica_count REPL_COUNT
+    myip IP_ADDR
+  end
+  #Chef::Log.info "PRUNED: #{node[:glusterfs][:server][:spares].inspect}"
 end
 
-ruby_block "Probe spares and create volume" do
+# Create a trusted pool from the IPs we have
+gluster_peer_probe "spares" do
+  peers node[:glusterfs][:server][:spares]
+end
+
+# Create a new volume from everyone's bricks
+ruby_block "Create volume" do
   block do
-    hosts_found = []
-    # grab IPs of the spares
-    node[:server_collection]["glusterfs"].each do |id, tags|
-      ip_tag = tags.detect { |i| i =~ /^server:private_ip_0=/ }
-      ip = ip_tag.gsub(/^.*=/, '')
-      Chef::Log.info "===> Found server #{ip}"
-      hosts_found << ip
-    end
-
-    if hosts_found.empty?
-      raise "!!!> Didn't find any servers tagged with #{TAG_SPARE}=true"
-    end
-
-    # Probe each IP to attach as peer
-    hosts_found.each do |ip|
-      if ip == node[:cloud][:private_ips][0] # skip ourself
-        Chef::Log.info "===> Skipping myself (#{ip})"
-        next
-      end
-
-      # first check if peer is already connected!
-      # (If he is already connected, it's probably from a previous failure of
-      # this recipe since he's still marked as spare)
-      peered = false
-      begin
-        Chef::Log.info "===> Checking if #{ip} is already peered"
-        output = IO.popen("gluster peer status")
-        output.readlines.each do |line|
-          if (line.chomp =~ /^Hostname:\s+#{Regexp.escape(ip)}$/)
-            Chef::Log.info "===>  + already peered!? skipping host"
-            peered = true  # skip this host we already know about him somehow
-            break
-          end
-        end
-      rescue => e
-        raise "`gluster peer status' failed: #{e.message}"
-      end
-
-      # send the probe
-      if ! peered
-        Chef::Log.info "===>  - not peered, sending probe command"
-        system "gluster peer probe #{ip} &> #{CMD_LOG}"
-        GlusterFS::Error.check(CMD_LOG, "Adding #{ip} to cluster")
-      end
-    end
-
-    # The replication count determines what number of bricks you need when
-    # adding to- or removing from the volume.
-    # Do we have enough hosts to meet this number?
-    if (hosts_found.size < REPL_COUNT)
-        raise "!!!> Didn't find enough servers with tag #{TAG_SPARE}=true to satisfy a replication count of #{REPL_COUNT}."
-    end
-
-    remainder = hosts_found.size % REPL_COUNT
-    if (remainder != 0)
-        Chef::Log.info "WARN: Not all spares will be used. Number not divisible by replication count '#{REPL_COUNT}'."
-    end
-
-    max_usable = hosts_found.size-remainder
-
-    # Create a new volume from bricks
     Chef::Log.info "===> Creating volume #{VOL_NAME}"
 
-    cmd = "gluster volume create #{VOL_NAME} transport tcp"
-    # gluster will bark if you configure a replica count of '1'
-    if REPL_COUNT > 1
+    # Build the command...
+    cmd = "gluster volume create #{VOL_NAME}"
+    if VOL_TYPE == "Replicated"
       cmd += " replica #{REPL_COUNT}"
     end
-
-    hosts_found.each_with_index do |ip, idx|
+    node[:glusterfs][:server][:spares].each do |ip|
+      # FIXME query tags and use exact brick name from each host (theoretically
+      # each server could have a unique export/brick name)
       cmd += " #{ip}:#{EXPORT_DIR}"
-      break if idx == (max_usable-1)  # 0-based index
     end
+
+    # Run the command
     system "#{cmd} &> #{CMD_LOG}"
     GlusterFS::Error.check(CMD_LOG, "Volume creation")
 
@@ -113,11 +104,12 @@ ruby_block "Probe spares and create volume" do
   end #block do
 end #ruby_block do
 
-# Remove TAG_SPARE from hosts
+## Remove TAG_SPARE from hosts and add TAG_ATTACH
+#
 # (the remote recipe being invoked is intelligent and only removes the tag if
 # its brick is in fact part of the volume, thus safe to run on all hosts.)
-log "===> Running remote recipes to remove tags"
-remote_recipe "delete_tag" do
+log "===> Running remote recipes to update tags"
+remote_recipe "update_tags" do
   recipe "glusterfs::server_handle_tag_updates"
   recipients_tags "#{TAG_SPARE}=true"
 end
