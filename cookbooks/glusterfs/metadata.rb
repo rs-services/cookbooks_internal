@@ -19,17 +19,6 @@ recipe "glusterfs::server_handle_tag_updates", "Remote recipe intended to be cal
 recipe "glusterfs::server_handle_detach_request", "Remote recipe intended to be called by glusterfs::server_decommission"
 recipe "glusterfs::client_mount_volume", "Runs mount(8) with `-t glusterfs' option to mount glusterfs"
 
-# TODO  Make an attribute with volume types choices (distributed, striped,
-#       replicated, etc.) and use it in server_create_cluster accordingly.
-
-#attribute "glusterfs/package_url",
-#    :display_name => "Download URL",
-#    :description  => "Direct URL to a GlusterFS package (override package manager)",
-#    :required     => "optional",
-#    #:default      => "https://rs-samsung-assets.s3.amazonaws.com/glusterfs%2Fglusterfs_3.2.6-1_amd64.deb",
-#    :default      => "",
-#    :recipes      => [ "glusterfs::install"]
-
 attribute "glusterfs/server/volume_type",
     :display_name => "Volume Type",
     :description  => "The type of GlusterFS volume to create (distributed, replicated, etc)",

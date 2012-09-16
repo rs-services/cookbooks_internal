@@ -5,6 +5,8 @@ default_unless[:glusterfs][:tag][:attached] = "glusterfs_server:attached"
 default_unless[:glusterfs][:tag][:volume]   = "glusterfs_server:volume"
 default_unless[:glusterfs][:tag][:brick]    = "glusterfs_server:brick"
 
-default_unless[:glusterfs][:client][:mount_options] = ""
 default_unless[:glusterfs][:server][:replica_count] = "2"
 default_unless[:glusterfs][:server][:spares] = []
+
+default_unless[:glusterfs][:client][:pkg_name] = "glusterfs_3.2.7-1_amd64.deb"
+default_unless[:glusterfs][:client][:mount_options] = ""
