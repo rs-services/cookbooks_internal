@@ -24,7 +24,8 @@ when 'ubuntu'
   end
 
 when 'centos'
-  package "glusterfs" # from epel
+  package "glusterfs"       # from epel
+  package "glusterfs-fuse"  #
 else
   raise "Unsupported platform '#{node[:platform]}'"
 end
