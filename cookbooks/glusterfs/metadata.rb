@@ -5,6 +5,7 @@ description      "GlusterFS recipes"
 version          "0.0.2"
 
 depends "rightscale"
+depends "block_device"
 #depends "aria2"
 
 recipe "glusterfs::default", "Currently unused"
