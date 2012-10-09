@@ -4,25 +4,37 @@ Install and Configure Apache Hadoop 1.03
 
 Requirements
 ============
-Java
 
+* Requires a VM launched from a RightScale managed RightImage.
+
+== KNOWN LIMITATIONS:
+
+There are no known limitations.
 
 Attributes
 ==========
 
+* See <tt>metadata.rb</tt> for the list of attributes and their description.
+
 Usage
 =====
+This cookbook has two features
 
-To create a Hadoop Cluster, create multiple servers.  Each server will be 
-designated as a namenode (master) or datanode (slave).  
+1. Launch one Namenode (master server) and unlimited Datanode (slave) servers.
+Use the ServerTemplate inputs to select which type of server you will launch.  
+The default server launched is a NameNode, simply change the hadoop/node/type input
+to datanode to launch a namenode.  Clone as many datanode servers you need or put datanode
+servers in a ServerArray to launch as many as you need.
 
-Set the hadoop/dfs/replication input to the size of your datanode replication size.
+2. Run MapReduce commands using java classes.  Data is downloaded from your ROS
+and copied into your HDFS input directory.  After your MapReduce program is run, the 
+output data is uploaded to your ROS.
 
 
-MapReduce
+= LICENSE:
 
-There are three recipes for MapReduce 
- 1. hadoop::do_data_import - runs hadoop::do_cleanup (if mapreduce/cleanup==yes) then downloads data and copies it to the hadoop HDFS
- 2. hadoop::do_map_reduce - downloads MapReduce code from Repository compiles it, 
-    runs MapReduce program and uploads it to the ROS
+Copyright RightScale, Inc. All rights reserved.  All access and use subject to
+the RightScale Terms of Service available at http://www.rightscale.com/terms.php
+and, if applicable, other agreements such as a RightScale Master Subscription
+Agreement.
 
