@@ -1,23 +1,21 @@
-Description
-===========
+= Description
+
 Install and Configure Apache Hadoop 1.03 
 
-Requirements
-============
+= Requirements
+
 
 * Requires a VM launched from a RightScale managed RightImage.
 
-== KNOWN LIMITATIONS:
+= KNOWN LIMITATIONS:
 
 There are no known limitations.
 
-Attributes
-==========
+= Attributes:
 
-* See <tt>metadata.rb</tt> for the list of attributes and their description.
+* See metadata.rb for the list of attributes and their description.
 
-Usage
-=====
+= Usage:
 
 If your cloud supports Security Groups, i.e. Amazon EC2, set the rules to allow 
 ports 8020, 50000-50100 (or the ports you use in the inputs) between namenode 
