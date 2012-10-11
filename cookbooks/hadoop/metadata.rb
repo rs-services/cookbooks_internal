@@ -28,13 +28,13 @@ recipe "hadoop::handle_detach", "Handle Detach"
 recipe "hadoop::do_detach_all", "Detach datanodes from the namenode.  Runs from cron on the namenode"
 recipe "hadoop::do_allow", "Add firewall rules to allow namenode and datanode connections within the cluster"
 recipe "hadoop::do_deny", "Remove firewall rules for nodenames and datanodes. "
-recipe "hadoop::do_data_import", "Download data from a cloud provider ROS and copy it into the Hadoop HDFS."
-recipe "hadoop::do_map_reduce", "Run MapReduce command on data imported and upload it to the cloud provider ROS."
-recipe "hadoop::do_cleanup", "Remove working directories and MapReduce input/output directories"
+recipe "hadoop::do_data_import", "Run on Namenode. Download data from a cloud provider ROS and copy it into the Hadoop HDFS."
+recipe "hadoop::do_map_reduce", "Run on Namenode, Run MapReduce command on data imported and upload it to the cloud provider ROS."
+recipe "hadoop::do_cleanup", "Run on Namenode. Remove working directories and MapReduce input/output directories"
 
 
 attribute "rightscale/public_ssh_key",
-  :display_name => "public ssh key ",
+  :display_name => "Public SSH Key ",
   :description => "Hadoop needs a public ssh key which it can use to ssh to 
 systems in it's cluster. This key should also match the private key supplied in ssh/private_ssh_key",
   :required => "required",
@@ -46,13 +46,14 @@ attribute "hadoop/node/type",
   :choice => ['namenode','datanode'],
   :default=>'namenode',
   :type => "string",
+  :required => "required",
   :recipes => [  "hadoop::default","hadoop::do_init","hadoop::do_config","hadoop::do_data_import", "hadoop::do_cleanup" ]
 
 attribute "hadoop/dfs/replication",
   :display_name => "Hadoop namenode dfs.replicaton property ",
   :description => "Hadoop namenode dfs.replicaton property",
   :type => "string",
-  :required => "optional",
+  :required => "required",
   :recipes => ["hadoop::default", "hadoop::do_config" ]
 
 attribute "hadoop/namenode/address/port",
@@ -60,40 +61,40 @@ attribute "hadoop/namenode/address/port",
   :description => "Set the firewall port used by the namenode",
   :type => "string",
   :default =>"8020",
-  :required => "optional",
-  :recipes => [ "hadoop::do_allow","hadooop:do_disallow" ]
+  :required => "required",
+  :recipes => [ "hadoop::do_allow","hadooop:do_deny" ]
 
 attribute "hadoop/namenode/http/port",
   :display_name => "Namenode http firewall port",
   :description => "Set the firewall port used by the namenode http server",
   :type => "string",
   :default =>"50070",
-  :required => "optional",
-  :recipes => [ "hadoop::do_allow","hadooop:do_disallow" ]
+  :required => "required",
+  :recipes => [ "hadoop::do_allow","hadooop:do_deny" ]
 
 attribute "hadoop/datanode/address/port",
   :display_name => "Datanode address firewall port",
   :description => "Set the firewall port used by the datanode address",
   :type => "string",
   :default =>"50010",
-  :required => "optional",
-  :recipes => [ "hadoop::do_allow","hadooop:do_disallow" ]
+  :required => "required",
+  :recipes => [ "hadoop::do_allow","hadooop:do_deny" ]
 
 attribute "hadoop/datanode/ipc/port",
   :display_name => "Datanode ipc firewall port ",
   :description => "Set the firewall port used by the datanode ipc address",
   :type => "string",
   :default =>"50020",
-  :required => "optional",
-  :recipes => [ "hadoop::do_allow","hadooop:do_disallow" ]
+  :required => "required",
+  :recipes => [ "hadoop::do_allow","hadooop:do_deny" ]
 
 attribute "hadoop/datanode/http/port",
   :display_name => "Datanode http firewall port ",
   :description => "Set the firewall port used by the datanode http server",
   :type => "string",
   :default =>"50075",
-  :required => "optional",
-  :recipes => [ "hadoop::do_allow","hadooop:do_disallow" ]
+  :required => "required",
+  :recipes => [ "hadoop::do_allow","hadooop:do_deny" ]
 
 
 attribute "mapreduce/input",

@@ -1,6 +1,6 @@
 Description
 ===========
-Install and Configure Apache Hadoop 1.03
+Install and Configure Apache Hadoop 1.03 
 
 Requirements
 ============
@@ -18,12 +18,17 @@ Attributes
 
 Usage
 =====
+
+If your cloud supports Security Groups, i.e. Amazon EC2, set the rules to allow 
+ports 8020, 50000-50100 (or the ports you use in the inputs) between namenode 
+and datanodes.
+
 This cookbook has two features
 
 1. Launch one Namenode (master server) and unlimited Datanode (slave) servers.
 Use the ServerTemplate inputs to select which type of server you will launch.  
-The default server launched is a NameNode, simply change the hadoop/node/type input
-to datanode to launch a namenode.  Clone as many datanode servers you need or put datanode
+The default server launched is a NameNode, simply change the attribute hadoop/node/type input
+to datanode to launch a datanode.  Clone as many datanode servers you need or put datanode
 servers in a ServerArray to launch as many as you need.
 
 2. Run MapReduce commands using java classes.  Data is downloaded from your ROS
