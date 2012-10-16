@@ -2,6 +2,7 @@ rightscale_marker :begin
 
 TAG_VOLUME = node[:glusterfs][:tag][:volume]
 TAG_BRICK  = node[:glusterfs][:tag][:brick]
+TAG_BRICK_NUM = node[:glusterfs][:tag][:bricknum]
 TAG_SPARE  = node[:glusterfs][:tag][:spare]
 
 INPUT_VOLUME = node[:glusterfs][:volume_name]
