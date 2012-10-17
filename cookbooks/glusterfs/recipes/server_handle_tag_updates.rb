@@ -42,7 +42,7 @@ right_link_tag "#{TAG_ATTACH}=true" do
   action :publish
 end
 
-foo = `gluster volume info #{INPUT_VOLUME}`.split("\n").select{|x|x=~/#{node[:cloud][:private_ips][0]}/}
+foo = `gluster volume info #{VOL_NAME}`.split("\n").select{|x|x=~/#{node[:cloud][:private_ips][0]}/}
 
 if foo.to_s == ''
    foo = "Brick0:"
