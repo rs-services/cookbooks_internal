@@ -22,15 +22,19 @@ right_link_tag "#{TAG_SPARE}=true" do
   action :publish
 end
 
-log "===> Tagging myself with #{TAG_SPARE}=true"
-right_link_tag "#{TAG_SPARE}=true" do
-  action :publish
-end
+if ! #{TAG_SPARE} == true
+  foo = `gluster volume info #{INPUT_VOLUME}`.split("\n").select{|x|x=~/#{node[:cloud][:private_ips][0]}/}
 
-right_link_tag "#{node[:glusterfs][:tag][:bricknum]}=#{node[:glusterfs][:server][:brick]}" do
-  only_if { node[:glusterfs][:server][:brick] = `gluster volume info glusterFS`.split("\n").select{|x|x=~/#{node[:server][:local_ip]}/}.to_s.split(':')[0].split('Brick')[1] }
-  not_if { node[:glusterfs][:server][:brick] == 0 }
-end
+  if foo.to_s == ''
+     foo = "Brick0:"
+  end
 
+  node[:glusterfs][:server][:brick] = foo.to_s.split(':')[0].tr('Brick', '')
+
+  log "===> Tagging myself with #{node[:glusterfs][:tag][:bricknum]}=#{node[:glusterfs][:server][:brick]}"
+  right_link_tag "#{node[:glusterfs][:tag][:bricknum]}=#{node[:glusterfs][:server][:brick]}" do
+    action :publish
+  end
+end
 
 rightscale_marker :end
