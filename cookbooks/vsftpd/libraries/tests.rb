@@ -25,6 +25,11 @@ module TestLib
   end
 
   def do_max_port_check
-    #implement check
+    max_port=node['vsftpd']['max_port']
+    raise "max_port is not an integer" unless max_port.integer?
+    raise "max_port can not exceed 65535" unless max_port.to_i <= 65535
+    if (max_port.to_i - min_port.to_i) < 1 then
+      raise "there should be at least one port in the min/max port range"
+    end
   end
 end

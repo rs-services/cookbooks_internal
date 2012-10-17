@@ -1,86 +1,87 @@
 {
-  "description": "Installs/Configures vsftpd",
-  "name": "vsftpd",
-  "version": "0.0.1",
-  "recipes": {
-    "vsftpd::install_server": "installs vsftpd server"
+  "dependencies": {
+    "rightscale": ">= 0.0.0",
+    "block_device": ">= 0.0.0"
   },
-  "maintainer_email": "premium@rightscale.com",
-  "maintainer": "RightScale Inc",
+  "version": "0.0.1",
+  "description": "Installs/Configures vsftpd",
   "groupings": {
   },
-  "providing": {
+  "conflicting": {
   },
+  "recipes": {
+    "vsftpd::install_server": "installs vsftpd server",
+    "vsftpd::default": "sets up application defaults"
+  },
+  "platforms": {
+  },
+  "long_description": "Description\n===========\n\nRequirements\n============\n\nAttributes\n==========\n\nUsage\n=====\n\n",
   "attributes": {
-    "vsftpd/password": {
-      "description": "FTP Password",
-      "recipes": [
-        "vsftpd::install_server"
-      ],
-      "choice": [
-
-      ],
-      "display_name": "FTP Password",
-      "calculated": false,
-      "required": "required",
-      "type": "string"
-    },
-    "vsftpd/pasv_min_port": {
-      "description": "Passive Minimum Port, should be 1024 or higher",
-      "recipes": [
-        "vsftpd::install_server"
-      ],
-      "choice": [
-
-      ],
-      "display_name": "Passive Minimum Port",
-      "calculated": false,
-      "default": "1025",
-      "required": "optional",
-      "type": "string"
-    },
     "vsftpd/pasv_max_port": {
       "description": "Passive Maximum Port, should not be above 65535",
       "recipes": [
-        "vsftpd::install_server"
+
       ],
+      "required": "optional",
+      "calculated": false,
+      "default": "1128",
+      "type": "string",
       "choice": [
 
       ],
-      "display_name": "Passive Maximum Port",
+      "display_name": "Passive Maximum Port"
+    },
+    "vsftpd/password": {
+      "description": "FTP Password",
+      "recipes": [
+
+      ],
+      "required": "required",
       "calculated": false,
-      "default": "1128",
-      "required": "optional",
-      "type": "string"
+      "type": "string",
+      "choice": [
+
+      ],
+      "display_name": "FTP Password"
     },
     "vsftpd/login": {
       "description": "FTP Username",
       "recipes": [
-        "vsftpd::install_server"
+
       ],
+      "required": "required",
+      "calculated": false,
+      "type": "string",
       "choice": [
 
       ],
-      "display_name": "FTP Username",
+      "display_name": "FTP Username"
+    },
+    "vsftpd/pasv_min_port": {
+      "description": "Passive Minimum Port, should be 1024 or higher",
+      "recipes": [
+
+      ],
+      "required": "optional",
       "calculated": false,
-      "required": "required",
-      "type": "string"
+      "default": "1025",
+      "type": "string",
+      "choice": [
+
+      ],
+      "display_name": "Passive Minimum Port"
     }
-  },
-  "dependencies": {
-    "block_device": ">= 0.0.0",
-    "rightscale": ">= 0.0.0"
-  },
-  "suggestions": {
-  },
-  "recommendations": {
   },
   "replacing": {
   },
-  "conflicting": {
+  "providing": {
   },
-  "platforms": {
+  "name": "vsftpd",
+  "suggestions": {
   },
-  "license": "Apache 2.0",
-  "long_description": "Description\n===========\n\nRequirements\n============\n\nAttributes\n==========\n\nUsage\n=====\n\n"
+  "maintainer_email": "premium@rightscale.com",
+  "maintainer": "RightScale Inc",
+  "recommendations": {
+  },
+  "license": "Apache 2.0"
 }
