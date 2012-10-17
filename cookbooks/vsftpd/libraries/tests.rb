@@ -20,8 +20,8 @@ module TestLib
 
   def do_min_port_check
     min_port=node['vsftpd']['min_port']
-    rescue "min_port is not an integer" unless min_port.integer?
-    rescue "min_port has to be larger then 1024" unless min_port.to_i > 1024
+    raise "min_port is not an integer" unless min_port.integer?
+    raise "min_port has to be larger then 1024" unless min_port.to_i >= 1024
   end
 
   def do_max_port_check
