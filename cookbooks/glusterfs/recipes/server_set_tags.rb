@@ -27,9 +27,9 @@ right_link_tag "#{TAG_SPARE}=true" do
   action :publish
 end
 
-right_link_tag "#{node[:glusterfs][:tag][:bricknum]}=#{node[:glusterfs][:tag][:bricknum]}" do
-  only_if { node[:glusterfs][:tag][:bricknum] = `gluster volume info glusterFS`.split("\n").select{|x|x=~/#{node[:server][:local_ip]}/}.to_s.split(':')[0].split('Brick')[1] }
-  not_if { node[:glusterfs][:tag][:bricknum].empty? }
+right_link_tag "#{node[:glusterfs][:tag][:bricknum]}=#{node[:glusterfs][:server][:brick]}" do
+  only_if { node[:glusterfs][:server][:brick] = `gluster volume info glusterFS`.split("\n").select{|x|x=~/#{node[:server][:local_ip]}/}.to_s.split(':')[0].split('Brick')[1] }
+  not_if { node[:glusterfs][:server][:brick] == 0 }
 end
 
 
