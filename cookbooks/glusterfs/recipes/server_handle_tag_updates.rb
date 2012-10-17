@@ -6,7 +6,6 @@ TAG_SPARE  = node[:glusterfs][:tag][:spare]
 TAG_ATTACH = node[:glusterfs][:tag][:attached]
 TAG_VOLUME = node[:glusterfs][:tag][:volume]
 TAG_BRICK  = node[:glusterfs][:tag][:brick]
-TAG_BRICK_NUM = node[:glusterfs][:tag][:bricknum]
 
 list_tags = "rs_tag --list --format text |tr ' ' '\\n'"
 VOL_NAME   = `#{list_tags} |grep '#{TAG_VOLUME}=' |cut -f2 -d=`.chomp
@@ -33,15 +32,6 @@ bash "gluster volume info #{VOL_NAME}" do
   EOF
 end
 
-log "===> Checking and recording Brick number."
-ruby_block "gluster volume brick record" do
-  block do
-      BRICK_NUM = `gluster volume info glusterFS`.split("\n").select{|x|x=~/#{node[:server][:local_ip]}/}.to_s.split(':')[0].split('Brick')[1]
-      node[:glusterfs][:tag][:bricknum] = BRICK_NUM
-    end
-    only_if "gluster volume info #{VOL_NAME} | grep -Gqw #{BRICK_NAME}"
-end
-
 log "===> Ok! Removing tag #{TAG_SPARE}=true"
 right_link_tag "#{TAG_SPARE}=true" do
   action :remove
@@ -52,12 +42,9 @@ right_link_tag "#{TAG_ATTACH}=true" do
   action :publish
 end
 
-if ! BRICK_NUM.empty?
-  log "===> Adding tag #{TAG_BRICK_NUM}=#{BRICK_NUM}"
-  right_link_tag "#{TAG_BRICK_NUM}=#{BRICK_NUM}" do
-   action :publish
-  end
+right_link_tag "#{node[:glusterfs][:tag][:bricknum]}=#{node[:glusterfs][:tag][:bricknum]}" do
+  only_if { node[:glusterfs][:tag][:bricknum] = `gluster volume info glusterFS`.split("\n").select{|x|x=~/#{node[:server][:local_ip]}/}.to_s.split(':')[0].split('Brick')[1] }
+  not_if { node[:glusterfs][:tag][:bricknum].empty? }
 end
-
 
 rightscale_marker :end

@@ -2,7 +2,6 @@ rightscale_marker :begin
 
 TAG_VOLUME = node[:glusterfs][:tag][:volume]
 TAG_BRICK  = node[:glusterfs][:tag][:brick]
-TAG_BRICK_NUM = node[:glusterfs][:tag][:bricknum]
 TAG_SPARE  = node[:glusterfs][:tag][:spare]
 
 INPUT_VOLUME = node[:glusterfs][:volume_name]
@@ -22,5 +21,16 @@ log "===> Tagging myself with #{TAG_SPARE}=true"
 right_link_tag "#{TAG_SPARE}=true" do
   action :publish
 end
+
+log "===> Tagging myself with #{TAG_SPARE}=true"
+right_link_tag "#{TAG_SPARE}=true" do
+  action :publish
+end
+
+right_link_tag "#{node[:glusterfs][:tag][:bricknum]}=#{node[:glusterfs][:tag][:bricknum]}" do
+  only_if { node[:glusterfs][:tag][:bricknum] = `gluster volume info glusterFS`.split("\n").select{|x|x=~/#{node[:server][:local_ip]}/}.to_s.split(':')[0].split('Brick')[1] }
+  not_if { node[:glusterfs][:tag][:bricknum].empty? }
+end
+
 
 rightscale_marker :end

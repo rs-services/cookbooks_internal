@@ -12,7 +12,6 @@ TAG_ATTACH = node[:glusterfs][:tag][:attached]
 TAG_SPARE  = node[:glusterfs][:tag][:spare]
 TAG_VOLUME = node[:glusterfs][:tag][:volume]
 TAG_BRICK  = node[:glusterfs][:tag][:brick]
-TAG_BRICK_NUM = node[:glusterfs][:tag][:bricknum]
 VOL_TYPE   = node[:glusterfs][:server][:volume_type]
 REPL_COUNT = node[:glusterfs][:server][:replica_count].to_i
 IP_ADDR    = node[:cloud][:private_ips][0]
