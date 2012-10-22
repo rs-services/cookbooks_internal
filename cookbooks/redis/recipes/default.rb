@@ -86,6 +86,10 @@ when "debian","ubuntu"
   end
 end
 
+right_link_tag "redis:role=#{node['redis']['replication']['master_role']}" do
+  action :publish
+end
+
 service "#{node[:redis][:service_name]}" do
   action [:enable,:start]
 end
