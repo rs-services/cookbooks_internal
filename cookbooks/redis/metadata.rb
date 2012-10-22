@@ -9,7 +9,7 @@ supports         "debian", ">= 6.0"
 supports         "centos", ">= 5.5"
 supports         "redhat", ">= 5.5"
 
-depends          "rs_utils"
+depends          "rightscale"
 depends          "monit"
 
 recipe           "redis::default", "Installs and configures redis"
