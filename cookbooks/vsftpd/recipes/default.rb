@@ -20,11 +20,5 @@ class Chef::Recipe
   include TestLib
 end
 
-ruby_block "do_min_port_check" do
-  block do
-    min_port=node['vsftpd']['pasv_min_port']
-    raise "min_port is not an integer" unless TestLib::integer?(min_port)
-    raise "min_port has to be larger then 1024" unless min_port.to_i >= 1024
-  end
-  action :create
-end
+log "Checking inputs"
+do_input_check
