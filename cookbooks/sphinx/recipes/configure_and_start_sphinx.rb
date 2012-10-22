@@ -6,7 +6,7 @@
 #
 # All rights reserved - Do Not Redistribute
 #
-rs_utils_marker :begin
+rightscale_marker :begin
 
 log "installing the sphinx package"
 case node[:platform]
@@ -37,4 +37,4 @@ service "#{node[:sphinx][:service]}" do
   action :start
 end
 
-rs_utils_marker :end
+rightscale_marker :end
