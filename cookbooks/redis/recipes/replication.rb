@@ -1,5 +1,5 @@
 results = rightscale_server_collection "redis_master" do
-  tags ["redis:role=master*"]
+  tags ["redis:role=master"]
   secondary_tags ["server:private_ip_0=*"]
   action :nothing
 end
