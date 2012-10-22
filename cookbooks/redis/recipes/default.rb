@@ -16,7 +16,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-rs_utils_marker :begin
+rightscale_marker :begin
 
 if node[:redis][:install_from] == "package"
   include_recipe "redis::package"
@@ -109,4 +109,4 @@ end
 
 Gem.clear_paths
 
-rs_utils_marker :end
+rightscale_marker :end
