@@ -1,3 +1,4 @@
+rightscale_marker :begin
 if node['redis']['replication']['master_role'] == "slave"
 
   results = rightscale_server_collection "redis_master" do
@@ -30,3 +31,5 @@ if node['redis']['replication']['master_role'] == "slave"
     raise "Can not find master tag"
   end
 end
+
+rightscale_marker :end
