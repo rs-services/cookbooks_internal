@@ -30,9 +30,3 @@ masterauth <%= @master[:redis][:requirepass] %>
 #    #
 slave-serve-stale-data yes
 <% end %>
-
-
-
-
-
-slaveof <%= @master_ip %> <%= @master_port %>
