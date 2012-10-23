@@ -4,7 +4,7 @@ results = rightscale_server_collection "redis_master" do
   action :nothing
 end
 
-results.run_action(:load)
+results.run_action(:load) unless node['redis']['replication']['master_role'] =="master"
 
 if node["server_collection"]["redis_master"]
   node["server_collection"]["redis_master"].to_hash.values.each do |tags|
@@ -20,7 +20,7 @@ if node["server_collection"]["redis_master"]
       action :create
     end
   end
-  service "redis" do
+  service "#{node[:redis][:service_name]}" do
     action :restart
   end
 else
