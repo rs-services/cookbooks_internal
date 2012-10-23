@@ -34,12 +34,17 @@ directory node[:redis][:data_dir] do
 end
 
 log "#{node[:redis][:conf_dir]}"
-directory node[:redis][:conf_dir]
+directory node[:redis][:conf_dir] do
+  owner "root"
+  group "root"
+  mode "0755"
+  action :create
+end
 
 directory "#{node[:redis][:conf_dir]}/conf.d" do
   owner "root"
   group "root"
-  mode "0644"
+  mode "0755"
   action :create
 end
 
