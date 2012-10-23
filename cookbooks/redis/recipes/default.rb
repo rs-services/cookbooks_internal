@@ -95,6 +95,12 @@ right_link_tag "redis:role=#{node['redis']['replication']['master_role']}" do
   action :publish
 end
 
+right_link_tag "redis:port=#{node[:redis][:port]}" do
+  action :publish
+end
+
+sys_firewall node[:redis][:port] 
+
 template "#{node[:redis][:conf_dir]}/conf.d/replication.conf" do
   source "replication.conf.erb"
   owner "root"
