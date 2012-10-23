@@ -9,7 +9,7 @@ results.run_action(:load) unless node['redis']['replication']['master_role'] =="
 if node["server_collection"]["redis_master"]
   node["server_collection"]["redis_master"].to_hash.values.each do |tags|
     master_ip=RightScale::Utils::Helper.get_tag_value("server:private_ip_0", tags)
-    template "#{node[:redis][:conf_dir]}/conf.d/replication-#{master_ip}.conf" do
+    template "#{node[:redis][:conf_dir]}/conf.d/replication.conf" do
       source "replication.conf.erb"
       owner "root"
       group "root"

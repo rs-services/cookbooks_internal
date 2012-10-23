@@ -429,4 +429,4 @@ activerehashing <%= node[:redis][:activerehashing] %>
 # other files, so use this wisely.
 #
 # include /path/to/local.conf
-# include /path/to/other.conf
+include /etc/redis/conf.d/replication.conf

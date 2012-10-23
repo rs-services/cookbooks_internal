@@ -90,6 +90,15 @@ right_link_tag "redis:role=#{node['redis']['replication']['master_role']}" do
   action :publish
 end
 
+template "#{node[:redis][:conf_dir]}/conf.d/replication.conf" do
+  source "replication.conf.erb"
+  owner "root"
+  group "root"
+  mode "0644"
+  action :create
+end
+
+
 service "#{node[:redis][:service_name]}" do
   action [:enable,:start]
 end
