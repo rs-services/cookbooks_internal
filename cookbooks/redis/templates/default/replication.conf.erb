@@ -13,8 +13,8 @@ slaveof <%= @master_ip %> <%= @master_port %>
 # starting the replication synchronization process, otherwise the master will
 # refuse the slave request.
 #
-<% if @master[:redis][:requirepass] %>
-masterauth <%= @master[:redis][:requirepass] %>
+<% if node[:redis][:requirepass] %>
+masterauth <%= node[:redis][:requirepass] %>
 <% end %>
 #
 # When a slave lost the connection with the master, or when the replication
