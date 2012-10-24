@@ -16,7 +16,7 @@ TAG_BRICK_NUM = node[:glusterfs][:tag][:bricknum]
 VOL_TYPE   = node[:glusterfs][:server][:volume_type]
 REPL_COUNT = node[:glusterfs][:server][:replica_count].to_i
 IP_ADDR    = node[:cloud][:private_ips][0]
-BRICK_NUM  = node[:glusterfs][:server][:replace_brick]
+BRICK_NUM  = node[:glusterfs][:server][:replace_brick].to_s
 
 list_tags = "rs_tag --list --format text |tr ' ' '\\n'"
 VOL_NAME   = `#{list_tags} |grep '#{TAG_VOLUME}=' |cut -f2 -d=`.chomp
@@ -28,16 +28,29 @@ BRICK_NAME = "#{IP_ADDR}:#{EXPORT_DIR}"
     tags "#{TAG_SPARE}=true"
     secondary_tags "#{TAG_VOLUME}=#{VOL_NAME}"
   end
-Chef::Log.info "SPARES: #{node[:glusterfs][:server][:spares].inspect}"
+Chef::Log.info "SPARES: #{node[:glusterfs][:server][:spares].first}"
+
+spare_ip = "#{node[:glusterfs][:server][:spares].first}"
+
+if spare_ip.to_s == ""
+  raise ::Chef::Exceptions::Application, "No spares detected, failing!"
+end
+
+#Grab uuid of spare
+spare_uuid = "rs_tag.rb --list  -q \"server:private_ip_0=#{spare_ip}\"|grep uuid|tr -d '[ ,\"]'"
 
 # Find an existing host in the pool so he can invite us
+
 find_attached_peer "find_peer" do
-  tags "#{TAG_ATTACH}=true"
-  secondary_tags [ "#{TAG_VOLUME}=#{VOL_NAME}", "#{TAG_BRICK_NUM}=#{BRICK_NUM}" ]
+#  tags "#{TAG_ATTACH}=true"
+  tags "#{TAG_BRICK_NUM}=#{BRICK_NUM}"
+  secondary_tags "#{TAG_VOLUME}=#{VOL_NAME}"
 end
+
+
 Chef::Log.info "UUID: #{node[:glusterfs][:server][:peer_uuid_tag]}"
 
-Chef::Application.fatal!("Debug: Fake death, debugging.")
+# raise ::Chef::Exceptions::Application, "Debug: testing"
 
 # Run remote recipe on attached node 
 peer_uuid = node[:glusterfs][:server][:peer_uuid_tag]
@@ -47,7 +60,7 @@ if ! peer_uuid.empty?
     recipe "glusterfs::server_handle_probe_request"
     attributes :glusterfs => {
       :server => {
-        :peer => IP_ADDR
+        :peer => spare_ip
       }
     }
     recipients_tags peer_uuid #server:uuid
@@ -75,31 +88,20 @@ if ! peer_uuid.empty?
     EOF
   end
 
-  # Now that we're joined, let's add the other spares if we need to
-  if VOL_TYPE == "Replicated"
-    gluster_peer_probe "spares" do
-        peers node[:glusterfs][:server][:spares] 
-    end
+
+#Run remote recipe of peer to migrate brick off
+if ! spare_ip.empty?
+  log "===> Running remote recipe on attached peer"
+  remote_recipe "start live migration" do
+    recipe "glusterfs::server_handle_live_migration"
+    attributes :glusterfs => {
+      :server => {
+        :peer => spare_ip
+      }
+    }
+    recipients_tags spare_uuid #server:uuid
   end
-
-  # Add everyone's 
-  ruby_block "gluster volume add-brick" do
-    block do
-      Chef::Log.info "===> Adding brick(s) to volume '#{VOL_NAME}'"
-
-      # Build the command...
-      cmd = "gluster volume add-brick #{VOL_NAME}"
-      node[:glusterfs][:server][:spares].each do |ip|
-        # FIXME query tags and use exact brick name from each host
-        # (theoretically each server could have a unique export/brick name)
-        cmd += " #{ip}:#{EXPORT_DIR}"
-      end
-
-      # Run the command
-      system "#{cmd} &> #{CMD_LOG}"
-      GlusterFS::Error.check(CMD_LOG, "Adding bricks")
-    end
-  end
+end
 
   # Remove TAG_SPARE from hosts and add TAG_ATTACH
   #
