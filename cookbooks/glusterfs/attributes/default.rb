@@ -10,3 +10,4 @@ default_unless[:glusterfs][:client][:mount_options] = ""
 default_unless[:glusterfs][:server][:replica_count] = "2"
 default_unless[:glusterfs][:server][:spares] = []
 default_unless[:glusterfs][:server][:brick] = "0"
+default_unless[:glusterfs][:server][:replace_brick] = ""
