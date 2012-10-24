@@ -95,7 +95,6 @@ attribute "redis/no_appendfsync_on_rewrite",
 attribute "redis/replication/master_role",
   :display_name => "Master Redis chef role",
   :choice => [ "master", "slave" ],
-  :default => "master",
   :required => "required",
   :recipes => [ "redis::default" ]
 
