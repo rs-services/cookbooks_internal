@@ -16,10 +16,15 @@ VOL_TYPE   = node[:glusterfs][:server][:volume_type]
 REPL_COUNT = node[:glusterfs][:server][:replica_count].to_i
 IP_ADDR    = node[:cloud][:private_ips][0]
 BRICK_NUM  = node[:glusterfs][:server][:replace_brick]
+TAG_ATTACH = node[:glusterfs][:tag][:attached]
 
 list_tags = "rs_tag --list --format text |tr ' ' '\\n'"
 VOL_NAME   = `#{list_tags} |grep '#{TAG_VOLUME}=' |cut -f2 -d=`.chomp
 EXPORT_DIR = `#{list_tags} |grep '#{TAG_BRICK}='  |cut -f2 -d=`.chomp
+
+if node[:glusterfs][:server][:replace_brick].to_s == ""
+  Chef::Application.fatal!("No brick specified to replace!")
+end
 
 # Find all other spares so we can create a trusted pool
 find_all_spares "find_spares" do
