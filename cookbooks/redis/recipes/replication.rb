@@ -5,6 +5,7 @@ if node['redis']['replication']['master_role'] == "slave"
   results = rightscale_server_collection "redis_master" do
     tags ["redis:role=master"]
     secondary_tags ["server:private_ip_0=*"]
+    empty_ok false
     action :nothing
   end
 
