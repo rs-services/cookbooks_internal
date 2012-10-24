@@ -23,9 +23,9 @@ if node['redis']['replication']['master_role'] == "slave"
                  )
         action :create
       end
-    end
-    service "#{node[:redis][:service_name]}" do
-      action :restart
+      service "#{node[:redis][:service_name]}" do
+        action :restart
+      end
     end
   else
     raise "Can not find master tag"
