@@ -68,6 +68,12 @@ attribute "glusterfs/server/replica_count",
                        "glusterfs::server_create_cluster",
                        "glusterfs::server_join_cluster" ]
 
+attribute "glusterfs/server/replace_brick",
+    :display_name => "Replace Brick",
+    :description  => "Number of the brick to be replaced",
+    :required     => "optional",
+    :recipes      => [ "glusterfs::default", "glusterfs::server_live_migration" ]
+
 attribute "glusterfs/client/mount_point",
     :display_name => "Mount point",
     :description  => "(Client only) The directory path where the GlusterFS volume should be mounted (e.g., /mnt/storage).",
