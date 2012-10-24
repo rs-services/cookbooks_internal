@@ -1,4 +1,5 @@
 rightscale_marker :begin
+log node['redis']['replication']['master_role'] 
 if node['redis']['replication']['master_role'] == "slave"
 
   results = rightscale_server_collection "redis_master" do
