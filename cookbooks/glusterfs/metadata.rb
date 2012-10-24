@@ -17,7 +17,9 @@ recipe "glusterfs::server_decommission", "Removes bricks from the volume, detach
 recipe "glusterfs::server_handle_probe_request", "Remote recipe intended to be called by glusterfs::server_{create,join}_cluster"
 recipe "glusterfs::server_handle_tag_updates", "Remote recipe intended to be called by glusterfs::server_{create,join}_cluster"
 recipe "glusterfs::server_handle_detach_request", "Remote recipe intended to be called by glusterfs::server_decommission"
+recipe "glusterfs::server_handle_live_migration", "Remote recipe intended to be called by glusterfs::server_live_migrate"
 recipe "glusterfs::client_mount_volume", "Runs mount(8) with `-t glusterfs' option to mount glusterfs"
+recipe "glusterfs::server_live_migrate", "Live migrate a brick from one live node to another"
 
 # TODO  Make an attribute with volume types choices (distributed, striped,
 #       replicated, etc.) and use it in server_create_cluster accordingly.
@@ -72,7 +74,9 @@ attribute "glusterfs/server/replace_brick",
     :display_name => "Replace Brick",
     :description  => "Number of the brick to be replaced",
     :required     => "optional",
-    :recipes      => [ "glusterfs::default", "glusterfs::server_live_migration" ]
+    :recipes      => [ "glusterfs::default",
+                       "glusterfs::server_live_migrate",
+                       "glusterfs::server_handle_live_migration" ]
 
 attribute "glusterfs/client/mount_point",
     :display_name => "Mount point",
