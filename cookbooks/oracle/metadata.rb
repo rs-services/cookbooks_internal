@@ -15,9 +15,13 @@ recipe "oracle::open_oracle_port", "Oracle port 1521 to the world"
 recipe "oracle::add_backup_to_cron", "add the backup script to cron at a random interval, once per hour"
 recipe "oracle::add_audit_user", "add_audit_user"
 recipe "oracle::tune_oracle_memory", "tunes oracle memory to 60% of available ram"
+recipe "oracle::install_oracle_client", "installs oracle client"
 
-depends "rs_utils"
+depends "rightscale"
 depends "bootstrap"
+depends "sysctl"
+depends "block_device"
+depends "sys_firewall"
 
 attribute "oracle/starterdb/password/all", 
   :display_name => "Starterdb ALL Password",
@@ -53,14 +57,14 @@ attribute "oracle/install_file1_url",
   :display_name => "Oracle Install ZipFile 1",
   :description => "Url to the oracle zip file", 
   :required => "optional", 
-  :default => "http://application-binaries-west.s3.amazonaws.com/linux.x64_11gR2_database_1of2.zip",
+  :default => "http://ps-cf.rightscale.com/oracle/linux.x64_11gR2_database_1of2.zip",
   :recipes => [ "oracle::download_oracle" ]
 
 attribute "oracle/install_file2_url",
   :display_name => "Oracle Install ZipFile 2",
   :description => "Url to the oracle zip file",
   :required => "optional",
-  :default => "http://application-binaries-west.s3.amazonaws.com/linux.x64_11gR2_database_2of2.zip",
+  :default => "http://ps-cf.rightscale.com/oracle/linux.x64_11gR2_database_2of2.zip",
   :recipes => [ "oracle::download_oracle" ]
 
 attribute "amazon/access_key_id",
@@ -93,3 +97,8 @@ attribute "oracle/backup/restore_schemas",
     :recipes => [ "oracle::backup_oracle_using_expdp","oracle::restore_oracle_using_impdp" ],
     :required => "required"
 
+attribute "oracle/server/private_ip",
+    :display_name => "Server Private Ip",
+    :description => "Server Private IP", 
+    :recipes => [ "oracle::install_oracle_client" ],
+    :required => "required"
