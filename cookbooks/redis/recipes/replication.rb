@@ -9,7 +9,7 @@ if node['redis']['replication']['master_role'] == "slave"
   end
 
   results.run_action(:load)
-
+  log node["server_collection"]["redis_master"]
   if node["server_collection"]["redis_master"]
     node["server_collection"]["redis_master"].to_hash.values.each do |tags|
       master_ip=RightScale::Utils::Helper.get_tag_value("server:private_ip_0", tags)
