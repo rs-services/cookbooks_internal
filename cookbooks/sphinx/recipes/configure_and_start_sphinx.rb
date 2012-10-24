@@ -33,6 +33,8 @@ execute "#{node[:sphinx][:indexer]}" do
   action :run
 end
 
+sys_firewall node[:sphinx][:port]
+
 service "#{node[:sphinx][:service]}" do
   action :start
 end
