@@ -16,20 +16,21 @@ peer_ip = node[:glusterfs][:server][:peer]
 local_ip = node[:cloud][:private_ips][0]
 
 
-log "===> Going to probe #{peer_ip}"
-ruby_block "gluster peer probe #{peer_ip}" do
-  block do
-    # TODO netcat the port
-    system "gluster peer probe #{peer_ip} &> #{CMD_LOG}"
-    GlusterFS::Error.check(CMD_LOG, "Adding #{peer_ip} to cluster")
-  end
-end
+#log "===> Going to probe #{peer_ip}"
+#ruby_block "gluster peer probe #{peer_ip}" do
+#  block do
+#    # TODO netcat the port
+#    system "gluster peer probe #{peer_ip} &> #{CMD_LOG}"
+#    GlusterFS::Error.check(CMD_LOG, "Adding #{peer_ip} to cluster")
+# end
+#end
 
 log "===> Going to live migrate brick #{BRICK_NUM}"
 ruby_block "Migrating brick #{BRICK_NUM} from #{peer_ip} to #{local_ip}" do
   block do
     system "gluster volume replace-brick #{VOL_NAME} #{local_ip}:#{EXPORT_DIR} #{peer_ip}:#{EXPORT_DIR} start &> #{CMD_LOG}"
-    GlusterFS::Error.check(CMD_LOG, "Replaced #{peer_ip} in cluster.  Use status to check migration")
+    log "Replaced #{peer_ip} in cluster.  Use status to check migration"
+#    GlusterFS::Error.check(CMD_LOG, "")
   end
 end
 

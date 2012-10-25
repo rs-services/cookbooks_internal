@@ -99,7 +99,7 @@ if ! spare_ip.empty?
         :peer => spare_ip
       }
     }
-    recipients_tags spare_uuid #server:uuid
+    recipients_tags peer_uuid #server:uuid
   end
 end
 
@@ -109,8 +109,8 @@ end
   # its brick is in fact part of the volume, thus safe to run on all hosts.)
   log "===> Running remote recipes to update tags"
   remote_recipe "update_tags" do
-    recipe "glusterfs::server_handle_tag_updates"
-    recipients_tags "#{TAG_SPARE}=true"
+    recipe "glusterfs::server_set_tags"
+    recipients_tags spare_uuid
   end
 
 else
