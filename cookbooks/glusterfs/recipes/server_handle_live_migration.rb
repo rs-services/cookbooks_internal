@@ -55,7 +55,7 @@ sleep 5
   log "===> Running remote recipe to update tags"
   remote_recipe "update_tags" do
     recipe "glusterfs::server_handle_tag_updates"
-    recipients_tags  node[:rightscale][:instance_uuid]
+    recipients_tags  "server:uuid=#{node[:rightscale][:instance_uuid]}"
   end
 
 rightscale_marker :end
