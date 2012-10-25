@@ -1,5 +1,10 @@
 rightscale_marker :begin
 
+TAG_SPARE  = node[:glusterfs][:tag][:spare]
+TAG_ATTACH = node[:glusterfs][:tag][:attached]
+TAG_VOLUME = node[:glusterfs][:tag][:volume]
+TAG_BRICK  = node[:glusterfs][:tag][:brick]
+
 list_tags = "rs_tag --list --format text |tr ' ' '\\n'"
 VOL_NAME   = `#{list_tags} |grep '#{TAG_VOLUME}=' |cut -f2 -d=`.chomp
 EXPORT_DIR = `#{list_tags} |grep '#{TAG_BRICK}='  |cut -f2 -d=`.chomp
