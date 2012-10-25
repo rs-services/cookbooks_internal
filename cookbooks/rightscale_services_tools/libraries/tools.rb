@@ -12,7 +12,7 @@ module RightScale
       rescue Errno::ECONNREFUSED => e
         return false
       ensure
-        s.close
+        s.close unless s.nil?
       end
       when "udp"
       begin
@@ -26,7 +26,7 @@ module RightScale
       rescue Timeout::Error
         return true
       ensure 
-        s.close
+        s.close unless s.nil?
       end
       else
         raise "unsupported protocol"
