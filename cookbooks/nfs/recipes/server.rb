@@ -49,3 +49,8 @@ case node["platform"]
       notifies :restart, "service[nfs-server]"
     end
 end
+
+right_link_tag "provides:nfs=server" do
+  action :publish
+end
+
