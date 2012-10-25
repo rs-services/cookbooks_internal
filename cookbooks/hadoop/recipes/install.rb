@@ -8,14 +8,9 @@
 rightscale_marker :begin
 
 log "  Installing Hadoop "
-include_recipe"bootstrap::aria2c"
 
-bash "Download Hadoop" do
-  user "root"
-  cwd '/tmp'
-  code <<-EOF
-  aria2c http://ps-cf.rightscale.com/hadoop/hadoop-#{node[:hadoop][:version]}-bin.tar.gz -x 16 -d /tmp
-  EOF
+remote_file "/tmp/hadoop-#{node[:hadoop][:version]}-bin.tar.gz" do
+  source "http://ps-cf.rightscale.com/hadoop/hadoop-#{node[:hadoop][:version]}-bin.tar.gz"
 end
 
 bash "install hadoop" do
