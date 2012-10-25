@@ -33,7 +33,7 @@ module RightScale
       end
     end
     def check_connectivity(host,port,message,timeout=60)
-      Chef::Log.info("Checking the connectivity of host: #{host} on port:#{port}"
+      Chef::Log.info("Checking the connectivity of host: #{host} on port:#{port}")
       counter=0
       while !has_connectivity(host,port)
         if counter > timeout
