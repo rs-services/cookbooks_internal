@@ -4,7 +4,6 @@ class Chef::Recipe
   include RightScale::ServicesTools
 end
 
-log node['redis']['replication']['master_role'] 
 if node['redis']['replication']['master_role'] == "slave"
 
   results = rightscale_server_collection "redis_master" do
@@ -15,7 +14,6 @@ if node['redis']['replication']['master_role'] == "slave"
   end
 
   results.run_action(:load)
-  log node["server_collection"]["redis_master"]
   if node["server_collection"]["redis_master"]
     log "Server Collection Found"
     node["server_collection"]["redis_master"].to_hash.values.each do |tags|
