@@ -52,10 +52,10 @@ sleep 5
  # (the remote recipe being invoked is intelligent and only removes the tag if
  # its brick is in fact part of the volume, thus safe to run on all hosts.)
  
-  log "===> Running remote recipes to update tags"
+  log "===> Running remote recipe to update tags"
   remote_recipe "update_tags" do
     recipe "glusterfs::server_handle_tag_updates"
-    recipients_tags  #{node[:rightscale][:instance_uuid]}
+    recipients_tags  node[:rightscale][:instance_uuid]
   end
 
 rightscale_marker :end
