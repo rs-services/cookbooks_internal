@@ -32,7 +32,7 @@ module RightScale
         raise "unsupported protocol"
       end
     end
-    def check_connectivity(host,port,timeout=60,message)
+    def check_connectivity(host,port,message,timeout=60)
       counter=0
       while !has_connectivity(host,port)
         if counter > timeout
