@@ -107,6 +107,10 @@ if ! spare_ip.empty?
   end
 end
 
+#Sleep a bit to make sure the new brick is registered and detected
+
+sleep 5
+
   # Remove TAG_SPARE from hosts and add TAG_ATTACH
   #
   # (the remote recipe being invoked is intelligent and only removes the tag if
