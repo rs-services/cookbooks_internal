@@ -32,13 +32,14 @@ local_ip = node[:cloud][:private_ips][0]
 #end
 
 log "===> Going to live migrate brick #{BRICK_NUM}"
-ruby_block "Migrating brick #{BRICK_NUM} from #{peer_ip} to #{local_ip}" do
+ruby_block "Migrating brick #{BRICK_NUM} from #{local_ip} to #{peer_ip}" do
   block do
-    system "gluster volume replace-brick #{VOL_NAME} #{local_ip}:#{EXPORT_DIR} #{peer_ip}:#{EXPORT_DIR} start &> #{CMD_LOG}"
-    log "Replaced #{peer_ip} in cluster.  Use status to check migration"
-#    GlusterFS::Error.check(CMD_LOG, "")
+    system "gluster volume replace-brick #{VOL_NAME} #{local_ip}:#{EXPORT_DIR} #{peer_ip}:#{EXPORT_DIR} commit &> #{CMD_LOG}"
+    GlusterFS::Error.check(CMD_LOG, "failed")
   end
 end
+    log "Replaced #{peer_ip} in cluster.  Use status to check migration"
+    log "# gluster volume replace-brick #{VOL_NAME} #{local_ip}:#{EXPORT_DIR} #{peer_ip}:#{EXPORT_DIR} status"
 
 
 rightscale_marker :end
