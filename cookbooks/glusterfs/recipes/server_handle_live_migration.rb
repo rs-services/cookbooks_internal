@@ -43,5 +43,19 @@ end
     log "Replaced #{peer_ip} in cluster.  Use status to check migration"
     log "# gluster volume replace-brick #{VOL_NAME} #{local_ip}:#{EXPORT_DIR} #{peer_ip}:#{EXPORT_DIR} status"
 
+sleep 5
+
+#Update my tags now that I'm in a replica set
+
+ # Remove TAG_SPARE from hosts and add TAG_ATTACH
+ #
+ # (the remote recipe being invoked is intelligent and only removes the tag if
+ # its brick is in fact part of the volume, thus safe to run on all hosts.)
+ 
+  log "===> Running remote recipes to update tags"
+  remote_recipe "update_tags" do
+    recipe "glusterfs::server_handle_tag_updates"
+    recipients_tags  #{node[:rightscale][:instance_uuid]}
+  end
 
 rightscale_marker :end

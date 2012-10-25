@@ -107,19 +107,6 @@ if ! spare_ip.empty?
   end
 end
 
-#Sleep a bit to make sure the new brick is registered and detected
-
-sleep 5
-
-  # Remove TAG_SPARE from hosts and add TAG_ATTACH
-  #
-  # (the remote recipe being invoked is intelligent and only removes the tag if
-  # its brick is in fact part of the volume, thus safe to run on all hosts.)
-  log "===> Running remote recipes to update tags"
-  remote_recipe "update_tags" do
-    recipe "glusterfs::server_set_tags"
-    recipients_tags spare_uuid
-  end
 
 else
   raise "!!!> No existing GlusterFS servers found for this volume!"
