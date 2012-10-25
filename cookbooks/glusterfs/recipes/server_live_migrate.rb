@@ -37,7 +37,11 @@ if spare_ip.to_s == ""
 end
 
 #Grab uuid of spare
-spare_uuid = "rs_tag.rb --list  -q \"server:private_ip_0=#{spare_ip}\"|grep uuid|tr -d '[ ,\"]'"
+#spare_uuid = "rs_tag.rb --list  -q \"server:private_ip_0=#{spare_ip}\"|grep uuid|tr -d '[ ,\"]'"
+spare_tags = "rs_tag -f yaml -q 'server:private_ip_0=#{spare_ip}'"
+spare_uuid = "server:uuid=" + `#{spare_tags} |grep 'uuid'|cut -f2 -d=`.chomp
+
+
 
 # Find an existing host in the pool so he can invite us
 
