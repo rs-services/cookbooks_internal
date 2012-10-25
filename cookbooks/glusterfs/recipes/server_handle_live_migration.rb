@@ -4,6 +4,7 @@ TAG_SPARE  = node[:glusterfs][:tag][:spare]
 TAG_ATTACH = node[:glusterfs][:tag][:attached]
 TAG_VOLUME = node[:glusterfs][:tag][:volume]
 TAG_BRICK  = node[:glusterfs][:tag][:brick]
+TAG_BRICK_NUM = node[:glusterfs][:tag][:bricknum]
 
 list_tags = "rs_tag --list --format text |tr ' ' '\\n'"
 VOL_NAME   = `#{list_tags} |grep '#{TAG_VOLUME}=' |cut -f2 -d=`.chomp
