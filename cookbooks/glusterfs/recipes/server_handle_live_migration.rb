@@ -19,7 +19,7 @@ BRICK_NAME = "#{node[:cloud][:private_ips][0]}:#{EXPORT_DIR}"
 #
 CMD_LOG = "/tmp/gluster.out.#{$$}"
 peer_ip = node[:glusterfs][:server][:peer]
-spare_uuid = node[:glusterfs][:server][:spare_uuid]
+spare_uuid_tag = node[:glusterfs][:server][:spare_uuid]
 local_ip = node[:cloud][:private_ips][0]
 
 
@@ -56,7 +56,7 @@ sleep 5
   log "===> Running remote recipe to update tags"
   remote_recipe "update_tags" do
     recipe "glusterfs::server_handle_tag_updates"
-    recipients_tags  "server:uuid=#{spare_uuid}"
+    recipients_tags  spare_uuid
   end
 
 rightscale_marker :end
