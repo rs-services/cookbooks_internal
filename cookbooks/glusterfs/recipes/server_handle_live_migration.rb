@@ -19,7 +19,7 @@ BRICK_NAME = "#{node[:cloud][:private_ips][0]}:#{EXPORT_DIR}"
 #
 CMD_LOG = "/tmp/gluster.out.#{$$}"
 peer_ip = node[:glusterfs][:server][:peer]
-spare_uuid = node[:glusterfs[:server][:spare_uuid]
+spare_uuid = node[:glusterfs][:server][:spare_uuid]
 local_ip = node[:cloud][:private_ips][0]
 
 
