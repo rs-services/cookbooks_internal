@@ -35,8 +35,10 @@ local_ip = node[:cloud][:private_ips][0]
 log "===> Going to live migrate brick #{BRICK_NUM}"
 ruby_block "Migrating brick #{BRICK_NUM} from #{local_ip} to #{peer_ip}" do
   block do
+    log "DEBUG: gluster volume replace-brick #{VOL_NAME} #{local_ip}:#{EXPORT_DIR} #{peer_ip}:#{EXPORT_DIR} start"
     system "gluster volume replace-brick #{VOL_NAME} #{local_ip}:#{EXPORT_DIR} #{peer_ip}:#{EXPORT_DIR} start &> #{CMD_LOG}"
     sleep 2
+    log "DEBUG: gluster volume replace-brick #{VOL_NAME} #{local_ip}:#{EXPORT_DIR} #{peer_ip}:#{EXPORT_DIR} commit"
     system "gluster volume replace-brick #{VOL_NAME} #{local_ip}:#{EXPORT_DIR} #{peer_ip}:#{EXPORT_DIR} commit &> #{CMD_LOG}"
     GlusterFS::Error.check(CMD_LOG, "failed")
   end
