@@ -13,7 +13,7 @@ right_link_tag "couchbase:cluster_ip=#{node[:couchbase][:ip]}"
 
 # Using the tag for the cluster ip as the join ip
 log("/opt/couchbase/bin/couchbase-cli cluster-init" +
-    "        -c #{node[:couchbase][:ip]:8091" +
+    "        -c #{node[:couchbase][:ip]}:8091" +
     "        --cluster-init-username=#{node[:db_couchbase][:cluster][:username]}")
 execute "initializing cluster with username: #{node[:db_couchbase][:cluster][:username]}" do
   command("sleep 20" +
