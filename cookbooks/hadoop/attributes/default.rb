@@ -10,9 +10,9 @@ set[:hadoop][:version] = '1.0.3'
 set[:hadoop][:install_dir]='/home/hadoop'
 case node[:platform]
 when "ubuntu"
-  set[:env][:java_home] = "/usr/lib/jvm/java-6-sun"
+  set[:env][:java_home] = "/usr/lib/jvm/java-1.6.0"
 when "centos", "redhat"
- set[:env][:java_home] = "/usr/lib/jvm/java-1.6.0"
+  set[:env][:java_home] = "/usr/lib/jvm/java-6-sun"
 end
 
 set[:hadoop][:user]='root'

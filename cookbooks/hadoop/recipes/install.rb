@@ -8,28 +8,19 @@
 rightscale_marker :begin
 
 
-log "Install JAVA OpenJDK"
+log "    Install JAVA OpenJDK"
 
-#package "java-1.6-0" do
-#  action :remove
-#end
+#remove sun jdk on centos
+#ubuntu doesn't have java preinstalled.
+node[:hadoop][:uninstall_packages].each do |p|
+  log "   removing #{p}"
+  package p do
+    action :remove
+  end
+end
 
-packages = value_for_platform(
-  ["centos", "redhat"] => {
-    "default" => [
-      "java-1.6.0-openjdk",
-      "java-1.6.0-openjdk-devel"
-    ]
-  },
-  "ubuntu" => {
-    "default" => [
-      "openjdk-6-jdk"
-    ]
-  }
-)
-
-packages.each do |p|
-  log "installing #{p}"
+node[:hadoop][:packages].each do |p|
+  log "   installing #{p}"
   package p
 end
 
