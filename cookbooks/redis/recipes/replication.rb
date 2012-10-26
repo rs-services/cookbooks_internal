@@ -1,5 +1,9 @@
 rightscale_marker :begin
-log node['redis']['replication']['master_role'] 
+
+class Chef::Recipe
+  include RightScale::ServicesTools
+end
+
 if node['redis']['replication']['master_role'] == "slave"
 
   results = rightscale_server_collection "redis_master" do
@@ -10,12 +14,14 @@ if node['redis']['replication']['master_role'] == "slave"
   end
 
   results.run_action(:load)
-  log node["server_collection"]["redis_master"]
   if node["server_collection"]["redis_master"]
     log "Server Collection Found"
     node["server_collection"]["redis_master"].to_hash.values.each do |tags|
       master_ip=RightScale::Utils::Helper.get_tag_value("server:private_ip_0", tags)
       master_port=RightScale::Utils::Helper.get_tag_value("redis:port", tags)
+
+      check_connectivity(master_ip,master_port.to_i,60,"Unable to connect to Redis Master")
+
       template "#{node[:redis][:conf_dir]}/conf.d/replication.conf" do
         source "replication.conf.erb"
         owner "root"

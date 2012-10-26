@@ -1,5 +1,5 @@
 module RightScale
-  module RightScaleServicesTools
+  module ServicesTools
     #has_connectivy(ip,port,proto,timeout)
     def has_connectivity(ip,port,proto = "tcp")
       require 'socket'
@@ -12,7 +12,7 @@ module RightScale
       rescue Errno::ECONNREFUSED => e
         return false
       ensure
-        s.close
+        s.close unless s.nil?
       end
       when "udp"
       begin
@@ -26,10 +26,22 @@ module RightScale
       rescue Timeout::Error
         return true
       ensure 
-        s.close
+        s.close unless s.nil?
       end
       else
         raise "unsupported protocol"
+      end
+    end
+    def check_connectivity(host,port,message,timeout=60)
+      Chef::Log.info("Checking the connectivity of host: #{host} on port:#{port}")
+      counter=0
+      while !has_connectivity(host,port)
+        if counter > timeout
+          counter+=1
+          sleep 1
+        else
+          raise message
+        end
       end
     end
   end

@@ -12,6 +12,7 @@ supports         "redhat", ">= 5.5"
 depends          "rightscale"
 depends          "monit"
 depends          "sys_firewall"
+depends          "rightscale_services_tools"
 
 recipe           "redis::default", "Installs and configures redis"
 recipe           "redis::remount-storage-and-restart-redis", "remounts /var/lib/redis/default, and restarts redis"
