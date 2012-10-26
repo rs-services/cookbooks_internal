@@ -100,7 +100,8 @@ if ! spare_ip.empty?
     recipe "glusterfs::server_handle_live_migration"
     attributes :glusterfs => {
       :server => {
-        :peer => spare_ip
+        :peer => spare_ip,
+        :spare_uuid => spare_uuid
       }
     }
     recipients_tags peer_uuid #server:uuid
