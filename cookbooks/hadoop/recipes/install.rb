@@ -7,6 +7,30 @@
 
 rightscale_marker :begin
 
+
+log "install java"
+  packages = value_for_platform(
+    ["centos", "redhat"] => {
+      "default" => [
+        "java-1.6.0-openjdk",
+        "java-1.6.0-openjdk-demo",
+        "java-1.6.0-openjdk-devel",
+        "java-1.6.0-openjdk-javadoc",
+        "java-1.6.0-openjdk-src"
+      ]
+    },
+    "ubuntu" => {
+      "default" => [
+        "openjdk-6-jre"
+      ]
+    }
+  )
+
+packages.each do |p|
+    log "installing #{p}"
+    package p
+end
+
 log "  Installing Hadoop "
 
 remote_file "/tmp/hadoop-#{node[:hadoop][:version]}-bin.tar.gz" do

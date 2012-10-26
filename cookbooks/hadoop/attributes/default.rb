@@ -7,7 +7,7 @@
 
 set[:hadoop][:version] = '1.0.3'
 set[:hadoop][:install_dir]='/home/hadoop'
-set[:env][:java_home]='/usr/java/default'
+set[:env][:java_home]='/usr/lib/jvm/java-6-sun'
 set[:hadoop][:user]='root'
 set[:hadoop][:group]='root'
 default[:hadoop][:dfs][:replication]='1'
