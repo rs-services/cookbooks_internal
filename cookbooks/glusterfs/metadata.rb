@@ -75,7 +75,18 @@ attribute "glusterfs/server/replace_brick",
     :description  => "Number of the brick to be replaced",
     :required     => "optional",
     :recipes      => [ "glusterfs::default",
-                       "glusterfs::server_live_migrate" ]
+                       "glusterfs::server_live_migrate",
+                       "glusterfs::server_replace_brick" ]
+
+attribute "glusterfs/server/replace_brick_forced",
+    :display_name => "Force Brick Replace",
+    :description  => "Force brick replacement for dead node",
+    :required     => "optional",
+    :default      => "No",
+    :choice       => [ "No", "Yes" ],
+    :recipes      => [ "glusterfs::default",
+                       "glusterfs::server_live_migrate",
+                       "glusterfs::server_replace_brick" ]
 
 attribute "glusterfs/client/mount_point",
     :display_name => "Mount point",

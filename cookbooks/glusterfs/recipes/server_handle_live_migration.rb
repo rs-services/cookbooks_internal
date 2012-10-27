@@ -19,7 +19,8 @@ BRICK_NAME = "#{node[:cloud][:private_ips][0]}:#{EXPORT_DIR}"
 #
 CMD_LOG = "/tmp/gluster.out.#{$$}"
 peer_ip = node[:glusterfs][:server][:peer]
-spare_uuid_tag = node[:glusterfs][:server][:spare_uuid]
+forced = node[:glusterfs][:server][:replace_brick_forced]
+spare_uuid_tag = "server:uuid=#{node[:rightscale][:instance_uuid]}"
 local_ip = node[:cloud][:private_ips][0]
 
 
@@ -38,13 +39,17 @@ log "DEBUG: gluster volume replace-brick #{VOL_NAME} #{local_ip}:#{EXPORT_DIR} #
 
 ruby_block "Migrating brick #{BRICK_NUM} from #{local_ip} to #{peer_ip}" do
   block do
-    system "gluster volume replace-brick #{VOL_NAME} #{local_ip}:#{EXPORT_DIR} #{peer_ip}:#{EXPORT_DIR} start &> #{CMD_LOG}"
-    system "gluster volume replace-brick #{VOL_NAME} #{local_ip}:#{EXPORT_DIR} #{peer_ip}:#{EXPORT_DIR} commit &> #{CMD_LOG}"
+    system "gluster volume replace-brick #{VOL_NAME} #{peer_ip}:#{EXPORT_DIR} #{local_ip}:#{EXPORT_DIR} start &> #{CMD_LOG}"
+if forced == "Yes"
+    system "gluster volume replace-brick #{VOL_NAME} #{peer_ip}:#{EXPORT_DIR} #{local_ip}:#{EXPORT_DIR} commit force &> #{CMD_LOG}"
+    sleep 2
+    system "gluster peer detach #{peer_ip}"
+end
     GlusterFS::Error.check(CMD_LOG, "failed")
   end
 end
     log "Replaced #{peer_ip} in cluster.  Use status to check migration"
-    log "# gluster volume replace-brick #{VOL_NAME} #{local_ip}:#{EXPORT_DIR} #{peer_ip}:#{EXPORT_DIR} status"
+    log "# gluster volume replace-brick #{VOL_NAME} #{peer_ip}:#{EXPORT_DIR} #{local_ip}:#{EXPORT_DIR} status"
 
 sleep 5
 
