@@ -12,7 +12,7 @@ define :find_attached_peer, :tags=>[], :secondary_tags=>[] do
   sc.run_action(:load)
 
   # grab the uuid of the first one (doesn't matter which one we use)
-  rb = ruby_block "geet peer uuid" do
+  rb = ruby_block "get peer uuid" do
     block do
       node[:server_collection]["glusterfs_attached"].each do |id, tags|
         node[:glusterfs][:server][:peer_uuid_tag] = tags.detect do |u|
@@ -22,6 +22,7 @@ define :find_attached_peer, :tags=>[], :secondary_tags=>[] do
         ip_tag = tags.detect { |i| i =~ /^server:private_ip_0=/ }
         ip = ip_tag.gsub(/^.*=/, '')
         Chef::Log.info "===> Found attached peer #{ip}"
+        node[:glusterfs][:server][:peer] = ip
         break # only need one host
       end
     end
