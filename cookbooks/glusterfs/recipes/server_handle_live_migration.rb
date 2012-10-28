@@ -42,11 +42,15 @@ log "DEBUG: gluster volume replace-brick #{VOL_NAME} #{local_ip}:#{EXPORT_DIR} #
 ruby_block "Migrating brick #{BRICK_NUM} from #{local_ip} to #{peer_ip}" do
   block do
     system "gluster volume replace-brick #{VOL_NAME} #{peer_ip}:#{EXPORT_DIR} #{local_ip}:#{EXPORT_DIR} start &> #{CMD_LOG}"
+    skeeo 10
 if forced == "Yes"
     system "gluster volume replace-brick #{VOL_NAME} #{peer_ip}:#{EXPORT_DIR} #{local_ip}:#{EXPORT_DIR} commit force &> #{CMD_LOG}"
+else
+    system "gluster volume replace-brick #{VOL_NAME} #{peer_ip}:#{EXPORT_DIR} #{local_ip}:#{EXPORT_DIR} commit &> #{CMD_LOG}"
+end
     sleep 2
     system "gluster peer detach #{peer_ip}"
-end
+
 #    GlusterFS::Error.check(CMD_LOG, "failed") # No need to check log.. fire and forget
   end
 end
