@@ -53,6 +53,10 @@ end
 
 peer_ip = node[:glusterfs][:server][:peer]
 
+if peer_ip.to_s == ""
+  raise ::Chef::Exceptions::Application, "No peer ip returned, error."
+end
+
 Chef::Log.info "UUID: #{node[:glusterfs][:server][:peer_uuid_tag]}"
 Chef::Log.info "PEER IP: #{peer_ip}"
 
