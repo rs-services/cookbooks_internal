@@ -9,9 +9,11 @@ TAG_BRICK_NUM = node[:glusterfs][:tag][:bricknum]
 list_tags = "rs_tag --list --format text |tr ' ' '\\n'"
 VOL_NAME   = `#{list_tags} |grep '#{TAG_VOLUME}=' |cut -f2 -d=`.chomp
 EXPORT_DIR = `#{list_tags} |grep '#{TAG_BRICK}='  |cut -f2 -d=`.chomp
-BRICK_NUM = `#{list_tags} |grep '#{TAG_BRICK_NUM}='  |cut -f2 -d=`.chomp
+#BRICK_NUM = `#{list_tags} |grep '#{TAG_BRICK_NUM}='  |cut -f2 -d=`.chomp
 BRICK_NAME = "#{node[:cloud][:private_ips][0]}:#{EXPORT_DIR}"
 
+
+BRICK_NUM = node[:glusterfs][:server][:replace_brick]
 
 # XXX The `gluster' binary is unintelligent and does not return useful return
 #     codes.  It also sends all errors to stdout.  So we have to grep its
@@ -45,7 +47,7 @@ if forced == "Yes"
     sleep 2
     system "gluster peer detach #{peer_ip}"
 end
-    GlusterFS::Error.check(CMD_LOG, "failed")
+#    GlusterFS::Error.check(CMD_LOG, "failed") # No need to check log.. fire and forget
   end
 end
     log "Replaced #{peer_ip} in cluster.  Use status to check migration"
