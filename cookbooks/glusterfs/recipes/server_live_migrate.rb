@@ -51,8 +51,10 @@ find_attached_peer "find_peer" do
   secondary_tags "#{TAG_VOLUME}=#{VOL_NAME}"
 end
 
+peer_ip = node[:glusterfs][:server][:peer]
 
 Chef::Log.info "UUID: #{node[:glusterfs][:server][:peer_uuid_tag]}"
+Chef::Log.info "PEER IP: #{peer_ip}"
 
 # raise ::Chef::Exceptions::Application, "Debug: testing"
 
