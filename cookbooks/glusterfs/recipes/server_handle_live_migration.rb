@@ -43,18 +43,18 @@ ruby_block "Migrating brick #{BRICK_NUM} from #{local_ip} to #{peer_ip}" do
   block do
     system "gluster volume replace-brick #{VOL_NAME} #{peer_ip}:#{EXPORT_DIR} #{local_ip}:#{EXPORT_DIR} start &> #{CMD_LOG}"
     sleep 10
-if forced == "Yes"
-    system "gluster volume replace-brick #{VOL_NAME} #{peer_ip}:#{EXPORT_DIR} #{local_ip}:#{EXPORT_DIR} commit force &> #{CMD_LOG}"
-else
-    system "gluster volume replace-brick #{VOL_NAME} #{peer_ip}:#{EXPORT_DIR} #{local_ip}:#{EXPORT_DIR} commit &> #{CMD_LOG}"
-end
+    if forced == "Yes"
+     system "gluster volume replace-brick #{VOL_NAME} #{peer_ip}:#{EXPORT_DIR} #{local_ip}:#{EXPORT_DIR} commit force &> #{CMD_LOG}"
+    else
+     system "gluster volume replace-brick #{VOL_NAME} #{peer_ip}:#{EXPORT_DIR} #{local_ip}:#{EXPORT_DIR} commit &> #{CMD_LOG}"
+    end
     sleep 2
     system "gluster peer detach #{peer_ip}"
 
-#    GlusterFS::Error.check(CMD_LOG, "failed") # No need to check log.. fire and forget
+    GlusterFS::Error.check(CMD_LOG, "failed") # No need to check log.. fire and forget
   end
+  action :create
 end
-    GlusterFS::Error.check(CMD_LOG, "failed")
     log "Replaced #{peer_ip} in cluster.  Use status to check migration"
     log "# gluster volume replace-brick #{VOL_NAME} #{peer_ip}:#{EXPORT_DIR} #{local_ip}:#{EXPORT_DIR} status"
 
