@@ -54,6 +54,7 @@ end
 #    GlusterFS::Error.check(CMD_LOG, "failed") # No need to check log.. fire and forget
   end
 end
+    GlusterFS::Error.check(CMD_LOG, "failed")
     log "Replaced #{peer_ip} in cluster.  Use status to check migration"
     log "# gluster volume replace-brick #{VOL_NAME} #{peer_ip}:#{EXPORT_DIR} #{local_ip}:#{EXPORT_DIR} status"
 
