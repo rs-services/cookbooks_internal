@@ -4,14 +4,27 @@ Description
 This cookbook will install and configure a Cassandra ring.
 More info about Cassandra can be found at http://cassandra.apache.org
 
+
 Requirements
 ============
 
-Requires the apt cookbook from community.opscode.com
+Requires the [apt](http://community.opscode.com/cookbooks/apt) cookbook from http://community.opscode.com
 
 
 Attributes
 ==========
+
+* cassandra/version                 Version of Cassandra to install.
+* cassandra/cluster_name            The name of the Cassandra cluster to connect to.
+* cassandra/node_number             The position of this host in the Cassandra ring.
+* cassandra/node_total              The total number of hosts in the Cassandra ring.
+* cassandra/seeds                   Comma separated list of Cassandra hosts which will act as seeds.
+* cassandra/data_file_directories   Directories where Cassandra data files should reside on disk.
+* cassandra/commitlog_directory     Directory where commit logs will be written to.
+* cassandra/saved_caches_directory  Directory where the saved caches will be written to.
+* cassandra/log4j_directory         Directory where logfiles will be written to.
+
+* Many more which are not optional with pre-configured defaults.
 
 Usage
 =====
@@ -29,3 +42,11 @@ which are to be used as seed nodes first need to be booted, the cassandra/seeds 
 on subsequent nodes. 
 
 
+Known Issues
+============
+
+* Only tested on a v13 ServerTemplate.
+* This cookbook only installs the 1.1.x series of Cassandra.
+* It has only been tested on Ubuntu 10.04 on AWS, CentOS support will be added very soon.
+* This cookbook does not support resizing the Cassandra ring at this time.
+* This cookbook only supports single Datacenter Cassandra deployments.
