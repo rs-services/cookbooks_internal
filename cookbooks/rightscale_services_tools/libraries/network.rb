@@ -46,5 +46,6 @@ module RightScale
       end
     end
 
+    private :has_connectivity
   end
 end
