@@ -31,7 +31,7 @@ when 'ubuntu'
    key "774BAC4D"
  end
  package "fuse"
- package "glusterfs-fuse"
+ package "glusterfs-client"
 else
   raise "Unsupported platform '#{node[:platform]}'"
 end
