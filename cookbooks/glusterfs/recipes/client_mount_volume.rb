@@ -22,6 +22,16 @@ case node[:platform]
 when 'centos'
   package "fuse"
   package "glusterfs-fuse"
+when 'ubuntu'
+ apt_repository "glusterfs-3.2" do
+   uri "http://ppa.launchpad.net/semiosis/glusterfs-3.2/ubuntu"
+   distribution node['lsb']['codename']
+   components ["main"]
+   keyserver "keyserver.ubuntu.com"
+   key "774BAC4D"
+ end
+ package "fuse"
+ package "glusterfs-fuse"
 else
   raise "Unsupported platform '#{node[:platform]}'"
 end

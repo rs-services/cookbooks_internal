@@ -5,7 +5,7 @@ description      "GlusterFS recipes"
 version          "0.0.2"
 
 depends "rightscale"
-#depends "aria2"
+depends "apt"
 
 recipe "glusterfs::default", "Currently unused"
 recipe "glusterfs::install", "Downloads and installs GlusterFS"
@@ -23,14 +23,6 @@ recipe "glusterfs::server_live_migrate", "Live migrate a brick from one live nod
 
 # TODO  Make an attribute with volume types choices (distributed, striped,
 #       replicated, etc.) and use it in server_create_cluster accordingly.
-
-#attribute "glusterfs/package_url",
-#    :display_name => "Download URL",
-#    :description  => "Direct URL to a GlusterFS package (override package manager)",
-#    :required     => "optional",
-#    #:default      => "https://rs-samsung-assets.s3.amazonaws.com/glusterfs%2Fglusterfs_3.2.6-1_amd64.deb",
-#    :default      => "",
-#    :recipes      => [ "glusterfs::install"]
 
 attribute "glusterfs/server/volume_type",
     :display_name => "Volume Type",
