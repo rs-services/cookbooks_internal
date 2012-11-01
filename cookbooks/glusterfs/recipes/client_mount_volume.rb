@@ -16,6 +16,16 @@ MOUNT_POINT  = node[:glusterfs][:client][:mount_point]
 # tags to search for (Attributes)
 TAG_VOLUME   = node[:glusterfs][:tag][:volume]
 
+#Install fuse package
+#
+case node[:platform]
+when 'centos'
+  package "fuse"
+  package "glusterfs-fuse"
+else
+  raise "Unsupported platform '#{node[:platform]}'"
+end
+
 # find all servers providing the volume we need
 r = server_collection "glusterfs" do
   tags "#{TAG_VOLUME}=#{VOL_NAME}"
