@@ -26,6 +26,7 @@ when 'ubuntu'
  apt_repository "glusterfs" do
    uri "http://ppa.launchpad.net/semiosis/glusterfs-3.2/ubuntu"
    components ["main"]
+   distribution node['lsb']['codename']
    keyserver "keyserver.ubuntu.com"
    key "774BAC4D"
  end
