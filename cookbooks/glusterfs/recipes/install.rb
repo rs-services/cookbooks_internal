@@ -18,7 +18,7 @@ case node[:platform]
   end
  end
   package "glusterd"
- when 'centos'
+ when 'centos' || 'redhat'
   package "glusterfs" # from epel
  else
   raise "Unsupported platform '#{node[:platform]}'"

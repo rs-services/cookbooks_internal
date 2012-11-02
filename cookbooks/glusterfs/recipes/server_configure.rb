@@ -36,7 +36,7 @@ when 'ubuntu'
       done
     EOF
   end
-when 'centos'
+when 'centos' || 'redhat'
   # TODO epel package doesn't have an init script
   execute "glusterd" do
       not_if "pgrep glusterd"

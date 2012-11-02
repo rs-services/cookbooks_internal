@@ -19,7 +19,7 @@ TAG_VOLUME   = node[:glusterfs][:tag][:volume]
 #Install fuse package
 #
 case node[:platform]
-when 'centos'
+when 'centos' || 'redhat'
   package "fuse"
   package "glusterfs-fuse"
 when 'ubuntu'
