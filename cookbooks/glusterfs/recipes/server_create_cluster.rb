@@ -4,7 +4,7 @@ rightscale_marker :begin
 #     codes.  It also sends all errors to stdout.  So we have to grep its
 #     output in order to determine success.
 #
-CMD_LOG = "/tmp/gluster.out.#{$$}"
+CMD_LOG = "/tmp/gluster.server_create_cluster.out.#{$$}"
 
 # Constants as shortcuts for attributes
 #
@@ -96,7 +96,7 @@ ruby_block "Create volume" do
 
     # FIXME should be glusterfs/server/volume_options input
     # FIXME check for successful output on these
-    system "#{SET_OPT} auth.allow '172.*,10.*' &>/dev/null"
+    system "#{SET_OPT} auth.allow '172.*,10.*,173.*' &>/dev/null"
     system "#{SET_OPT} nfs.disable on &>/dev/null"
     system "#{SET_OPT} network.frame-timeout 60 &>/dev/null"
 

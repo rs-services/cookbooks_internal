@@ -4,7 +4,7 @@ rightscale_marker :begin
 #     codes.  It also sends all errors to stdout.  So we have to grep its
 #     output in order to determine success.
 #
-CMD_LOG = "/tmp/gluster.out.#{$$}"
+CMD_LOG = "/tmp/gluster.server_live_migrate.out.#{$$}"
 
 # Constants as shortcuts for attributes
 #

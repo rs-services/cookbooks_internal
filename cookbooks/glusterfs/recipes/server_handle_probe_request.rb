@@ -4,7 +4,7 @@ rightscale_marker :begin
 #     codes.  It also sends all errors to stdout.  So we have to grep its
 #     output in order to determine success.
 #
-CMD_LOG = "/tmp/gluster.out.#{$$}"
+CMD_LOG = "/tmp/gluster.server_handle_probe_request.out.#{$$}"
 peer_ip = node[:glusterfs][:server][:peer]
 
 log "===> Going to probe #{peer_ip}"

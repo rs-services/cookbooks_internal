@@ -19,7 +19,7 @@ BRICK_NUM = node[:glusterfs][:server][:replace_brick]
 #     codes.  It also sends all errors to stdout.  So we have to grep its
 #     output in order to determine success.
 #
-CMD_LOG = "/tmp/gluster.out.#{$$}"
+CMD_LOG = "/tmp/gluster.server_handle_live_migration.out.#{$$}"
 peer_ip = node[:glusterfs][:server][:peer]
 forced = node[:glusterfs][:server][:replace_brick_forced]
 spare_uuid_tag = "server:uuid=#{node[:rightscale][:instance_uuid]}"
