@@ -135,7 +135,11 @@ if ! peer_uuid.empty?
       end
 
       # Run the command
-      system "#{cmd} &> #{CMD_LOG}"
+      result = ""
+      IO.popen("#{cmd}") { |gl_io| result = gl_io.gets.chomp }
+      if ! File.open("#{CMD_LOG}", 'w') { |file| file.write(result) }
+           Chef::Log.info "===> unable to write to #{CMD_LOG}"
+      end
       GlusterFS::Error.check(CMD_LOG, "Adding bricks")
     end
   end

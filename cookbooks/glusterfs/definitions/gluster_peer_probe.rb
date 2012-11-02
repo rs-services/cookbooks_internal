@@ -38,9 +38,13 @@ define :gluster_peer_probe, :peers => [] do
 
         # send the probe
         if ! peered
-          # TODO netcat the port
+         # TODO netcat the por
+         result = ""
           Chef::Log.info "===>  - not peered, sending probe command"
-          system "gluster peer probe #{ip} &> #{CMD_LOG}"
+          IO.popen("gluster peer probe #{ip}") { |gl_io| result = gl_io.gets.chomp }
+          if ! File.open("#{CMD_LOG}", 'w') { |file| file.write(result) }
+           Chef::Log.info "===> unable to write to #{CMD_LOG}"
+          end
           GlusterFS::Error.check(CMD_LOG, "Adding #{ip} to cluster")
         end
 

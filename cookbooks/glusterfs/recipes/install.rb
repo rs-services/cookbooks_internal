@@ -9,7 +9,7 @@ rightscale_marker :begin
 
 case node[:platform]
 when 'ubuntu'
- apt_repository "glusterfs" do
+ unless apt_repository "glusterfs" do
    uri "http://ppa.launchpad.net/semiosis/glusterfs-3.2/ubuntu"
    components ["main"]
    distribution node['lsb']['codename']

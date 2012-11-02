@@ -83,7 +83,11 @@ ruby_block "Create volume" do
     end
 
     # Run the command
-    system "#{cmd} &> #{CMD_LOG}"
+    result = ""
+    IO.popen("#{cmd}") { |gl_io| result = gl_io.gets.chomp }
+    if ! File.open("#{CMD_LOG}", 'w') { |file| file.write(result) }
+           Chef::Log.info "===> unable to write to #{CMD_LOG}"
+    end
     GlusterFS::Error.check(CMD_LOG, "Volume creation")
 
     # Set some options on the volume
@@ -98,7 +102,11 @@ ruby_block "Create volume" do
 
     # Finally start the volume
     Chef::Log.info "===> Starting volume."
-    system "gluster volume start #{VOL_NAME} &> #{CMD_LOG}"
+    result = ""
+    IO.popen("gluster volume start #{VOL_NAME}") { |gl_io| result = gl_io.gets.chomp }
+    if ! File.open("#{CMD_LOG}", 'w') { |file| file.write(result) }
+           Chef::Log.info "===> unable to write to #{CMD_LOG}"
+    end
     GlusterFS::Error.check(CMD_LOG, "Starting volume")
 
   end #block do

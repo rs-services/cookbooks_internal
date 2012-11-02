@@ -46,8 +46,11 @@ sh.run_action(:run)
 log "===> Removing brick from volume"
 ruby_block "gluster volume remove-brick" do
   block do
-    system "yes | gluster volume remove-brick \
-      #{VOL_NAME} #{BRICK_NAME} &> #{CMD_LOG}"
+    result = ""
+    IO.popen("yes | gluster volume remove-brick #{VOL_NAME} #{BRICK_NAME}") { |gl_io| result = gl_io.gets.chomp }
+    if ! File.open("#{CMD_LOG}", 'w') { |file| file.write(result) }
+           Chef::Log.info "===> unable to write to #{CMD_LOG}"
+    end
     GlusterFS::Error.check(CMD_LOG, "Removing brick from volume '#{VOL_NAME}'")
   end
   only_if "gluster volume info #{VOL_NAME} | grep -Gqw #{BRICK_NAME}"

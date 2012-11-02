@@ -41,12 +41,24 @@ log "DEBUG: gluster volume replace-brick #{VOL_NAME} #{local_ip}:#{EXPORT_DIR} #
 
 ruby_block "Migrating brick #{BRICK_NUM} from #{local_ip} to #{peer_ip}" do
   block do
-    system "gluster volume replace-brick #{VOL_NAME} #{peer_ip}:#{EXPORT_DIR} #{local_ip}:#{EXPORT_DIR} start &> #{CMD_LOG}"
+    result = ""
+    IO.popen("gluster volume replace-brick #{VOL_NAME} #{peer_ip}:#{EXPORT_DIR} #{local_ip}:#{EXPORT_DIR} start") { |gl_io| result = gl_io.gets.chomp }
+    if ! File.open("#{CMD_LOG}", 'w') { |file| file.write(result) }
+           Chef::Log.info "===> unable to write to #{CMD_LOG}"
+    end
     sleep 10
     if forced == "Yes"
-     system "gluster volume replace-brick #{VOL_NAME} #{peer_ip}:#{EXPORT_DIR} #{local_ip}:#{EXPORT_DIR} commit force &> #{CMD_LOG}"
+     result = ""
+     IO.popen("gluster volume replace-brick #{VOL_NAME} #{peer_ip}:#{EXPORT_DIR} #{local_ip}:#{EXPORT_DIR} commit force") { |gl_io| result = gl_io.gets.chomp }
+     if ! File.open("#{CMD_LOG}", 'w') { |file| file.write(result) }
+           Chef::Log.info "===> unable to write to #{CMD_LOG}"
+     end
     else
-     system "gluster volume replace-brick #{VOL_NAME} #{peer_ip}:#{EXPORT_DIR} #{local_ip}:#{EXPORT_DIR} commit &> #{CMD_LOG}"
+     result = ""
+     IO.popen("gluster volume replace-brick #{VOL_NAME} #{peer_ip}:#{EXPORT_DIR} #{local_ip}:#{EXPORT_DIR} commit") { |gl_io| result = gl_io.gets.chomp }
+     if ! File.open("#{CMD_LOG}", 'w') { |file| file.write(result) }
+           Chef::Log.info "===> unable to write to #{CMD_LOG}"
+     end
     end
     sleep 2
     system "gluster peer detach #{peer_ip}"
