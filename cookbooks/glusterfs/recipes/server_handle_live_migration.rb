@@ -63,7 +63,7 @@ ruby_block "Migrating brick #{BRICK_NUM} from #{local_ip} to #{peer_ip}" do
     sleep 2
     system "gluster peer detach #{peer_ip}"
 
-    GlusterFS::Error.check(CMD_LOG, "failed") # No need to check log.. fire and forget
+    GlusterFS::Error.check(CMD_LOG, "failed: #{result}") # No need to check log.. fire and forget
   end
   action :create
 end

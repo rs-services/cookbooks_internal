@@ -88,7 +88,7 @@ ruby_block "Create volume" do
     if ! File.open("#{CMD_LOG}", 'w') { |file| file.write(result) }
            Chef::Log.info "===> unable to write to #{CMD_LOG}"
     end
-    GlusterFS::Error.check(CMD_LOG, "Volume creation")
+    GlusterFS::Error.check(CMD_LOG, "Volume creation: #{result}")
 
     # Set some options on the volume
     Chef::Log.info "===> Configuring volume."
@@ -100,6 +100,7 @@ ruby_block "Create volume" do
     system "#{SET_OPT} nfs.disable on &>/dev/null"
     system "#{SET_OPT} network.frame-timeout 60 &>/dev/null"
 
+    sleep 5   #Sleep for a bit so things sync up
     # Finally start the volume
     Chef::Log.info "===> Starting volume."
     result = ""
@@ -107,7 +108,7 @@ ruby_block "Create volume" do
     if ! File.open("#{CMD_LOG}", 'w') { |file| file.write(result) }
            Chef::Log.info "===> unable to write to #{CMD_LOG}"
     end
-    GlusterFS::Error.check(CMD_LOG, "Starting volume")
+    GlusterFS::Error.check(CMD_LOG, "Starting volume: #{result}")
 
   end #block do
 end #ruby_block do
