@@ -11,3 +11,6 @@ depends "block_device"
 depends "rightscale_services_tools"
 depends "sysctl"
 depends "sys_firewall"
+
+recipe "mongo::default", "sets up default mongo settings"
+recipe "mongo::install_server", "installs mongo" 

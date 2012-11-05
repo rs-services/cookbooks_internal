@@ -1,0 +1,36 @@
+{
+  "groupings": {
+  },
+  "attributes": {
+  },
+  "providing": {
+  },
+  "conflicting": {
+  },
+  "maintainer": "RightScale Inc",
+  "recommendations": {
+  },
+  "version": "0.0.1",
+  "recipes": {
+    "mongo::default": "sets up default mongo settings",
+    "mongo::install_server": "installs mongo"
+  },
+  "replacing": {
+  },
+  "dependencies": {
+    "block_device": ">= 0.0.0",
+    "rightscale_services_tools": ">= 0.0.0",
+    "sysctl": ">= 0.0.0",
+    "sys_firewall": ">= 0.0.0",
+    "rightscale": ">= 0.0.0"
+  },
+  "license": "Apache 2.0",
+  "maintainer_email": "premium@rightscale.com",
+  "suggestions": {
+  },
+  "platforms": {
+  },
+  "description": "Installs/Configures mongo",
+  "name": "mongo",
+  "long_description": "Description\n===========\n\nRequirements\n============\n\nAttributes\n==========\n\nUsage\n=====\n\n"
+}
