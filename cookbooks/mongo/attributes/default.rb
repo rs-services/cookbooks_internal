@@ -6,11 +6,11 @@ default[:mongo][:log_dir] = '/var/log/mongodb'
 default[:mongo][:user] = 'mongodb'
 default[:mongo][:source] = "http://fastdl.mongodb.org/linux/mongodb-linux-x86_64-2.2.1.tgz"
 case node[:platform]
-  when "redhat" || "centos"
+  when "centos","redhat"
     default[:mongo][:package] = "mongo"
     default[:mongo][:service] = "mongod"
     default[:mongo][:conf_file] = node[:mongo][:conf_dir]+'/'+node[:mongo][:service]+'.conf'
-  when "ubuntu"
+  when "ubuntu","debian"
     default[:mongo][:package] = "mongo"
     default[:mongo][:service] = "mongod"
     default[:mongo][:conf_file] = node[:mongo][:conf_dir]+'/'+node[:mongo][:service]+'.conf'
