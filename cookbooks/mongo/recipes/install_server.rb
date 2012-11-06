@@ -51,7 +51,7 @@ end
   end
 end
 
-template "/etc/#{node[:mongo][:conf_file]}" do
+template "#{node[:mongo][:conf_file]}" do
   source "mongo.conf.erb"
   owner node[:mongo][:user]
   group node[:mongo][:user]
