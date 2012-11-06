@@ -60,7 +60,7 @@ template "#{node[:mongo][:conf_file]}" do
   owner node[:mongo][:user]
   group node[:mongo][:user]
   mode 0777
-  variables ( :db_path => node[:mongo][:data_dir],
+  variables( :db_path => node[:mongo][:data_dir],
               :pid_file => "#{node[:mongo][:pid_dir]}/#{node[:mongo][:service]}.pid",
               :port => node[:mongo][:port],
               :web_admin_port => node[:mongo][:web_admin_port] )
@@ -72,7 +72,7 @@ template "/etc/init.d/#{node[:mongo][:service]}" do
   owner "root"
   group "root"
   mode "0777"
-  variables ( :db_path => node[:mongo][:data_dir] )
+  variables( :db_path => node[:mongo][:data_dir] )
   action :create
 end
 
@@ -87,10 +87,10 @@ service node[:mongo][:service] do
 end
 
 sys_firewall node[:mongo][:port] do
-  action :enable
+  action :update
 end
 
 sys_firewall node[:mongo][:web_admin_port] do
-  action :enable
+  action :update
 end
 rightscale_marker :end
