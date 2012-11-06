@@ -1,0 +1,12 @@
+# ~/.profile: executed by Bourne-compatible login shells.
+
+if [ "$BASH" ]; then
+  if [ -f ~/.bashrc ]; then
+    . ~/.bashrc
+  fi
+fi
+
+export JAVA_HOME="<%=@java_home%>"
+export PATH="$JAVA_HOME/bin:$PATH"
+
+mesg n

@@ -1,0 +1,97 @@
+#!/bin/bash -ex
+#
+# Init file for Netty.io 
+
+#
+### BEGIN INIT INFO
+# Provides:          nettyio
+# Required-Start:    $all
+# Required-Stop:
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: provides nettyio
+# Description:  provides nettyio
+# chkconfig: - 98 02
+### END INIT INFO
+# description: Netty.io app server
+
+
+CONFIG="/etc/nettyio.conf"
+pidfile='/var/run/nettyio.pid'
+export JAVA_HOME=<%= @java_home %>
+export JAVA_OPTS="-server -d64"
+# XMX and XMS
+JAVA_OPTS="$JAVA_OPTS -Xms<%=@java_xms%> -Xmx<%=@java_xmx%>"
+
+#PermSize and MaxPermSize
+$JAVA_OPTS="$JAVA_OPTS -XX:PermSize=<%=@java_permsize%> -XX:MaxPermSize=<%=@java_maxpermsize%>"
+
+#NewSize and MaxNewSize
+JAVA_OPTS"$JAVA_OPTS -XX:NewSize=<%=@java_newsize%> -XX:MaxNewSize=<%=@java_maxnewsize%>"
+
+export CLASSPATH="<%=@install_dir%>/jars/netty-<%= @version  %>.Final.jar:<%= @destination %>/*" 
+prog="$JAVA_HOME/bin/java <%= @main_class %>"
+
+[ -r "$CONFIG" ] || exit 1
+
+RETVAL=0
+
+start() {       
+        echo -n $"Starting $prog: "
+        $prog &
+        RETVAL=$?
+        echo
+        [ $RETVAL -eq 0 ] && echo `ps aux | grep netty | grep java | grep -v grep | awk '{print $2}'` > $pidfile
+        return $RETVAL
+}
+
+status(){
+       status(){
+       
+       if [ -e "$pidfile" ]; then
+        echo -n $"Status: running"
+        RETVAL=0
+       else
+        echo -n $"status: not running"
+        RETVAL=1
+       fi
+       return  $RETVAL
+}
+}
+
+stop() {
+        echo -n $"Shutting down $prog: "
+        if [ -e "$pidfile" ];then
+          kill `cat $pidfile`
+          RETVAL=$?
+        fi
+        echo
+        [ $RETVAL -eq 0 ] && rm -f $pidfile
+        return $RETVAL
+}
+
+restart() {
+        stop
+        start
+}
+
+
+case "$1" in
+  start)
+        start
+        ;;
+  stop)
+        stop
+        ;;
+  restart)
+        restart
+        ;;
+  status)
+        status
+        ;;
+  *)
+        echo $"Usage: $0 {start|stop|restart|status}"
+        RETVAL=1
+esac
+
+exit $RETVAL

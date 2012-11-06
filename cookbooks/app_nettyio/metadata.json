@@ -1,0 +1,34 @@
+{
+  "attributes": {
+  },
+  "suggestions": {
+  },
+  "maintainer_email": "YOUR_EMAIL",
+  "providing": {
+  },
+  "recipes": {
+    "nettyio::default": "default recipe"
+  },
+  "long_description": "Description\n===========\n\nRequirements\n============\n\nAttributes\n==========\n\nUsage\n=====\n\n",
+  "platforms": {
+  },
+  "license": "All rights reserved",
+  "conflicting": {
+  },
+  "dependencies": {
+    "rightscale": ">= 0.0.0",
+    "lb": ">= 0.0.0",
+    "sys_firewall": ">= 0.0.0",
+    "repo": ">= 0.0.0"
+  },
+  "groupings": {
+  },
+  "version": "0.0.1",
+  "maintainer": "YOUR_COMPANY_NAME",
+  "name": "app_nettyio",
+  "description": "Installs/Configures netty.io",
+  "replacing": {
+  },
+  "recommendations": {
+  }
+}
