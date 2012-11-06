@@ -10,7 +10,7 @@ depends 'repo'
 depends 'sys_firewall'
 depends 'lb'
 
-recipe "nettyio::default", "default recipe"
+recipe "app_nettyio::default", "default recipe"
 
 #Java tuning parameters
 attribute "app_nettyio/main_class",
