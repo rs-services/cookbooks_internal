@@ -1,3 +1,5 @@
+rightscale_marker :begin
+
 remote_file "/tmp/mongodb.tar.gz" do
   source node[:mongo][:source]
   owner "root"
@@ -9,3 +11,5 @@ end
 user node[:mongo][:user] do
   action :create
 end
+
+rightscale_marker :end
