@@ -1,5 +1,9 @@
 rightscale_marker :begin
 
+package "numactl" do
+  action :install
+end
+
 remote_file "/tmp/mongodb.tar.gz" do
   source node[:mongo][:source]
   owner "root"
