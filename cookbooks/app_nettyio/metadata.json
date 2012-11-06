@@ -1,132 +1,132 @@
 {
-  "maintainer": "YOUR_COMPANY_NAME",
-  "conflicting": {
-  },
-  "long_description": "Description\n===========\n\nRequirements\n============\n\nAttributes\n==========\n\nUsage\n=====\n\n",
-  "groupings": {
-  },
+  "version": "0.0.1",
   "dependencies": {
-    "repo": ">= 0.0.0",
     "sys_firewall": ">= 0.0.0",
-    "rightscale": ">= 0.0.0",
-    "lb": ">= 0.0.0"
+    "repo": ">= 0.0.0",
+    "lb": ">= 0.0.0",
+    "rightscale": ">= 0.0.0"
   },
-  "suggestions": {
+  "replacing": {
   },
   "license": "All rights reserved",
-  "version": "0.0.1",
-  "attributes": {
-    "app_nettyio/java/newsize": {
-      "type": "string",
-      "calculated": false,
-      "required": "optional",
-      "choice": [
-
-      ],
-      "default": "256m",
-      "recipes": [
-        "app_nettyio::default"
-      ],
-      "display_name": "Netty.io Java NewSize",
-      "description": "The java NewSize argument. Example: 256m"
-    },
-    "app_nettyio/java/maxnewsize": {
-      "type": "string",
-      "calculated": false,
-      "required": "optional",
-      "choice": [
-
-      ],
-      "default": "256m",
-      "recipes": [
-        "app_nettyio::default"
-      ],
-      "display_name": "Netty.io Java MaxNewSize",
-      "description": "The java MaxNewSize argument. Example: 256m"
-    },
-    "app_nettyio/main_class": {
-      "type": "string",
-      "calculated": false,
-      "required": "optional",
-      "choice": [
-
-      ],
-      "default": "",
-      "recipes": [
-        "app_nettyio::default"
-      ],
-      "display_name": "JAVA Class to run",
-      "description": "The java class to run the server."
-    },
-    "app_nettyio/java/xmx": {
-      "type": "string",
-      "calculated": false,
-      "required": "optional",
-      "choice": [
-
-      ],
-      "default": "512m",
-      "recipes": [
-        "app_nettyio::default"
-      ],
-      "display_name": "Netty.io Java XMX",
-      "description": "The java Xmx argument. Example: 512m"
-    },
-    "app_nettyio/java/xms": {
-      "type": "string",
-      "calculated": false,
-      "required": "optional",
-      "choice": [
-
-      ],
-      "default": "512m",
-      "recipes": [
-        "app_nettyio::default"
-      ],
-      "display_name": "Netty.io Java XMS",
-      "description": "The java Xms argument. Example: 512m"
-    },
-    "app_nettyio/java/maxpermsize": {
-      "type": "string",
-      "calculated": false,
-      "required": "optional",
-      "choice": [
-
-      ],
-      "default": "256m",
-      "recipes": [
-        "app_nettyio::default"
-      ],
-      "display_name": "Netty.io Java MaxPermSize",
-      "description": "The java MaxPermSize argument. Example: 256m"
-    },
-    "app_nettyio/java/permsize": {
-      "type": "string",
-      "calculated": false,
-      "required": "optional",
-      "choice": [
-
-      ],
-      "default": "256m",
-      "recipes": [
-        "app_nettyio::default"
-      ],
-      "display_name": "Netty.io Java PermSize",
-      "description": "The java PermSize argument. Example: 256m"
-    }
-  },
-  "name": "app_nettyio",
-  "providing": {
-  },
-  "recommendations": {
-  },
-  "platforms": {
-  },
   "recipes": {
     "app_nettyio::default": "default recipe"
   },
-  "maintainer_email": "YOUR_EMAIL",
-  "replacing": {
+  "groupings": {
   },
-  "description": "Installs/Configures netty.io"
+  "providing": {
+  },
+  "name": "app_nettyio",
+  "recommendations": {
+  },
+  "attributes": {
+    "app_nettyio/java/maxnewsize": {
+      "recipes": [
+        "app_nettyio::default"
+      ],
+      "calculated": false,
+      "choice": [
+
+      ],
+      "display_name": "Netty.io Java MaxNewSize",
+      "required": "optional",
+      "type": "string",
+      "description": "The java MaxNewSize argument. Example: 256m",
+      "default": "256m"
+    },
+    "app_nettyio/java/maxpermsize": {
+      "recipes": [
+        "app_nettyio::default"
+      ],
+      "calculated": false,
+      "choice": [
+
+      ],
+      "display_name": "Netty.io Java MaxPermSize",
+      "required": "optional",
+      "type": "string",
+      "description": "The java MaxPermSize argument. Example: 256m",
+      "default": "256m"
+    },
+    "app_nettyio/java/xmx": {
+      "recipes": [
+        "app_nettyio::default"
+      ],
+      "calculated": false,
+      "choice": [
+
+      ],
+      "display_name": "Netty.io Java XMX",
+      "required": "optional",
+      "type": "string",
+      "description": "The java Xmx argument. Example: 512m",
+      "default": "512m"
+    },
+    "app_nettyio/java/xms": {
+      "recipes": [
+        "app_nettyio::default"
+      ],
+      "calculated": false,
+      "choice": [
+
+      ],
+      "display_name": "Netty.io Java XMS",
+      "required": "optional",
+      "type": "string",
+      "description": "The java Xms argument. Example: 512m",
+      "default": "512m"
+    },
+    "app_nettyio/java/permsize": {
+      "recipes": [
+        "app_nettyio::default"
+      ],
+      "calculated": false,
+      "choice": [
+
+      ],
+      "display_name": "Netty.io Java PermSize",
+      "required": "optional",
+      "type": "string",
+      "description": "The java PermSize argument. Example: 256m",
+      "default": "256m"
+    },
+    "app_nettyio/main_class": {
+      "recipes": [
+        "app_nettyio::default"
+      ],
+      "calculated": false,
+      "choice": [
+
+      ],
+      "display_name": "JAVA Class to run",
+      "required": "required",
+      "type": "string",
+      "description": "The java class to run the server.",
+      "default": ""
+    },
+    "app_nettyio/java/newsize": {
+      "recipes": [
+        "app_nettyio::default"
+      ],
+      "calculated": false,
+      "choice": [
+
+      ],
+      "display_name": "Netty.io Java NewSize",
+      "required": "optional",
+      "type": "string",
+      "description": "The java NewSize argument. Example: 256m",
+      "default": "256m"
+    }
+  },
+  "suggestions": {
+  },
+  "conflicting": {
+  },
+  "maintainer": "YOUR_COMPANY_NAME",
+  "description": "Installs/Configures netty.io",
+  "platforms": {
+  },
+  "maintainer_email": "YOUR_EMAIL",
+  "long_description": "Description\n===========\n\nRequirements\n============\n\nAttributes\n==========\n\nUsage\n=====\n\n"
 }

@@ -4,7 +4,7 @@ default[:app_nettyio][:install_dir]="/opt/netty.io"
 
 case node[:platform]
 when "ubuntu"
-  set[:env][:java_home] = "/usr/lib/jvm/java-1.6.0-openjdk-amd64"
+  default[:java][:home] = "/usr/lib/jvm/java-1.6.0-openjdk-amd64"
 when "centos", "redhat"
-  set[:env][:java_home] = "/usr/lib/jvm/java-1.6.0"
+  default[:java][:home] = "/usr/lib/jvm/java-1.6.0"
 end

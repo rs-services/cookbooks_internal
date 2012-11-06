@@ -16,7 +16,7 @@ recipe "app_nettyio::default", "default recipe"
 attribute "app_nettyio/main_class",
   :display_name => "JAVA Class to run",
   :description => "The java class to run the server.",
-  :required => "optional",
+  :required => "required",
   :default => "",
   :recipes => [
   "app_nettyio::default"
