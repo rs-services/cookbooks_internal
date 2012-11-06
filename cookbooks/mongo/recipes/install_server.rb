@@ -23,7 +23,7 @@ end
 bash "extract-mongo" do
   cwd "/"
   code <<-EOF
-  tar -xzf /tmp/mongod.tar.gz -C #{node[:mongo][:install_dir]} --strip-components=1
+  tar -xzf /tmp/mongodb.tar.gz -C #{node[:mongo][:install_dir]} --strip-components=1
 EOF
 end
 
