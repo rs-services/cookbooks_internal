@@ -61,10 +61,11 @@ template "#{node[:mongo][:conf_file]}" do
 end
 
 template "/etc/init.d/#{node[:mongo][:service]}" do
-  source "mongodb-init"
+  source "mongodb-init.erb"
   owner "root"
   group "root"
   mode "0777"
+  variables ( :db_path => node[:mongo][:data_dir] )
   action :create
 end
 
