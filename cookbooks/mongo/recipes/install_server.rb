@@ -60,7 +60,10 @@ template "#{node[:mongo][:conf_file]}" do
   owner node[:mongo][:user]
   group node[:mongo][:user]
   mode 0777
-  variables ( :db_path => node[:mongo][:data_dir] )
+  variables ( :db_path => node[:mongo][:data_dir],
+              :pid_file => "#{node[:mongo][:pid_dir]}/#{node[:mongo][:service]}.pid",
+              :port => node[:mongo][:port],
+              :web_admin_port => node[:mongo][:web_admin_port] )
   action :create
 end
 
@@ -73,6 +76,12 @@ template "/etc/init.d/#{node[:mongo][:service]}" do
   action :create
 end
 
+directory node[:mongo][:pid_dir] do
+  owner node[:mongo][:user]
+  group node[:mongo][:user]
+  mode 0777
+  action :create
+end
 service node[:mongo][:service] do
   action [ :enable, :start ]
 end

@@ -2,7 +2,7 @@
 
 # Where to store the data.
 dbpath=<%= @db_path %>
-pidfilepath=/var/run/mongod.pid
+pidfilepath=<%= @pid_file %>
 fork=true
 # Note: if you run mongodb as a non-root user (recommended) you may
 # need to create and set permissions for this directory manually,
@@ -12,7 +12,7 @@ fork=true
 logpath=/var/log/mongodb/mongodb.log
 logappend=true
 
-port = 27017
+port = <%= @port %>
 
 # Disables write-ahead journaling
 # nojournal = true

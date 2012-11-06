@@ -4,6 +4,7 @@ default[:mongo][:lib_dir] = node[:mongo][:install_dir] + '/lib'
 default[:mongo][:data_dir] = '/var/lib/mongodb'
 default[:mongo][:log_dir] = '/var/log/mongodb'
 default[:mongo][:user] = 'mongodb'
+default[:mongo][:pid_dir] = '/var/run/mongo'
 default[:mongo][:source] = "http://fastdl.mongodb.org/linux/mongodb-linux-x86_64-2.2.1.tgz"
 case node[:platform]
   when "centos","redhat"
