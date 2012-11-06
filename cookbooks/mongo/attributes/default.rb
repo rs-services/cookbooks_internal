@@ -10,9 +10,10 @@ case node[:platform]
     default[:mongo][:package] = "mongo"
     default[:mongo][:service] = "mongod"
     default[:mongo][:conf_file] = node[:mongo][:conf_dir]+'/'+node[:mongo][:service]+'.conf'
+    default[:mongo][:user] = 'mongod'
   when "ubuntu","debian"
     default[:mongo][:package] = "mongo"
-    default[:mongo][:service] = "mongod"
+    default[:mongo][:service] = "mongodb"
     default[:mongo][:conf_file] = node[:mongo][:conf_dir]+'/'+node[:mongo][:service]+'.conf'
   else
     raise "os unsupported"

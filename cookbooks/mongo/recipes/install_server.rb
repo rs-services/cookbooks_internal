@@ -44,8 +44,8 @@ directory node[:mongo][:log_dir] do
 end
 
 %w{mongo mongod mongodump mongoexport mongofiles mongoimport mongorestore mongos mongotop mongosniff mongostat}.each do |binary|
-  link "#{node[:mongo][:install_dir]}/bin/#{binary}" do
-    to "/usr/bin/#{binary}"
+  link "/usr/bin/#{binary}" do
+    to "#{node[:mongo][:install_dir]}/bin/#{binary}"
     link_type :symbolic
     action :create
   end
@@ -60,5 +60,16 @@ template "#{node[:mongo][:conf_file]}" do
   action :create
 end
 
+template "/etc/init.d/#{node[:mongo][:service]}" do
+  source "mongodb-init"
+  owner "root"
+  group "root"
+  mode "0777"
+  action :create
+end
+
+service node[:mongo][:service] do
+  action [ :enable, :start ]
+end
 
 rightscale_marker :end
