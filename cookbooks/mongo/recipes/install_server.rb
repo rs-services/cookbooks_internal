@@ -56,7 +56,7 @@ template "#{node[:mongo][:conf_file]}" do
   owner node[:mongo][:user]
   group node[:mongo][:user]
   mode 0777
-  #variables
+  variables ( :db_path => node[:mongo][:data_dir] )
   action :create
 end
 
