@@ -86,4 +86,11 @@ service node[:mongo][:service] do
   action [ :enable, :start ]
 end
 
+sys_firewall node[:mongo][:port] do
+  action :enable
+end
+
+sys_firewall node[:mongo][:web_admin_port] do
+  action :enable
+end
 rightscale_marker :end

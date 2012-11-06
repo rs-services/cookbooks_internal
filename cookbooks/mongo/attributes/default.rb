@@ -6,6 +6,10 @@ default[:mongo][:log_dir] = '/var/log/mongodb'
 default[:mongo][:user] = 'mongodb'
 default[:mongo][:pid_dir] = '/var/run/mongo'
 default[:mongo][:source] = "http://fastdl.mongodb.org/linux/mongodb-linux-x86_64-2.2.1.tgz"
+default[:mongo][:port]=27017
+default[:mongo][:web_admin_port]=28017
+
+
 case node[:platform]
   when "centos","redhat"
     default[:mongo][:package] = "mongo"
