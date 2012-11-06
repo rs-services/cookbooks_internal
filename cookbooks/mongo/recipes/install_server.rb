@@ -82,10 +82,14 @@ directory node[:mongo][:pid_dir] do
   mode 0777
   action :create
 end
+
 service node[:mongo][:service] do
-  action [ :enable, :start ]
+  action [ :enable ]
 end
 
+service node[:mongo][:service] do
+  action :start
+end
 sys_firewall node[:mongo][:port] do
   action :update
 end
