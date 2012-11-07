@@ -106,8 +106,11 @@ sys_firewall node[:mongo][:web_admin_port] do
   action :update
 end
 
-right_link_tag "mongo:replSet=#{node[:mongo][:replSet]}" do
-  action :publish 
-  only_if !node[:mongo][:replSet].nil?
+if !node[:mongo][:replSet].nil?
+  log node[:mongo][:replSet]
+  right_link_tag "mongo:replSet=#{node[:mongo][:replSet]}" do
+    action :publish 
+  end
 end
+
 rightscale_marker :end
