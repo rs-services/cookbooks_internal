@@ -24,10 +24,10 @@ export JAVA_OPTS="-server -d64"
 JAVA_OPTS="$JAVA_OPTS -Xms<%=@java_xms%> -Xmx<%=@java_xmx%>"
 
 #PermSize and MaxPermSize
-$JAVA_OPTS="$JAVA_OPTS -XX:PermSize=<%=@java_permsize%> -XX:MaxPermSize=<%=@java_maxpermsize%>"
+JAVA_OPTS="$JAVA_OPTS -XX:PermSize=<%=@java_permsize%> -XX:MaxPermSize=<%=@java_maxpermsize%>"
 
 #NewSize and MaxNewSize
-JAVA_OPTS"$JAVA_OPTS -XX:NewSize=<%=@java_newsize%> -XX:MaxNewSize=<%=@java_maxnewsize%>"
+JAVA_OPTS="$JAVA_OPTS -XX:NewSize=<%=@java_newsize%> -XX:MaxNewSize=<%=@java_maxnewsize%>"
 
 export CLASSPATH="<%=@install_dir%>/jars/netty-<%= @version  %>.Final.jar:<%= @destination %>/*" 
 prog="$JAVA_HOME/bin/java <%= @main_class %>"
