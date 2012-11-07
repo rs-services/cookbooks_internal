@@ -50,6 +50,7 @@ action :install do
   cookbook_file "#{node[:app_nettyio][:install_dir]}/jars/netty-#{node[:app_nettyio][:version]}.Final.jar" do
     source "netty-#{node[:app_nettyio][:version]}.Final.jar"
     mode "0644"
+    cookbook "app_nettyio"
   end
 
 
@@ -68,6 +69,7 @@ action :install do
       :java_newsize => node[:app_nettyio][:java][:newsize],
       :java_maxnewsize => node[:app_nettyio][:java][:maxnewsize]
     )
+    cookbook "app_nettyio"
   end
 
   service "nettyio" do
@@ -78,6 +80,7 @@ action :install do
   template "/root/.profile" do
     source "profile.erb"
     variables(:java_home=>node[:java][:home])
+     cookbook "app_nettyio"
   end
   
   #remove sun jdk on centos
