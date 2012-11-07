@@ -18,6 +18,18 @@
 #
 rightscale_marker :begin
 
+gem "mongo" do
+  gem_binary "/usr/bin/gem"
+  action :install
+end
 
+gem "mongo" do
+  gem_binary "/opt/rightscale/sandbox/bin/gem"
+  action :install
+end
+
+chef_gem "mongo" do
+  action :install
+end
 
 rightscale_marker :end
