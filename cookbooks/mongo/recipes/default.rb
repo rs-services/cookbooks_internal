@@ -32,4 +32,16 @@ chef_gem "mongo" do
   action :install
 end
 
+gem "json" do
+  gem_binary "/usr/bin/gem"
+  version "1.2.4"
+  action :install
+end
+
+gem "json" do
+  gem_binary "/opt/rightscale/sandbox/bin/gem"
+  version "1.2.4"
+  action :install
+end
+
 rightscale_marker :end
