@@ -111,6 +111,9 @@ if !node[:mongo][:replSet].nil?
   right_link_tag "mongo:replSet=#{node[:mongo][:replSet]}" do
     action :publish 
   end
+  right_link_tag "mongo:port=#{node[:mongo][:port]}" do
+    action :publish 
+  end
 end
 
 rightscale_marker :end

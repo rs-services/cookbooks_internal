@@ -1,3 +1,4 @@
+require 'mongo'
 rightscale_marker :begin
 
 
