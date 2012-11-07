@@ -18,15 +18,17 @@
 #
 rightscale_marker :begin
 
-gem_package "mongo" do
-  gem_binary "/usr/bin/gem"
-  action :install
-end
+%w{mongo bson bson_ext}.each { |pkg| 
+  gem_package pkg do
+    gem_binary "/usr/bin/gem"
+    action :install
+  end
 
-gem_package "mongo" do
-  gem_binary "/opt/rightscale/sandbox/bin/gem"
-  action :install
-end
+  gem_package pkg do
+    gem_binary "/opt/rightscale/sandbox/bin/gem"
+    action :install
+  end
+}
 
 gem_package "json" do
   gem_binary "/usr/bin/gem"
@@ -39,5 +41,7 @@ gem_package "json" do
   version "1.2.4"
   action :install
 end
+
+Gem.clear_paths
 
 rightscale_marker :end

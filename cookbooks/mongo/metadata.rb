@@ -14,6 +14,7 @@ depends "sys_firewall"
 
 recipe "mongo::default", "sets up default mongo settings"
 recipe "mongo::install_server", "installs mongo" 
+recipe "mongo::setup_replica_sets", "configures replica set"
 
 attribute "mongo/replSet", 
   :display_name => "Mongo Replica Set Name",
