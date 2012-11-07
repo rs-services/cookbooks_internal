@@ -1,36 +1,49 @@
 {
+  "recipes": {
+    "mongo::install_server": "installs mongo",
+    "mongo::default": "sets up default mongo settings"
+  },
+  "name": "mongo",
+  "conflicting": {
+  },
+  "recommendations": {
+  },
+  "dependencies": {
+    "sysctl": ">= 0.0.0",
+    "rightscale": ">= 0.0.0",
+    "rightscale_services_tools": ">= 0.0.0",
+    "block_device": ">= 0.0.0",
+    "sys_firewall": ">= 0.0.0"
+  },
   "groupings": {
   },
-  "attributes": {
+  "suggestions": {
   },
   "providing": {
   },
-  "conflicting": {
+  "long_description": "Description\n===========\n\nRequirements\n============\n\nAttributes\n==========\n\nUsage\n=====\n\n",
+  "attributes": {
+    "mongo/replSet": {
+      "recipes": [
+
+      ],
+      "type": "string",
+      "choice": [
+
+      ],
+      "required": "optional",
+      "display_name": "Mongo Replica Set Name",
+      "description": "Mongo Replica Set Name",
+      "calculated": false
+    }
   },
-  "maintainer": "RightScale Inc",
-  "recommendations": {
-  },
-  "version": "0.0.1",
-  "recipes": {
-    "mongo::default": "sets up default mongo settings",
-    "mongo::install_server": "installs mongo"
-  },
-  "replacing": {
-  },
-  "dependencies": {
-    "block_device": ">= 0.0.0",
-    "rightscale_services_tools": ">= 0.0.0",
-    "sysctl": ">= 0.0.0",
-    "sys_firewall": ">= 0.0.0",
-    "rightscale": ">= 0.0.0"
-  },
-  "license": "Apache 2.0",
   "maintainer_email": "premium@rightscale.com",
-  "suggestions": {
-  },
   "platforms": {
   },
-  "description": "Installs/Configures mongo",
-  "name": "mongo",
-  "long_description": "Description\n===========\n\nRequirements\n============\n\nAttributes\n==========\n\nUsage\n=====\n\n"
+  "maintainer": "RightScale Inc",
+  "replacing": {
+  },
+  "version": "0.0.1",
+  "license": "Apache 2.0",
+  "description": "Installs/Configures mongo"
 }

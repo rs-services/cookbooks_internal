@@ -63,7 +63,8 @@ template "#{node[:mongo][:conf_file]}" do
   variables( :db_path => node[:mongo][:data_dir],
               :pid_file => "#{node[:mongo][:pid_dir]}/#{node[:mongo][:service]}.pid",
               :port => node[:mongo][:port],
-              :web_admin_port => node[:mongo][:web_admin_port] )
+              :web_admin_port => node[:mongo][:web_admin_port],
+              :replSet => node[:mongo][:replSet] )
   action :create
 end
 
@@ -96,11 +97,17 @@ end
 #service node[:mongo][:service] do
 #  action :start
 #end
+
 sys_firewall node[:mongo][:port] do
   action :update
 end
 
 sys_firewall node[:mongo][:web_admin_port] do
   action :update
+end
+
+right_link_tag "mongo:replSet=#{node[:mongo][:replSet]}" do
+  action :publish 
+  only_if !node[:mongo][:replSet].nil?
 end
 rightscale_marker :end
