@@ -9,7 +9,7 @@ rightscale_marker :begin
   end
 
   results.run_action(:load)
-  str_json="{_id: '#{node[:mongo][:replSet]}', members: ["
+  str_json="{ _id: '#{node[:mongo][:replSet]}', members: ["
   i=0
   if node["server_collection"]["mongo_replicas"]
     log "Server Collection Found"
@@ -22,6 +22,7 @@ rightscale_marker :begin
   str_json+=" ] }"
   connection = Mongo::Connection.new("localhost", 27017)
   db=connection.db("local")
-  db.command({ "replSetInitiates" : str_json })
+  log str_json
+  db.command({ replSetInitiates : str_json })
 
 rightscale_marker :end
