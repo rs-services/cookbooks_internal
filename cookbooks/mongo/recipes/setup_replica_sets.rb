@@ -23,6 +23,6 @@ rightscale_marker :begin
   connection = Mongo::Connection.new("localhost", 27017)
   db=connection.db("local")
   log str_json
-  db.command({ replSetInitiates : str_json })
+  #db.command({ replSetInitiates : str_json })
 
 rightscale_marker :end
