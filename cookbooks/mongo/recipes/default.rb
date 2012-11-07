@@ -18,23 +18,23 @@
 #
 rightscale_marker :begin
 
-gem "mongo" do
+gem_package "mongo" do
   gem_binary "/usr/bin/gem"
   action :install
 end
 
-gem "mongo" do
+gem_package "mongo" do
   gem_binary "/opt/rightscale/sandbox/bin/gem"
   action :install
 end
 
-gem "json" do
+gem_package "json" do
   gem_binary "/usr/bin/gem"
   version "1.2.4"
   action :install
 end
 
-gem "json" do
+gem_package "json" do
   gem_binary "/opt/rightscale/sandbox/bin/gem"
   version "1.2.4"
   action :install
