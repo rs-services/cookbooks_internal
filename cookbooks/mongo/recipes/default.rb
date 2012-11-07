@@ -28,10 +28,6 @@ gem "mongo" do
   action :install
 end
 
-chef_gem "mongo" do
-  action :install
-end
-
 gem "json" do
   gem_binary "/usr/bin/gem"
   version "1.2.4"
