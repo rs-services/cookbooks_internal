@@ -87,9 +87,15 @@ service node[:mongo][:service] do
   action [ :enable ]
 end
 
-service node[:mongo][:service] do
-  action :start
+bash "start-service" do
+  code <<-EOF
+service #{node[:mongo][:service]} start
+EOF
+  flags "-ex"
 end
+#service node[:mongo][:service] do
+#  action :start
+#end
 sys_firewall node[:mongo][:port] do
   action :update
 end
