@@ -25,10 +25,9 @@ end
 # Start app
 action :start do
   log "  Running start sequence"
-  service "nettyio" do
-    supports :status => true, :restart => true, :reload => true
-    action :start
-    persist false
+  execute "stopping server" do
+    command "/etc/init.d/nettyio start"
+    action :run
   end
 end
 
@@ -80,7 +79,7 @@ action :install do
   template "/root/.profile" do
     source "profile.erb"
     variables(:java_home=>node[:java][:home])
-     cookbook "app_nettyio"
+    cookbook "app_nettyio"
   end
   
   #remove sun jdk on centos
