@@ -20,10 +20,10 @@ rightscale_marker :begin
     end
   end
   str_json+=" ] }"
-  connection = Mongo::Connection.new("localhost", 27017)
-  db=connection.db("local")
+  #connection = Mongo::Connection.new("localhost", 27017)
+  #db=connection.db("local")
   log str_json
   #db.command({ replSetInitiates : str_json })
   `mongo --eval "printjson(rs.initiate(#{str_json}))"`
-
+  raise "Replica set was not configured" unless $?.exitstatus == 0
 rightscale_marker :end
