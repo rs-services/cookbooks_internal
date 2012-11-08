@@ -1,9 +1,9 @@
-maintainer       "YOUR_COMPANY_NAME"
-maintainer_email "YOUR_EMAIL"
+maintainer       "RightScale Inc"
+maintainer_email "premium@rightscale.com"
 license          "All rights reserved"
-description      "Installs/Configures netty.io"
+description      "Install and Configure Nettyio"
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          "0.0.1"
+version          "1.0.0"
 
 depends 'rightscale'
 depends 'repo'
@@ -14,8 +14,8 @@ recipe "app_nettyio::default", "default recipe"
 
 #Java tuning parameters
 attribute "app_nettyio/main_class",
-  :display_name => "JAVA Class to run",
-  :description => "The java class to run the server.",
+  :display_name => "Netty.io Java class to run with arguments",
+  :description => "The java class to run the server. Example: my.org.http.Server 8000",
   :required => "required",
   :recipes => [
   "app_nettyio::default"
