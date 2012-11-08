@@ -14,8 +14,9 @@ rightscale_marker :begin
   if node["server_collection"]["mongo_replicas"]
     log "Server Collection Found"
     node["server_collection"]["mongo_replicas"].to_hash.values.each do |tags|
-      master_ip=RightScale::Utils::Helper.get_tag_value("server:private_ip_0", tags)
-      str_json+="{_id: #{i}, host: '#{master_ip}'},"
+      repl_ip=RightScale::Utils::Helper.get_tag_value("server:private_ip_0", tags)
+      repl_port=RightScale::Utils::Helper.get_tag_value("mongo:port", tags)
+      str_json+="{_id: #{i}, host: '#{repl_ip}:#{repl_port}'},"
       i+=1
     end
   end
