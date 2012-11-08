@@ -24,5 +24,6 @@ rightscale_marker :begin
   db=connection.db("local")
   log str_json
   #db.command({ replSetInitiates : str_json })
+  `mongo --eval "printjson(rs.initiate(#{str_json}))"`
 
 rightscale_marker :end
