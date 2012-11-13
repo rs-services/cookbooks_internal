@@ -1,0 +1,20 @@
+port <%= @vpnPort %> #- port
+proto <%= @vpnProtocol %> #- protocol
+dev <%= @devType %>
+tun-mtu 1500
+tun-mtu-extra 32
+mssfix 1450
+ca /etc/openvpn/easy-rsa/keys/ca.crt
+cert /etc/openvpn/easy-rsa/keys/server.crt
+key /etc/openvpn/easy-rsa/keys/server.key
+dh /etc/openvpn/easy-rsa/keys/dh<%= @dhLevel %>.pem
+plugin <%= @pamSoLocation %>/openvpn-auth-pam.so /etc/pam.d/login
+client-cert-not-required
+username-as-common-name
+server <%= @networkAddress %> <%= @networkSubnet %>
+keepalive 5 30
+comp-lzo
+persist-key
+persist-tun
+status 1194.log
+verb 3
