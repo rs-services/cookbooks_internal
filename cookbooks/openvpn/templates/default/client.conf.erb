@@ -4,7 +4,9 @@ proto udp
 port 1194
 resolv-retry infinite
 nobind
-remote <%= @remote %>
+<% @remote.each do |server| -%>
+remote <%= server %>
+<% end -%>
 keepalive 10 60
 inactive 600
 persist-tun
