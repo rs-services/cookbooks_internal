@@ -1,102 +1,146 @@
 {
+  "version": "0.0.1",
+  "attributes": {
+    "openvpn/vpn_protocol": {
+      "display_name": "VPN Protocol",
+      "recipes": [
+        "openvpn::install_client"
+      ],
+      "default": "udp",
+      "description": "Defines whether vpn connections will be accepted via TCP or UDP",
+      "choice": [
+        "udp",
+        "tcp"
+      ],
+      "required": "optional",
+      "type": "string",
+      "calculated": false
+    },
+    "openvpn/ip_block": {
+      "display_name": "ip block to serve via dhcp",
+      "recipes": [
+        "openvpn::install_server"
+      ],
+      "default": "192.168.0.0",
+      "description": "ip block to serve via dhcp",
+      "choice": [
+
+      ],
+      "required": "optional",
+      "type": "string",
+      "calculated": false
+    },
+    "openvpn/dev_type": {
+      "display_name": "Interface Setup/Type",
+      "recipes": [
+        "openvpn::install_client"
+      ],
+      "default": "tun",
+      "description": "Identifies whether VPN uses tun or tap setup on interface",
+      "choice": [
+        "tun",
+        "tap"
+      ],
+      "required": "optional",
+      "type": "string",
+      "calculated": false
+    },
+    "openvpn/routed_subnet": {
+      "display_name": "Routed Subnet",
+      "recipes": [
+        "openvpn::install_server"
+      ],
+      "description": "Subnet to route over vpn",
+      "choice": [
+
+      ],
+      "required": "optional",
+      "type": "string",
+      "calculated": false
+    },
+    "openvpn/vpn_port": {
+      "display_name": "VPN Port",
+      "recipes": [
+        "openvpn::install_client"
+      ],
+      "default": "1194",
+      "description": "Port where VPN is listening on",
+      "choice": [
+
+      ],
+      "required": "optional",
+      "type": "string",
+      "calculated": false
+    },
+    "openvpn/netmask": {
+      "display_name": "ip netmask",
+      "recipes": [
+        "openvpn::install_server"
+      ],
+      "default": "255.255.255.0",
+      "description": "ip netmask",
+      "choice": [
+
+      ],
+      "required": "optional",
+      "type": "string",
+      "calculated": false
+    },
+    "openvpn/routed_ip": {
+      "display_name": "Routed IP",
+      "recipes": [
+        "openvpn::install_server"
+      ],
+      "description": "IP to route over vpn",
+      "choice": [
+
+      ],
+      "required": "optional",
+      "type": "string",
+      "calculated": false
+    },
+    "openvpn/remote": {
+      "display_name": "OpenVPN Server",
+      "recipes": [
+        "openvpn::install_client"
+      ],
+      "description": "OpenVPN Server",
+      "choice": [
+
+      ],
+      "required": "required",
+      "type": "string",
+      "calculated": false
+    }
+  },
   "replacing": {
   },
   "recommendations": {
   },
-  "maintainer_email": "premium@rightscale.com",
-  "maintainer": "RightScale Inc",
-  "groupings": {
-  },
-  "description": "Installs/Configures openvpn",
-  "recipes": {
-    "openvpn::default": "installs openvpn base package",
-    "openvpn::install_client": "installs openvpn client",
-    "openvpn::install_server": "installs openvpn server"
-  },
   "dependencies": {
     "sys_firewall": ">= 0.0.0",
-    "sysctl": ">= 0.0.0",
-    "rightscale": ">= 0.0.0"
+    "rightscale": ">= 0.0.0",
+    "sysctl": ">= 0.0.0"
   },
-  "version": "0.0.1",
-  "attributes": {
-    "openvpn/netmask": {
-      "description": "ip netmask",
-      "recipes": [
-        "openvpn::install_server"
-      ],
-      "type": "string",
-      "default": "255.255.255.0",
-      "choice": [
-
-      ],
-      "display_name": "ip netmask",
-      "calculated": false,
-      "required": "optional"
-    },
-    "openvpn/routed_ip": {
-      "description": "IP to route over vpn",
-      "recipes": [
-        "openvpn::install_server"
-      ],
-      "type": "string",
-      "choice": [
-
-      ],
-      "display_name": "Routed IP",
-      "calculated": false,
-      "required": "optional"
-    },
-    "openvpn/remote": {
-      "description": "OpenVPN Server",
-      "recipes": [
-        "openvpn::install_client"
-      ],
-      "type": "string",
-      "choice": [
-
-      ],
-      "display_name": "OpenVPN Server",
-      "calculated": false,
-      "required": "required"
-    },
-    "openvpn/routed_subnet": {
-      "description": "Subnet to route over vpn",
-      "recipes": [
-        "openvpn::install_server"
-      ],
-      "type": "string",
-      "choice": [
-
-      ],
-      "display_name": "Routed Subnet",
-      "calculated": false,
-      "required": "optional"
-    },
-    "openvpn/ip_block": {
-      "description": "ip block to serve via dhcp",
-      "recipes": [
-        "openvpn::install_server"
-      ],
-      "type": "string",
-      "default": "192.168.0.0",
-      "choice": [
-
-      ],
-      "display_name": "ip block to serve via dhcp",
-      "calculated": false,
-      "required": "optional"
-    }
-  },
-  "suggestions": {
-  },
+  "license": "Apache 2.0",
   "long_description": "Description\n===========\n\nRequirements\n============\n\nAttributes\n==========\n\nUsage\n=====\n\n",
   "conflicting": {
   },
-  "license": "Apache 2.0",
-  "name": "openvpn",
-  "providing": {
-  },
   "platforms": {
+  },
+  "recipes": {
+    "openvpn::install_server": "installs openvpn server",
+    "openvpn::default": "installs openvpn base package",
+    "openvpn::install_client": "installs openvpn client"
+  },
+  "suggestions": {
+  },
+  "description": "Installs/Configures openvpn",
+  "maintainer_email": "premium@rightscale.com",
+  "maintainer": "RightScale Inc",
+  "name": "openvpn",
+  "groupings": {
+  },
+  "providing": {
   }
 }
