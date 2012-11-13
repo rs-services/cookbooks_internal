@@ -33,7 +33,30 @@ attribute "openvpn/remote",
   :description => "OpenVPN Server",
   :required => "required",
   :recipes => [ "openvpn::install_client" ]
-
+  
+attribute "openvpn/dev_type",
+  :display_name => "Interface Setup/Type",
+  :description => "Identifies whether VPN uses tun or tap setup on interface",
+  :required => "optional",
+  :default => "tun",
+  :choice => ['tun', 'tap'],
+  :recipes => [ "openvpn::install_client" ]
+  
+attribute "openvpn/vpn_protocol", 
+  :display_name => "VPN Protocol",
+  :description => "Defines whether vpn connections will be accepted via TCP or UDP",
+  :default => 'udp',
+  :choice => ['udp', 'tcp'],
+  :required => "optional",
+  :recipes => [ "openvpn::install_client" ]
+  
+attribute "openvpn/vpn_port",
+  :display_name => "VPN Port",
+  :description => "Port where VPN is listening on",
+  :required => "optional",
+  :default => "1194",
+  :recipes => [ "openvpn::install_client" ]
+  
 attribute "openvpn/routed_ip",
   :display_name => "Routed IP",
   :description => "IP to route over vpn",

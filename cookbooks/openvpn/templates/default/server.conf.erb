@@ -1,6 +1,6 @@
-dev tun
-proto udp
-port 1194
+port <%= @vpnPort %> #- port
+proto <%= @vpnProtocol %> #- protocol
+dev <%= @devType %>
 
 server <%= @ip_block %> <%= @netmask %>
 ifconfig-pool-persist /etc/openvpn/ipp.txt

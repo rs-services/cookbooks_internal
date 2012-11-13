@@ -10,7 +10,11 @@ template "/etc/openvpn/server.conf" do
              :ip_block => node[:openvpn][:ip_block],
              :netmask => node[:openvpn][:netmask],
              :routed_ip => node[:openvpn][:routed_ip],
-             :routed_subnet => node[:openvpn][:routed_subnet])
+             :routed_subnet => node[:openvpn][:routed_subnet]
+             :vpnPort => node[:openvpn][:vpn_port]
+             :vpnProtocol => node[:openvpn][:vpn_protocol]
+             :devType => node[:openvpn][:dev_type]
+            )
   action :create
 end
 
@@ -38,8 +42,8 @@ sysctl "net.ipv4.ip_forward" do
   action :set
 end
 
-sys_firewall "1194" do
-  protocol "udp"
+sys_firewall node[:openvpn][:vpn_port] do
+  protocol node[:openvpn][:vpn_protocol]
   enable true
   action :update
 end
