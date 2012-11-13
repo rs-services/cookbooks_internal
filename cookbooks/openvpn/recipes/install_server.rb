@@ -32,6 +32,7 @@ template "/etc/iptables.snat" do
              :netmask => node[:openvpn][:netmask] )
   action :create
 end
+
 sysctl "net.ipv4.ip_forward" do
   value "1"
   action :set
@@ -47,4 +48,7 @@ service "openvpn" do
   action :start
 end
 
+right_link_tag "openvpn:role=server" do
+  action :publish
+end
 rightscale_marker :end
