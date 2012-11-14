@@ -33,5 +33,8 @@ end
 
 Gem.clear_paths
 
+node[:db][:version] = '2.2.1'
+node[:db][:provider] = "db_mongo"
+
 
 rightscale_marker :end
