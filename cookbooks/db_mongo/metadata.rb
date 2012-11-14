@@ -19,3 +19,8 @@ recipe  "db_mongo::default", "Set the DB MySQL provider. Sets version and node v
 
 # == Default server attributes
 #
+
+attribute "mongo/replSet", 
+  :display_name => "Mongo Replica Set Name",
+  :description => "Mongo Replica Set Name",
+  :required => "optional"

@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: db_mysql
+# Cookbook Name:: db_mongo
 #
 # Copyright RightScale, Inc. All rights reserved.  All access and use subject to the
 # RightScale Terms of Service available at http://www.rightscale.com/terms.php and,
@@ -511,114 +511,35 @@ end
 
 
 action :enable_replication do
-=begin
   db_state_get node
   current_restore_process = new_resource.restore_process
+  require 'mongo'
+  results = rightscale_server_collection "mongo_replicas" do
+    tags ["mongo:replSet=#{node[:mongo][:replSet]}"]
+    secondary_tags ["server:private_ip_0=*"]
+    empty_ok false
+    action :nothing
+  end
 
-  # Check the volume before performing any actions.  If invalid raise error and exit.
-  ruby_block "validate_master" do
-    not_if { current_restore_process == :no_restore }
-    block do
-      master_info = RightScale::Database::Mongo::Helper.load_replication_info(node)
-
-      # Check that the snapshot is from the current master or a slave associated with the current master
-      if master_info['Master_instance_uuid']
-        if master_info['Master_instance_uuid'] != node[:db][:current_master_uuid]
-          raise "FATAL: snapshot was taken from a different master! snap_master was:#{master_info['Master_instance_uuid']} != current master: #{node[:db][:current_master_uuid]}"
-        end
-      # 11H1 backup
-      elsif master_info['Master_instance_id']
-        Chef::Log.info "  Detected 11H1 snapshot to migrate"
-        if master_info['Master_instance_id'] != node[:db][:current_master_ec2_id]
-          raise "FATAL: snapshot was taken from a different master! snap_master was:#{master_info['Master_instance_id']} != current master: #{node[:db][:current_master_ec2_id]}"
-        end
-      # File not found or does not contain info
-      else
-        raise "Position and file not saved!"
-      end
+  results.run_action(:load)
+  str_json="{ _id: '#{node[:mongo][:replSet]}', members: ["
+  i=0
+  if node["server_collection"]["mongo_replicas"]
+    log "Server Collection Found"
+    node["server_collection"]["mongo_replicas"].to_hash.values.each do |tags|
+      repl_ip=RightScale::Utils::Helper.get_tag_value("server:private_ip_0", tags)
+      repl_port=RightScale::Utils::Helper.get_tag_value("mongo:port", tags)
+      str_json+="{_id: #{i}, host: '#{repl_ip}:#{repl_port}'},"
+      i+=1
     end
   end
-
-  ruby_block "wipe_existing_runtime_config" do
-    not_if { current_restore_process == :no_restore }
-    block do
-      Chef::Log.info "  Wiping existing runtime config files"
-      data_dir = ::File.join(node[:db][:data_dir], 'mysql')
-      files_to_delete = [ "master.info","relay-log.info","mysql-bin.*","*relay-bin.*"]
-      files_to_delete.each do |file|
-        expand = Dir.glob(::File.join(data_dir,file))
-        unless expand.empty?
-          expand.each do |exp_file|
-            FileUtils.rm_rf(exp_file)
-          end
-        end
-      end
-    end
-  end
-
-  # Disable binary logging
-  node[:db_mongo][:log_bin_enabled] = false
-
-  # Setup my.cnf
-  unless current_restore_process == :no_restore
-    # Setup my.cnf
-    db_mysql_set_mycnf "setup_mycnf" do
-      server_id RightScale::Database::Mongo::Helper.mycnf_uuid(node)
-      relay_log RightScale::Database::Mongo::Helper.mycnf_relay_log(node)
-    end
-  end
-
-  # empty out the binary log dir
-  directory ::File.dirname(node[:db_mongo][:log_bin]) do
-    not_if { current_restore_process == :no_restore }
-    action [:delete, :create]
-    recursive true
-    owner 'mysql'
-    group 'mysql'
-  end
-
-  # ensure_db_started
-  # service provider uses the status command to decide if it
-  # has to run the start command again.
-  10.times do
-    db node[:db][:data_dir] do
-      action :start
-      persist false
-    end
-  end
-
-  ruby_block "configure_replication" do
-    not_if { current_restore_process == :no_restore }
-    block do
-      master_info = RightScale::Database::Mongo::Helper.load_replication_info(node)
-      newmaster_host = master_info['Master_IP']
-      newmaster_logfile = master_info['File']
-      newmaster_position = master_info['Position']
-      RightScale::Database::Mongo::Helper.reconfigure_replication(node, 'localhost', newmaster_host, newmaster_logfile, newmaster_position)
-    end
-  end
-
-  # following done after a stop/start and reboot on a slave
-  ruby_block "reconfigure_replication" do
-    only_if { current_restore_process == :no_restore }
-    block do
-      master_info = RightScale::Database::Mongo::Helper.load_master_info_file(node)
-      newmaster_host = node[:db][:current_master_ip]
-      newmaster_logfile = master_info['File']
-      newmaster_position = master_info['Position']
-      RightScale::Database::Mongo::Helper.reconfigure_replication(node, 'localhost', newmaster_host, newmaster_logfile, newmaster_position)
-    end
-  end
-
-  ruby_block "do_query" do
-    not_if { current_restore_process == :no_restore }
-    block do
-      RightScale::Database::Mongo::Helper.do_query(node, "SET GLOBAL READ_ONLY=1")
-    end
-  end
-
-  node[:db_mongo][:tunable][:read_only] = 1
-=end
+  str_json+=" ] }"
+  #connection = Mongo::Connection.new("localhost", 27017)
+  #db=connection.db("local")
+  log str_json
+  #db.command({ replSetInitiates : str_json })
+  `mongo --eval "printjson(rs.initiate(#{str_json}))"`
+  raise "Replica set was not configured" unless $?.exitstatus == 0
 end
 
 action :generate_dump_file do
