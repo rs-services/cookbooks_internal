@@ -293,6 +293,7 @@ action :install_server do
   end
 
   template "#{node[:mongo][:conf_file]}" do
+    cookbook "db_mongo"
     source "mongo.conf.erb"
     owner node[:mongo][:user]
     group node[:mongo][:user]
@@ -306,6 +307,7 @@ action :install_server do
   end
 
   template "/etc/init.d/#{node[:mongo][:service]}" do
+    cookbook "db_mongo"
     source "mongodb-init.erb"
     owner "root"
     group "root"
