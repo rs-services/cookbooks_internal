@@ -181,8 +181,8 @@ module RightScale
           else
             Chef::Log.info "  Error: slave threads in the master do not seem to be up and running..."
           end
-        end
 =end
+        end
       end
     end
   end
