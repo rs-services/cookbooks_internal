@@ -9,6 +9,7 @@ depends "db"
 depends "block_device"
 depends "sys_dns"
 depends "rightscale"
+depends "sys_firewall"
 
 recipe  "db_mongo::default", "Set the DB MySQL provider. Sets version and node variables specific to the chosen MySQL version."
 
