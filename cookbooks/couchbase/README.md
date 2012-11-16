@@ -1,6 +1,6 @@
 Description
 ===========
-* Couchbase Enterprise for Shuffle Master (PSST-50)
+* Couchbase Enterprise for Shuffle Master by HTKIM (PSST-73)
 
 Requirements
 ============
