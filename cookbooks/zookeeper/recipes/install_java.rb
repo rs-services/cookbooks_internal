@@ -29,8 +29,8 @@ bash "install java" do
  #download 2 jre and bin packages from s3
  cd $PACKAGE_DIR
 
- wget -q -O  sun-java6-jre_6.32-2~lucid1_all.deb  'http://rightscale-services.s3.amazonaws.com/cookbooks/zookeeper/java/sun-java6-jre_6.32-2~lucid1_all.deb'
- wget -q -O  sun-java6-bin_6.32-2~lucid1_amd64.deb 'http://rightscale-services.s3.amazonaws.com/cookbooks/zookeeper/java/sun-java6-bin_6.32-2~lucid1_amd64.deb'
+ wget -q -O  sun-java6-jre_6.32-2~lucid1_all.deb 'http://rs-professional-services-publishing.s3.amazonaws.com/zookeeper/java/sun-java6-jre_6.32-2~lucid1_all.deb'
+ wget -q -O  sun-java6-bin_6.32-2~lucid1_amd64.deb 'http://rs-professional-services-publishing.s3.amazonaws.com/zookeeper/java/sun-java6-bin_6.32-2~lucid1_amd64.deb'
  
  dpkg -i --force-depends *.deb
 
