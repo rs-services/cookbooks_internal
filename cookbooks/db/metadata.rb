@@ -15,7 +15,7 @@ depends "sys_firewall"
 depends "db_mysql"
 depends "db_postgres"
 depends "db_oracle"
-
+depends "db_mongo"
 
 recipe "db::default", "Adds the database:active=true tag to your server, which identifies it as a database server. The tag is used by application servers to identify active databases. It also loads the required 'db' resources."
 
