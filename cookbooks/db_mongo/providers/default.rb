@@ -382,18 +382,13 @@ action :setup_monitoring do
     mode "0644"
     backup false
     cookbook 'db_mongo'
-    variables( :mongo_user => 'mongodb',
+    variables( :mongo_user => node[:mongo][:user],
                :plugin_dir => ::File.join(node[:rightscale][:collectd_lib],'plugins'),
                :mongo_host => node[:rightscale][:instance_uuid] )
     action :create
     notifies :restart, resources(:service => "collectd")
   end
 
-  # Send warning if not centos/redhat or ubuntu
-  log "  WARNING: attempting to install collectd-mysql on unsupported platform #{platform}, continuing.." do
-    not_if { platform =~ /centos|redhat|ubuntu/ }
-    level :warn
-  end
 end
 
 action :grant_replication_slave do
