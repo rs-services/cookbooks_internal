@@ -1,0 +1,5 @@
+LoadPlugin Exec
+<Plugin exec>
+  #    userid   plugin executable        plugin args
+  Exec "<%= @mongo_user %>" "<%= @plugin_dir %>/mongodb_stats" "-h" "<%= @mongo_host %>"  "-i" "20"
+</Plugin>

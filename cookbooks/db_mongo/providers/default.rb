@@ -348,7 +348,6 @@ action :install_server do
 end
 
 action :setup_monitoring do
-=begin
   db_state_get node
 
   ruby_block "evaluate db type" do
@@ -369,17 +368,24 @@ action :setup_monitoring do
   collectd_version = node[:rightscale][:collectd_packages_version]
   # Centos specific items
   collectd_version = node[:rightscale][:collectd_packages_version]
-  package "collectd-mysql" do
-    action :install
-    version "#{collectd_version}" unless collectd_version == "latest"
-    only_if { platform =~ /redhat|centos/ }
+  
+  template ::File.join(node[:rightscale][:collectd_lib],'plugins','mongo_stats') do
+    cookbook "db_mongo"
+    source "mongo_stats.erb"
+    mode "0755"
+    backup false
+    action :create
   end
-
-  template ::File.join(node[:rightscale][:collectd_plugin_dir], 'mysql.conf') do
-    source "collectd-plugin-mysql.conf.erb"
+  
+  template ::File.join(node[:rightscale][:collectd_plugin_dir], 'mongo_stats.conf') do
+    source "mongo_stats.conf.erb"
     mode "0644"
     backup false
-    cookbook 'db_mysql'
+    cookbook 'db_mongo'
+    variables( :mongo_user => 'mongodb',
+               :plugin_dir => ::File.join(node[:rightscale][:collectd_lib],'plugins'),
+               :mongo_host => node[:rightscale][:instance_uuid] )
+    action :create
     notifies :restart, resources(:service => "collectd")
   end
 
@@ -388,7 +394,6 @@ action :setup_monitoring do
     not_if { platform =~ /centos|redhat|ubuntu/ }
     level :warn
   end
-=end
 end
 
 action :grant_replication_slave do
