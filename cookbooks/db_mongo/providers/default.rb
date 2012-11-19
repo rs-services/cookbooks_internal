@@ -392,6 +392,8 @@ action :setup_monitoring do
 end
 
 action :grant_replication_slave do
+  
+  #no need for this.
 =begin
   require 'mysql'
 
@@ -404,6 +406,7 @@ action :grant_replication_slave do
 end
 
 action :promote do
+  #this stuff happens automatically by the mongo election process. , maybe force a node to be primary
 =begin
   db_state_get node
 
@@ -543,6 +546,8 @@ action :enable_replication do
 end
 
 action :generate_dump_file do
+  #make sure the node is not a primary
+  #mongo dump , compress and ship
 =begin
   db_name     = new_resource.db_name
   dumpfile    = new_resource.dumpfile
@@ -554,6 +559,9 @@ action :generate_dump_file do
 end
 
 action :restore_from_dump_file do
+#pull from ros and uncompress. for non ebs / aws deployment.
+
+
 =begin
   db_name   = new_resource.db_name
   dumpfile  = new_resource.dumpfile
