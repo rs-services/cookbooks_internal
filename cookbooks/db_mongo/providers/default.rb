@@ -327,6 +327,10 @@ action :install_server do
     action [ :enable ]
   end
 
+  sys_firewall node[:mongo][:port] do
+    action :update
+  end
+
   sys_firewall node[:mongo][:web_admin_port] do
     action :update
   end
