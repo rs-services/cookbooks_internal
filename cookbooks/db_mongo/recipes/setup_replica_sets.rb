@@ -1,6 +1,13 @@
 
 rightscale_marker :begin
   require 'mongo'
+
+  log "Opening the firewalls" 
+  remote_recipe "open firewall on app servers" do 
+    recipe "db::do_appservers_allow"
+    recipients_tags [ "mongo:replSet=#{node[:mongo][:replSet]}" ]
+  end
+
   results = rightscale_server_collection "mongo_replicas" do
     tags ["mongo:replSet=#{node[:mongo][:replSet]}"]
     secondary_tags ["server:private_ip_0=*"]
