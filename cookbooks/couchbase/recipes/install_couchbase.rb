@@ -9,7 +9,15 @@ rightscale_marker :begin
 
 couchbase_edition = "enterprise"
 couchbase_version = "1.8.1"
-couchbase_package = "couchbase-server-#{couchbase_edition}_x86_64_#{couchbase_version}.rpm"
+
+platform = node[:platform]
+
+case platform
+when "ubuntu"
+  couchbase_package = "couchbase-server-#{couchbase_edition}_x86_64_#{couchbase_version}.deb"
+when "centos", "redhat", "fedora"
+  couchbase_package = "couchbase-server-#{couchbase_edition}_x86_64_#{couchbase_version}.rpm"
+end
 
 log "downloading #{couchbase_package}"
 
@@ -24,7 +32,13 @@ log "installing #{couchbase_package}"
 
 package "couchbase-server" do
   source "/tmp/#{couchbase_package}"
-  provider Chef::Provider::Package::Rpm
+  case platform 
+  when "ubuntu"
+    provider Chef::Provider::Package::Dpkg 
+  when "centos", "redhat", "fedora"
+    provider Chef::Provider::Package::Rpm 
+  end
+
   action :install
 end
 
