@@ -64,7 +64,7 @@ end
 action :firewall_update_request do
   sys_firewall "Sending request to open port 3306 (Mongo) allowing this server to connect" do
     machine_tag new_resource.machine_tag
-    port 27017
+    port node[:mongo][:port].to_i
     enable new_resource.enable
     ip_addr new_resource.ip_addr
     action :update_request
@@ -74,7 +74,7 @@ end
 action :firewall_update do
   sys_firewall "Opening port 3306 (Mongo) for tagged '#{new_resource.machine_tag}' to connect" do
     machine_tag new_resource.machine_tag
-    port 27017
+    port node[:mongo][:port].to_i
     enable new_resource.enable
     action :update
   end
@@ -327,9 +327,9 @@ action :install_server do
     action [ :enable ]
   end
 
-  sys_firewall node[:mongo][:port] do
-    action :update
-  end
+# sys_firewall node[:mongo][:port] do
+#    action :update
+#  end
 
   sys_firewall node[:mongo][:web_admin_port] do
     action :update
@@ -342,6 +342,9 @@ action :install_server do
     end
     right_link_tag "mongo:port=#{node[:mongo][:port]}" do
       action :publish 
+    end
+    right_link_tag "appserver:active=true" do
+      action :publish
     end
   end
 
