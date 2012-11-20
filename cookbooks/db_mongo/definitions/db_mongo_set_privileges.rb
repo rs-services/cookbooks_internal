@@ -5,7 +5,7 @@
 # RightScale Terms of Service available at http://www.rightscale.com/terms.php and,
 # if applicable, other agreements such as a RightScale Master Subscription Agreement.
 
-define :db_mysql_set_privileges, :preset => "administrator", :username => nil, :password => nil, :db_name => nil do
+define :db_mongo_set_privileges, :preset => "administrator", :username => nil, :password => nil, :db_name => nil do
 
   priv_preset = params[:preset]
   username = params[:username]
@@ -17,8 +17,8 @@ define :db_mysql_set_privileges, :preset => "administrator", :username => nil, :
   ruby_block "set admin credentials" do
     block do
       require 'rubygems'
-      require 'mysql'
-
+      require 'mongo'
+=begin
       con = Mysql.new("", "root",nil,nil,nil,"#{node[:db_mysql][:socket]}")
 
       # Now that we have a Mysql object, let's sanitize our inputs
@@ -45,7 +45,7 @@ define :db_mysql_set_privileges, :preset => "administrator", :username => nil, :
 
       con.query("FLUSH PRIVILEGES")
       con.close
+=end
     end
   end
-
 end
