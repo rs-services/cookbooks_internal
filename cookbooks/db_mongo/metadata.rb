@@ -12,7 +12,7 @@ depends "rightscale"
 depends "sys_firewall"
 
 recipe  "db_mongo::default", "Set the DB Mongo provider. Sets version and node variables specific for mongo use."
-
+recipe  "db_mongo::setup_replica_sets", "configures initial replica set"
 
 # == Default attributes
 #
