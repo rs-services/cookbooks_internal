@@ -21,4 +21,4 @@ class Chef::Recipe
 end
 
 log "Checking inputs"
-do_input_check
+do_input_checks
