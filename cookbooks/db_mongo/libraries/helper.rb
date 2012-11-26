@@ -35,7 +35,8 @@ module RightScale
 
 
         #Helper to determing if node is master.
-        def isMaster(node)
+        def master?
+		 
           # `mongo --eval "db.isMaster()"`
         #db.isMaster();
         
