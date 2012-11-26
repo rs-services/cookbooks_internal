@@ -17,6 +17,7 @@ module TestLib
   end
 
   def do_min_port_check(min_port)
+    puts "min_port"
     raise "min_port is not an integer" unless integer?(min_port)
     raise "min_port has to be larger then 1024" unless min_port.to_i >= 1024
   end

@@ -20,5 +20,5 @@ class Chef::Recipe
   include TestLib
 end
 
-log "Checking inputs"
+log "Checking inputs min:#{node['vsftpd']['pasv_min_port']}, max:node['vsftpd']['pasv_max_port']}"
 do_input_checks(node['vsftpd']['pasv_min_port'], node['vsftpd']['pasv_max_port'])
