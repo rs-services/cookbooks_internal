@@ -21,4 +21,4 @@ class Chef::Recipe
 end
 
 log "Checking inputs"
-do_input_checks
+do_input_checks(node['vsftpd']['pasv_min_port'], node['vsftpd']['pasv_max_port'])

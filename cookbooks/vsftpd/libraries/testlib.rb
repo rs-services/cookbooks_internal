@@ -11,19 +11,17 @@ module TestLib
     end
     return false
   end
-  def do_input_checks
-    do_min_port_check
-    do_max_port_check
+  def do_input_checks(min_port,max_port)
+    do_min_port_check(min_port)
+    do_max_port_check(max_port)
   end
 
-  def do_min_port_check
-    min_port=node['vsftpd']['pasv_min_port']
+  def do_min_port_check(min_port)
     raise "min_port is not an integer" unless integer?(min_port)
     raise "min_port has to be larger then 1024" unless min_port.to_i >= 1024
   end
 
-  def do_max_port_check
-    max_port=node['vsftpd']['pasv_max_port']
+  def do_max_port_check(max_port)
     raise "max_port is not an integer" unless integer?(max_port)
     raise "max_port can not exceed 65535" unless max_port.to_i <= 65535
     if (max_port.to_i - min_port.to_i) < 1 then
