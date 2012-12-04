@@ -1,0 +1,159 @@
+{
+  "platforms": {
+  },
+  "maintainer_email": "premium@rightscale.com",
+  "version": "0.1.3",
+  "replacing": {
+  },
+  "dependencies": {
+    "sys_firewall": ">= 0.0.0",
+    "sys_dns": ">= 0.0.0",
+    "block_device": ">= 0.0.0",
+    "rightscale": ">= 0.0.0"
+  },
+  "long_description": "Description\n===========\n* Couchbase Enterprise for Shuffle Master (PSST-50)\n\nRequirements\n============\nblock_device\n\nAttributes\n==========\n\nUsage\n=====\n\n",
+  "description": "Installs/Configures couchbase",
+  "name": "couchbase",
+  "suggestions": {
+  },
+  "maintainer": "RightScale Inc",
+  "groupings": {
+  },
+  "recommendations": {
+  },
+  "license": "All rights reserved, parts Copyright Couchbase, Inc. Copyright RightScale, Inc. All rights reserved.",
+  "recipes": {
+    "couchbase::do_storage_restore": "restores volume and restarts tomcat",
+    "couchbase::default": "Sets tags",
+    "couchbase::setup_or_restore": "runs setup or restore of block device",
+    "couchbase::bucket_create": "sets up cb buckets",
+    "couchbase::stop_server": "stops couchbase server",
+    "couchbase::do_storage_backup": "backs up couchbase volumes",
+    "couchbase::init_cluster": "Run to init a new cb cluster, sets cluster_ip tag",
+    "couchbase::do_primary_backup_schedule_enable": "enables random cron for do_storage_backup",
+    "couchbase::do_storage_create": "creates volume, and sets up couchbase on the volume",
+    "couchbase::join_cluster": "Run on instance to join a cb cluster using the cluster_ip tag",
+    "couchbase::start_server": "starts couchbase server",
+    "couchbase::do_primary_backup_schedule_disable": "disables cron for do_storage_backup",
+    "couchbase::install_couchbase": "installs couchbase package, no configuration"
+  },
+  "attributes": {
+    "db_couchbase/cluster/tag": {
+      "description": "Cluster Tag used to auto-join nodes of the same tag, when non-empty",
+      "display_name": "Cluster Tag",
+      "required": "optional",
+      "type": "string",
+      "recipes": [
+        "couchbase::default"
+      ],
+      "calculated": false,
+      "default": "",
+      "choice": [
+
+      ]
+    },
+    "db_couchbase/cluster/username": {
+      "description": "Cluster REST/Web Administrator Username",
+      "display_name": "Cluster REST/Web Username",
+      "required": "optional",
+      "type": "string",
+      "recipes": [
+        "couchbase::default"
+      ],
+      "calculated": false,
+      "default": "Administrator",
+      "choice": [
+
+      ]
+    },
+    "couchbase/initial_launch": {
+      "description": "Specify TRUE or FALSE (create block device, or restore)",
+      "display_name": "Couchbase INITIAL Launch?",
+      "required": "optional",
+      "type": "string",
+      "recipes": [
+        "couchbase::setup_or_restore"
+      ],
+      "calculated": false,
+      "default": "TRUE",
+      "choice": [
+        "TRUE",
+        "FALSE"
+      ]
+    },
+    "db_couchbase/bucket/replica": {
+      "description": "Bucket Replica Count",
+      "display_name": "Bucket Replica Count",
+      "required": "optional",
+      "type": "string",
+      "recipes": [
+        "couchbase::default"
+      ],
+      "calculated": false,
+      "default": "1",
+      "choice": [
+
+      ]
+    },
+    "db_couchbase/bucket/password": {
+      "description": "Bucket Password",
+      "display_name": "Bucket Password",
+      "required": "optional",
+      "type": "string",
+      "recipes": [
+        "couchbase::default"
+      ],
+      "calculated": false,
+      "default": "",
+      "choice": [
+
+      ]
+    },
+    "db_couchbase/bucket/name": {
+      "description": "Bucket Name",
+      "display_name": "Bucket Name",
+      "required": "optional",
+      "type": "string",
+      "recipes": [
+        "couchbase::default"
+      ],
+      "calculated": false,
+      "default": "default",
+      "choice": [
+
+      ]
+    },
+    "db_couchbase/bucket/ram": {
+      "description": "Bucket RAM Quota in MB",
+      "display_name": "Bucket RAM Quota",
+      "required": "optional",
+      "type": "string",
+      "recipes": [
+        "couchbase::default"
+      ],
+      "calculated": false,
+      "default": "2000",
+      "choice": [
+
+      ]
+    },
+    "db_couchbase/cluster/password": {
+      "description": "Cluster REST/Web Administrator Password",
+      "display_name": "Cluster REST/Web Password",
+      "required": "optional",
+      "type": "string",
+      "recipes": [
+        "couchbase::default"
+      ],
+      "calculated": false,
+      "default": "password",
+      "choice": [
+
+      ]
+    }
+  },
+  "providing": {
+  },
+  "conflicting": {
+  }
+}

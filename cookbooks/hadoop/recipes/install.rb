@@ -7,26 +7,42 @@
 
 rightscale_marker :begin
 
-log "  Installing Hadoop "
-cookbook_file "/tmp/hadoop-#{node[:hadoop][:version]}-bin.tar.gz" do
-  source "hadoop-#{node[:hadoop][:version]}-bin.tar.gz"
-  mode "0644"  
-  owner "#{node[:hadoop][:user]}"
-  group "#{node[:hadoop][:group]}"
-  cookbook 'hadoop'
-end
-  
-bash "install hadoop" do
-  flags "-ex"
-  code <<-EOH
-      tar xzf /tmp/hadoop-#{node[:hadoop][:version]}-bin.tar.gz -C /home/
-  EOH
-  only_if do ::File.exists?("/tmp/hadoop-#{node[:hadoop][:version]}-bin.tar.gz")  end
+
+log "    Install JAVA OpenJDK"
+
+#remove sun jdk on centos
+#ubuntu doesn't have java preinstalled.
+node[:hadoop][:uninstall_packages].each do |p|
+  log "   removing #{p}"
+  package p do
+    action :remove
+  end
 end
 
-directory "#{node[:hadoop][:install_dir]}" do
-  action :delete
+node[:hadoop][:packages].each do |p|
+  log "   installing #{p}"
+  package p
 end
+
+log "  Installing Hadoop "
+unless ::File.exists?("#{node[:hadoop][:install_dir]}/conf/hadoop-env.sh")
+
+  remote_file "/tmp/hadoop-#{node[:hadoop][:version]}-bin.tar.gz" do
+  source "http://ps-cf.rightscale.com/hadoop/hadoop-#{node[:hadoop][:version]}-bin.tar.gz"
+end
+
+  bash "install hadoop" do
+    flags "-ex"
+    code <<-EOH
+      tar xzf /tmp/hadoop-#{node[:hadoop][:version]}-bin.tar.gz -C /home/
+    EOH
+    only_if do ::File.exists?("/tmp/hadoop-#{node[:hadoop][:version]}-bin.tar.gz")  end
+  end
+
+#directory "#{node[:hadoop][:install_dir]}" do
+#  action :delete
+#  only_if do ::File.exists?("#{node[:hadoop][:install_dir]}/conf/hadoop-env.sh") end
+#end
 
 link "#{node[:hadoop][:install_dir]}" do 
   action :create
@@ -34,4 +50,5 @@ link "#{node[:hadoop][:install_dir]}" do
   to "/home/hadoop-#{node[:hadoop][:version]}" 
 end
 
+end
 rightscale_marker :end

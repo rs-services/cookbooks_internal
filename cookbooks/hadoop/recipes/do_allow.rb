@@ -50,7 +50,6 @@ end
 if node[:hadoop][:node][:type]=='datanode'
   log "Setting up datanode http firewall ports for #{node[:hadoop][:datanode][:http][:port]}"
   sys_firewall node[:hadoop][:datanode][:http][:port].to_i do
-    port 
     enable true
     action :update
   end

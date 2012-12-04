@@ -9,15 +9,15 @@ supports         "debian", ">= 6.0"
 supports         "centos", ">= 5.5"
 supports         "redhat", ">= 5.5"
 
-depends          "rs_utils"
+depends          "rightscale"
 depends          "monit"
 depends          "sys_firewall"
+depends          "rightscale_services_tools"
 
 recipe           "redis::default", "Installs and configures redis"
-recipe           "redis::auto", "Configures and activates redis instances defined by attributes"
-recipe           "redis::default_instance", "configures default instance"
 recipe           "redis::remount-storage-and-restart-redis", "remounts /var/lib/redis/default, and restarts redis"
 recipe           "redis::monit", "adds redis, to monit"
+recipe           "redis::replication", "adds replication"
 
 attribute "redis/timeout",
   :display_name => "Timeout before connection close",
@@ -97,7 +97,7 @@ attribute "redis/no_appendfsync_on_rewrite",
 attribute "redis/replication/master_role",
   :display_name => "Master Redis chef role",
   :choice => [ "master", "slave" ],
-  :default => "master",
+  :required => "required",
   :recipes => [ "redis::default" ]
 
 attribute "redis/storage_type", 

@@ -6,7 +6,7 @@
 #
 # All rights reserved - Do Not Redistribute
 #
-rs_utils_marker :begin
+rightscale_marker :begin
 log "installing the sphinx package"
 case node[:platform]
 when "redhat","centos","scientific"
@@ -61,4 +61,4 @@ gen_profile_script "default" do
   enable true
 end
 
-rs_utils_marker :end
+rightscale_marker :end

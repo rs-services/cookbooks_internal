@@ -1,80 +1,82 @@
 {
-  "dependencies": {
-  },
-  "name": "nfs",
-  "maintainer_email": "wolfe21@marshall.edu",
-  "attributes": {
-    "nfs/nfs_local_mount_point": {
-      "required": "optional",
-      "calculated": false,
-      "choice": [
-
-      ],
-      "default": "/mnt/nfs",
-      "type": "string",
-      "recipes": [
-
-      ],
-      "display_name": "NFS Local Mount Point",
-      "description": "The local mount point on the nfs client"
-    },
-    "nfs/nfs_server": {
-      "required": "optional",
-      "calculated": false,
-      "choice": [
-
-      ],
-      "default": "",
-      "type": "string",
-      "recipes": [
-
-      ],
-      "display_name": "NFS Server",
-      "description": "ip or hostname of the nfs server"
-    },
-    "nfs/exports": {
-      "required": "optional",
-      "calculated": false,
-      "choice": [
-
-      ],
-      "default": "/mnt",
-      "type": "string",
-      "recipes": [
-
-      ],
-      "display_name": "NFS exported dirs",
-      "description": "comma separated list of dirs to export"
-    }
-  },
-  "license": "Apache 2.0",
-  "suggestions": {
-  },
-  "platforms": {
-    "scientific": ">= 0.0.0",
-    "debian": ">= 0.0.0",
-    "centos": ">= 0.0.0",
-    "ubuntu": ">= 0.0.0",
-    "redhat": ">= 0.0.0"
-  },
-  "maintainer": "Eric G. Wolfe",
-  "long_description": "DESCRIPTION\n===========\n\nInstalls and configures NFS client, or server components \n\nREQUIREMENTS\n============\n\nShould work on any Red Hat-family or Debian-family Linux distribution.\n\nATTRIBUTES\n==========\n\n* nfs[\"packages\"]\n\n  - Makes a best effort to choose NFS client packages dependent on platform\n  - NFS server package needs to be hardcoded for Debian/Ubuntu in the server\n    recipe, or overridden in a role.\n\n* nfs[\"port\"]\n\n  - [\"statd\"] = Listen port for statd, default 32765\n  - [\"statd_out\"] = Outgoing port for statd, default 32766\n  - [\"mountd\"] = Listen port for mountd, default 32767\n  - [\"lockd\"] = Listen port for lockd, default 32768\n\n* nfs[\"exports\"]\n\n  - This may be replaced in the future by an LWRP to load export definitions from\n    a data bag.  For now, its a simple array of strings to populate in an export file.\n    Note: The \"nfs::exports\" recipe is separate from the \"nfs::server\" recipe.\n\nUSAGE\n=====\n\nTo install the NFS components for a client system, simply add nfs to the run_list.\n\n    name \"base\"\n    description \"Role applied to all systems\"\n    run_list => [ \"nfs\" ]\n\nThen in an nfs_server.rb role that is applied to NFS servers:\n\n    name \"nfs_server\"\n    description \"Role applied to the system that should be an NFS server.\"\n    override_attributes(\n      \"nfs\" => {\n        \"packages\" => [ \"portmap\", \"nfs-common\", \"nfs-kernel-server\" ],\n        \"ports\" => {\n          \"statd\" => 32765,\n          \"statd_out\" => 32766,\n          \"mountd\" => 32767,\n          \"lockd\" => 32768\n        },\n        \"exports\" => [\n          \"/exports 10.0.0.0/8(ro,sync,no_root_squash)\"\n        ]\n      }\n    )\n    run_list => [ \"nfs::server\", \"nfs::exports\" ]\n\nLICENSE AND AUTHOR\n==================\n\nAuthor:: Eric G. Wolfe (<wolfe21@marshall.edu>)\n\nCopyright 2011\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.\n",
   "version": "0.0.6",
-  "recommendations": {
-  },
-  "recipes": {
-    "nfs::install_server_fw_rules": "opens nfs ports",
-    "nfs::client": "installs and configures nfs client",
-    "nfs::exports": "exports nfs share",
-    "nfs::server": "installs nfs server"
+  "suggestions": {
   },
   "groupings": {
   },
   "conflicting": {
   },
+  "maintainer_email": "wolfe21@marshall.edu",
+  "maintainer": "Eric G. Wolfe",
+  "providing": {
+  },
+  "license": "Apache 2.0",
+  "dependencies": {
+    "sys_firewall": ">= 0.0.0",
+    "rightscale": ">= 0.0.0"
+  },
+  "platforms": {
+    "centos": ">= 0.0.0",
+    "ubuntu": ">= 0.0.0",
+    "debian": ">= 0.0.0",
+    "scientific": ">= 0.0.0",
+    "redhat": ">= 0.0.0"
+  },
+  "name": "nfs",
+  "description": "Installs/Configures nfs",
+  "recipes": {
+    "nfs::exports": "exports nfs share",
+    "nfs::server": "installs nfs server",
+    "nfs::client": "installs and configures nfs client",
+    "nfs::install_server_fw_rules": "opens nfs ports"
+  },
+  "attributes": {
+    "nfs/exports": {
+      "choice": [
+
+      ],
+      "default": "/mnt",
+      "calculated": false,
+      "required": "optional",
+      "type": "string",
+      "description": "comma separated list of dirs to export",
+      "recipes": [
+
+      ],
+      "display_name": "NFS exported dirs"
+    },
+    "nfs/nfs_local_mount_point": {
+      "choice": [
+
+      ],
+      "default": "/mnt/nfs",
+      "calculated": false,
+      "required": "optional",
+      "type": "string",
+      "description": "The local mount point on the nfs client",
+      "recipes": [
+
+      ],
+      "display_name": "NFS Local Mount Point"
+    },
+    "nfs/nfs_server": {
+      "choice": [
+
+      ],
+      "default": "",
+      "calculated": false,
+      "required": "optional",
+      "type": "string",
+      "description": "ip or hostname of the nfs server",
+      "recipes": [
+
+      ],
+      "display_name": "NFS Server"
+    }
+  },
   "replacing": {
   },
-  "description": "Installs/Configures nfs",
-  "providing": {
-  }
+  "recommendations": {
+  },
+  "long_description": "DESCRIPTION\n===========\n\nInstalls and configures NFS client, or server components \n\nREQUIREMENTS\n============\n\nShould work on any Red Hat-family or Debian-family Linux distribution.\n\nATTRIBUTES\n==========\n\n* nfs[\"packages\"]\n\n  - Makes a best effort to choose NFS client packages dependent on platform\n  - NFS server package needs to be hardcoded for Debian/Ubuntu in the server\n    recipe, or overridden in a role.\n\n* nfs[\"port\"]\n\n  - [\"statd\"] = Listen port for statd, default 32765\n  - [\"statd_out\"] = Outgoing port for statd, default 32766\n  - [\"mountd\"] = Listen port for mountd, default 32767\n  - [\"lockd\"] = Listen port for lockd, default 32768\n\n* nfs[\"exports\"]\n\n  - This may be replaced in the future by an LWRP to load export definitions from\n    a data bag.  For now, its a simple array of strings to populate in an export file.\n    Note: The \"nfs::exports\" recipe is separate from the \"nfs::server\" recipe.\n\nUSAGE\n=====\n\nTo install the NFS components for a client system, simply add nfs to the run_list.\n\n    name \"base\"\n    description \"Role applied to all systems\"\n    run_list => [ \"nfs\" ]\n\nThen in an nfs_server.rb role that is applied to NFS servers:\n\n    name \"nfs_server\"\n    description \"Role applied to the system that should be an NFS server.\"\n    override_attributes(\n      \"nfs\" => {\n        \"packages\" => [ \"portmap\", \"nfs-common\", \"nfs-kernel-server\" ],\n        \"ports\" => {\n          \"statd\" => 32765,\n          \"statd_out\" => 32766,\n          \"mountd\" => 32767,\n          \"lockd\" => 32768\n        },\n        \"exports\" => [\n          \"/exports 10.0.0.0/8(ro,sync,no_root_squash)\"\n        ]\n      }\n    )\n    run_list => [ \"nfs::server\", \"nfs::exports\" ]\n\nLICENSE AND AUTHOR\n==================\n\nAuthor:: Eric G. Wolfe (<wolfe21@marshall.edu>)\n\nCopyright 2011\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License.\n"
 }

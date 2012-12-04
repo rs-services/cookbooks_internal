@@ -2,10 +2,8 @@
 
 
 
-rs_utils_marker :begin
+rightscale_marker :begin
 
-include_recipe "iptables"
-include_recipe "sys_firewall"
 
 sys_firewall "111" do
     ip_addr "any"
@@ -50,4 +48,4 @@ bash "restart-iptables" do
 EOF
 end
 
-rs_utils_marker :end
+rightscale_marker :end

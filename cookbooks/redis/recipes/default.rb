@@ -16,7 +16,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-rs_utils_marker :begin
+rightscale_marker :begin
 
 if node[:redis][:install_from] == "package"
   include_recipe "redis::package"
@@ -34,7 +34,19 @@ directory node[:redis][:data_dir] do
 end
 
 log "#{node[:redis][:conf_dir]}"
-directory node[:redis][:conf_dir]
+directory node[:redis][:conf_dir] do
+  owner "root"
+  group "root"
+  mode "0755"
+  action :create
+end
+
+directory "#{node[:redis][:conf_dir]}/conf.d" do
+  owner "root"
+  group "root"
+  mode "0755"
+  action :create
+end
 
 directory node[:redis][:pid_dir] do
   owner node[:redis][:user]
@@ -45,6 +57,12 @@ end
 directory node[:redis][:log_dir] do
   owner node[:redis][:user]
   mode "0750"
+end
+
+file "/etc/redis.conf" do
+  backup false
+  action :delete
+  only_if "test -e /etc/redis.conf"
 end
 
 template "#{node[:redis][:conf_file]}" do
@@ -73,6 +91,25 @@ when "debian","ubuntu"
   end
 end
 
+right_link_tag "redis:role=#{node['redis']['replication']['master_role']}" do
+  action :publish
+end
+
+right_link_tag "redis:port=#{node[:redis][:port]}" do
+  action :publish
+end
+
+sys_firewall node[:redis][:port] 
+
+template "#{node[:redis][:conf_dir]}/conf.d/replication.conf" do
+  source "replication.conf.erb"
+  owner "root"
+  group "root"
+  mode "0644"
+  action :create
+end
+
+
 service "#{node[:redis][:service_name]}" do
   action [:enable,:start]
 end
@@ -94,4 +131,4 @@ end
 
 Gem.clear_paths
 
-rs_utils_marker :end
+rightscale_marker :end

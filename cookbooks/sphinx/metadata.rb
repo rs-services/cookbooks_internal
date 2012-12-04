@@ -5,7 +5,7 @@ description      "Installs/Configures sphinx"
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version          "0.0.1"
 
-depends "rs_utils"
+depends "rightscale"
 depends "sys_firewall"
 depends "rightscale_services_tools"
 

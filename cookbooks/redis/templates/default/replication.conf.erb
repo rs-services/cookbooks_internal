@@ -1,0 +1,32 @@
+<% if @master_ip %>
+################################# REPLICATION #################################
+#
+# Master-Slave replication. Use slaveof to make a Redis instance a copy of
+# another Redis server. Note that the configuration is local to the slave
+# so for example it is possible to configure the slave to save the DB with a
+# different interval, or to listen to another port, and so on.
+#
+slaveof <%= @master_ip %> <%= @master_port %>
+#
+# If the master is password protected (using the "requirepass" configuration
+# directive below) it is possible to tell the slave to authenticate before
+# starting the replication synchronization process, otherwise the master will
+# refuse the slave request.
+#
+<% if node[:redis][:requirepass] %>
+masterauth <%= node[:redis][:requirepass] %>
+<% end %>
+#
+# When a slave lost the connection with the master, or when the replication
+# is still in progress, the slave can act in two different ways:
+#
+# 1) if slave-serve-stale-data is set to 'yes' (the default) the slave will
+#    still reply to client requests, possibly with out of data data, or the
+#    data set may just be empty if this is the first synchronization.
+#
+# 2) if slave-serve-stale data is set to 'no' the slave will reply with
+#    an error "SYNC with master in progress" to all the kind of commands
+#    #    but to INFO and SLAVEOF.
+#    #
+slave-serve-stale-data yes
+<% end %>

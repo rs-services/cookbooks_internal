@@ -1,0 +1,23 @@
+dev tun
+proto udp
+port 1194
+
+server <%= @ip_block %> <%= @netmask %>
+ifconfig-pool-persist /etc/openvpn/ipp.txt
+key /etc/openvpn/keys/server.key
+ca /etc/openvpn/keys/ca.crt
+cert /etc/openvpn/keys/server.crt
+keepalive 10 60
+inactive 600
+persist-tun
+persist-key
+ping-timer-rem
+dh /etc/openvpn/keys/dh1024.pem
+log <%= @openvpn_log %>
+verb 3
+comp-lzo yes
+duplicate-cn
+status <%= @status_log %>
+<% if @routed_ip %>
+push "route <%= @routed_ip %> <%= @routed_subnet %>"
+<% end %>
