@@ -1,0 +1,36 @@
+{
+  "providing": {
+  },
+  "platforms": {
+  },
+  "version": "0.0.1",
+  "name": "zookeeper",
+  "long_description": "Description\n===========\n\nRequirements\n============\n\nAttributes\n==========\n\nUsage\n=====\n\n",
+  "recommendations": {
+  },
+  "conflicting": {
+  },
+  "license": "All rights reserved",
+  "maintainer_email": "edwin@rightscale.com",
+  "description": "Installs/Configures zookeeper",
+  "dependencies": {
+    "rightscale": ">= 0.0.0"
+  },
+  "recipes": {
+    "zookeeper::start": "Start Zookeeper",
+    "zookeeper::add_zoo_tag": "Adds Zookeeper Node Tag",
+    "zookeeper::stop": "Stop Zookeeper",
+    "zookeeper::install_java": "Installs Java",
+    "zookeeper::init_node": "Initiate Zookeeper Node",
+    "zookeeper::install": "Installs Zookeeper"
+  },
+  "groupings": {
+  },
+  "maintainer": "Rightscale Inc",
+  "attributes": {
+  },
+  "suggestions": {
+  },
+  "replacing": {
+  }
+}

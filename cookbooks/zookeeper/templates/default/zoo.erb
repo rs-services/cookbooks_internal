@@ -1,0 +1,25 @@
+# The number of milliseconds of each tick      (2000)                                                                                          
+tickTime=<%= node[:zookeeper][:configuration][:tickTime] %>
+ 
+# The number of ticks that the initial
+# synchronization phase can take (10)
+initLimit=<%= node[:zookeeper][:configuration][:initLimit] %>
+
+# The number of ticks that can pass between
+# sending a request and getting an acknowledgement (5)
+syncLimit=<%= node[:zookeeper][:configuration][:syncLimit] %>
+
+# the directory where the snapshot is stored.
+dataDir=<%= node[:zookeeper][:configuration][:dataDir] %>
+
+
+# the directory where the transaction is stored.  
+dataLogDir=<%= node[:zookeeper][:configuration][:dataLogDir] %>
+
+
+# the port at which the clients will connect 4181
+clientPort=<%= node[:zookeeper][:configuration][:clientPort] %>
+
+
+#max client connections 300
+maxClientCnxns=<%= node[:zookeeper][:configuration][:maxClient] %>
