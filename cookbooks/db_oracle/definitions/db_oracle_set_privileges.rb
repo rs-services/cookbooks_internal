@@ -14,6 +14,7 @@ define :db_oracle_set_privileges, :admin_username=>nil, :admin_password=>nil, :p
   app_password = params[:app_password]
 
   Gem.clear_paths
+  log "admin_username:#{admin_username}, admin_password:#{admin_password}, password:#{password},app_username:#{app_username}, app_password:#{app_password}"
   ruby_block "set admin credentials" do
     block do
       require 'rubygems'
@@ -22,7 +23,6 @@ define :db_oracle_set_privileges, :admin_username=>nil, :admin_password=>nil, :p
       ENV['PATH'] = '/home/ec2/bin:/usr/kerberos/sbin:/usr/kerberos/bin:/home/ec2/bin:/usr/local/sbin:/usr/sbin:/sbin:/usr/bin:/bin:/opt/oracle/app/product/11.2.0/dbhome_1:/opt/oracle/app/product/11.2.0/dbhome_1/bin:/usr/local/bin:/home/ec2/bin:/root/bin:/home/ec2/bin:/opt/oracle/app/product/11.2.0/dbhome_1:/opt/oracle/app/product/11.2.0/dbhome_1/bin:/usr/local/bin'
       ENV['ORACLE_SID'] = 'PROD'
       require 'oci8'
-      log "admin_username:#{admin_username}, admin_password:#{admin_password}, password:#{password},app_username:#{app_username}, app_password:#{app_password}"
       con = OCI8.new('sys',password,nil, :SYSDBA)
 
       # Now that we have a oracle object, let's sanitize our inputs
