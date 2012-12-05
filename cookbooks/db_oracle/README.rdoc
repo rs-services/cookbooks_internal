@@ -52,3 +52,9 @@ Copyright RightScale, Inc. All rights reserved.  All access and use subject to
 the RightScale Terms of Service available at http://www.rightscale.com/terms.php
 and, if applicable, other agreements such as a RightScale Master Subscription
 Agreement.
+
+=Resouces
+http://psoug.org/snippet/TABLESPACE-List-tablespaces-files-allocated-and-free-space_852.htm
+http://www.shutdownabort.com/dbaqueries/Administration_Status.php
+http://www.oracle-base.com/dba/scripts.php
+http://oracleinstance.blogspot.com/p/important-queries.html
