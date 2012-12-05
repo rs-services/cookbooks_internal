@@ -34,7 +34,7 @@ define :db_oracle_set_privileges, :admin_username=>nil, :admin_password=>nil, :p
       
 
       # Grant only the appropriate privs
-      con.exec("CREATE USER  #{admin_username} IDENTIFIED BY #{admin_password}")
+      con.exec("CREATE USER  #{admin_username} IDENTIFIED BY \"#{admin_password}\"")
       con.exec("GRANT SYSDBA TO #{admin_username}")
       con.exec("CREATE USER  #{app_username} IDENTIFIED BY #{app_password}")
       con.exec("GRANT resource,connect TO #{app_username}")
