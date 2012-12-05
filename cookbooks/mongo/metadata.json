@@ -1,0 +1,50 @@
+{
+  "attributes": {
+    "mongo/replSet": {
+      "choice": [
+
+      ],
+      "type": "string",
+      "calculated": false,
+      "description": "Mongo Replica Set Name",
+      "recipes": [
+
+      ],
+      "display_name": "Mongo Replica Set Name",
+      "required": "optional"
+    }
+  },
+  "replacing": {
+  },
+  "groupings": {
+  },
+  "dependencies": {
+    "sys_firewall": ">= 0.0.0",
+    "rightscale_services_tools": ">= 0.0.0",
+    "rightscale": ">= 0.0.0",
+    "sysctl": ">= 0.0.0",
+    "block_device": ">= 0.0.0"
+  },
+  "suggestions": {
+  },
+  "license": "Apache 2.0",
+  "maintainer": "RightScale Inc",
+  "providing": {
+  },
+  "description": "Installs/Configures mongo",
+  "recipes": {
+    "mongo::setup_replica_sets": "configures replica set",
+    "mongo::default": "sets up default mongo settings",
+    "mongo::install_server": "installs mongo"
+  },
+  "recommendations": {
+  },
+  "name": "mongo",
+  "maintainer_email": "premium@rightscale.com",
+  "long_description": "Description\n===========\n\nRequirements\n============\n\nAttributes\n==========\n\nUsage\n=====\n\n",
+  "version": "0.0.1",
+  "conflicting": {
+  },
+  "platforms": {
+  }
+}
