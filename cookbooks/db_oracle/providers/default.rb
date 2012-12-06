@@ -12,7 +12,7 @@ action :stop do
   bash "stopping oracle service" do
     user "root"
     code <<-EOF
-      su -l -c '/opt/oracle/app/product/11.2.0/dbhome_1/bin/dbshut' oracle
+      su -l -c '/opt/oracle/app/product/11.2.0/dbhome_1/bin/oraenv; /opt/oracle/app/product/11.2.0/dbhome_1/bin/dbshut $ORACLE_HOME' oracle
     EOF
   end
 end
@@ -21,7 +21,7 @@ action :start do
   bash "starting oracle service" do
     user "root"
     code <<-EOF
-      su -l -c '/opt/oracle/app/product/11.2.0/dbhome_1/bin/start' oracle
+      su -l -c '/opt/oracle/app/product/11.2.0/dbhome_1/bin/oraenv; /opt/oracle/app/product/11.2.0/dbhome_1/bin/dbstart $ORACLE_HOME' oracle
     EOF
   end
 end
