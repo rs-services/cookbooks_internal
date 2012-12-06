@@ -37,14 +37,15 @@ action :status do
   ruby_block "get-db-status" do
     block do
       require 'rubygems'
-      require 'oci8'
       ENV['ORACLE_HOME'] = '/opt/oracle/app/product/11.2.0/dbhome_1'
       ENV['LD_LIBRARY_PATH'] = '/opt/oracle/app/product/11.2.0/dbhome_1/lib:/opt/rightscale/sandbox/lib/ruby/site_ruby/1.8/x86_64-linux/'
       ENV['PATH'] = '/home/ec2/bin:/usr/kerberos/sbin:/usr/kerberos/bin:/home/ec2/bin:/usr/local/sbin:/usr/sbin:/sbin:/usr/bin:/bin:/opt/oracle/app/product/11.2.0/dbhome_1:/opt/oracle/app/product/11.2.0/dbhome_1/bin:/usr/local/bin:/home/ec2/bin:/root/bin:/home/ec2/bin:/opt/oracle/app/product/11.2.0/dbhome_1:/opt/oracle/app/product/11.2.0/dbhome_1/bin:/usr/local/bin'
       ENV['ORACLE_SID'] = 'PROD'
       con = RightScale::Database::Oracle::Helper.get_oracle_handle(node,'sys',node[:db][:sys][:password])
-      con = OCI8.new('sys',node[:db][:sys][:password],nil, :SYSDBA)
-      status = con.exec("select STATUS from V$INSTANCE")
+      ::Chef::Log.info con.ping
+      require 'oci8'
+      conn = OCI8.new('sys',node[:db][:sys][:password],nil, :SYSDBA)
+      status = conn.exec("select STATUS from V$INSTANCE")
       ::Chef::Log.info "  Database Status:\n#{status}"
     end
   end
