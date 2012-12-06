@@ -31,7 +31,7 @@ action :restart do
   self.start
 end
 
-action :status 
+action :status do
   log " TNSPing:#{`tnsping prod | tail -n 1`}"
   Gem.clear_paths
   require 'rubygems'
