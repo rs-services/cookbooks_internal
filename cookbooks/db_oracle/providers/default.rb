@@ -40,13 +40,18 @@ action :status do
 end
 
 action :lock do
-  @db = init(new_resource)
-  @db.lock
+  #@db = init(new_resource)
+  #@db.lock
+  #http://docs.oracle.com/cd/B28359_01/server.111/b28310/start002.htm
+  con = RightScale::Database::Oracle::Helper.get_oracle_handle(node)
+  con.exec("ALTER SYSTEM ENABLE RESTRICTED SESSION")
 end
 
 action :unlock do
-  @db = init(new_resource)
-  @db.unlock
+  #@db = init(new_resource)
+  #@db.unlock
+  con = RightScale::Database::Oracle::Helper.get_oracle_handle(node)
+  con.exec("ALTER SYSTEM DISABLE RESTRICTED SESSION")
 end
 
 action :move_data_dir do
