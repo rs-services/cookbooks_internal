@@ -72,7 +72,7 @@ module RightScale
         # @param [Hash] node Node name
         #
         # @return [Oracle] Oracle connection
-        def self.get_oracle_handle(node)
+        def self.get_oracle_handle(node,user,pass)
           require 'oci8'
           info_msg = "  Oracle connection"
           info_msg << ": opening NEW Oracle connection."
@@ -80,7 +80,7 @@ module RightScale
           ENV['LD_LIBRARY_PATH'] = '/opt/oracle/app/product/11.2.0/dbhome_1/lib:/opt/rightscale/sandbox/lib/ruby/site_ruby/1.8/x86_64-linux/'
           ENV['PATH'] = '/home/ec2/bin:/usr/kerberos/sbin:/usr/kerberos/bin:/home/ec2/bin:/usr/local/sbin:/usr/sbin:/sbin:/usr/bin:/bin:/opt/oracle/app/product/11.2.0/dbhome_1:/opt/oracle/app/product/11.2.0/dbhome_1/bin:/usr/local/bin:/home/ec2/bin:/root/bin:/home/ec2/bin:/opt/oracle/app/product/11.2.0/dbhome_1:/opt/oracle/app/product/11.2.0/dbhome_1/bin:/usr/local/bin'
           ENV['ORACLE_SID'] = 'PROD'
-          con = OCI8.new('sys', node[:db][:sys][:password],nil, :SYSDBA)
+          con = OCI8.new(user,pass,nil, :SYSDBA)
           Chef::Log.info info_msg
           # this raises if the connection has gone away
           con.ping

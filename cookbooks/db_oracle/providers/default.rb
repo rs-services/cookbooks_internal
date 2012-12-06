@@ -32,9 +32,9 @@ action :restart do
 end
 
 action :status do
-  log " TNSPing:#{`tnsping prod | tail -n 1`}"
+  log " TNSPing:#{`/opt/oracle/app/product/11.2.0/dbhome_1/bin/tnsping prod | tail -n 1`}"
   Gem.clear_paths
-  con = RightScale::Database::Oracle::Helper.get_oracle_handle(node)
+  con = RightScale::Database::Oracle::Helper.get_oracle_handle(node,'sys',node[:db][:sys][:password])
   status = con.exec("select STATUS from V$INSTANCE")
   log "  Database Status:\n#{status}"
 end
