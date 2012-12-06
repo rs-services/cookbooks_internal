@@ -19,7 +19,8 @@ depends "sys_firewall"
 
 recipe  "db_oracle::default", "Set the DB Oracle provider. Sets version and node variables specific to the chosen MySQL version."
 recipe  "db_oracle::install_local_and_sandbox_oci8_rubygem_on_server", "installs ruby oci-8 on the oracle db server"
-recipe "db_oracle::register_master" , "Register master database server with DNS service"
+recipe  "db_oracle::register_master" , "Register master database server with DNS service"
+recipe  "db_oracle::provider_test", "Tests Resources and Providers"
 
 attribute "db_oracle",
   :display_name => "General Database Options",

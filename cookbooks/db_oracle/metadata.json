@@ -1,148 +1,149 @@
 {
-  "version": "12.1.0",
-  "groupings": {
+  "conflicting": {
   },
+  "description": "Installs/configures a Oracle database client and server.",
+  "long_description": "= RightScale Oracle Database Cookbook\n\n== DESCRIPTION:\n\nProvides the Oracle implementation of the 'db' resource to install and manage\nOracle database stand-alone servers and clients.\n\n== REQUIREMENTS:\n\n* Requires a server launched from a RightScale managed RightImage.\n\n== COOKBOOKS DEPENDENCIES:\n\nPlease see <tt>metadata.rb</tt> file for the latest dependencies.\n\n== KNOWN LIMITATIONS:\n\nThere are no known limitations.\n\n== SETUP:\n\n* Place the <tt>db_oracle::default</tt> recipe into your runlist to load the\n  Oracle provider, tuning parameters, as well as other Oracle-specific attributes\n  into the node as inputs.\n\n* Place the <tt>db::default</tt> recipe into your runlist to set up the 'db' resource.\n  When using a RightScale ServerTemplate, this will also automatically add the\n  common database attributes to your ServerTemplate's inputs.\n\n== USAGE:\n\n=== Basic usage\n\nOnce setup, use the recipes in the 'db' cookbook to install and manage your\nOracle database servers and clients. See the <tt>db/README.rdoc</tt> for usage\ndetails.\n\n=== Oracle Tuning\n\nCustom tuning parameters can be applied by overriding the\n<tt>oracle_tuning.rb</tt> attributes file. For more information and an example\noverride repository please see: {Override Chef Cookbooks}[http://support.rightscale.com/12-Guides/Chef_Cookbooks_Developer_Guide/08-Chef_Development/Override_Chef_Cookbooks].\n\n== DETAILS:\n\nThe 'db' implementation is defined by a Lightweight Provider, which can be\nfound in the <tt>providers/default.rb</tt> file.\n\n= LICENSE:\n\nCopyright RightScale, Inc. All rights reserved.  All access and use subject to\nthe RightScale Terms of Service available at http://www.rightscale.com/terms.php\nand, if applicable, other agreements such as a RightScale Master Subscription\nAgreement.\n\n=Resouces\nhttp://psoug.org/snippet/TABLESPACE-List-tablespaces-files-allocated-and-free-space_852.htm\nhttp://www.shutdownabort.com/dbaqueries/Administration_Status.php\nhttp://www.oracle-base.com/dba/scripts.php\nhttp://oracleinstance.blogspot.com/p/important-queries.html\n",
+  "suggestions": {
+  },
+  "name": "db_oracle/",
+  "license": "Copyright RightScale, Inc. All rights reserved.",
+  "maintainer_email": "support@rightscale.com",
   "dependencies": {
     "sys_firewall": ">= 0.0.0",
-    "sys_dns": ">= 0.0.0",
-    "aria2": ">= 0.0.0",
     "sysctl": ">= 0.0.0",
-    "block_device": ">= 0.0.0",
     "rightscale": ">= 0.0.0",
-    "db": ">= 0.0.0"
+    "sys_dns": ">= 0.0.0",
+    "block_device": ">= 0.0.0",
+    "db": ">= 0.0.0",
+    "aria2": ">= 0.0.0"
   },
-  "maintainer": "RightScale, Inc.",
+  "groupings": {
+  },
   "replacing": {
-  },
-  "recipes": {
-    "db_oracle::default": "Set the DB Oracle provider. Sets version and node variables specific to the chosen MySQL version.",
-    "db_oracle::register_master": "Register master database server with DNS service",
-    "db_oracle::install_local_and_sandbox_oci8_rubygem_on_server": "installs ruby oci-8 on the oracle db server"
-  },
-  "attributes": {
-    "db_oracle": {
-      "type": "hash",
-      "recipes": [
-
-      ],
-      "choice": [
-
-      ],
-      "display_name": "General Database Options",
-      "required": "optional",
-      "calculated": false
-    },
-    "oracle/install_file1_url": {
-      "default": "http://ps-cf.rightscale.com/oracle/linux.x64_11gR2_database_1of2.zip",
-      "type": "string",
-      "recipes": [
-        "db_oracle::default"
-      ],
-      "choice": [
-
-      ],
-      "display_name": "Oracle Install ZipFile 1",
-      "required": "optional",
-      "description": "Url to the oracle zip file",
-      "calculated": false
-    },
-    "db/dns/master/id": {
-      "type": "string",
-      "recipes": [
-        "db_oracle::register_master"
-      ],
-      "choice": [
-
-      ],
-      "display_name": "Database Master DNS Record ID",
-      "required": "optional",
-      "description": "The unique identifier that is associated with the DNS A record \nof the master database server. The unique identifier is assigned by the DNS provider \nwhen you create a dynamic DNS A record. This ID is used to update the associated \nA record with the private IP address of the master server when this recipe is run. \nIf you are using DNS Made Easy as your DNS provider, a 7-digit number is used \n(e.g., 4403234).",
-      "calculated": false
-    },
-    "db/system/password": {
-      "type": "string",
-      "recipes": [
-        "db_oracle::default",
-        "restore_oracle_using_expdp"
-      ],
-      "choice": [
-
-      ],
-      "display_name": "Oracle SYSTEM Password",
-      "required": "required",
-      "description": "The SYSTEM password for the starter db",
-      "calculated": false
-    },
-    "db/sysman/password": {
-      "type": "string",
-      "recipes": [
-        "db_oracle::default"
-      ],
-      "choice": [
-
-      ],
-      "display_name": "Oracle SYSMAN Password",
-      "required": "required",
-      "description": "The SYSMAN password for the starter db",
-      "calculated": false
-    },
-    "oracle/install_file2_url": {
-      "default": "http://ps-cf.rightscale.com/oracle/linux.x64_11gR2_database_2of2.zip",
-      "type": "string",
-      "recipes": [
-        "db_oracle::default"
-      ],
-      "choice": [
-
-      ],
-      "display_name": "Oracle Install ZipFile 2",
-      "required": "optional",
-      "description": "Url to the oracle zip file",
-      "calculated": false
-    },
-    "db/dbsnmp/password": {
-      "type": "string",
-      "recipes": [
-        "db_oracle::default"
-      ],
-      "choice": [
-
-      ],
-      "display_name": "Oracle DBSNMP Password",
-      "required": "required",
-      "description": "The DBSNMP password for the starter db",
-      "calculated": false
-    },
-    "db/sys/password": {
-      "type": "string",
-      "recipes": [
-        "db_oracle::default"
-      ],
-      "choice": [
-
-      ],
-      "display_name": "Oracle SYS Password",
-      "required": "required",
-      "description": "The SYS password for the starter db",
-      "calculated": false
-    }
   },
   "providing": {
   },
-  "suggestions": {
-  },
-  "name": "db_oracle",
-  "conflicting": {
-  },
-  "long_description": "= RightScale Oracle Database Cookbook\n\n== DESCRIPTION:\n\nProvides the Oracle implementation of the 'db' resource to install and manage\nOracle database stand-alone servers and clients.\n\n== REQUIREMENTS:\n\n* Requires a server launched from a RightScale managed RightImage.\n\n== COOKBOOKS DEPENDENCIES:\n\nPlease see <tt>metadata.rb</tt> file for the latest dependencies.\n\n== KNOWN LIMITATIONS:\n\nThere are no known limitations.\n\n== SETUP:\n\n* Place the <tt>db_oracle::default</tt> recipe into your runlist to load the\n  Oracle provider, tuning parameters, as well as other Oracle-specific attributes\n  into the node as inputs.\n\n* Place the <tt>db::default</tt> recipe into your runlist to set up the 'db' resource.\n  When using a RightScale ServerTemplate, this will also automatically add the\n  common database attributes to your ServerTemplate's inputs.\n\n== USAGE:\n\n=== Basic usage\n\nOnce setup, use the recipes in the 'db' cookbook to install and manage your\nOracle database servers and clients. See the <tt>db/README.rdoc</tt> for usage\ndetails.\n\n=== Oracle Tuning\n\nCustom tuning parameters can be applied by overriding the\n<tt>oracle_tuning.rb</tt> attributes file. For more information and an example\noverride repository please see: {Override Chef Cookbooks}[http://support.rightscale.com/12-Guides/Chef_Cookbooks_Developer_Guide/08-Chef_Development/Override_Chef_Cookbooks].\n\n== DETAILS:\n\nThe 'db' implementation is defined by a Lightweight Provider, which can be\nfound in the <tt>providers/default.rb</tt> file.\n\n= LICENSE:\n\nCopyright RightScale, Inc. All rights reserved.  All access and use subject to\nthe RightScale Terms of Service available at http://www.rightscale.com/terms.php\nand, if applicable, other agreements such as a RightScale Master Subscription\nAgreement.\n",
-  "license": "Copyright RightScale, Inc. All rights reserved.",
-  "description": "Installs/configures a Oracle database client and server.",
-  "recommendations": {
-  },
   "platforms": {
-    "redhat": "~> 5.8",
     "ubuntu": "~> 10.04.0",
-    "centos": "~> 5.8"
+    "centos": "~> 5.8",
+    "redhat": "~> 5.8"
   },
-  "maintainer_email": "support@rightscale.com"
+  "maintainer": "RightScale, Inc.",
+  "version": "12.1.0",
+  "attributes": {
+    "db/dns/master/id": {
+      "display_name": "Database Master DNS Record ID",
+      "description": "The unique identifier that is associated with the DNS A record \nof the master database server. The unique identifier is assigned by the DNS provider \nwhen you create a dynamic DNS A record. This ID is used to update the associated \nA record with the private IP address of the master server when this recipe is run. \nIf you are using DNS Made Easy as your DNS provider, a 7-digit number is used \n(e.g., 4403234).",
+      "calculated": false,
+      "choice": [
+
+      ],
+      "type": "string",
+      "required": "optional",
+      "recipes": [
+        "db_oracle::register_master"
+      ]
+    },
+    "db/system/password": {
+      "display_name": "Oracle SYSTEM Password",
+      "description": "The SYSTEM password for the starter db",
+      "calculated": false,
+      "choice": [
+
+      ],
+      "type": "string",
+      "required": "required",
+      "recipes": [
+        "db_oracle::default",
+        "restore_oracle_using_expdp"
+      ]
+    },
+    "db/dbsnmp/password": {
+      "display_name": "Oracle DBSNMP Password",
+      "description": "The DBSNMP password for the starter db",
+      "calculated": false,
+      "choice": [
+
+      ],
+      "type": "string",
+      "required": "required",
+      "recipes": [
+        "db_oracle::default"
+      ]
+    },
+    "db/sys/password": {
+      "display_name": "Oracle SYS Password",
+      "description": "The SYS password for the starter db",
+      "calculated": false,
+      "choice": [
+
+      ],
+      "type": "string",
+      "required": "required",
+      "recipes": [
+        "db_oracle::default"
+      ]
+    },
+    "db/sysman/password": {
+      "display_name": "Oracle SYSMAN Password",
+      "description": "The SYSMAN password for the starter db",
+      "calculated": false,
+      "choice": [
+
+      ],
+      "type": "string",
+      "required": "required",
+      "recipes": [
+        "db_oracle::default"
+      ]
+    },
+    "oracle/install_file1_url": {
+      "display_name": "Oracle Install ZipFile 1",
+      "description": "Url to the oracle zip file",
+      "calculated": false,
+      "choice": [
+
+      ],
+      "type": "string",
+      "required": "optional",
+      "recipes": [
+        "db_oracle::default"
+      ],
+      "default": "http://ps-cf.rightscale.com/oracle/linux.x64_11gR2_database_1of2.zip"
+    },
+    "oracle/install_file2_url": {
+      "display_name": "Oracle Install ZipFile 2",
+      "description": "Url to the oracle zip file",
+      "calculated": false,
+      "choice": [
+
+      ],
+      "type": "string",
+      "required": "optional",
+      "recipes": [
+        "db_oracle::default"
+      ],
+      "default": "http://ps-cf.rightscale.com/oracle/linux.x64_11gR2_database_2of2.zip"
+    },
+    "db_oracle": {
+      "display_name": "General Database Options",
+      "calculated": false,
+      "choice": [
+
+      ],
+      "type": "hash",
+      "required": "optional",
+      "recipes": [
+
+      ]
+    }
+  },
+  "recipes": {
+    "db_oracle::provider_test": "Tests Resources and Providers",
+    "db_oracle::install_local_and_sandbox_oci8_rubygem_on_server": "installs ruby oci-8 on the oracle db server",
+    "db_oracle::default": "Set the DB Oracle provider. Sets version and node variables specific to the chosen MySQL version.",
+    "db_oracle::register_master": "Register master database server with DNS service"
+  },
+  "recommendations": {
+  }
 }
