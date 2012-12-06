@@ -43,7 +43,7 @@ action :status do
       ENV['ORACLE_SID'] = 'PROD'
       con = RightScale::Database::Oracle::Helper.get_oracle_handle(node,'sys',node[:db][:sys][:password])
       ::Chef::Log.info con.ping
-      conn.exec("select STATUS from V$INSTANCE") do |r|
+      con.exec("select STATUS from V$INSTANCE") do |r|
         status = r
       end
       ::Chef::Log.info "  Database Status:\n#{status}"
