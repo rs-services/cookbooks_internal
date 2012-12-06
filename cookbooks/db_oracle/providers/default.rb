@@ -34,13 +34,7 @@ end
 action :status do
   log " TNSPing:#{`tnsping prod | tail -n 1`}"
   Gem.clear_paths
-  require 'rubygems'
-  ENV['ORACLE_HOME'] = '/opt/oracle/app/product/11.2.0/dbhome_1'
-  ENV['LD_LIBRARY_PATH'] = '/opt/oracle/app/product/11.2.0/dbhome_1/lib:/opt/rightscale/sandbox/lib/ruby/site_ruby/1.8/x86_64-linux/'
-  ENV['PATH'] = '/home/ec2/bin:/usr/kerberos/sbin:/usr/kerberos/bin:/home/ec2/bin:/usr/local/sbin:/usr/sbin:/sbin:/usr/bin:/bin:/opt/oracle/app/product/11.2.0/dbhome_1:/opt/oracle/app/product/11.2.0/dbhome_1/bin:/usr/local/bin:/home/ec2/bin:/root/bin:/home/ec2/bin:/opt/oracle/app/product/11.2.0/dbhome_1:/opt/oracle/app/product/11.2.0/dbhome_1/bin:/usr/local/bin'
-  ENV['ORACLE_SID'] = 'PROD'
-  require 'oci8'
-  con = OCI8.new('sys',node[:db][:sys][:password],nil, :SYSDBA)
+  con = RightScale::Database::Oracle::Helper.get_oracle_handle(node)
   status = con.exec("select STATUS from V$INSTANCE")
   log "  Database Status:\n#{status}"
 end
@@ -83,15 +77,8 @@ action :firewall_update do
   end
 end
 
-action :db_get_state
- Gem.clear_paths
-  require 'rubygems'
-  ENV['ORACLE_HOME'] = '/opt/oracle/app/product/11.2.0/dbhome_1'
-  ENV['LD_LIBRARY_PATH'] = '/opt/oracle/app/product/11.2.0/dbhome_1/lib:/opt/rightscale/sandbox/lib/ruby/site_ruby/1.8/x86_64-linux/'
-  ENV['PATH'] = '/home/ec2/bin:/usr/kerberos/sbin:/usr/kerberos/bin:/home/ec2/bin:/usr/local/sbin:/usr/sbin:/sbin:/usr/bin:/bin:/opt/oracle/app/product/11.2.0/dbhome_1:/opt/oracle/app/product/11.2.0/dbhome_1/bin:/usr/local/bin:/home/ec2/bin:/root/bin:/home/ec2/bin:/opt/oracle/app/product/11.2.0/dbhome_1:/opt/oracle/app/product/11.2.0/dbhome_1/bin:/usr/local/bin'
-  ENV['ORACLE_SID'] = 'PROD'
-  require 'oci8'
-  con = OCI8.new('sys',node[:db][:sys][:password],nil, :SYSDBA)
+action :db_get_state do
+  con = RightScale::Database::Oracle::Helper.get_oracle_handle(node)
   con.ping
 end
 
