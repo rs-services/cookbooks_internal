@@ -1,0 +1,52 @@
+rightscale_marker :begin
+ 
+package "nginx" do
+  action :install
+end
+
+directory "/etc/nginx" do
+  owner "root"
+  group "root"
+  mode 0755
+  action :create
+end
+
+directory "/etc/nginx/conf.d" do
+  owner "root"
+  group "root"
+  mode 0755
+  action :create
+end
+
+template "/etc/nginx/nginx.conf" do
+  cookbook "nginx"
+  source "nginx.conf.erb"
+  owner "root"
+  group "root"
+  mode 0644
+  variables(:worker_connections => node[:nginx][:configuration][:worker_connections],
+            :port => node[:nginx][:configuration][:port],
+            :root_dir => "/usr/share/nginx/html",
+            :root_files => "")
+  action :create
+end
+
+directory "/var/log/nginx" do
+  owner "root"
+  group "root"
+  mode 0755
+  recursive true
+  action :create
+end
+
+service "nginx" do
+  supports :start => true, :stop => true, :status => true, :restart => true, :reload => true
+  action [ :enable ]
+  persist true
+end
+
+sys_firewall node[:nginx][:configuration][:port] do
+  action :update
+end
+
+rightscale_marker :end

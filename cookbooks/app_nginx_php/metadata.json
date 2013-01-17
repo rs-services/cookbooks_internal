@@ -1,0 +1,49 @@
+{
+  "maintainer": "RightScale Inc",
+  "attributes": {
+    "application/environment": {
+      "type": "string",
+      "calculated": false,
+      "display_name": "Application Environment",
+      "description": "Application Environment -> Dev,Prod",
+      "required": "required",
+      "choice": [
+
+      ],
+      "recipes": [
+
+      ]
+    }
+  },
+  "license": "Apache 2.0",
+  "recommendations": {
+  },
+  "version": "0.1.0",
+  "description": "Installs/Configures app_nginx_php",
+  "suggestions": {
+  },
+  "maintainer_email": "premium@rightscale.com",
+  "long_description": "Description\n===========\n\nRequirements\n============\n\nAttributes\n==========\n\nUsage\n=====\n\n",
+  "conflicting": {
+  },
+  "recipes": {
+    "app_nginx_php::default": "Installs the php application server."
+  },
+  "platforms": {
+  },
+  "name": "app_nginx_php/",
+  "replacing": {
+  },
+  "groupings": {
+  },
+  "providing": {
+  },
+  "dependencies": {
+    "rightscale": ">= 0.0.0",
+    "repo": ">= 0.0.0",
+    "nginx": ">= 0.0.0",
+    "sys_firewall": ">= 0.0.0",
+    "app": ">= 0.0.0",
+    "php-fpm": ">= 0.0.0"
+  }
+}

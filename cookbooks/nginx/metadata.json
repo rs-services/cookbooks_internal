@@ -1,0 +1,33 @@
+{
+  "version": "0.0.1",
+  "replacing": {
+  },
+  "providing": {
+  },
+  "license": "All rights reserved",
+  "recommendations": {
+  },
+  "dependencies": {
+    "rightscale": ">= 0.0.0",
+    "sys_firewall": ">= 0.0.0"
+  },
+  "groupings": {
+  },
+  "platforms": {
+  },
+  "long_description": "Description\n===========\n\nRequirements\n============\n\nAttributes\n==========\n\nUsage\n=====\n\n",
+  "conflicting": {
+  },
+  "recipes": {
+    "nginx::install": "Installs nginx from package manager",
+    "nginx::lb_config": "sets up the lb"
+  },
+  "attributes": {
+  },
+  "description": "Installs/Configures nginx",
+  "suggestions": {
+  },
+  "maintainer_email": "support@rightscale.com",
+  "maintainer": "RightScale Professional Services",
+  "name": "nginx/"
+}
