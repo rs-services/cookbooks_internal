@@ -30,6 +30,16 @@ template "/etc/nginx/nginx.conf" do
             :root_files => "")
   action :create
 end
+template "/etc/nginx/fastcgi_params" do
+  cookbook "nginx"
+  source "fastcgi_params.erb"
+  owner "root"
+  group "root"
+  mode 0644
+  variables(:fastcgi_params => node[:nginx][:fastcgi_params])
+  action :create
+end
+
 
 directory "/var/log/nginx" do
   owner "root"
