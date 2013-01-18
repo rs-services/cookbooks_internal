@@ -7,7 +7,6 @@
 
 # Stop apache
 action :stop do
-  `pgrep nginx >> /var/log/nginx/pids; cat /var/log/nginx/pids`
   log " Running stop sequence - `pgrep nginx`"
   #service "nginx" do
     #action :start
@@ -34,7 +33,6 @@ action :start do
   end
 
   log "NGINX started - `pgrep nginx`"
-  `pgrep nginx >> /var/log/nginx/pids; cat /var/log/nginx/pids`
 end
 
 # Reload apache
@@ -90,7 +88,11 @@ action :setup_vhost do
   vhost_dir=new_resource.destination
   vhost_port=new_resource.port
   action_stop
-  fastcgi_params={"ENVIRONMENT" => node[:application][:environment]}
+
+  fastcgi_params "ENVIRONMENT" do
+    value node[:application][:environment]}
+    action :update
+  end
 
   template "/etc/nginx/nginx.conf" do
     cookbook "nginx"
@@ -102,8 +104,7 @@ action :setup_vhost do
               :port => vhost_port,
               :root_dir => ::File.join(vhost_dir,'htdocs'),
               :root_files => "index.php default.php",
-              :php_fpm => node[:app][:php_fpm],
-              :fastcgi_params => fastcgi_params
+              :php_fpm => node[:app][:php_fpm]
              )
     action :create
   end

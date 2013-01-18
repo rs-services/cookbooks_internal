@@ -30,6 +30,7 @@ template "/etc/nginx/nginx.conf" do
             :root_files => "")
   action :create
 end
+
 template "/etc/nginx/fastcgi_params" do
   cookbook "nginx"
   source "fastcgi_params.erb"

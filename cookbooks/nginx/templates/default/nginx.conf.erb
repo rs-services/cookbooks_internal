@@ -111,9 +111,6 @@ http {
             fastcgi_pass   127.0.0.1:9000;
             fastcgi_index  index.php;
             fastcgi_param  SCRIPT_FILENAME  <%= @root_dir %>$fastcgi_script_name;
-            <% @fastcgi_params.each do |k,v| %>
-            fastcgi_param <%=k%> <%=v%>;
-            <% end %>
             include        fastcgi_params;
             fastcgi_buffers 8 16k;
             fastcgi_buffer_size 32k;
