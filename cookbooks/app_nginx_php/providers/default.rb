@@ -89,7 +89,7 @@ action :setup_vhost do
   vhost_port=new_resource.port
   action_stop
 
-  fastcgi_params "ENVIRONMENT" do
+  fastcgi_param "ENVIRONMENT" do
     value node[:application][:environment]
     action :update
   end
