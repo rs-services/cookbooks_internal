@@ -90,7 +90,7 @@ action :setup_vhost do
   action_stop
 
   fastcgi_params "ENVIRONMENT" do
-    value node[:application][:environment]}
+    value node[:application][:environment]
     action :update
   end
 
