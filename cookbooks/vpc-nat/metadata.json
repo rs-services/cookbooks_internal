@@ -1,11 +1,17 @@
 {
-  "suggestions": {
-  },
-  "version": "1.0.0",
   "attributes": {
   },
-  "long_description": "Description\n===========\n\nRequirements\n============\n\nAttributes\n==========\n\nUsage\n=====\n\n",
-  "groupings": {
+  "maintainer": "RightScale Inc",
+  "dependencies": {
+    "rightscale": ">= 0.0.0"
+  },
+  "license": "All rights reserved",
+  "version": "1.0.0",
+  "replacing": {
+  },
+  "description": "Setup port forwarding and iptables for NAT instance",
+  "recipes": {
+    "vpc-nat::default": "Setup port forwarding and iptables for NAT instance"
   },
   "providing": {
   },
@@ -13,18 +19,13 @@
   },
   "platforms": {
   },
+  "name": "vpc-nat",
+  "groupings": {
+  },
   "conflicting": {
   },
-  "recipes": {
-    "vpc-nat::default": "Setup port forwarding and iptables for NAT instance"
-  },
-  "license": "All rights reserved",
   "maintainer_email": "premium@rightscale.com",
-  "description": "Setup port forwarding and iptables for NAT instance",
-  "dependencies": {
-  },
-  "replacing": {
-  },
-  "maintainer": "RightScale Inc",
-  "name": "vpc-nat"
+  "long_description": "Description\n===========\n\nRequirements\n============\n\nAttributes\n==========\n\nUsage\n=====\n\n",
+  "suggestions": {
+  }
 }
