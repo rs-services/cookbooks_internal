@@ -1,0 +1,30 @@
+{
+  "replacing": {
+  },
+  "conflicting": {
+  },
+  "license": "All rights reserved",
+  "attributes": {
+  },
+  "maintainer_email": "premium@rightscale.com",
+  "providing": {
+  },
+  "recommendations": {
+  },
+  "long_description": "Description\n===========\n\nRequirements\n============\n\nAttributes\n==========\n\nUsage\n=====\n\n",
+  "dependencies": {
+  },
+  "platforms": {
+  },
+  "version": "1.0.0",
+  "recipes": {
+    "vpc_nat::default": "Setup port forwarding and iptables for NAT instance"
+  },
+  "suggestions": {
+  },
+  "maintainer": "RightScale Inc",
+  "description": "Setup port forwarding and iptables for NAT instance",
+  "name": "vpc-nat",
+  "groupings": {
+  }
+}
