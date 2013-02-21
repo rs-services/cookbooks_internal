@@ -23,7 +23,7 @@ package "python26" do
   action :install
 end
 
-remote_file "/tmp/#{URI.parse(node[:nodejs][:source]).path.split('/').last}" do
+remote_file "/tmp/node.tar.gz" do
   source node[:nodejs][:source]
   owner "root"
   group "root"
@@ -34,7 +34,7 @@ end
 bash "download_and_install" do
   cwd "/tmp"
   code<<-EOF
-  tar -xvzf URI.parse(node[:nodejs][:source]).path.split('/').last 
+  tar -xvzf node.tar.gz
   cd node*
   python26 ./configure
   make
