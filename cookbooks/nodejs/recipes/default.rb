@@ -16,10 +16,23 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+rightscale_marker :begin
 
-require 'uri'
+case node[:platform]
+  when "centos"
+    case node[:platform_version]
+    when "6.3"
+      pkg='python'
+    else
+      pkg='python26'
+    end
+  when "ubuntu"
+    pkg='python'
+  else
+    raise "Unsupported version"
+end
 
-package "python26" do 
+package "#{pkg}" do 
   action :install
 end
 
@@ -36,8 +49,10 @@ bash "download_and_install" do
   code <<-EOF
   tar -xvzf node.tar.gz
   cd node*
-  python26 ./configure
+  /usr/bin/#{pkg} ./configure
   make
   make install
 EOF
 end
+
+rightscale_marker :end
