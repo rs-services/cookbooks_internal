@@ -33,7 +33,7 @@ end
 
 bash "download_and_install" do
   cwd "/tmp"
-  code<<-EOF
+  code <<-EOF
   tar -xvzf node.tar.gz
   cd node*
   python26 ./configure
