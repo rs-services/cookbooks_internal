@@ -47,10 +47,10 @@ end
 bash "download_and_install" do
   cwd "/tmp"
   code <<-EOF
-  tar -xvzf node.tar.gz
+  tar -xzf node.tar.gz
   cd node*
-  /usr/bin/#{pkg} ./configure
-  make
+  /usr/bin/#{pkg} ./configure --prefix=/usr --quiet
+  make -q
   make install
 EOF
 end
