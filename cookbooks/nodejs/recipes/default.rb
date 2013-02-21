@@ -49,8 +49,8 @@ bash "download_and_install" do
   code <<-EOF
   tar -xzf node.tar.gz
   cd node*
-  /usr/bin/#{pkg} ./configure --prefix=/usr --quiet
-  make -q
+  /usr/bin/#{pkg} ./configure --prefix=/usr --gdb --with-dtrace
+  make --quiet
   make install
 EOF
 end
