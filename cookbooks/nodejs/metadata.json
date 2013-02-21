@@ -1,0 +1,30 @@
+{
+  "version": "0.1.0",
+  "attributes": {
+  },
+  "providing": {
+  },
+  "name": "nodejs/",
+  "conflicting": {
+  },
+  "long_description": "Description\n===========\n\nRequirements\n============\n\nAttributes\n==========\n\nUsage\n=====\n\n",
+  "dependencies": {
+  },
+  "platforms": {
+  },
+  "recipes": {
+    "nodejs::default": "installs nodejs"
+  },
+  "groupings": {
+  },
+  "replacing": {
+  },
+  "recommendations": {
+  },
+  "maintainer": "RightScale Inc",
+  "suggestions": {
+  },
+  "license": "Apache 2.0",
+  "maintainer_email": "premium@rightscale.com",
+  "description": "Installs/Configures nodejs"
+}
