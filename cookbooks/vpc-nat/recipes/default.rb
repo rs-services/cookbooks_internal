@@ -23,7 +23,7 @@ sysctl "net.ipv4.ip_forward" do
   action :set
 end
  
-sysctl "net.ipv4.conf.etho0.send_redirects" do
+sysctl "net.ipv4.conf.eth0.send_redirects" do
   value "0"
   action :set
 end
