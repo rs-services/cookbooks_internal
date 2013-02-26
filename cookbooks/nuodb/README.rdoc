@@ -1,0 +1,13 @@
+= RightScale PS Nuodb Cookbook
+
+== DESCRIPTION:
+
+Basic NuoDB install cookbook
+
+== DETAILS:
+
+
+== SETUP:
+
+== USAGE:
+
