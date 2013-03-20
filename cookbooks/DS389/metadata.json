@@ -1,0 +1,50 @@
+{
+  "providing": {
+  },
+  "conflicting": {
+  },
+  "suggestions": {
+  },
+  "recipes": {
+    "DS389::default": "Installs 389 ds"
+  },
+  "attributes": {
+    "DS389/install_type": {
+      "display_name": "Install Type(Package/Source)",
+      "required": "optional",
+      "type": "string",
+      "recipes": [
+
+      ],
+      "default": "package",
+      "choice": [
+        "package",
+        "source"
+      ],
+      "calculated": false,
+      "description": "Install Type(Package/Source)"
+    }
+  },
+  "name": "DS389",
+  "dependencies": {
+    "sys_dns": ">= 0.0.0",
+    "sys_firewall": ">= 0.0.0",
+    "rightscale_services_tools": ">= 0.0.0",
+    "sysctl": ">= 0.0.0",
+    "rightscale": ">= 0.0.0"
+  },
+  "maintainer": "RightScale Inc",
+  "long_description": "389-DS Cookbook\n===============\nTODO: Enter the cookbook description here.\n\ne.g.\nThis cookbook makes your favorite breakfast sandwhich.\n\nRequirements\n------------\nTODO: List your cookbook requirements. Be sure to include any requirements this cookbook has on platforms, libraries, other cookbooks, packages, operating systems, etc.\n\ne.g.\n#### packages\n- `toaster` - 389-DS needs toaster to brown your bagel.\n\nAttributes\n----------\nTODO: List you cookbook attributes here.\n\ne.g.\n#### 389-DS::default\n<table>\n  <tr>\n    <th>Key</th>\n    <th>Type</th>\n    <th>Description</th>\n    <th>Default</th>\n  </tr>\n  <tr>\n    <td><tt>['389-DS']['bacon']</tt></td>\n    <td>Boolean</td>\n    <td>whether to include bacon</td>\n    <td><tt>true</tt></td>\n  </tr>\n</table>\n\nUsage\n-----\n#### 389-DS::default\nTODO: Write usage instructions for each cookbook.\n\ne.g.\nJust include `389-DS` in your node's `run_list`:\n\n```json\n{\n  \"name\":\"my_node\",\n  \"run_list\": [\n    \"recipe[389-DS]\"\n  ]\n}\n```\n\nContributing\n------------\nTODO: (optional) If this is a public cookbook, detail the process for contributing. If this is a private cookbook, remove this section.\n\ne.g.\n1. Fork the repository on Github\n2. Create a named feature branch (like `add_component_x`)\n3. Write you change\n4. Write tests for your change (if applicable)\n5. Run the tests, ensuring they all pass\n6. Submit a Pull Request using Github\n\nLicense and Authors\n-------------------\nAuthors: TODO: List authors\nhttp://www.unixmen.com/setup-directory-serverldap-in-centos-6-4-rhel-6-4/\n",
+  "groupings": {
+  },
+  "recommendations": {
+  },
+  "description": "Installs/Configures 389-DS",
+  "version": "0.1.0",
+  "platforms": {
+  },
+  "maintainer_email": "premium@rightscale.com",
+  "license": "Apache 2.0",
+  "replacing": {
+  }
+}
