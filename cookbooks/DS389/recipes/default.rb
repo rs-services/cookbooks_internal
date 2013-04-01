@@ -26,4 +26,13 @@ include_recipe "DS389::#{node[:DS398][:install_type]}"
   end
 }
 
+template "/tmp/setup.inf" do
+  owner "root"
+  group "root"
+  mode "0644"
+  action :create
+end
+
+execute "/usr/sbin/setup-ds-admin.pl -s -f /tmp/setup.inf"
+
 rightscale_marker :end

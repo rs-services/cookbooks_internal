@@ -1,0 +1,24 @@
+[General]
+FullMachineName=         ldap.example.com
+SuiteSpotUserID=         nobody
+SuiteSpotGroup=          nobody
+AdminDomain=             example.com
+ConfigDirectoryAdminID=  admin
+ConfigDirectoryAdminPwd= Admin123
+ConfigDirectoryLdapURL=  ldap://ldap.example.com:389/o=NetscapeRoot
+[slapd]
+SlapdConfigForMC=        Yes
+UseExistingMC=           No
+ServerPort=              389
+ServerIdentifier=        example
+Suffix=                  dc=example,dc=com
+RootDN=                  cn=directory manager
+RootDNPwd=               Secret123
+InstallLdifFile=         suggest
+AddOrgEntries=           Yes
+[admin]
+SysUser=                 nobody
+Port=                    9830
+ServerIpAddress=         10.14.0.25
+ServerAdminID=           admin
+ServerAdminPwd=          Admin123
