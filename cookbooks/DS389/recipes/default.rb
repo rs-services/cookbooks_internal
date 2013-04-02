@@ -18,6 +18,11 @@
 #
 rightscale_marker :begin
 
+sys_dns "default" do
+  address node[:cloud][:public_ips][0]
+  action :set
+end
+
 include_recipe "DS389::#{node[:DS389][:install_type]}"
 
 %w{389 636 9830}.each { |port|
