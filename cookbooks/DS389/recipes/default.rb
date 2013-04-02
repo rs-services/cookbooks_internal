@@ -37,4 +37,9 @@ end
 
 execute "/usr/sbin/setup-ds-admin.pl -s -f /tmp/setup.inf"
 
+execute "/usr/sbin/setup-ds-dsgw"
+
+service "dirsrv-admin" do
+  action :restart
+end
 rightscale_marker :end
