@@ -30,7 +30,8 @@ template "/tmp/setup.inf" do
   owner "root"
   group "root"
   mode "0644"
-  variables(:hostname => node[:DS389][:Hostname])
+  variables(:hostname => node[:DS389][:Hostname],
+            :host_ip => node[:cloud][:private_ips][0])
   action :create
 end
 
