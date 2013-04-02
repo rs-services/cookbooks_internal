@@ -23,6 +23,8 @@ sys_dns "default" do
   action :set
 end
 
+sleep 61
+
 include_recipe "DS389::#{node[:DS389][:install_type]}"
 
 %w{389 636 9830}.each { |port|
@@ -47,4 +49,5 @@ execute "/usr/sbin/setup-ds-dsgw"
 service "dirsrv-admin" do
   action :restart
 end
+
 rightscale_marker :end
