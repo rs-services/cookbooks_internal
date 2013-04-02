@@ -1,11 +1,11 @@
 [General]
-FullMachineName=         ldap.example.com
+FullMachineName=         <%= @hostname %>
 SuiteSpotUserID=         nobody
 SuiteSpotGroup=          nobody
 AdminDomain=             example.com
 ConfigDirectoryAdminID=  admin
 ConfigDirectoryAdminPwd= Admin123
-ConfigDirectoryLdapURL=  ldap://ldap.example.com:389/o=NetscapeRoot
+ConfigDirectoryLdapURL=  ldap://<%=@hostname%>:389/o=NetscapeRoot
 [slapd]
 SlapdConfigForMC=        Yes
 UseExistingMC=           No

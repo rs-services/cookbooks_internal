@@ -20,3 +20,8 @@ attribute "DS389/install_type",
   :choice => [ "package", "source" ],
   :required => "optional",
   :default => "package"
+
+attribute "DS389/Hostname",
+  :display_name => "Hostname",
+  :description => "hostname",
+  :required => 'required'
