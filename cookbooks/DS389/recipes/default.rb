@@ -19,6 +19,7 @@
 rightscale_marker :begin
 
 sys_dns "default" do
+  id node[:DS389][:dns_id]
   address node[:cloud][:public_ips][0]
   action :set_private
 end

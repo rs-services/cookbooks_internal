@@ -25,3 +25,8 @@ attribute "DS389/Hostname",
   :display_name => "Hostname",
   :description => "hostname",
   :required => 'required'
+
+attribute "DS389/dns_id",
+  :display_name => "DNS ID",
+  :description => "DNS ID",
+  :required => "required"

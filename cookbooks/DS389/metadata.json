@@ -1,63 +1,76 @@
 {
-  "platforms": {
-  },
-  "name": "DS389",
-  "version": "0.1.0",
-  "groupings": {
-  },
-  "long_description": "389-DS Cookbook\n===============\nTODO: Enter the cookbook description here.\n\ne.g.\nThis cookbook makes your favorite breakfast sandwhich.\n\nRequirements\n------------\nTODO: List your cookbook requirements. Be sure to include any requirements this cookbook has on platforms, libraries, other cookbooks, packages, operating systems, etc.\n\ne.g.\n#### packages\n- `toaster` - 389-DS needs toaster to brown your bagel.\n\nAttributes\n----------\nTODO: List you cookbook attributes here.\n\ne.g.\n#### 389-DS::default\n<table>\n  <tr>\n    <th>Key</th>\n    <th>Type</th>\n    <th>Description</th>\n    <th>Default</th>\n  </tr>\n  <tr>\n    <td><tt>['389-DS']['bacon']</tt></td>\n    <td>Boolean</td>\n    <td>whether to include bacon</td>\n    <td><tt>true</tt></td>\n  </tr>\n</table>\n\nUsage\n-----\n#### 389-DS::default\nTODO: Write usage instructions for each cookbook.\n\ne.g.\nJust include `389-DS` in your node's `run_list`:\n\n```json\n{\n  \"name\":\"my_node\",\n  \"run_list\": [\n    \"recipe[389-DS]\"\n  ]\n}\n```\n\nContributing\n------------\nTODO: (optional) If this is a public cookbook, detail the process for contributing. If this is a private cookbook, remove this section.\n\ne.g.\n1. Fork the repository on Github\n2. Create a named feature branch (like `add_component_x`)\n3. Write you change\n4. Write tests for your change (if applicable)\n5. Run the tests, ensuring they all pass\n6. Submit a Pull Request using Github\n\nLicense and Authors\n-------------------\nAuthors: TODO: List authors\nhttp://www.unixmen.com/setup-directory-serverldap-in-centos-6-4-rhel-6-4/\nhttp://www.centos.org/docs/5/html/CDS/install/8.0/Installation_Guide-Advanced_Configuration-Silent.html\n",
-  "recipes": {
-    "DS389::default": "Installs 389 ds"
-  },
   "maintainer_email": "premium@rightscale.com",
-  "conflicting": {
-  },
-  "description": "Installs/Configures 389-DS",
-  "license": "Apache 2.0",
-  "maintainer": "RightScale Inc",
-  "suggestions": {
-  },
-  "dependencies": {
-    "rightscale_services_tools": ">= 0.0.0",
-    "sysctl": ">= 0.0.0",
-    "sys_dns": ">= 0.0.0",
-    "sys_firewall": ">= 0.0.0",
-    "rightscale": ">= 0.0.0"
-  },
   "attributes": {
     "DS389/Hostname": {
+      "required": "required",
+      "type": "string",
+      "display_name": "Hostname",
+      "description": "hostname",
+      "calculated": false,
       "recipes": [
 
       ],
+      "choice": [
+
+      ]
+    },
+    "DS389/dns_id": {
       "required": "required",
-      "calculated": false,
-      "description": "hostname",
       "type": "string",
-      "display_name": "Hostname",
+      "display_name": "DNS ID",
+      "description": "DNS ID",
+      "calculated": false,
+      "recipes": [
+
+      ],
       "choice": [
 
       ]
     },
     "DS389/install_type": {
+      "required": "optional",
+      "type": "string",
+      "display_name": "Install Type(Package/Source)",
+      "description": "Install Type(Package/Source)",
+      "calculated": false,
       "default": "package",
       "recipes": [
 
       ],
-      "required": "optional",
-      "calculated": false,
-      "description": "Install Type(Package/Source)",
-      "type": "string",
-      "display_name": "Install Type(Package/Source)",
       "choice": [
         "package",
         "source"
       ]
     }
   },
-  "replacing": {
+  "platforms": {
+  },
+  "conflicting": {
+  },
+  "groupings": {
+  },
+  "description": "Installs/Configures 389-DS",
+  "version": "0.1.0",
+  "dependencies": {
+    "sysctl": ">= 0.0.0",
+    "rightscale_services_tools": ">= 0.0.0",
+    "sys_firewall": ">= 0.0.0",
+    "sys_dns": ">= 0.0.0",
+    "rightscale": ">= 0.0.0"
   },
   "providing": {
   },
+  "recipes": {
+    "DS389::default": "Installs 389 ds"
+  },
+  "replacing": {
+  },
+  "maintainer": "RightScale Inc",
+  "long_description": "389-DS Cookbook\n===============\nTODO: Enter the cookbook description here.\n\ne.g.\nThis cookbook makes your favorite breakfast sandwhich.\n\nRequirements\n------------\nTODO: List your cookbook requirements. Be sure to include any requirements this cookbook has on platforms, libraries, other cookbooks, packages, operating systems, etc.\n\ne.g.\n#### packages\n- `toaster` - 389-DS needs toaster to brown your bagel.\n\nAttributes\n----------\nTODO: List you cookbook attributes here.\n\ne.g.\n#### 389-DS::default\n<table>\n  <tr>\n    <th>Key</th>\n    <th>Type</th>\n    <th>Description</th>\n    <th>Default</th>\n  </tr>\n  <tr>\n    <td><tt>['389-DS']['bacon']</tt></td>\n    <td>Boolean</td>\n    <td>whether to include bacon</td>\n    <td><tt>true</tt></td>\n  </tr>\n</table>\n\nUsage\n-----\n#### 389-DS::default\nTODO: Write usage instructions for each cookbook.\n\ne.g.\nJust include `389-DS` in your node's `run_list`:\n\n```json\n{\n  \"name\":\"my_node\",\n  \"run_list\": [\n    \"recipe[389-DS]\"\n  ]\n}\n```\n\nContributing\n------------\nTODO: (optional) If this is a public cookbook, detail the process for contributing. If this is a private cookbook, remove this section.\n\ne.g.\n1. Fork the repository on Github\n2. Create a named feature branch (like `add_component_x`)\n3. Write you change\n4. Write tests for your change (if applicable)\n5. Run the tests, ensuring they all pass\n6. Submit a Pull Request using Github\n\nLicense and Authors\n-------------------\nAuthors: TODO: List authors\nhttp://www.unixmen.com/setup-directory-serverldap-in-centos-6-4-rhel-6-4/\nhttp://www.centos.org/docs/5/html/CDS/install/8.0/Installation_Guide-Advanced_Configuration-Silent.html\n",
   "recommendations": {
-  }
+  },
+  "suggestions": {
+  },
+  "license": "Apache 2.0",
+  "name": "DS389"
 }
