@@ -20,7 +20,7 @@ rightscale_marker :begin
 
 sys_dns "default" do
   address node[:cloud][:public_ips][0]
-  action :set
+  action :set_private
 end
 
 sleep 61
