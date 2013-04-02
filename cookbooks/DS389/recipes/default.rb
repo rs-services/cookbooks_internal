@@ -18,7 +18,7 @@
 #
 rightscale_marker :begin
 
-include_recipe "DS389::#{node[:DS398][:install_type]}"
+include_recipe "DS389::#{node[:DS389][:install_type]}"
 
 %w{389 636 9830}.each { |port|
   sys_firewall port do
