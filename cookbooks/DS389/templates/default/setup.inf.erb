@@ -2,18 +2,18 @@
 FullMachineName=         <%= @hostname %>
 SuiteSpotUserID=         nobody
 SuiteSpotGroup=          nobody
-AdminDomain=             example.com
-ConfigDirectoryAdminID=  admin
-ConfigDirectoryAdminPwd= Admin123
+AdminDomain=             <%= @admin_domain %>
+ConfigDirectoryAdminID=  <%= @admin_user %>
+ConfigDirectoryAdminPwd= <%= @admin_pass %>
 ConfigDirectoryLdapURL=  ldap://<%=@hostname%>:389/o=NetscapeRoot
 [slapd]
 SlapdConfigForMC=        Yes
 UseExistingMC=           No
 ServerPort=              389
 ServerIdentifier=        example
-Suffix=                  dc=example,dc=com
+Suffix=                  <%= @suffix %>
 RootDN=                  cn=directory manager
-RootDNPwd=               Secret123
+RootDNPwd=               <% @dn_pass %>
 InstallLdifFile=         suggest
 AddOrgEntries=           Yes
 AddSampleEntries=        Yes
@@ -21,6 +21,6 @@ AddSampleEntries=        Yes
 [admin]
 SysUser=                 nobody
 Port=                    9830
-ServerIpAddress=         *
-ServerAdminID=           admin
-ServerAdminPwd=          Admin123
+ServerIpAddress=         0.0.0.0
+ServerAdminID=           <%= @admin_user %>
+ServerAdminPwd=          <%= @admin_pass %>

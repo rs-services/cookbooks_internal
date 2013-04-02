@@ -34,13 +34,33 @@ include_recipe "DS389::#{node[:DS389][:install_type]}"
   end
 }
 
+suffix_str=""
+node[:DS389][:AdminDomain].split('.').each_with_index do |domain,i| 
+  suffix_str+="dc=#{domain}"
+  suffix_str+="," unless i == node[:DS389][:AdminDomain].split('.').length
+end
 template "/tmp/setup.inf" do
   owner "root"
   group "root"
   mode "0644"
   variables(:hostname => node[:DS389][:Hostname],
-            :host_ip => node[:cloud][:public_ips][0])
+            :admin_domain => node[:DS389][:AdminDomain],
+            :admin_id => node[:DS389][:ConfigDirectoryAdminID],
+            :admin_pass => node[:DS389][:ConfigDirectoryAdminPwd],
+            :suffix => suffix_str,
+            :dn_pass => node[:DS389][:RootDNPwd])
   action :create
+end
+
+bash "tune" do 
+  code <<-EOF
+echo "net.ipv4.ip_local_port_range = 1024 65000" >> /etc/sysctl.conf
+echo "fs.file-max = 64000" >> /etc/sysctl.conf
+echo "* soft nofile 8192" >> /etc/security/limits.conf   
+echo "* hard nofile 8192" >> /etc/security/limits.conf
+echo "ulimit -n 8192" >> /etc/profile
+sysctl -w
+EOF
 end
 
 execute "/usr/sbin/setup-ds-admin.pl -s -f /tmp/setup.inf"

@@ -30,3 +30,27 @@ attribute "DS389/dns_id",
   :display_name => "DNS ID",
   :description => "DNS ID",
   :required => "required"
+
+attribute "DS389/AdminDomain",
+  :display_name => "Admin Domain",
+  :description => "Admin Domain", 
+  :required => "optional",
+  :default => "example.com"
+
+attribute "DS389/ConfigDirectoryAdminID",
+  :display_name => "ConfigDirectoryAdminID",
+  :description => "ConfigDirectoryAdminID",
+  :required => "required"
+
+attribute "DS389/ConfigDirectoryAdminPwd",
+  :display_name => "ConfigDirectoryAdminPwd",
+  :description => "ConfigDirectoryAdminPwd",
+  :required => "required"
+
+attribute "DS389/RootDNPwd", 
+  :display_name => "RootDNPwd",
+  :description => "RootDNPwd",
+  :required => "required"
+
+
+
