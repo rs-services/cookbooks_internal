@@ -18,6 +18,8 @@ recipe           "redis::default", "Installs and configures redis"
 recipe           "redis::remount-storage-and-restart-redis", "remounts /var/lib/redis/default, and restarts redis"
 recipe           "redis::monit", "adds redis, to monit"
 recipe           "redis::replication", "adds replication"
+recipe           "redis::promot_to_master", "converts a slave to master and 
+updates all slaves with new master in replication settings."
 
 attribute "redis/timeout",
   :display_name => "Timeout before connection close",

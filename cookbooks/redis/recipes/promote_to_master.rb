@@ -1,6 +1,5 @@
 # run this when making a slave a master
 
-
 rightscale_marker :begin
 
 right_link_tag "redis:role=master" do
@@ -23,10 +22,5 @@ remote_recipe "run replication" do
   recipients_tags "redis:role=slave"
 end
   
-
-
-#todo
-# remote run on all slaves to give it new master IP and Port.
-# update replication conf file.
 
 rightscale_marker :end
