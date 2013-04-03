@@ -15,6 +15,10 @@ file "#{node[:redis][:conf_dir]}/conf.d/replication.conf" do
   action :delete
 end
 
+service "#{node[:redis][:service_name]}" do
+  action :restart
+end
+      
 log "run replication script on slaves"
 # Run remote_recipe for each slave 
 remote_recipe "run replication" do
