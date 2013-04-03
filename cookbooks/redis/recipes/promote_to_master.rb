@@ -2,12 +2,12 @@
 
 rightscale_marker :begin
 
-right_link_tag "redis:role=master" do
-  action :publish
-end
-
 right_link_tag "redis:role=slave" do
   action :remove
+end
+
+right_link_tag "redis:role=master" do
+  action :publish
 end
 
 log "remove replication file on master"
