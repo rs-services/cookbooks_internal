@@ -37,7 +37,7 @@ include_recipe "DS389::#{node[:DS389][:install_type]}"
 suffix_str=""
 node[:DS389][:AdminDomain].split('.').each_with_index do |domain,i| 
   suffix_str+="dc=#{domain}"
-  suffix_str+="," unless i == node[:DS389][:AdminDomain].split('.').length
+  suffix_str+="," unless i == (node[:DS389][:AdminDomain].split('.').length - 1)
 end
 template "/tmp/setup.inf" do
   owner "root"
