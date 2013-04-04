@@ -15,6 +15,11 @@ file "#{node[:redis][:conf_dir]}/conf.d/replication.conf" do
   action :delete
 end
 
+# create empty file for master
+file "#{node[:redis][:conf_dir]}/conf.d/replication.conf" do
+  action :create
+end
+
 service "#{node[:redis][:service_name]}" do
   action :restart
 end
