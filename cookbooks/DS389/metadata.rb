@@ -13,6 +13,7 @@ depends "sys_dns"
 depends "sysctl"
 
 recipe "DS389::default", "Installs 389 ds"
+recipe "DS389::setup_monitoring", "installs exec plugin, for collectd"
 
 attribute "DS389/install_type",
   :display_name => "Install Type(Package/Source)",
@@ -52,5 +53,10 @@ attribute "DS389/RootDNPwd",
   :description => "RootDNPwd",
   :required => "required"
 
-
+attribute "rightscale/instance_uuid",
+  :display_name => "Instance UUID",
+  :description => "This is a place holder",
+  :required => "required",
+  :choices => ["RS_INSTANCE_UUID"],
+  :recipes => [ "DS389::setup_monitoring" ]
 

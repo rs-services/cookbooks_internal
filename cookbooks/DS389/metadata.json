@@ -1,129 +1,146 @@
 {
-  "groupings": {
+  "description": "Installs/Configures 389-DS",
+  "conflicting": {
   },
-  "platforms": {
+  "providing": {
   },
   "maintainer": "RightScale Inc",
-  "version": "0.1.0",
+  "long_description": "389-DS Cookbook\n===============\nTODO: Enter the cookbook description here.\n\ne.g.\nThis cookbook makes your favorite breakfast sandwhich.\n\nRequirements\n------------\nTODO: List your cookbook requirements. Be sure to include any requirements this cookbook has on platforms, libraries, other cookbooks, packages, operating systems, etc.\n\ne.g.\n#### packages\n- `toaster` - 389-DS needs toaster to brown your bagel.\n\nAttributes\n----------\nTODO: List you cookbook attributes here.\n\ne.g.\n#### 389-DS::default\n<table>\n  <tr>\n    <th>Key</th>\n    <th>Type</th>\n    <th>Description</th>\n    <th>Default</th>\n  </tr>\n  <tr>\n    <td><tt>['389-DS']['bacon']</tt></td>\n    <td>Boolean</td>\n    <td>whether to include bacon</td>\n    <td><tt>true</tt></td>\n  </tr>\n</table>\n\nUsage\n-----\n#### 389-DS::default\nTODO: Write usage instructions for each cookbook.\n\ne.g.\nJust include `389-DS` in your node's `run_list`:\n\n```json\n{\n  \"name\":\"my_node\",\n  \"run_list\": [\n    \"recipe[389-DS]\"\n  ]\n}\n```\n\nContributing\n------------\nTODO: (optional) If this is a public cookbook, detail the process for contributing. If this is a private cookbook, remove this section.\n\ne.g.\n1. Fork the repository on Github\n2. Create a named feature branch (like `add_component_x`)\n3. Write you change\n4. Write tests for your change (if applicable)\n5. Run the tests, ensuring they all pass\n6. Submit a Pull Request using Github\n\nLicense and Authors\n-------------------\nAuthors: TODO: List authors\nhttp://www.unixmen.com/setup-directory-serverldap-in-centos-6-4-rhel-6-4/\nhttp://www.centos.org/docs/5/html/CDS/install/8.0/Installation_Guide-Advanced_Configuration-Silent.html\n",
+  "recipes": {
+    "DS389::setup_monitoring": "installs exec plugin, for collectd",
+    "DS389::default": "Installs 389 ds"
+  },
+  "license": "Apache 2.0",
   "attributes": {
+    "DS389/Hostname": {
+      "description": "hostname",
+      "type": "string",
+      "display_name": "Hostname",
+      "recipes": [
+
+      ],
+      "choice": [
+
+      ],
+      "calculated": false,
+      "required": "required"
+    },
+    "DS389/ConfigDirectoryAdminID": {
+      "description": "ConfigDirectoryAdminID",
+      "type": "string",
+      "display_name": "ConfigDirectoryAdminID",
+      "recipes": [
+
+      ],
+      "choice": [
+
+      ],
+      "calculated": false,
+      "required": "required"
+    },
+    "DS389/dns_id": {
+      "description": "DNS ID",
+      "type": "string",
+      "display_name": "DNS ID",
+      "recipes": [
+
+      ],
+      "choice": [
+
+      ],
+      "calculated": false,
+      "required": "required"
+    },
+    "rightscale/instance_uuid": {
+      "description": "This is a place holder",
+      "choices": [
+        "RS_INSTANCE_UUID"
+      ],
+      "type": "string",
+      "display_name": "Instance UUID",
+      "recipes": [
+        "DS389::setup_monitoring"
+      ],
+      "choice": [
+
+      ],
+      "calculated": false,
+      "required": "required"
+    },
+    "DS389/RootDNPwd": {
+      "description": "RootDNPwd",
+      "type": "string",
+      "display_name": "RootDNPwd",
+      "recipes": [
+
+      ],
+      "choice": [
+
+      ],
+      "calculated": false,
+      "required": "required"
+    },
     "DS389/install_type": {
+      "description": "Install Type(Package/Source)",
+      "type": "string",
+      "display_name": "Install Type(Package/Source)",
+      "recipes": [
+
+      ],
       "choice": [
         "package",
         "source"
       ],
-      "required": "optional",
-      "display_name": "Install Type(Package/Source)",
       "default": "package",
       "calculated": false,
-      "type": "string",
-      "recipes": [
-
-      ],
-      "description": "Install Type(Package/Source)"
-    },
-    "DS389/RootDNPwd": {
-      "choice": [
-
-      ],
-      "required": "required",
-      "display_name": "RootDNPwd",
-      "calculated": false,
-      "type": "string",
-      "recipes": [
-
-      ],
-      "description": "RootDNPwd"
-    },
-    "DS389/AdminDomain": {
-      "choice": [
-
-      ],
-      "required": "optional",
-      "display_name": "Admin Domain",
-      "default": "example.com",
-      "calculated": false,
-      "type": "string",
-      "recipes": [
-
-      ],
-      "description": "Admin Domain"
-    },
-    "DS389/ConfigDirectoryAdminID": {
-      "choice": [
-
-      ],
-      "required": "required",
-      "display_name": "ConfigDirectoryAdminID",
-      "calculated": false,
-      "type": "string",
-      "recipes": [
-
-      ],
-      "description": "ConfigDirectoryAdminID"
-    },
-    "DS389/Hostname": {
-      "choice": [
-
-      ],
-      "required": "required",
-      "display_name": "Hostname",
-      "calculated": false,
-      "type": "string",
-      "recipes": [
-
-      ],
-      "description": "hostname"
-    },
-    "DS389/dns_id": {
-      "choice": [
-
-      ],
-      "required": "required",
-      "display_name": "DNS ID",
-      "calculated": false,
-      "type": "string",
-      "recipes": [
-
-      ],
-      "description": "DNS ID"
+      "required": "optional"
     },
     "DS389/ConfigDirectoryAdminPwd": {
-      "choice": [
-
-      ],
-      "required": "required",
-      "display_name": "ConfigDirectoryAdminPwd",
-      "calculated": false,
+      "description": "ConfigDirectoryAdminPwd",
       "type": "string",
+      "display_name": "ConfigDirectoryAdminPwd",
       "recipes": [
 
       ],
-      "description": "ConfigDirectoryAdminPwd"
+      "choice": [
+
+      ],
+      "calculated": false,
+      "required": "required"
+    },
+    "DS389/AdminDomain": {
+      "description": "Admin Domain",
+      "type": "string",
+      "display_name": "Admin Domain",
+      "recipes": [
+
+      ],
+      "choice": [
+
+      ],
+      "default": "example.com",
+      "calculated": false,
+      "required": "optional"
     }
   },
-  "replacing": {
-  },
-  "conflicting": {
+  "groupings": {
   },
   "recommendations": {
   },
-  "providing": {
+  "replacing": {
   },
-  "long_description": "389-DS Cookbook\n===============\nTODO: Enter the cookbook description here.\n\ne.g.\nThis cookbook makes your favorite breakfast sandwhich.\n\nRequirements\n------------\nTODO: List your cookbook requirements. Be sure to include any requirements this cookbook has on platforms, libraries, other cookbooks, packages, operating systems, etc.\n\ne.g.\n#### packages\n- `toaster` - 389-DS needs toaster to brown your bagel.\n\nAttributes\n----------\nTODO: List you cookbook attributes here.\n\ne.g.\n#### 389-DS::default\n<table>\n  <tr>\n    <th>Key</th>\n    <th>Type</th>\n    <th>Description</th>\n    <th>Default</th>\n  </tr>\n  <tr>\n    <td><tt>['389-DS']['bacon']</tt></td>\n    <td>Boolean</td>\n    <td>whether to include bacon</td>\n    <td><tt>true</tt></td>\n  </tr>\n</table>\n\nUsage\n-----\n#### 389-DS::default\nTODO: Write usage instructions for each cookbook.\n\ne.g.\nJust include `389-DS` in your node's `run_list`:\n\n```json\n{\n  \"name\":\"my_node\",\n  \"run_list\": [\n    \"recipe[389-DS]\"\n  ]\n}\n```\n\nContributing\n------------\nTODO: (optional) If this is a public cookbook, detail the process for contributing. If this is a private cookbook, remove this section.\n\ne.g.\n1. Fork the repository on Github\n2. Create a named feature branch (like `add_component_x`)\n3. Write you change\n4. Write tests for your change (if applicable)\n5. Run the tests, ensuring they all pass\n6. Submit a Pull Request using Github\n\nLicense and Authors\n-------------------\nAuthors: TODO: List authors\nhttp://www.unixmen.com/setup-directory-serverldap-in-centos-6-4-rhel-6-4/\nhttp://www.centos.org/docs/5/html/CDS/install/8.0/Installation_Guide-Advanced_Configuration-Silent.html\n",
-  "suggestions": {
+  "name": "DS389",
+  "platforms": {
   },
   "maintainer_email": "premium@rightscale.com",
-  "license": "Apache 2.0",
-  "name": "DS389",
-  "recipes": {
-    "DS389::default": "Installs 389 ds"
+  "version": "0.1.0",
+  "suggestions": {
   },
   "dependencies": {
-    "rightscale_services_tools": ">= 0.0.0",
-    "sys_dns": ">= 0.0.0",
+    "sys_firewall": ">= 0.0.0",
     "sysctl": ">= 0.0.0",
     "rightscale": ">= 0.0.0",
-    "sys_firewall": ">= 0.0.0"
-  },
-  "description": "Installs/Configures 389-DS"
+    "rightscale_services_tools": ">= 0.0.0",
+    "sys_dns": ">= 0.0.0"
+  }
 }
