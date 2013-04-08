@@ -52,11 +52,3 @@ attribute "DS389/RootDNPwd",
   :display_name => "RootDNPwd",
   :description => "RootDNPwd",
   :required => "required"
-
-attribute "rightscale/instance_uuid",
-  :display_name => "Instance UUID",
-  :description => "This is a place holder",
-  :required => "required",
-  :choices => ["RS_INSTANCE_UUID"],
-  :recipes => [ "DS389::setup_monitoring" ]
-
