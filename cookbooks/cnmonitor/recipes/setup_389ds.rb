@@ -33,11 +33,17 @@ end
 
 execute "mysql -u root < /usr/share/cnmonitor/sql/mysql.sql"
 
+template "/etc/cnmonitor/config.xml" do
+  source "config.xml.erb"
+  owner "root"
+  group "apache"
+  mode "0664"
+  action :create
+end
+
 service "httpd" do
   action :restart
 end
-
-
 
 
 rightscale_marker :end
