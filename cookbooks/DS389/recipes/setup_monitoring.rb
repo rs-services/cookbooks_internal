@@ -1,3 +1,5 @@
+rightscale_marker :begin
+
 package "389-ds-base-devel" do
   action :install
 end
@@ -31,3 +33,5 @@ end
 service "collectd" do
   action :restart
 end
+
+rightscale_marker :end
