@@ -41,6 +41,14 @@ template "/etc/cnmonitor/config.xml" do
   action :create
 end
 
+template "/var/www/html/index.html" do
+  source "index.html.erb"
+  owner "root"
+  group "root"
+  mode "0644"
+  action :create
+end
+
 service "httpd" do
   action :restart
 end
