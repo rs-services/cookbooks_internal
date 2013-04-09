@@ -2,7 +2,13 @@ package "389-ds-base-devel" do
   action :install
 end
 
+gem_package "rdoc" do 
+  gem_binary "/usr/bin/gem"
+  action :install
+end
+
 gem_package "ruby-ldap" do
+  gem_binary "/usr/bin/gem"
   action :install
 end
 
