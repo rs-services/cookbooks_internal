@@ -8,15 +8,18 @@ sampling_interval = 20
 
 ops=["threads", "currentconnections", "totalconnections", "dtablesize", "readwaiters","opsinitiated", "opscompleted", "entriessent", "bytessent", "currenttime", "starttime", "nbackends", "masterentries","copyentries","cacheentries","cachehits","slavehits"]
 @conn=LDAP::Conn.new
+
 while true do
   start_run = Time.now.to_i
   next_run = start_run + sampling_interval
 
  @conn.bind('cn=Directory Manager','<%= node[:DS389][:RootDNPwd] %>')
-  monitor_hash=Hash.new
-  @conn.search('cn=monitor',LDAP::LDAP_SCOPE_SUBTREE, 'objectClass=*') { |e| monitor_hash=e.to_hash }
+  @monitor_hash=Hash.new
+  @conn.search('cn=monitor',LDAP::LDAP_SCOPE_SUBTREE, 'objectClass=*') { |e| @monitor_hash=e.to_hash }
+  @conn.search('cn=monitor',LDAP::LDAP_SCOPE_SUBTREE, 'objectClass=*') { |e| e.to_hash.each { |k,v| @monitor_hash[k]=v}}
+
   ops.each { |k|
-    puts("PUTVAL #{hostname}/#{PLUGIN_NAME}/gauge-#{k} #{start_run}:#{monitor_hash[k].first.to_i}")
+    puts("PUTVAL #{hostname}/#{PLUGIN_NAME}/gauge-#{k} #{start_run}:#{@monitor_hash[k].first.to_i}")
   }
   @conn.unbind
   while((time_left = (next_run - Time.now.to_i)) > 0) do

@@ -10,7 +10,7 @@ ConfigDirectoryLdapURL=  ldap://<%=@hostname%>:389/o=NetscapeRoot
 SlapdConfigForMC=        Yes
 UseExistingMC=           No
 ServerPort=              389
-ServerIdentifier=        example
+ServerIdentifier=        <%= @admin_domain.split('.').first %>
 Suffix=                  <%= @suffix %>
 RootDN=                  cn=directory manager
 RootDNPwd=               <%= @dn_pass %>
