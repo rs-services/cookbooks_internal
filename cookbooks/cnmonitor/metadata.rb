@@ -8,4 +8,4 @@ version          '0.1.0'
 
 depends "rightscale"
 
-recipe "cnmonitor::setup-389ds", "sets up cn=monitor for ds389"
+recipe "cnmonitor::setup_389ds", "sets up cn=monitor for ds389"
