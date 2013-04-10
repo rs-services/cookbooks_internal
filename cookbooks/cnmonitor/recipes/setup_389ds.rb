@@ -53,5 +53,36 @@ service "httpd" do
   action :restart
 end
 
+cron "collectdb" do
+  minute "30"
+  home "/usr/share/cnmonitor/bin"
+  command "php collectdb.php"
+  action :create
+end
+
+cron "collectservermessage" do
+  minute "10"
+  home "/usr/share/cnmonitor/bin"
+  command "php collectservermessage.php"
+  action :create
+end
+
+cron "collectsummary" do
+  minute "0"
+  hour "4"
+  home "/usr/share/cnmonitor/bin"
+  command "php collectsummary.php"
+  action :create
+end
+
+template "/tmp/monitor.ldif" do
+  source "user_monitor.cnmonitor.ldif.erb"
+  owner "root"
+  group "root"
+  mode "0644"
+  action :create
+end
+
+
 
 rightscale_marker :end
