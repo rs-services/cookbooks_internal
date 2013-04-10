@@ -1,4 +1,6 @@
+#http://port389.org/wiki/Howto:CN%3DMonitor_LDAP_Monitoring
 rightscale_marker :begin
+
 %w{openldap-clients httpd mod_ssl openssl php php-cli php-ldap php-gd mysql mysql-server}.each { |pkg|
   package pkg do
     action :install
@@ -49,10 +51,6 @@ template "/var/www/html/index.html" do
   action :create
 end
 
-service "httpd" do
-  action :restart
-end
-
 cron "collectdb" do
   minute "30"
   home "/usr/share/cnmonitor/bin"
@@ -83,6 +81,20 @@ template "/tmp/monitor.ldif" do
   action :create
 end
 
+execute "ldapadd -D \"cn=directory manager\" -w #{node[:DS389][:RootDNPwd]} -f /tmp/monitor.ldif"
 
+template "/tmp/aci.ldif" do
+  source "aci.ldif.erb"
+  owner "root"
+  group "root"
+  mode "0644"
+  action :create
+end
+
+execute "ldapmodify -D \"cn=directory manager\" -w #{node[:DS389][:RootDNPwd]} -f /tmp/aci.ldif"
+
+service "httpd" do
+  action :restart
+end
 
 rightscale_marker :end

@@ -1,0 +1,4 @@
+dn: cn=config
+changetype: modify
+add: aci
+aci: (targetattr = "*") (version 3.0; acl "CN=Monitor"; allow (read,compare,search)(userdn = "ldap:///uid=monitor.cnmonitor,ou=people,dc=example,dc=com");)
