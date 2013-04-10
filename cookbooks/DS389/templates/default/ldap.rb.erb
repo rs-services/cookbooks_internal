@@ -15,7 +15,7 @@ while true do
 
  @conn.bind('cn=Directory Manager','<%= node[:DS389][:RootDNPwd] %>')
   @monitor_hash=Hash.new
-  @conn.search('cn=monitor',LDAP::LDAP_SCOPE_SUBTREE, 'objectClass=*') { |e| @monitor_hash=e.to_hash }
+  @conn.search('cn=monitor',LDAP::LDAP_SCOPE_BASE, 'objectClass=*') { |e| @monitor_hash=e.to_hash }
   @conn.search('cn=monitor',LDAP::LDAP_SCOPE_SUBTREE, 'objectClass=*') { |e| e.to_hash.each { |k,v| @monitor_hash[k]=v}}
 
   ops.each { |k|
