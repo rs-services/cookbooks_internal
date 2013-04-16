@@ -2,7 +2,8 @@
 #
 rightscale_marker :begin
 
-right_link_tag "DS389_replication:status=master"
+right_link_tag "directory_replication:status=master"
+right_link_tag "directory:hostname=#{node[:DS389][:Hostname]}"
 
 directory "/tmp/replication" do
   owner "root"
@@ -39,7 +40,7 @@ node[:DS389][:AdminDomain].split('.').each_with_index do |domain,i|
 end
 
 replica_id=rand(65534)
-right_link_tag "DS389_replication:id=#{replica_id}"
+right_link_tag "directory_replication:id=#{replica_id}"
 
 template "/tmp/replication/supplier.ldif" do
   source "replication_supplier.ldif.erb"
