@@ -30,4 +30,22 @@ end
 
 execute "ldapadd -D \"cn=Directory Manager\" -w #{node[:DS389][:RootDNPwd]} -f /tmp/replication/user.ldif"
 
+suffix_str=""
+node[:DS389][:AdminDomain].split('.').each_with_index do |domain,i|
+  suffix_str+="dc=#{domain}"
+  suffix_str+="," unless i == (node[:DS389][:AdminDomain].split('.').length - 1)
+end
+
+template "/tmp/replication/supplier.ldif" do
+  source "replication_supplier.ldif.erb"
+  owner "root"
+  group "root"
+  mode "0644"
+  variables(:replica_id => rand(65534),
+            :suffix => suffix_str )
+  action :create
+end
+
+execute "ldapmodify -D \"cn=Directory Manager\" -w #{node[:DS389][:RootDNPwd]} -f /tmp/replication/supplier.ldif"
+
 rightscale_marker :end
