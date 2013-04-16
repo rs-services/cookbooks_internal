@@ -1,0 +1,13 @@
+dn: cn=ExampleAgreement,cn=replica,cn="dc=example,dc=com",cn=mapping tree,cn=config
+changetype: add
+objectclass: top
+objectclass: nsds5replicationagreement
+cn: ExampleAgreement
+nsds5replicahost: 389-ds-2.cloudlord.com
+nsds5replicaport: 389
+nsds5ReplicaBindDN: cn=replication manager
+nsds5replicabindmethod: SIMPLE
+nsds5replicaroot: dc=example,dc=com
+description: agreement between supplier1 and consumer1
+nsds5replicacredentials: {DES}fuv0cw/eJtdv5sxdtxi4lA==
+nsds5BeginReplicaRefresh: start
