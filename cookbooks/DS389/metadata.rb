@@ -14,6 +14,7 @@ depends "sysctl"
 
 recipe "DS389::default", "Installs 389 ds"
 recipe "DS389::setup_monitoring", "installs exec plugin, for collectd"
+recipe "DS389::setup_replication", "sets up multi-master replication"
 
 attribute "DS389/install_type",
   :display_name => "Install Type(Package/Source)",
