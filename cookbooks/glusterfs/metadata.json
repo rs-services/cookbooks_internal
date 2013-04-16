@@ -1,92 +1,48 @@
 {
-  "groupings": {
-  },
-  "dependencies": {
-    "apt": ">= 0.0.0",
-    "rightscale": ">= 0.0.0"
-  },
+  "name": "glusterfs",
+  "description": "GlusterFS recipes",
+  "long_description": "",
+  "maintainer": "RightScale, Inc.",
+  "maintainer_email": "support@rightscale.com",
+  "license": "Apache 2.0",
   "platforms": {
   },
-  "conflicting": {
+  "dependencies": {
+    "rightscale": ">= 0.0.0",
+    "apt": ">= 0.0.0"
   },
-  "maintainer": "RightScale, Inc.",
-  "long_description": "",
-  "description": "GlusterFS recipes",
-  "maintainer_email": "support@rightscale.com",
-  "recipes": {
-    "glusterfs::server_handle_tag_updates": "Remote recipe intended to be called by glusterfs::server_{create,join}_cluster",
-    "glusterfs::server_create_cluster": "Finds other servers tagged as 'spare=true' and initializes the GlusterFS volume",
-    "glusterfs::server_configure": "Configures glusterd",
-    "glusterfs::server_set_tags": "Adds 'glusterfs_server:*' tags so other servers can find us",
-    "glusterfs::server_join_cluster": "Finds an existing/joined GlusterFS server and request to be attached to the cluster",
-    "glusterfs::install": "Downloads and installs GlusterFS",
-    "glusterfs::default": "Currently unused",
-    "glusterfs::server_decommission": "Removes bricks from the volume, detaches from the cluster and resets some tags",
-    "glusterfs::server_handle_live_migration": "Remote recipe intended to be called by glusterfs::server_live_migrate",
-    "glusterfs::server_handle_probe_request": "Remote recipe intended to be called by glusterfs::server_{create,join}_cluster",
-    "glusterfs::server_handle_detach_request": "Remote recipe intended to be called by glusterfs::server_decommission",
-    "glusterfs::server_live_migrate": "Live migrate a brick from one live node to another",
-    "glusterfs::client_mount_volume": "Runs mount(8) with `-t glusterfs' option to mount glusterfs"
+  "recommendations": {
   },
   "suggestions": {
   },
-  "name": "glusterfs",
-  "version": "0.0.2",
+  "conflicting": {
+  },
+  "providing": {
+  },
+  "replacing": {
+  },
   "attributes": {
-    "glusterfs/server/replace_brick_forced": {
-      "calculated": false,
-      "default": "No",
-      "type": "string",
-      "description": "Force brick replacement for dead node",
+    "glusterfs/server/volume_type": {
+      "display_name": "Volume Type",
+      "description": "The type of GlusterFS volume to create (distributed, replicated, etc)",
       "required": "optional",
-      "display_name": "Force Brick Replace",
-      "recipes": [
-        "glusterfs::default",
-        "glusterfs::server_live_migrate",
-        "glusterfs::server_replace_brick"
-      ],
+      "default": "Replicated",
       "choice": [
-        "No",
-        "Yes"
-      ]
-    },
-    "glusterfs/server/storage_path": {
-      "calculated": false,
-      "type": "string",
-      "description": "The directory path to be used as a brick and added to the GlusterFS volume",
-      "required": "required",
-      "display_name": "Storage Path",
+        "Distributed",
+        "Replicated"
+      ],
       "recipes": [
         "glusterfs::default",
-        "glusterfs::server_set_tags",
         "glusterfs::server_create_cluster",
         "glusterfs::server_join_cluster"
       ],
-      "choice": [
-
-      ]
-    },
-    "glusterfs/server/replace_brick": {
       "calculated": false,
-      "type": "string",
-      "description": "Number of the brick to be replaced",
-      "required": "optional",
-      "display_name": "Replace Brick",
-      "recipes": [
-        "glusterfs::default",
-        "glusterfs::server_live_migrate",
-        "glusterfs::server_replace_brick"
-      ],
-      "choice": [
-
-      ]
+      "type": "string"
     },
     "glusterfs/volume_name": {
-      "calculated": false,
-      "type": "string",
+      "display_name": "Volume Name",
       "description": "The name of the GlusterFS volume. Servers are tagged with this name and trusted pools are keyed off this name, meaning everyone who shares the same name will become part of the same pool/volume",
       "required": "required",
-      "display_name": "Volume Name",
       "recipes": [
         "glusterfs::default",
         "glusterfs::server_set_tags",
@@ -96,29 +52,31 @@
       ],
       "choice": [
 
-      ]
-    },
-    "glusterfs/client/mount_options": {
+      ],
       "calculated": false,
-      "type": "string",
-      "description": "(Client only) Extra options to be passed to the mount command",
-      "required": "optional",
-      "display_name": "Mount Options",
+      "type": "string"
+    },
+    "glusterfs/server/storage_path": {
+      "display_name": "Storage Path",
+      "description": "The directory path to be used as a brick and added to the GlusterFS volume",
+      "required": "required",
       "recipes": [
         "glusterfs::default",
-        "glusterfs::client_mount_volume"
+        "glusterfs::server_set_tags",
+        "glusterfs::server_create_cluster",
+        "glusterfs::server_join_cluster"
       ],
       "choice": [
 
-      ]
+      ],
+      "calculated": false,
+      "type": "string"
     },
     "glusterfs/server/replica_count": {
-      "calculated": false,
-      "default": "2",
-      "type": "string",
+      "display_name": "Replica Count",
       "description": "The number of bricks to replicate files across for a Replicated volume type",
       "required": "optional",
-      "display_name": "Replica Count",
+      "default": "2",
       "recipes": [
         "glusterfs::default",
         "glusterfs::server_create_cluster",
@@ -126,46 +84,88 @@
       ],
       "choice": [
 
-      ]
+      ],
+      "calculated": false,
+      "type": "string"
+    },
+    "glusterfs/server/replace_brick": {
+      "display_name": "Replace Brick",
+      "description": "Number of the brick to be replaced",
+      "required": "optional",
+      "recipes": [
+        "glusterfs::default",
+        "glusterfs::server_live_migrate",
+        "glusterfs::server_replace_brick"
+      ],
+      "choice": [
+
+      ],
+      "calculated": false,
+      "type": "string"
+    },
+    "glusterfs/server/replace_brick_forced": {
+      "display_name": "Force Brick Replace",
+      "description": "Force brick replacement for dead node",
+      "required": "optional",
+      "default": "No",
+      "choice": [
+        "No",
+        "Yes"
+      ],
+      "recipes": [
+        "glusterfs::default",
+        "glusterfs::server_live_migrate",
+        "glusterfs::server_replace_brick"
+      ],
+      "calculated": false,
+      "type": "string"
     },
     "glusterfs/client/mount_point": {
-      "calculated": false,
-      "default": "/mnt/ephemeral/glusterfs",
-      "type": "string",
-      "description": "(Client only) The directory path where the GlusterFS volume should be mounted (e.g., /mnt/storage).",
-      "required": "recommended",
       "display_name": "Mount point",
+      "description": "(Client only) The directory path where the GlusterFS volume should be mounted (e.g., /mnt/storage).",
+      "type": "string",
+      "required": "recommended",
+      "default": "/mnt/ephemeral/glusterfs",
       "recipes": [
         "glusterfs::default",
         "glusterfs::client_mount_volume"
       ],
       "choice": [
 
-      ]
+      ],
+      "calculated": false
     },
-    "glusterfs/server/volume_type": {
-      "calculated": false,
-      "default": "Replicated",
-      "type": "string",
-      "description": "The type of GlusterFS volume to create (distributed, replicated, etc)",
+    "glusterfs/client/mount_options": {
+      "display_name": "Mount Options",
+      "description": "(Client only) Extra options to be passed to the mount command",
       "required": "optional",
-      "display_name": "Volume Type",
       "recipes": [
         "glusterfs::default",
-        "glusterfs::server_create_cluster",
-        "glusterfs::server_join_cluster"
+        "glusterfs::client_mount_volume"
       ],
       "choice": [
-        "Distributed",
-        "Replicated"
-      ]
+
+      ],
+      "calculated": false,
+      "type": "string"
     }
   },
-  "recommendations": {
+  "groupings": {
   },
-  "replacing": {
+  "recipes": {
+    "glusterfs::default": "Currently unused",
+    "glusterfs::install": "Downloads and installs GlusterFS",
+    "glusterfs::server_configure": "Configures glusterd",
+    "glusterfs::server_set_tags": "Adds 'glusterfs_server:*' tags so other servers can find us",
+    "glusterfs::server_create_cluster": "Finds other servers tagged as 'spare=true' and initializes the GlusterFS volume",
+    "glusterfs::server_join_cluster": "Finds an existing/joined GlusterFS server and request to be attached to the cluster",
+    "glusterfs::server_decommission": "Removes bricks from the volume, detaches from the cluster and resets some tags",
+    "glusterfs::server_handle_probe_request": "Remote recipe intended to be called by glusterfs::server_{create,join}_cluster",
+    "glusterfs::server_handle_tag_updates": "Remote recipe intended to be called by glusterfs::server_{create,join}_cluster",
+    "glusterfs::server_handle_detach_request": "Remote recipe intended to be called by glusterfs::server_decommission",
+    "glusterfs::server_handle_live_migration": "Remote recipe intended to be called by glusterfs::server_live_migrate",
+    "glusterfs::client_mount_volume": "Runs mount(8) with `-t glusterfs' option to mount glusterfs",
+    "glusterfs::server_live_migrate": "Live migrate a brick from one live node to another"
   },
-  "providing": {
-  },
-  "license": "Apache 2.0"
+  "version": "0.0.3"
 }
