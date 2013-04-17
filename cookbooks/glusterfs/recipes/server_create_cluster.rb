@@ -13,6 +13,7 @@ TAG_VOLUME = node[:glusterfs][:tag][:volume]
 TAG_BRICK  = node[:glusterfs][:tag][:brick]
 VOL_TYPE   = node[:glusterfs][:server][:volume_type]
 REPL_COUNT = node[:glusterfs][:server][:replica_count].to_i
+AUTH_ALLOW = node[:glusterfs][:server][:volume_auth]
 IP_ADDR    = node[:cloud][:private_ips][0]
 
 list_tags = "rs_tag --list --format text |tr ' ' '\\n'"
@@ -96,7 +97,7 @@ ruby_block "Create volume" do
 
     # FIXME should be glusterfs/server/volume_options input
     # FIXME check for successful output on these
-    system "#{SET_OPT} auth.allow '172.*,10.*,173.*' &>/dev/null"
+    system "#{SET_OPT} auth.allow '#{AUTH_ALLOW}' &>/dev/null"
     system "#{SET_OPT} nfs.disable on &>/dev/null"
     system "#{SET_OPT} network.frame-timeout 60 &>/dev/null"
 

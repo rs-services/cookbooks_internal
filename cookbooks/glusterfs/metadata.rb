@@ -34,6 +34,15 @@ attribute "glusterfs/server/volume_type",
                        "glusterfs::server_create_cluster",
                        "glusterfs::server_join_cluster" ]
 
+attribute "glusterfs/server/volume_auth",
+    :display_name => "Volume Auth",
+    :description  => "The GlusterFS volume auth.allow to use (ex.: 172.*,10.*,173.*)",
+    :required     => "optional",
+    :default      => "*",
+    :recipes      => [ "glusterfs::default",
+                       "glusterfs::server_create_cluster",
+                       "glusterfs::server_join_cluster" ]
+
 attribute "glusterfs/volume_name",
     :display_name => "Volume Name",
     :description  => "The name of the GlusterFS volume. Servers are tagged with this name and trusted pools are keyed off this name, meaning everyone who shares the same name will become part of the same pool/volume",
