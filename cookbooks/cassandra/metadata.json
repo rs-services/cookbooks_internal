@@ -68,7 +68,8 @@
       ],
       "type": "string",
       "display_name": "num_tokens",
-      "required": "required",
+      "required": "recommended",
+      "default": "256",
       "choice": [
 
       ],

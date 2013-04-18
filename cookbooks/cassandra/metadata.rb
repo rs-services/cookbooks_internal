@@ -35,11 +35,12 @@ attribute "cassandra/seeds",
   :required     => "recommended"
 
 attribute "cassandra/num_tokens",
-	:description  => "Number of tokens assigned to this node",
-	:recipes      => ["cassandra::configure"],
-	:type         => "string",
-	:display_name => "num_tokens",
-	:required     => "required"
+  :description  => "Number of tokens assigned to this node",
+  :recipes      => ["cassandra::configure"],
+  :type         => "string",
+  :display_name => "num_tokens",
+  :required     => "recommended",
+  :default      => "256"
 
 attribute "cassandra/data_file_directories",
   :description  => "Directories where Cassandra should store data on disk.",
