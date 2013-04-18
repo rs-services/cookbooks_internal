@@ -9,33 +9,33 @@
 
 rightscale_marker :begin
 
-case node['platform']
-when "ubuntu"
-  include_recipe "apt"
-
-  apt_repository "cassandra-repo" do
-    uri "http://www.apache.org/dist/cassandra/debian"
-    components ["11x", "main"]
-    keyserver "pgp.mit.edu"
-    key "4BD736A82B5C1B00"
-    action :add
-    notifies :run, resources(:execute => "apt-get update"), :immediately
-  end
-
-  apt_preference "cassandra" do
-    pin "version #{node['cassandra']['version']}"
-    pin_priority "1000"
-  end
+# Create Cassandra user
+user "cassandra" do
+	comment "Cassandra software owner"
 end
 
-package "cassandra" 
+# Download Cassandra
+remote_file "/tmp/cassandra.tar.gz" do
+	source "http://stefhen-rightscale.s3.amazonaws.com/apache-cassandra-#{node['cassandra']['version']}-bin.tar.gz"
+	checksum "08313fbfd5cc7d91a637a2a27c5c6bb4d3bf6ce8ff5eae9a14c20474faa8cf12"
+end
 
-# Create cassandra commit and saved_caches dirs
-[node['cassandra']['commitlog_directory'], node['cassandra']['saved_caches_directory']].each do |dir|
+# Untar and install
+bash "untar_cassandra" do
+	cwd "/tmp"
+	code <<-EOM
+		tar zxf cassandra.tar.gz -C /usr/local
+		ln -s /usr/local/apache-cassandra-#{node['cassandra']['version']} /usr/local/cassandra
+		chown -R cassandra: /usr/local/apache-cassandra-#{node['cassandra']['version']}
+	EOM
+end
+
+# Create cassandra commit, saved_caches dirs and logging dir
+[ node['cassandra']['commitlog_directory'], node['cassandra']['saved_caches_directory'], node['cassandra']['log4j_directory'] ].each do |dir|
   directory "#{dir}" do
     owner "cassandra"
     group "cassandra"
-    mode "755"
+    mode "0755"
     action :create
     recursive true
   end
@@ -46,25 +46,27 @@ node['cassandra']['data_file_directories'].each do |dir|
   directory "#{dir}" do
     owner "cassandra"
     group "cassandra"
-    mode "755"
+    mode "0755"
     action :create
     recursive true
   end
 end
 
-template "/etc/cassandra/log4j-server.properties" do
-  source "log4j-server.properties.erb"
-  mode "0644"
-  variables({
-    :log4j_directory => node['cassandra']['log4j_directory']
-  })
-end
+# Install log4j-server.properties
+template "/usr/local/apache-cassandra-#{node['cassandra']['version']}/conf/log4j-server.properties" do
+	source "log4j-server.properties.erb"
+	owner "cassandra"
+	group "cassandra"
+	mode "0644"
+	variables({
+		:log4j_directory => node['cassandra']['log4j_directory']
+	})
+end 
 
-# This alters the default config file to use java-6-sun.
-# Comment out to use OpenJDK.
-template "/etc/init.d/cassandra" do
-  source "cassandra"
-  mode "0755"
+cookbook_file "/etc/init.d/cassandra" do
+	source "cassandra"
+	mode "0755"
+	backup false
 end
 
 rightscale_marker :end

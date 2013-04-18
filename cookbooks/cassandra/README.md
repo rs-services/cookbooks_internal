@@ -1,4 +1,4 @@
-Description
+D#escription
 ===========
 
 This cookbook will install and configure a Cassandra ring.
