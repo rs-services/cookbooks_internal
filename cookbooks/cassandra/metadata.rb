@@ -47,25 +47,29 @@ attribute "cassandra/data_file_directories",
   :recipes      => ["cassandra::install", "cassandra::configure"],
   :type         => "array",
   :display_name => "data_file_directories",
-  :required     => "required"
+  :required     => "recommended",
+  :default      => "/mnt/ephemeral/cassandra/data"
 
 attribute "cassandra/commitlog_directory",
   :description  => "Directory where commit logs will be written to.",
   :recipes      => ["cassandra::install",  "cassandra::configure"],
   :type         => "string",
   :display_name => "commitlog_directory",
-  :required     => "required"
+  :required     => "recommended",
+  :default      => "/mnt/ephemeral/cassandra/commitlog"
 
 attribute "cassandra/saved_caches_directory",
   :description  => "Directory where saved caches will be written to.",
   :recipes      => ["cassandra::install", "cassandra::configure"],
   :type         => "string",
   :display_name => "saved_caches_directory",
-  :required     => "required"
+  :required     => "recommended",
+  :default      => "/mnt/ephemeral/cassandra/saved_caches"
 
 attribute "cassandra/log4j_directory",
-	:description  => "Directory where the main logfile will be written to",
-	:recipes      => ["cassandra::install"],
-	:type         => "string",
-	:display_name => "log4j_directory",
-	:required     => "required"
+  :description  => "Directory where the main logfile will be written to",
+  :recipes      => ["cassandra::install"],
+  :type         => "string",
+  :display_name => "log4j_directory",
+  :required     => "recommended",
+  :default      => "/mnt/ephemeral/cassandra/logs"

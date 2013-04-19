@@ -83,7 +83,8 @@
       ],
       "type": "array",
       "display_name": "data_file_directories",
-      "required": "required",
+      "required": "recommended",
+      "default": "/mnt/ephemeral/cassandra/data",
       "choice": [
 
       ],
@@ -97,7 +98,8 @@
       ],
       "type": "string",
       "display_name": "commitlog_directory",
-      "required": "required",
+      "required": "recommended",
+      "default": "/mnt/ephemeral/cassandra/commitlog",
       "choice": [
 
       ],
@@ -111,7 +113,8 @@
       ],
       "type": "string",
       "display_name": "saved_caches_directory",
-      "required": "required",
+      "required": "recommended",
+      "default": "/mnt/ephemeral/cassandra/saved_caches",
       "choice": [
 
       ],
@@ -124,7 +127,8 @@
       ],
       "type": "string",
       "display_name": "log4j_directory",
-      "required": "required",
+      "required": "recommended",
+      "default": "/mnt/ephemeral/cassandra/logs",
       "choice": [
 
       ],
