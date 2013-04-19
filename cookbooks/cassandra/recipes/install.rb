@@ -16,7 +16,7 @@ end
 
 # Download Cassandra
 remote_file "/tmp/cassandra.tar.gz" do
-	source "http://stefhen-rightscale.s3.amazonaws.com/apache-cassandra-#{node['cassandra']['version']}-bin.tar.gz"
+	source "http://rs-professional-services-publishing.s3.amazonaws.com/cassandra/apache-cassandra-#{node['cassandra']['version']}-bin.tar.gz"
 	checksum "08313fbfd5cc7d91a637a2a27c5c6bb4d3bf6ce8ff5eae9a14c20474faa8cf12"
 end
 
