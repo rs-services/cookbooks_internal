@@ -68,3 +68,4 @@ License and Authors
 Authors: TODO: List authors
 http://www.unixmen.com/setup-directory-serverldap-in-centos-6-4-rhel-6-4/
 http://www.centos.org/docs/5/html/CDS/install/8.0/Installation_Guide-Advanced_Configuration-Silent.html
+http://www.centos.org/docs/5/html/CDS/ag/8.0/Managing_Replication-Configuring-Replication-cmd.html
