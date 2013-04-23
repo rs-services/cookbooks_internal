@@ -19,9 +19,11 @@ bash "unzip and install" do
   cd /tmp/
   tar -xjf 389.tar.bz2
   cd 389*
+  ldconfig
   ./configure --prefix=/usr --sysconfdir=/etc --with-openldap --enable-autobind --with-selinux --quiet
   make all --quiet
   make install --quiet
+  ldconfig
 EOF
 end
 
@@ -41,6 +43,7 @@ bash "unzip and install" do
   ./configure --prefix=/usr --sysconfdir=/etc --with-openldap --quiet
   make all --quiet
   make install --quiet
+  ldconfig
 EOF
 end
 
@@ -60,6 +63,7 @@ bash "unzip and install" do
   ./configure --prefix=/usr --sysconfdir=/etc --with-openldap --quiet
   make all --quiet
   make install --quiet
+  ldconfig
 EOF
 end
 
