@@ -14,7 +14,7 @@ remote_file "/tmp/389.tar.bz2" do
   action :create
 end
 
-bash "unzip and install" do
+bash "389-ds-base unzip and install" do
   code <<-EOF
   cd /tmp/
   tar -xjf 389.tar.bz2
@@ -35,7 +35,7 @@ remote_file "/tmp/389-admin-util.tar.bz2" do
   action :create
 end
 
-bash "unzip and install" do
+bash "389-admin-util unzip and install" do
   code <<-EOF
   cd /tmp/
   tar -xjf 389-admin-util.tar.bz2
@@ -55,11 +55,12 @@ remote_file "/tmp/389-admin.tar.bz2" do
   action :create
 end
 
-bash "unzip and install" do
+bash "389-admin unzip and install" do
   code <<-EOF
   cd /tmp/
   tar -xjf 389-admin.tar.bz2
   cd 389-admin-*
+  PATH="/bin:/usr/bin:/sbin:/usr/sbin:/sbin" ldconfig -n /usr/lib
   ./configure --prefix=/usr --sysconfdir=/etc --with-openldap --quiet
   make all --quiet
   make install --quiet
@@ -75,7 +76,7 @@ remote_file "/tmp/dsgw.tar.bz2" do
   action :create
 end
 
-bash "unzip and install" do
+bash "dsgw unzip and install" do
   code <<-EOF
   cd /tmp/
   tar -xjf dsgw.tar.bz2
