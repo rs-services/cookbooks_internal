@@ -61,7 +61,7 @@ bash "389-admin unzip and install" do
   tar -xjf 389-admin.tar.bz2
   cd 389-admin-*
   PATH="/bin:/usr/bin:/sbin:/usr/sbin:/sbin" ldconfig -n /usr/lib
-  ./configure --prefix=/usr --sysconfdir=/etc --with-openldap --quiet
+  ./configure --prefix=/usr --sysconfdir=/etc --with-openldap --with-adminutil=/usr
   make all --quiet
   make install --quiet
   ldconfig
