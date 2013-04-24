@@ -80,8 +80,8 @@ bash "dsgw unzip and install" do
   code <<-EOF
   cd /tmp/
   tar -xjf dsgw.tar.bz2
-  cd dsgw*
-  ./configure --prefix=/usr --sysconfdir=/etc --with-openldap --quiet
+  cd 389-dsgw*
+  ./configure --prefix=/usr --sysconfdir=/etc --with-openldap --with-adminutil=/usr
   make all --quiet
   make install --quiet
 EOF
