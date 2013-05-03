@@ -1,8 +1,9 @@
 #
-# Cookbook Name:: ftp
-# Recipe:: default
+# Cookbook Name:: yum
+# Recipe:: yum 
 #
-# Copyright 2012, RightScale Inc
+# Copyright 2011, Eric G. Wolfe
+# Copyright 2011, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,9 +17,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-class Chef::Recipe
-  include TestLib
-end
 
-log "Checking inputs min:#{node['vsftpd']['pasv_min_port']}, max:node['vsftpd']['pasv_max_port']}"
-do_input_checks(node['vsftpd']['pasv_min_port'], node['vsftpd']['pasv_max_port'])
+template "/etc/yum.conf" do
+  source "yum-rhel#{node['platform_version'].to_i}.conf.erb"
+end

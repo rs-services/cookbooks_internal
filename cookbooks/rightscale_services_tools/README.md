@@ -10,6 +10,9 @@ Attributes
 
 Usage
 =====
+Recipes-
+  vpc-nat:  Configures ip forwarding and iptables for AWS VPC NAT host
+
 Definitions -
   gen_profile_script
 

@@ -1,0 +1,191 @@
+{
+  "name": "jenkins",
+  "description": "Installs/Configures jenkins",
+  "long_description": "Description\n===========\n\nThis cookbook will install [Jenkins](http://jenkins-ci.org/), the continuous integration server.\n\nRequirements\n============\n\nThis cookbook depends on the [apt](http://community.opscode.com/cookbooks/apt), [yum](http://community.opscode.com/cookbooks/yum), sys_firewall and rightscale cookbooks.\n\nAttributes\n==========\n\nnode[:jenkins][:config] will be set to the correct default configuration location for Jenkins depending on OS.\n\nUsage\n=====\n\nIn the default configuration Jenkins will listen on port 8080. The install recipe contains templates which will allow inbound port 80 traffic and will forward this traffic via iptables to the configured listening Jenkins port. This listening port can be changed via the 'jenkins/port' dashboard input.\n",
+  "maintainer": "RightScale Inc",
+  "maintainer_email": "premium@rightscale.com",
+  "license": "Apache 2.0",
+  "platforms": {
+    "centos": "~> 6.3",
+    "redhat": "~> 6.3",
+    "ubuntu": "~> 12.04"
+  },
+  "dependencies": {
+    "apt": ">= 0.0.0",
+    "rightscale": ">= 0.0.0",
+    "sys_firewall": ">= 0.0.0",
+    "yum": ">= 0.0.0"
+  },
+  "recommendations": {
+  },
+  "suggestions": {
+  },
+  "conflicting": {
+  },
+  "providing": {
+  },
+  "replacing": {
+  },
+  "attributes": {
+    "jenkins/home": {
+      "description": "Directory where Jenkins stores its configuration and working files (checkouts, build reports, artifacts, ...).",
+      "recipes": [
+        "jenkins::install"
+      ],
+      "type": "string",
+      "display_name": "home",
+      "required": "recommended",
+      "default": "/var/lib/jenkins",
+      "choice": [
+
+      ],
+      "calculated": false
+    },
+    "jenkins/java_cmd": {
+      "description": "Java executable to run Jenkins. When left empty a suitable Java will try and be located.",
+      "recipes": [
+        "jenkins::install"
+      ],
+      "type": "string",
+      "display_name": "java_cmd",
+      "required": "optional",
+      "default": "",
+      "choice": [
+
+      ],
+      "calculated": false
+    },
+    "jenkins/user": {
+      "description": "Unix user account that runs the Jenkins daemon. Be careful when you change this, as you need to update permissions of 'jenkins/home' and /var/log/jenkins.",
+      "recipes": [
+        "jenkins::install"
+      ],
+      "type": "string",
+      "display_name": "user",
+      "required": "optional",
+      "default": "jenkins",
+      "choice": [
+
+      ],
+      "calculated": false
+    },
+    "jenkins/java_options": {
+      "description": "Options to pass to Java when running Jenkins.",
+      "recipes": [
+        "jenkins::install"
+      ],
+      "type": "string",
+      "display_name": "java_options",
+      "required": "optional",
+      "default": "-Djava.awt.headless=true",
+      "choice": [
+
+      ],
+      "calculated": false
+    },
+    "jenkins/port": {
+      "description": "The port should Jenkins listen on. Set to -1 to disable.",
+      "recipes": [
+        "jenkins::install"
+      ],
+      "type": "string",
+      "display_name": "port",
+      "required": "optional",
+      "default": "8080",
+      "choice": [
+
+      ],
+      "calculated": false
+    },
+    "jenkins/ajp_port": {
+      "description": "The ajp13 port Jenkins should listen on. Set to -1 to disable.",
+      "recipes": [
+        "jenkins::install"
+      ],
+      "type": "string",
+      "display_name": "ajp_port",
+      "required": "optional",
+      "default": "8009",
+      "choice": [
+
+      ],
+      "calculated": false
+    },
+    "jenkins/debug_level": {
+      "description": "Debug level for logs. The higher the value, the more verbose. 5 is INFO.",
+      "recipes": [
+        "jenkins::install"
+      ],
+      "type": "string",
+      "display_name": "debug_level",
+      "required": "optional",
+      "default": "5",
+      "choice": [
+
+      ],
+      "calculated": false
+    },
+    "jenkins/enable_access_log": {
+      "description": "Enable access logging?",
+      "recipes": [
+        "jenkins::install"
+      ],
+      "type": "string",
+      "display_name": "enable_access_log",
+      "required": "optional",
+      "default": "no",
+      "choice": [
+
+      ],
+      "calculated": false
+    },
+    "jenkins/handler_max": {
+      "description": "Maximum number of HTTP worker threads.",
+      "recipes": [
+        "jenkins::install"
+      ],
+      "type": "string",
+      "display_name": "handler_max",
+      "required": "optional",
+      "default": "100",
+      "choice": [
+
+      ],
+      "calculated": false
+    },
+    "jenkins/handler_idle": {
+      "description": "Maximum number of idle HTTP worker threads.",
+      "recipes": [
+        "jenkins::install"
+      ],
+      "type": "string",
+      "display_name": "handler_max",
+      "required": "optional",
+      "default": "20",
+      "choice": [
+
+      ],
+      "calculated": false
+    },
+    "jenkins/args": {
+      "description": "Pass arbitrary arguments to Jenkins. Full option list: java -jar jenkins.war --help.",
+      "recipes": [
+        "jenkins::install"
+      ],
+      "type": "string",
+      "display_name": "args",
+      "required": "optional",
+      "default": "",
+      "choice": [
+
+      ],
+      "calculated": false
+    }
+  },
+  "groupings": {
+  },
+  "recipes": {
+    "jenkins::install": "Installs and configures Jenkins."
+  },
+  "version": "0.5.2"
+}

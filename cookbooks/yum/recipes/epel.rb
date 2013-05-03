@@ -1,8 +1,11 @@
 #
-# Cookbook Name:: ftp
-# Recipe:: default
+# Author:: Joshua Timberman (<joshua@opscode.com>)
+# Cookbook Name:: yum
+# Recipe:: epel
 #
-# Copyright 2012, RightScale Inc
+# Copyright:: Copyright (c) 2011 Opscode, Inc.
+# Copyright 2010, Eric G. Wolfe
+# Copyright 2010, Tippr Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,10 +18,15 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
-class Chef::Recipe
-  include TestLib
+
+yum_key node['yum']['epel']['key'] do
+  url  node['yum']['epel']['key_url']
+  action :add
 end
 
-log "Checking inputs min:#{node['vsftpd']['pasv_min_port']}, max:node['vsftpd']['pasv_max_port']}"
-do_input_checks(node['vsftpd']['pasv_min_port'], node['vsftpd']['pasv_max_port'])
+yum_repository "epel" do
+  description "Extra Packages for Enterprise Linux"
+  key node['yum']['epel']['key']
+  mirrorlist node['yum']['epel']['url']
+  action platform?('amazon') ? [:add, :update] : :add
+end

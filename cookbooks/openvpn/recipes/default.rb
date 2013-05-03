@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: ftp
+# Cookbook Name:: openvpn
 # Recipe:: default
 #
 # Copyright 2012, RightScale Inc
@@ -16,9 +16,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-class Chef::Recipe
-  include TestLib
+rightscale_marker :begin
+
+package "openvpn" do
+  action :install
 end
 
-log "Checking inputs min:#{node['vsftpd']['pasv_min_port']}, max:node['vsftpd']['pasv_max_port']}"
-do_input_checks(node['vsftpd']['pasv_min_port'], node['vsftpd']['pasv_max_port'])
+directory "/var/log/openvpn" do
+  owner "root"
+  group "root"
+  mode "0777"
+  recursive true
+  action :create
+end
+
+rightscale_marker :end

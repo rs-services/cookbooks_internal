@@ -1,0 +1,145 @@
+{
+  "name": "cassandra",
+  "description": "Installs/Configures cassandra",
+  "long_description": "Deescription\n===========\n\nThis cookbook will install and configure a Cassandra ring.\nMore info about Cassandra can be found at http://cassandra.apache.org\n\n\nAttributes\n==========\n\n* cassandra/version                 Version of Cassandra to install.\n* cassandra/cluster_name            The name of the Cassandra cluster to connect to.\n* cassandra/seeds                   Comma separated list of Cassandra hosts which will act as seeds.\n* cassandra/num_tokens              Number of tokens assigned to this node.\n* cassandra/data_file_directories   Directories where Cassandra data files should reside on disk.\n* cassandra/commitlog_directory     Directory where commit logs will be written to.\n* cassandra/saved_caches_directory  Directory where the saved caches will be written to.\n* cassandra/log4j_directory         Directory where logfiles will be written to.\n\n* Many more which are not optional with pre-configured defaults.\n\nUsage\n=====\n\nThis cookbook will install the new 1.2 series of Cassandra. Initial token values are no longer needed. This cookbook uses [virtual nodes](http://www.datastax.com/docs/1.2/cluster_architecture/data_distribution#distribution) and [Murmur3Partitioner](http://www.datastax.com/docs/1.2/cluster_architecture/partitioners#m3ppartitioner) for faster hashing. Calculating an initial token per node is no longer necessary.\n\nThe easiest way to configure Cassandra seed hosts is to use Elastic IP's (if on AWS). Allocate the number of EIP's you'd like to use for seed hosts, and populate \na comma separated list of the ***public*** DNS EIP values as the cassandra/seeds input.\n",
+  "maintainer": "RightScale Inc.",
+  "maintainer_email": "ps@rightscale.com",
+  "license": "All rights reserved",
+  "platforms": {
+  },
+  "dependencies": {
+    "rightscale": ">= 0.0.0"
+  },
+  "recommendations": {
+  },
+  "suggestions": {
+  },
+  "conflicting": {
+  },
+  "providing": {
+  },
+  "replacing": {
+  },
+  "attributes": {
+    "cassandra/version": {
+      "description": "Version string of Cassandra to install.",
+      "recipes": [
+        "cassandra::install"
+      ],
+      "type": "string",
+      "display_name": "version",
+      "required": "recommended",
+      "default": "1.2.3",
+      "choice": [
+
+      ],
+      "calculated": false
+    },
+    "cassandra/cluster_name": {
+      "description": "Name of the Cassandra cluster.",
+      "recipes": [
+        "cassandra::configure"
+      ],
+      "type": "string",
+      "display_name": "cluster_name",
+      "required": "required",
+      "choice": [
+
+      ],
+      "calculated": false
+    },
+    "cassandra/seeds": {
+      "description": "Comma seperated list of seed hosts",
+      "recipes": [
+        "cassandra::configure"
+      ],
+      "type": "string",
+      "display_name": "seeds",
+      "required": "recommended",
+      "choice": [
+
+      ],
+      "calculated": false
+    },
+    "cassandra/num_tokens": {
+      "description": "Number of tokens assigned to this node",
+      "recipes": [
+        "cassandra::configure"
+      ],
+      "type": "string",
+      "display_name": "num_tokens",
+      "required": "recommended",
+      "default": "256",
+      "choice": [
+
+      ],
+      "calculated": false
+    },
+    "cassandra/data_file_directories": {
+      "description": "Directories where Cassandra should store data on disk.",
+      "recipes": [
+        "cassandra::install",
+        "cassandra::configure"
+      ],
+      "type": "array",
+      "display_name": "data_file_directories",
+      "required": "recommended",
+      "default": "/mnt/ephemeral/cassandra/data",
+      "choice": [
+
+      ],
+      "calculated": false
+    },
+    "cassandra/commitlog_directory": {
+      "description": "Directory where commit logs will be written to.",
+      "recipes": [
+        "cassandra::install",
+        "cassandra::configure"
+      ],
+      "type": "string",
+      "display_name": "commitlog_directory",
+      "required": "recommended",
+      "default": "/mnt/ephemeral/cassandra/commitlog",
+      "choice": [
+
+      ],
+      "calculated": false
+    },
+    "cassandra/saved_caches_directory": {
+      "description": "Directory where saved caches will be written to.",
+      "recipes": [
+        "cassandra::install",
+        "cassandra::configure"
+      ],
+      "type": "string",
+      "display_name": "saved_caches_directory",
+      "required": "recommended",
+      "default": "/mnt/ephemeral/cassandra/saved_caches",
+      "choice": [
+
+      ],
+      "calculated": false
+    },
+    "cassandra/log4j_directory": {
+      "description": "Directory where the main logfile will be written to",
+      "recipes": [
+        "cassandra::install"
+      ],
+      "type": "string",
+      "display_name": "log4j_directory",
+      "required": "recommended",
+      "default": "/mnt/ephemeral/cassandra/logs",
+      "choice": [
+
+      ],
+      "calculated": false
+    }
+  },
+  "groupings": {
+  },
+  "recipes": {
+    "cassandra::install": "Add the Apache Cassandra repo and install software.",
+    "cassandra::configure": "Install Cassandra config files from Chef templates."
+  },
+  "version": "1.2.1"
+}
