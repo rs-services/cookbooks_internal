@@ -60,10 +60,10 @@ action :install do
     flags "-ex"
     code <<-EOH
       cd /tmp
-      wget -q https://s3.amazonaws.com/rightscale_software/application_sources/jboss-5.1.0.GA.zip
-      unzip -q jboss-5.1.0.GA.zip
+      wget -nv --progress=dot http://download.jboss.org/jbossas/7.1/jboss-as-7.1.1.Final/jboss-as-7.1.1.Final.tar.gz
+      tar xzpf jboss-as-7.1.1.Final.tar.gz
 
-      mv /tmp/jboss-5.1.0.GA/* #{install_target}
+      mv /tmp/jboss-as-7.1.1.Final/* #{install_target}
       chown -R jboss:jboss #{install_target}
 
       touch #{touchfile}
