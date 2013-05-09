@@ -40,8 +40,7 @@ attribute "glusterfs/server/volume_auth",
     :required     => "optional",
     :default      => "*",
     :recipes      => [ "glusterfs::default",
-                       "glusterfs::server_create_cluster",
-                       "glusterfs::server_join_cluster" ]
+                       "glusterfs::server_create_cluster" ]
 
 attribute "glusterfs/volume_name",
     :display_name => "Volume Name",
