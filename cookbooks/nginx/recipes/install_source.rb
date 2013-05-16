@@ -83,6 +83,16 @@ bash "extract and compile" do
   EOF
 end
 
+%w{ /usr/share/nginx /var/log/nginx /etc/nginx /var/lib/nginx/tmp}.each do |dir|
+  directory dir do
+    owner "nginx"
+    group "nginx" 
+    mode "0644"
+    recursive true
+    action :create
+  end
+end
+
 cookbook_file "/etc/init.d/nginx" do
   source "nginx_init.erb"
   owner "root"
