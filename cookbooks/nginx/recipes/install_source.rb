@@ -37,7 +37,7 @@ end
     mode "0644"
     recursive true
     action :create
-  end
+  end
 end
 
 bash "extract and compile" do
@@ -84,15 +84,15 @@ bash "extract and compile" do
 end
 
 cookbook_file "/etc/init.d/nginx" do
-  source "nginx_init.erb"
-  owner "root"
-  group "root"
-  mode "0777"
-  action :create
+  source "nginx_init.erb"
+  owner "root"
+  group "root"
+  mode "0777"
+  action :create
 end
 
 service "nginx" do
-  action :enable
+  action :enable
 end
 
 rightscale_marker :end
