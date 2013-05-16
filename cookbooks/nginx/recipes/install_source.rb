@@ -13,6 +13,32 @@ remote_file "/tmp/nginx.tar.gz" do
   action :create
 end
 
+group "nginx" do
+  gid 499
+  action :create
+end
+
+user "nginx" do
+  comment "Nginx web server"
+  uid 498
+  gid nginx
+  home "/var/lib/nginx"
+  shell "/sbin/nologin"
+  system true
+  action :create
+end 
+
+
+%w{ /usr/share/nginx /var/log/nginx /etc/nginx /var/lib/nginx/tmp}.each do |dir|
+  directory dir do
+    owner "nginx"
+    group "nginx" 
+    mode "0644"
+    recursive true
+    action :create
+  end
+end
+
 bash "extract and compile" do
   code <<-EOF
     cd /tmp
@@ -58,6 +84,18 @@ bash "extract and compile" do
     make
     make install
   EOF
+end
+
+cookbook_file "/etc/init.d/nginx" do
+  source "nginx_init.erb"
+  owner "root"
+  group "root"
+  mode "0777"
+  action :create
+end
+
+service "nginx" do
+  action :enable
 end
 
 #start creating all the directories
