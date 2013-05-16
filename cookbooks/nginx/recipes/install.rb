@@ -50,7 +50,7 @@ end
 
 service "nginx" do
   supports :start => true, :stop => true, :status => true, :restart => true, :reload => true
-  action [ :enable ]
+  action [ :enable, :start ]
   persist true
 end
 
