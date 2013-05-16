@@ -15,28 +15,28 @@ remote_file "/tmp/nginx.tar.gz" do
 end
 
 group "nginx" do
-  gid 499
-  action :create
+  gid 499
+  action :create
 end
 
 user "nginx" do
-  comment "Nginx web server"
-  uid 498
-  gid nginx
-  home "/var/lib/nginx"
-  shell "/sbin/nologin"
-  system true
-  action :create
+  comment "Nginx web server"
+  uid 498
+  gid nginx
+  home "/var/lib/nginx"
+  shell "/sbin/nologin"
+  system true
+  action :create
 end 
 
 
 %w{ /usr/share/nginx /var/log/nginx /etc/nginx /var/lib/nginx/tmp}.each do |dir|
-  directory dir do
-    owner "nginx"
-    group "nginx" 
-    mode "0644"
-    recursive true
-    action :create
+  directory dir do
+    owner "nginx"
+    group "nginx" 
+    mode "0644"
+    recursive true
+    action :create
   end
 end
 
