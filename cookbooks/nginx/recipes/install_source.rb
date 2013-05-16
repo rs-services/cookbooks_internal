@@ -58,7 +58,6 @@ bash "extract and compile" do
     --lock-path=/var/lock/subsys/nginx \
     --user=nginx \
     --group=nginx \
-    --with-file-aio \
     --with-ipv6 \
     --with-http_ssl_module \
     --with-http_realip_module \
@@ -69,7 +68,6 @@ bash "extract and compile" do
     --with-http_sub_module \
     --with-http_dav_module \
     --with-http_flv_module \
-    --with-http_mp4_module \
     --with-http_gzip_static_module \
     --with-http_random_index_module \
     --with-http_secure_link_module \
@@ -78,9 +76,7 @@ bash "extract and compile" do
     --with-http_perl_module \
     --with-mail \
     --with-mail_ssl_module \
-    --with-debug \
-    --with-cc-opt="%{optflags} $(pcre-config --cflags)" \
-    --with-ld-opt="-Wl,-E"
+    --with-debug
     make
     make install
   EOF

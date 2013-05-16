@@ -1,51 +1,52 @@
 {
-  "recommendations": {
+  "conflicting": {
   },
+  "dependencies": {
+    "rightscale": ">= 0.0.0",
+    "sys_firewall": ">= 0.0.0"
+  },
+  "version": "0.0.1",
+  "maintainer_email": "support@rightscale.com",
   "platforms": {
   },
   "license": "All rights reserved",
-  "maintainer_email": "support@rightscale.com",
-  "groupings": {
-  },
-  "version": "0.0.1",
-  "dependencies": {
-    "sys_firewall": ">= 0.0.0",
-    "rightscale": ">= 0.0.0"
-  },
-  "replacing": {
-  },
-  "providing": {
-  },
-  "suggestions": {
-  },
   "recipes": {
-    "nginx::lb_config": "sets up the lb",
-    "nginx::install": "Installs nginx from package manager"
+    "nginx::install_source": "installs nginx from source",
+    "nginx::install": "Installs nginx from package manager",
+    "nginx::lb_config": "sets up the lb"
   },
   "maintainer": "RightScale Professional Services",
-  "name": "nginx/",
+  "suggestions": {
+  },
+  "description": "Installs/Configures nginx",
+  "recommendations": {
+  },
+  "long_description": "Description\n===========\n\nRequirements\n============\n\nAttributes\n==========\n\nUsage\n=====\n\n",
+  "groupings": {
+  },
   "attributes": {
     "nginx/install_type": {
-      "required": "optional",
-      "choices": [
-        "package",
-        "source"
-      ],
-      "display_name": "Nginx Install Type",
       "choice": [
 
       ],
-      "calculated": false,
       "type": "string",
       "recipes": [
 
       ],
-      "default": "package",
-      "description": "Nginx Install Type"
+      "choices": [
+        "package",
+        "source"
+      ],
+      "description": "Nginx Install Type",
+      "required": "optional",
+      "calculated": false,
+      "display_name": "Nginx Install Type",
+      "default": "package"
     }
   },
-  "conflicting": {
+  "providing": {
   },
-  "long_description": "Description\n===========\n\nRequirements\n============\n\nAttributes\n==========\n\nUsage\n=====\n\n",
-  "description": "Installs/Configures nginx"
+  "name": "nginx/",
+  "replacing": {
+  }
 }

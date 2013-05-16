@@ -11,6 +11,7 @@ depends "sys_firewall"
 
 recipe "nginx::install", "Installs nginx from package manager"
 recipe "nginx::lb_config", "sets up the lb"
+recipe "nginx::install_source", "installs nginx from source"
 
 attribute "nginx/install_type",
   :display_name => "Nginx Install Type",
