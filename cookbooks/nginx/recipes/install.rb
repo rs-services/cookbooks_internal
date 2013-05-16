@@ -1,8 +1,6 @@
 rightscale_marker :begin
- 
-package "nginx" do
-  action :install
-end
+
+include_recipe "nginx::install_#{node[:nginx][:install_type]}" 
 
 directory "/etc/nginx" do
   owner "root"

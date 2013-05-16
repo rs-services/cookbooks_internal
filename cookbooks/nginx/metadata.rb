@@ -12,3 +12,9 @@ depends "sys_firewall"
 recipe "nginx::install", "Installs nginx from package manager"
 recipe "nginx::lb_config", "sets up the lb"
 
+attribute "nginx/install_type",
+  :display_name => "Nginx Install Type",
+  :description => "Nginx Install Type",
+  :choices => [ "package", "source" ],
+  :default => "package",
+  :required => "optional"
