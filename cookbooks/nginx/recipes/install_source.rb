@@ -22,7 +22,7 @@ end
 user "nginx" do
   comment "Nginx web server"
   uid 498
-  gid nginx
+  gid "nginx"
   home "/var/lib/nginx"
   shell "/sbin/nologin"
   system true
