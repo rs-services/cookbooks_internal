@@ -34,7 +34,7 @@ end
   directory dir do
     owner "nginx"
     group "nginx" 
-    mode "0644"
+    mode "0777"
     recursive true
     action :create
   end
@@ -87,7 +87,7 @@ end
   directory dir do
     owner "nginx"
     group "nginx" 
-    mode "0644"
+    mode "0777"
     recursive true
     action :create
   end

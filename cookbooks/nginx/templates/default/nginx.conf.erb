@@ -75,7 +75,7 @@ http {
 
         location / {
             root   <%= @root_dir %>;
-            index  index.html index.htm <%= @root_files %>;
+            index  /index.html /index.htm <%= @root_files %>;
             if ($request_uri ~* "\.(css|js|gif|png|jpg|ico)$") {
                  access_log off;
                  break;
