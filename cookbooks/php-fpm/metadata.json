@@ -1,0 +1,31 @@
+{
+  "recipes": {
+    "php-fpm::default": "installs php-fpm"
+  },
+  "groupings": {
+  },
+  "recommendations": {
+  },
+  "attributes": {
+  },
+  "suggestions": {
+  },
+  "name": "php-fpm/",
+  "conflicting": {
+  },
+  "long_description": "Description\n===========\n\nRequirements\n============\n\nAttributes\n==========\n\nUsage\n=====\n\n",
+  "version": "0.0.1",
+  "dependencies": {
+    "rightscale": ">= 0.0.0"
+  },
+  "maintainer": "YOUR_COMPANY_NAME",
+  "providing": {
+  },
+  "platforms": {
+  },
+  "replacing": {
+  },
+  "maintainer_email": "YOUR_EMAIL",
+  "description": "Installs/Configures php-fpm",
+  "license": "All rights reserved"
+}
