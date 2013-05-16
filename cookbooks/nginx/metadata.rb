@@ -16,6 +16,6 @@ recipe "nginx::install_source", "installs nginx from source"
 attribute "nginx/install_type",
   :display_name => "Nginx Install Type",
   :description => "Nginx Install Type",
-  :choices => [ "package", "source" ],
+  :choice => [ "package", "source" ],
   :default => "package",
   :required => "optional"

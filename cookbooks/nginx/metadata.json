@@ -1,52 +1,49 @@
 {
-  "conflicting": {
+  "license": "All rights reserved",
+  "long_description": "Description\n===========\n\nRequirements\n============\n\nAttributes\n==========\n\nUsage\n=====\n\n",
+  "platforms": {
   },
+  "maintainer": "RightScale Professional Services",
+  "name": "nginx",
   "dependencies": {
     "rightscale": ">= 0.0.0",
     "sys_firewall": ">= 0.0.0"
   },
-  "version": "0.0.1",
-  "maintainer_email": "support@rightscale.com",
-  "platforms": {
-  },
-  "license": "All rights reserved",
   "recipes": {
-    "nginx::install_source": "installs nginx from source",
     "nginx::install": "Installs nginx from package manager",
+    "nginx::install_source": "installs nginx from source",
     "nginx::lb_config": "sets up the lb"
-  },
-  "maintainer": "RightScale Professional Services",
-  "suggestions": {
-  },
-  "description": "Installs/Configures nginx",
-  "recommendations": {
-  },
-  "long_description": "Description\n===========\n\nRequirements\n============\n\nAttributes\n==========\n\nUsage\n=====\n\n",
-  "groupings": {
   },
   "attributes": {
     "nginx/install_type": {
+      "calculated": false,
       "choice": [
-
-      ],
-      "type": "string",
-      "recipes": [
-
-      ],
-      "choices": [
         "package",
         "source"
       ],
+      "default": "package",
+      "display_name": "Nginx Install Type",
+      "recipes": [
+
+      ],
       "description": "Nginx Install Type",
       "required": "optional",
-      "calculated": false,
-      "display_name": "Nginx Install Type",
-      "default": "package"
+      "type": "string"
     }
   },
   "providing": {
   },
-  "name": "nginx/",
+  "conflicting": {
+  },
+  "recommendations": {
+  },
+  "description": "Installs/Configures nginx",
+  "maintainer_email": "support@rightscale.com",
+  "groupings": {
+  },
+  "suggestions": {
+  },
   "replacing": {
-  }
+  },
+  "version": "0.0.1"
 }
