@@ -1,3 +1,4 @@
+rightscale_marker :begin
 
 %w{GeoIP-devel gd-devel libxslt-devel openssl-devel pcre-devel perl-devel zlib-devel GeoIP gd libxslt openssl pcre shadow-utils chkconfig initscripts perl-ExtUtils-Embed}.each do |pkg|
   package pkg do
@@ -94,4 +95,4 @@ service "nginx" do
   action :enable
 end
 
-#start creating all the directories
+rightscale_marker :end
