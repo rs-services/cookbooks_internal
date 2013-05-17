@@ -60,7 +60,7 @@ action :install do
     flags "-ex"
     code <<-EOH
       cd /tmp
-      wget -nv --progress=dot http://download.jboss.org/jbossas/7.1/jboss-as-7.1.1.Final/jboss-as-7.1.1.Final.tar.gz
+      wget --progress=dot:mega http://download.jboss.org/jbossas/7.1/jboss-as-7.1.1.Final/jboss-as-7.1.1.Final.tar.gz
       tar xzpf jboss-as-7.1.1.Final.tar.gz
 
       mv /tmp/jboss-as-7.1.1.Final/* #{install_target}
@@ -98,13 +98,13 @@ action :install do
     )
   end
 
-  log "  Updating server.xml"
-  template "#{install_target}/server/default/deploy/jbossweb.sar/server.xml" do
+  log "  Updating standalone-ha.xml"
+  template "#{install_target}/standalone/configuration/standalone-ha.xml" do
     owner node[:app][:user]
     group node[:app][:group]
     mode "0644"
     action :create
-    source "server.xml.erb"
+    source "standalone-ha.xml.erb"
     variables(
       :doc_root => app_root,
       :listen_port => node[:app_jboss][:internal_port]
@@ -132,40 +132,16 @@ action :install do
 
   # Removing unnecessary services and securing required services installed
   # by default with jboss
-  jboss_deploy_dir = "#{install_target}/server/default/deploy"
+  jboss_deploy_dir = "#{install_target}/standalone/deployments"
 
-  service_dirs = [
-    "ROOT.war",
-    "admin-console.war",
-    "http-invoker.sar",
-    "jmx-console.war",
-    "jbossws.sar",
-    "management",
-    "uuid-key-generator.sar",
-    "messaging"
-  ]
-  service_dirs.each do |service|
-    directory "#{jboss_deploy_dir}/#{service}" do
-      recursive true
-      action :delete
-    end
-  end
 
-  service_files = [
-    "mail-service.xml",
-    "monitoring-service.xml",
-    "schedule-manager-service.xml",
-    "jms-ds.xml",
-    "jms-ra.rar",
-    "quartz-ra.rar",
-    "mail-ra.rar",
-    "scheduler-service.xml"
-  ]
-  service_files.each do |service|
-    file "#{jboss_deploy_dir}/#{service}" do
-      action :delete
-      backup false
-    end
+  #Create file for auto-deployer
+
+  file "#{jboss_deploy_dir}/.dodeploy" do
+    owner         "#{node[:app][:user]}"
+    group         "#{node[:app][:group]}"
+    mode          0644
+    action :create
   end
 
   # Moving jboss logs to ephemeral to free space on root filesystem
@@ -353,58 +329,58 @@ action :setup_vhost do
   end
 end
 
-# Setup project db connection
-action :setup_db_connection do
+## Setup project db connection
+#action :setup_db_connection do
+#
+#  db_name = new_resource.database_name
+#  db_adapter = node[:db][:provider].match(/^db_([a-z]+)/)[1]
+#  datasource = node[:app_jboss][:datasource_name]
+#  install_target = node[:app_jboss][:install_target]
+#  app_libpath = "#{install_target}/server/default/lib"
+#
+#  log "  Creating #{db_adapter}-ds.xml for DB: #{db_name} using" +
+#    " adapter #{db_adapter} and datasource #{datasource}"
+#  # See cookbooks/db/definitions/db_connect_app.rb for the "db_connect_app"
+#  # definition.
+#  db_connect_app "#{install_target}/server/default/deploy/#{db_adapter}-ds.xml" do
+#    template      "customdb-ds.xml.erb"
+#    owner         "#{node[:app][:user]}"
+#    group         "#{node[:app][:group]}"
+#    mode          "0644"
+#    database      db_name
+#    cookbook      "app_jboss"
+#    driver_type   "java"
+#    vars(
+#      :datasource => datasource
+#    )
+#  end
 
-  db_name = new_resource.database_name
-  db_adapter = node[:db][:provider].match(/^db_([a-z]+)/)[1]
-  datasource = node[:app_jboss][:datasource_name]
-  install_target = node[:app_jboss][:install_target]
-  app_libpath = "#{install_target}/server/default/lib"
+#  template "#{install_target}/server/default/deployers/jbossweb.deployer/web.xml" do
+#    action :create
+#    source "web.xml.erb"
+#    owner node[:app][:user]
+#    group node[:app][:group]
+#    mode "0644"
+#    cookbook "app_jboss"
+#    variables(
+#      :datasource => datasource
+#    )
+#  end
 
-  log "  Creating #{db_adapter}-ds.xml for DB: #{db_name} using" +
-    " adapter #{db_adapter} and datasource #{datasource}"
-  # See cookbooks/db/definitions/db_connect_app.rb for the "db_connect_app"
-  # definition.
-  db_connect_app "#{install_target}/server/default/deploy/#{db_adapter}-ds.xml" do
-    template      "customdb-ds.xml.erb"
-    owner         "#{node[:app][:user]}"
-    group         "#{node[:app][:group]}"
-    mode          "0644"
-    database      db_name
-    cookbook      "app_jboss"
-    driver_type   "java"
-    vars(
-      :datasource => datasource
-    )
-  end
-
-  template "#{install_target}/server/default/deployers/jbossweb.deployer/web.xml" do
-    action :create
-    source "web.xml.erb"
-    owner node[:app][:user]
-    group node[:app][:group]
-    mode "0644"
-    cookbook "app_jboss"
-    variables(
-      :datasource => datasource
-    )
-  end
-
-  # Setup jboss-service.xml to include /usr/share/java in JBoss classpath
-  java_classpath = "/usr/share/java"
-  template "#{install_target}/server/default/conf/jboss-service.xml" do
-    action :create
-    source "jboss-service.xml.erb"
-    owner node[:app][:user]
-    group node[:app][:group]
-    mode "0644"
-    cookbook "app_jboss"
-    variables(
-      :java_classpath => java_classpath
-    )
-  end
-end
+#  # Setup jboss-service.xml to include /usr/share/java in JBoss classpath
+#  java_classpath = "/usr/share/java"
+#  template "#{install_target}/server/default/conf/jboss-service.xml" do
+#    action :create
+#    source "jboss-service.xml.erb"
+#    owner node[:app][:user]
+#    group node[:app][:group]
+#    mode "0644"
+#    cookbook "app_jboss"
+#    variables(
+#      :java_classpath => java_classpath
+#    )
+#  end
+#end
 
 # Setup monitoring tools for jboss
 action :setup_monitoring do
