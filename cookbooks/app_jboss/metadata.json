@@ -132,6 +132,7 @@
   "groupings": {
   },
   "recipes": {
+    "app_jboss::default": "Sets and configures default app provider.",
     "app_jboss::install": "Installs and configures JBoss."
   },
   "version": "0.1.2"
