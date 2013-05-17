@@ -1,0 +1,138 @@
+{
+  "name": "app_jboss",
+  "description": "Installs/Configures JBoss",
+  "long_description": "Description\n===========\n\nRequirements\n============\n\nAttributes\n==========\n\nUsage\n=====\n\n",
+  "maintainer": "RightScale Inc.",
+  "maintainer_email": "ps@rightscale.com",
+  "license": "All rights reserved",
+  "platforms": {
+  },
+  "dependencies": {
+    "rightscale": ">= 0.0.0"
+  },
+  "recommendations": {
+  },
+  "suggestions": {
+  },
+  "conflicting": {
+  },
+  "providing": {
+  },
+  "replacing": {
+  },
+  "attributes": {
+    "app_jboss/bind_address": {
+      "description": "Address for JBoss to bind to.",
+      "recipes": [
+        "app_jboss::install"
+      ],
+      "type": "string",
+      "display_name": "bind_address",
+      "required": "recommended",
+      "default": "127.0.0.1",
+      "choice": [
+
+      ],
+      "calculated": false
+    },
+    "app_jboss/http_bind_port": {
+      "description": "Port for JBoss to accept incoming HTTP connections.",
+      "recipes": [
+        "app_jboss::install"
+      ],
+      "type": "string",
+      "display_name": "http_bind_port",
+      "required": "recommended",
+      "default": "8080",
+      "choice": [
+
+      ],
+      "calculated": false
+    },
+    "app_jboss/https_bind_port": {
+      "description": "Port for JBoss to accept incoming HTTPS connections.",
+      "recipes": [
+        "app_jboss::install"
+      ],
+      "type": "string",
+      "display_name": "https_bind_port",
+      "required": "recommended",
+      "default": "8443",
+      "choice": [
+
+      ],
+      "calculated": false
+    },
+    "app_jboss/dbapplication_username": {
+      "description": "MySQL Username",
+      "recipes": [
+        "app_jboss::install"
+      ],
+      "type": "string",
+      "display_name": "dbapplication_username",
+      "required": "required",
+      "choice": [
+
+      ],
+      "calculated": false
+    },
+    "app_jboss/dbapplication_password": {
+      "description": "MySQL Password",
+      "recipes": [
+        "app_jboss::install"
+      ],
+      "type": "string",
+      "display_name": "dbapplication_password",
+      "required": "required",
+      "choice": [
+
+      ],
+      "calculated": false
+    },
+    "app_jboss/master_db_dnsname": {
+      "description": "MySQL Database DNS Name",
+      "recipes": [
+        "app_jboss::install"
+      ],
+      "type": "string",
+      "display_name": "master_db_dnsname",
+      "required": "required",
+      "choice": [
+
+      ],
+      "calculated": false
+    },
+    "app_jboss/management_user": {
+      "description": "Managment UI Username",
+      "recipes": [
+        "app_jboss::install"
+      ],
+      "type": "string",
+      "display_name": "management_user",
+      "choice": [
+
+      ],
+      "calculated": false,
+      "required": "optional"
+    },
+    "app_jboss/management_password": {
+      "description": "Managment UI Password",
+      "recipes": [
+        "app_jboss::install"
+      ],
+      "type": "string",
+      "display_name": "management_password",
+      "choice": [
+
+      ],
+      "calculated": false,
+      "required": "optional"
+    }
+  },
+  "groupings": {
+  },
+  "recipes": {
+    "app_jboss::install": "Installs and configures JBoss."
+  },
+  "version": "0.1.2"
+}
