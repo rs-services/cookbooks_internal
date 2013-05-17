@@ -144,10 +144,20 @@ action :install do
     action :create
   end
 
+
+  #Create log directory
+
+  directory "#{install_target}/log" do
+    owner         "#{node[:app][:user]}"
+    group         "#{node[:app][:group]}"
+    recursive true
+    action :create
+  end
+
   # Moving jboss logs to ephemeral to free space on root filesystem
   # See cookbooks/rightscale/definitions/rightscale_move_to_ephemeral.rb
   # for the "rightscale_move_to_ephemeral" definition.
-  rightscale_move_to_ephemeral "#{install_target}/server/default/log" do
+  rightscale_move_to_ephemeral "#{install_target}/log" do
     location_on_ephemeral "jboss"
     user node[:app][:user]
     group node[:app][:group]
@@ -169,8 +179,8 @@ action :setup_vhost do
     cookbook "rightscale"
     template "logrotate.erb"
     path [
-      "#{install_target}/server/default/log/*.log",
-      "#{install_target}/server/default/log/*.out"
+      "#{install_target}/log/*.log",
+      "#{install_target}/log/*.out"
     ]
     frequency "size 10M"
     rotate 4
