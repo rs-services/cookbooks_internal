@@ -13,7 +13,7 @@ depends "app"
 depends "repo"
 depends "rightscale"
 
-recipe  "app_jboss::setup_server_5_1", "Installs the Jboss application server."
+recipe  "app_jboss::setup_server_7", "Installs the Jboss application server."
 
 #Code repo attributes
 attribute "app_jboss/code/root_war",
@@ -23,7 +23,7 @@ attribute "app_jboss/code/root_war",
     " Will be renamed to ROOT.war. Example: /dist/app_test.war",
   :required => "recommended",
   :default => "",
-  :recipes => ["app_jboss::setup_server_5_1"]
+  :recipes => ["app_jboss::setup_server_7"]
 
 #Java tuning parameters
 attribute "app_jboss/java/xms",
@@ -32,7 +32,7 @@ attribute "app_jboss/java/xms",
     "The java Xms argument. Example: 1024m",
   :required => "optional",
   :default => "1024m",
-  :recipes => ["app_jboss::setup_server_5_1"]
+  :recipes => ["app_jboss::setup_server_7"]
 
 attribute "app_jboss/java/xmx",
   :display_name => "JBoss Java XMX",
@@ -40,7 +40,7 @@ attribute "app_jboss/java/xmx",
     "The java Xmx argument. Example: 1024m",
   :required => "optional",
   :default => "1024m",
-  :recipes => ["app_jboss::setup_server_5_1"]
+  :recipes => ["app_jboss::setup_server_7"]
 
 attribute "app_jboss/java/permsize",
   :display_name => "JBoss Java PermSize",
@@ -48,7 +48,7 @@ attribute "app_jboss/java/permsize",
     "The java PermSize argument. Example: 256m",
   :required => "optional",
   :default => "256m",
-  :recipes => ["app_jboss::setup_server_5_1"]
+  :recipes => ["app_jboss::setup_server_7"]
 
 attribute "app_jboss/java/maxpermsize",
   :display_name => "JBoss Java MaxPermSize",
@@ -56,7 +56,7 @@ attribute "app_jboss/java/maxpermsize",
     "The java MaxPermSize argument. Example: 512m",
   :required => "optional",
   :default => "512m",
-  :recipes => ["app_jboss::setup_server_5_1"]
+  :recipes => ["app_jboss::setup_server_7"]
 
 attribute "app_jboss/java/newsize",
   :display_name => "JBoss Java NewSize",
@@ -64,7 +64,7 @@ attribute "app_jboss/java/newsize",
     "The java NewSize argument. Example: 448m",
   :required => "optional",
   :default => "448m",
-  :recipes => ["app_jboss::setup_server_5_1"]
+  :recipes => ["app_jboss::setup_server_7"]
 
 attribute "app_jboss/java/maxnewsize",
   :display_name => "JBoss Java MaxNewSize",
@@ -72,7 +72,7 @@ attribute "app_jboss/java/maxnewsize",
     "The java MaxNewSize argument. Example: 448m",
   :required => "optional",
   :default => "448m",
-  :recipes => ["app_jboss::setup_server_5_1"]
+  :recipes => ["app_jboss::setup_server_7"]
 
 attribute "app_jboss/java/survivor_ratio",
   :display_name => "JBoss Java SurvivorRatio",
@@ -80,7 +80,7 @@ attribute "app_jboss/java/survivor_ratio",
     "The java SurvivorRatio argument. Example: 6",
   :required => "optional",
   :default => "6",
-  :recipes => ["app_jboss::setup_server_5_1"]
+  :recipes => ["app_jboss::setup_server_7"]
 
 attribute "app_jboss/datasource_name",
   :display_name => "Container datasource name",
@@ -91,7 +91,7 @@ attribute "app_jboss/datasource_name",
     " override input value. Example: jdbc/ConnDB",
   :required => "optional",
   :default => "jdbc/ConnDB",
-  :recipes => ["app_jboss::setup_server_5_1"]
+  :recipes => ["app_jboss::setup_server_7"]
 
 attribute "app_jboss/internal_port",
   :display_name => "JBoss Internal Port",
@@ -103,4 +103,4 @@ attribute "app_jboss/internal_port",
     " service is started.",
   :required => "optional",
   :default => "8080",
-  :recipes => ["app_jboss::setup_server_5_1"]
+  :recipes => ["app_jboss::setup_server_7"]
