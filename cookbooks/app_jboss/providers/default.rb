@@ -27,3 +27,12 @@ action :stop do
     persist false
   end
 end
+
+# Restart jboss service
+action :restart do
+  log "  Running restart sequence"
+  service "jboss" do
+    action :restart
+    persist false
+  end
+end
