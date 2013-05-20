@@ -9,9 +9,6 @@
 action :install do
 	include_recipe "app_jboss::install"	
 end
-rightscale_marker :begin
-
-log "Starting Jboss..."
 
 # Start jboss service
 action :start do
@@ -22,4 +19,11 @@ action :start do
   end
 end
 
-rightscale_marker :end
+# Stop jboss service
+action :stop do
+  log "  Running stop sequence"
+  service "jboss" do
+    action :stop
+    persist false
+  end
+end
