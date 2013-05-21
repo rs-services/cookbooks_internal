@@ -7,7 +7,7 @@
 
 # Installing required packages and configuration for JBoss.
 action :install do
-	include_recipe "app_jboss::install"	
+  include_recipe "app_jboss::install"
 end
 
 # Start jboss service
@@ -38,5 +38,5 @@ action :restart do
 end
 
 action :setup_monitoring do
-	include_recipe "app_jboss::setup_monitoring"
+  include_recipe "app_jboss::setup_monitoring"
 end

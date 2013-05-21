@@ -1,5 +1,3 @@
-rightscale_marker :begin
-
 log "Creating JBoss user and group ..."
 
 group "jboss"
@@ -115,11 +113,3 @@ cookbook_file "/usr/local/jboss/modules/com/mysql/main/module.xml" do
 	group "jboss"
 	mode "0644"
 end
-
-log "Starting JBoss ..."
-
-service "jboss" do
-	action [:enable, :start]
-end
-
-rightscale_marker :end
