@@ -7,8 +7,9 @@ version          "0.1.2"
 
 depends "rightscale"
 
-recipe "app_jboss::default",  "Sets and configures default app provider."
-recipe "app_jboss::install",  "Installs and configures JBoss."
+recipe "app_jboss::default"                  , "Sets and configures default app provider."
+recipe "app_jboss::install"                  , "Installs and configures JBoss."
+recipe "app_jboss::install_glusterfs_client" , "Installs Glusterfs client libraries."
 
 attribute "app_jboss/bind_address",
 	:description  => "Address for JBoss to bind to.",

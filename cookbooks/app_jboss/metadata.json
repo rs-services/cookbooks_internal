@@ -133,7 +133,8 @@
   },
   "recipes": {
     "app_jboss::default": "Sets and configures default app provider.",
-    "app_jboss::install": "Installs and configures JBoss."
+    "app_jboss::install": "Installs and configures JBoss.",
+    "app_jboss::install_glusterfs_client": "Installs Glusterfs client libraries."
   },
   "version": "0.1.2"
 }
