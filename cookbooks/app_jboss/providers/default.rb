@@ -72,6 +72,7 @@ action :install do
     source "mgmt-users.properties.erb"
     owner "jboss"
     group "jboss"
+    cookbook "app_jboss"
     variables({
       :management_user     => node[:app_jboss][:management_user],
       :management_password => Digest::MD5.hexdigest(node[:app_jboss][:management_password])
@@ -82,6 +83,7 @@ action :install do
     source "mgmt-users.properties.erb"
     owner "jboss"
     group "jboss"
+    cookbooks "app_jboss"
     variables({
       :management_user     => node[:app_jboss][:management_user],
       :management_password => Digest::MD5.hexdigest(node[:app_jboss][:management_password])
@@ -94,6 +96,7 @@ action :install do
     source "standard-ha.xml.erb"
     owner "jboss"
     group "jboss"
+    cookbook "app_jboss"
     variables({
       :jboss_bind_address    => node[:app_jboss][:bind_address],
       :jboss_http_bind_port  => node[:app_jboss][:http_bind_port],
