@@ -31,7 +31,3 @@ action :restart do
     persist false
   end
 end
-
-action :setup_monitoring do
-  include_recipe "app_jboss::setup_monitoring"
-end
