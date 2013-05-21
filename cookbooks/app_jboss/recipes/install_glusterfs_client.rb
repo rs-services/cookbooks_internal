@@ -4,7 +4,9 @@ package "glusterfs" do
 	case node[:platform]
 	when "centos", "redhat"
 		package_name "glusterfs-fuse"
-	end
+	when "ubuntu"
+		package_name "
+
 	action :install
 end
 
