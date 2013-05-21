@@ -114,6 +114,7 @@ action :install do
     owner "root"
     group "root"
     mode "0644"
+    cookbook "app_jboss"
     action :create_if_missing
   end
 
@@ -122,6 +123,7 @@ action :install do
     owner "root"
     group "root"
     mode "0755"
+    cookbook "app_jboss"
     action :create_if_missing
   end
 
@@ -152,5 +154,6 @@ action :install do
     owner "jboss"
     group "jboss"
     mode "0644"
+    cookbook "app_jboss"
   end
 end
