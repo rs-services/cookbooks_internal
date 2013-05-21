@@ -109,11 +109,11 @@
       ],
       "type": "string",
       "display_name": "management_user",
+      "required": "required",
       "choice": [
 
       ],
-      "calculated": false,
-      "required": "optional"
+      "calculated": false
     },
     "app_jboss/management_password": {
       "description": "Managment UI Password",
@@ -122,11 +122,11 @@
       ],
       "type": "string",
       "display_name": "management_password",
+      "required": "required",
       "choice": [
 
       ],
-      "calculated": false,
-      "required": "optional"
+      "calculated": false
     }
   },
   "groupings": {

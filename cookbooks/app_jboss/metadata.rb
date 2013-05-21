@@ -60,19 +60,21 @@ attribute "app_jboss/management_user",
 	:description  => "Managment UI Username",
 	:recipes      => ["app_jboss::install"],
 	:type         => "string",
-	:display_name => "management_user"
+	:display_name => "management_user",
+	:required     => "required"
 
 attribute "app_jboss/management_password",
 	:description  => "Managment UI Password",
 	:recipes      => ["app_jboss::install"],
 	:type         => "string",
-	:display_name => "management_password"
+	:display_name => "management_password",
+	:required     => "required"
 
 
 =begin
 attribute "app_jboss/java_opts",
 	:description  => "Java Options",
-	:recipes      => ["app_jboss::install"],
+	:recipes      => ["app_jboss::install", "app_jboss::setup_monitoring"],
 	:type         => "string",
 	:display_name => "java_opts",
 	:required     => "recommended",
