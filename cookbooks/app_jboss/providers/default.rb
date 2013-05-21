@@ -83,7 +83,7 @@ action :install do
     source "mgmt-users.properties.erb"
     owner "jboss"
     group "jboss"
-    cookbooks "app_jboss"
+    cookbook "app_jboss"
     variables({
       :management_user     => node[:app_jboss][:management_user],
       :management_password => Digest::MD5.hexdigest(node[:app_jboss][:management_password])
