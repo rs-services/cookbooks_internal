@@ -64,6 +64,7 @@ action :install do
       chown -R jboss:jboss /usr/local/jboss
       chmod 0755 /usr/local/jboss
       rm /usr/local/jboss/bin/*.bat
+      rm /usr/local/jboss/configuration/standalone/*.xml
     EOM
     not_if { ::File.exists?("/usr/local/jboss/bin") }
   end
@@ -157,3 +158,4 @@ action :install do
     cookbook "app_jboss"
   end
 end
+# Install JBoss END
