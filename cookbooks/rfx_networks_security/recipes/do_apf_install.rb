@@ -10,7 +10,7 @@ end
 
 bash "untar and install" do
   cwd "/tmp"
-  code <--EOF
+  code <<-EOF
     tar -xzf apf-current.tar.gz
     cd apf*
     ./install.sh
