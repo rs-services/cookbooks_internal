@@ -2,6 +2,10 @@ rightscale_marker :begin
 
 execute "rkhunter --update -q"
 
-execute "rkhuner -c -sk --summary"
+bash "rkhuner -c -sk --summary" do
+  code <<-EOF
+    rkhuner -c -sk --summary
+  EOF
+end
 
 rightscale_marker :end
