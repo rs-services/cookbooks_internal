@@ -23,7 +23,7 @@ package "rkhunter" do
   action :install
 end
 
-template "/etc/rkhunter/rkhunter.conf" do
+template "/etc/rkhunter.conf" do
   source "rkhunter.conf.erb"
   owner "root"
   group "root"
