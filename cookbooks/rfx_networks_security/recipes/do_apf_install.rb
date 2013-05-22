@@ -27,7 +27,7 @@ template "/etc/apf/conf.apf" do
 end
 
 service "apf" do
-  actions [ :enable, :start ]
+  action [ :enable, :start ]
 end
 
 rightscale_marker :end
