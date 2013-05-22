@@ -1,7 +1,7 @@
 rightscale_marker :begin
 
-execute "rkhunter --update" 
+execute "rkhunter --update -q"
 
-execute "rkhuner --cronjob"
+execute "rkhuner -c -sk --summary"
 
 rightscale_marker :end
