@@ -63,8 +63,8 @@ action :install do
       tar zxf jboss.tar.gz --strip=1 -C /usr/local/jboss
       chown -R jboss:jboss /usr/local/jboss
       chmod 0755 /usr/local/jboss
-      rm /usr/local/jboss/bin/*.bat
-      rm /usr/local/jboss/standalone/configuration/*.xml
+      rm -f /usr/local/jboss/bin/*.bat
+      rm -f /usr/local/jboss/standalone/configuration/*.xml
     EOM
     not_if { ::File.exists?("/usr/local/jboss/bin") }
   end
