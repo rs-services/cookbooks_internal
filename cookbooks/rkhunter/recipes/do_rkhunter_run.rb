@@ -4,7 +4,7 @@ execute "rkhunter --update -q"
 
 bash "rkhunter -c -sk --summary" do
   code <<-EOF
-    rkhunter -c -sk --summary
+    rkhunter -c -sk --summary --nocolors
   EOF
 end
 
