@@ -7,7 +7,7 @@
 
 # Start jboss service
 action :start do
-  log "  Running start sequence"
+  log "Running start sequence"
   service "jboss" do
     action :start
     persist false
@@ -16,7 +16,7 @@ end
 
 # Stop jboss service
 action :stop do
-  log "  Running stop sequence"
+  log "Running stop sequence"
   service "jboss" do
     action :stop
     persist false
@@ -25,7 +25,7 @@ end
 
 # Restart jboss service
 action :restart do
-  log "  Running restart sequence"
+  log "Running restart sequence"
   service "jboss" do
     action :restart
     persist false
@@ -157,5 +157,67 @@ action :install do
     mode "0644"
     cookbook "app_jboss"
   end
-end
-# Install JBoss END
+end # END :install
+
+# Configure JBoss monitoring
+action :setup_monitoring do
+
+  log "Configuring collectd monitoring for JBoss ..."
+
+  # Installing and configuring collectd plugin for JVM monitoring.
+  cookbook_file "/usr/share/java/collectd.jar" do
+    source "collectd.jar"
+    owner "root"
+    group "root"
+    mode "0644"
+    cookbook "app_jboss"
+  end
+
+  # Linking collectd
+    link "/usr/local/jboss/lib/collectd.jar" do
+    to "/usr/share/java/collectd.jar"
+    not_if { !::File.exists?("/usr/share/java/collectd.jar") }
+  end
+
+# TODO: I think this is supposed to be written to jboss/bin/standalone.conf.
+# Also this code should be using a template. I will correct it soon.
+=begin
+  # Add collectd support to run.conf
+  bash "Add collectd to run.conf" do
+    flags "-ex"
+    code <<-EOH
+      cat <<'EOF'>>"/usr/local/jboss/bin/run.conf"
+JAVA_OPTS="\$JAVA_OPTS -Djcd.host=#{node[:rightscale][:instance_uuid]} -Djcd.instance=jboss -Djcd.dest=udp://#{node[:rightscale][:servers][:sketchy][:hostname]}:3011 -Djcd.tmpl=javalang -javaagent:#{install_target}/lib/collectd.jar"
+EOF
+    EOH
+  end
+=end
+
+  # Installing and configuring collectd plugin for JBoss monitoring.
+  cookbook_file "/tmp/collectd-plugin-java.tar.gz" do
+    source "collectd-plugin-java.tar.gz"
+    mode "0644"
+    owner "root"
+    group "root"
+    cookbook "app_jboss"
+  end
+
+  # Extracting the plugin
+  bash "Extracting the plugin" do
+    flags "-ex"
+    code <<-EOM
+      tar xzf /tmp/collectd-plugin-java.tar.gz -C /
+    EOM
+  end
+
+  cookbook_file "#{node[:rightscale][:collectd_plugin_dir]}/GenericJMX.conf" do
+    source "GenericJMX.conf"
+    owner "root"
+    group "root"
+    mode "0644"
+    cookbook "app_jboss"
+    action :create
+    notifies :restart, resources(:service => "collectd")
+  end
+end # END :setup_monitoring
+
