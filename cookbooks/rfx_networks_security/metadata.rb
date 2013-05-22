@@ -9,3 +9,13 @@ version          '0.1.0'
 depends "rightscale"
 
 recipe "rfx_networks_security::do_apf_install", "installs apf"
+recipe "rfx_networks_security::do_bfd_install", "installs bfd"
+
+
+#APF
+
+#BFD
+attribute "rfx_networks_security/bfd/trigger",
+  :display_name => "BFD Number of failures",
+  :description => "BFD Number of failures, before blocking",
+  :default => "15"
