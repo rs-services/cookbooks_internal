@@ -238,3 +238,8 @@ action :code_update do
     persist false
   end
 end
+
+# TODO:
+action :setup_db_connection do
+  log "Add DB connection code here ..."
+end
