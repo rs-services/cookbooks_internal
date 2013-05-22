@@ -52,7 +52,7 @@ end
 
 bash "rkhunter --update" do
   code <<-EOF
-    rkhunter --update
+    rkhunter --update &
   EOF
 end
 
