@@ -2,9 +2,9 @@ rightscale_marker :begin
 
 execute "rkhunter --update -q"
 
-bash "rkhuner -c -sk --summary" do
+bash "rkhunter -c -sk --summary" do
   code <<-EOF
-    rkhuner -c -sk --summary
+    rkhunter -c -sk --summary
   EOF
 end
 
