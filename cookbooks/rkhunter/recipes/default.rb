@@ -50,7 +50,11 @@ template "/etc/cron.daily/rkhunter" do
   action :create
 end
 
-execute "rkhunter --update"
+bash "rkhunter --update" do
+  code <<-EOF
+    rkhunter --update
+  EOF
+end
 
 rightscale_marker :end
 
