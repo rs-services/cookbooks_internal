@@ -221,3 +221,20 @@ EOF
   end
 end # END :setup_monitoring
 
+action :code_update do
+  deploy_dir = new_resource.destination
+
+  log "Starting code update sequence"
+  log "Current project doc root is set to #{deploy_dir}"
+  log "Downloading project repo"
+
+  # Calling "repo" LWRP to download remote project repository
+  # See cookbooks/repo/resources/default.rb for the "repo" resource.
+  repo "default" do
+    destination deploy_dir
+    action node[:repo][:default][:perform_action].to_sym
+    app_user node[:app][:user]
+    repository node[:repo][:default][:repository]
+    persist false
+  end
+end
