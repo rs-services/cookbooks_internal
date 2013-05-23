@@ -62,4 +62,20 @@ template "/etc/apf/deny_hosts/rebuild.sh" do
   action :create
 end
 
+template "/etc/apf/allow_hosts/000_allow.rule" do
+  source "allow_host.rule.erb"
+  owner "root"
+  group "root"
+  mode "0644"
+  action :create
+end
+
+template "/etc/apf/deny_hosts/000_deny.rule" do
+  source "deny_host.rule.erb"
+  owner "root"
+  group "root"
+  mode "0644"
+  action :create
+end
+
 rightscale_marker :end
