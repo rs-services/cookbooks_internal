@@ -127,36 +127,6 @@ action :install do
     cookbook "app_jboss"
     action :create_if_missing
   end
-
-  log "Downloading MySQL Connector ..."
-
-  remote_file "/tmp/mysql_connector.tar.gz" do
-    source "#{node[:app_jboss][:source_mysql_connector]}"
-    owner "root"
-    group "root"
-    mode "0644"
-  end
-
-  log "Configuring MySQL Connector ..."
-
-  bash "untar_mysql_connector" do
-    cwd "/tmp"
-    code <<-EOM
-    mkdir /usr/local/jboss/mysql-connector
-    tar zxf mysql_connector.tar.gz --strip=1 -C /usr/local/jboss/mysql-connector
-    mkdir -p /usr/local/jboss/modules/com/mysql/main
-    cp /usr/local/jboss/mysql-connector/mysql-connector-java-5.1.25-bin.jar /usr/local/jboss/modules/com/mysql/main
-    chown -R jboss:jboss /usr/local/jboss
-    EOM
-  end
-
-  cookbook_file "/usr/local/jboss/modules/com/mysql/main/module.xml" do
-    source "module.xml"
-    owner "jboss"
-    group "jboss"
-    mode "0644"
-    cookbook "app_jboss"
-  end
 end # END :install
 
 # TODO: 
@@ -244,9 +214,36 @@ action :code_update do
   end
 end
 
-# TODO:
 action :setup_db_connection do
-  log "Add DB connection code here ..."
+  log "Downloading MySQL Connector ..."
+
+  remote_file "/tmp/mysql_connector.tar.gz" do
+    source "#{node[:app_jboss][:source_mysql_connector]}"
+    owner "root"
+    group "root"
+    mode "0644"
+  end
+
+  log "Configuring MySQL Connector ..."
+
+  bash "untar_mysql_connector" do
+    cwd "/tmp"
+    code <<-EOM
+      mkdir /usr/local/jboss/mysql-connector
+      tar zxf mysql_connector.tar.gz --strip=1 -C /usr/local/jboss/mysql-connector
+      mkdir -p /usr/local/jboss/modules/com/mysql/main
+      cp /usr/local/jboss/mysql-connector/mysql-connector-java-5.1.25-bin.jar /usr/local/jboss/modules/com/mysql/main
+      chown -R jboss:jboss /usr/local/jboss
+    EOM
+  end
+
+  cookbook_file "/usr/local/jboss/modules/com/mysql/main/module.xml" do
+    source "module.xml"
+    owner "jboss"
+    group "jboss"
+    mode "0644"
+    cookbook "app_jboss"
+  end
 end
 
 # TODO:
