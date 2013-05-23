@@ -159,6 +159,12 @@ action :install do
   end
 end # END :install
 
+# TODO: 
+action :setup_monitoring do
+  log "SETUP MONITORING NOT IMPLEMENTED YET"
+end
+
+=begin
 # Configure JBoss monitoring
 action :setup_monitoring do
 
@@ -181,7 +187,6 @@ action :setup_monitoring do
 
 # TODO: I think this is supposed to be written to jboss/bin/standalone.conf.
 # Also this code should be using a template. I will correct it soon.
-=begin
   # Add collectd support to run.conf
   bash "Add collectd to run.conf" do
     flags "-ex"
@@ -191,7 +196,6 @@ JAVA_OPTS="\$JAVA_OPTS -Djcd.host=#{node[:rightscale][:instance_uuid]} -Djcd.ins
 EOF
     EOH
   end
-=end
 
   # Installing and configuring collectd plugin for JBoss monitoring.
   cookbook_file "/tmp/collectd-plugin-java.tar.gz" do
@@ -220,6 +224,7 @@ EOF
     notifies :restart, resources(:service => "collectd")
   end
 end # END :setup_monitoring
+=end
 
 action :code_update do
   deploy_dir = new_resource.destination
@@ -242,4 +247,9 @@ end
 # TODO:
 action :setup_db_connection do
   log "Add DB connection code here ..."
+end
+
+# TODO:
+action :setup_vhost do
+  log "Add :setup_vhost code here ..."
 end
