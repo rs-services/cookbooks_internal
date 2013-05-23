@@ -30,4 +30,36 @@ service "apf" do
   action [ :enable, :start ]
 end
 
+directory "/etc/apf/allow_hosts" do
+  owner "root"
+  group "root"
+  mode "0755"
+  action :create
+end
+
+directory "/etc/apf/deny_hosts" do
+  owner "root"
+  group "root"
+  mode "0755"
+  action :create
+end
+
+template "/etc/apf/allow_hosts/rebuild.sh" do
+  source "rebuild.sh.erb"
+  owner "root"
+  group "root"
+  mode "0755"
+  variables( :filename => "allow_hosts.rules" )
+  action :create
+end
+
+template "/etc/apf/deny_hosts/rebuild.sh" do
+  source "rebuild.sh.erb"
+  owner "root"
+  group "root"
+  mode "0755"
+  variables( :filename => "deny_hosts.rules" )
+  action :create
+end
+
 rightscale_marker :end
