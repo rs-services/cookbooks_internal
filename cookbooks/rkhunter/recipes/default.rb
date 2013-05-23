@@ -47,6 +47,7 @@ template "/etc/cron.daily/rkhunter" do
   group "root"
   mode "0755"
   #variables()
+  backup false
   action :create
 end
 
