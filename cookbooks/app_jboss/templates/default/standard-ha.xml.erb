@@ -93,17 +93,17 @@
         <subsystem xmlns="urn:jboss:domain:datasources:1.0">
             <datasources>
                 <datasource jndi-name="java:jboss/datasources/myds" pool-name="myds" enabled="true" use-java-context="true">
-										<connection-url>jdbc:mysql://<%= @master_db_dnsname %>:3306</connection-url>
+          <connection-url>jdbc:mysql://<%= @master_db_dnsname %>:3306</connection-url>
                      <driver>mysql</driver> 
-										 <security> 
-											 <user-name><%= @dbapplication_username %></user-name> 
-											 <password><%= @dbapplication_password %></password> 
-										</security> 
-								</datasource>
+           <security> 
+            <user-name><%= @dbapplication_username %></user-name> 
+            <password><%= @dbapplication_password %></password> 
+          </security> 
+        </datasource>
                 <drivers>
-										<driver name="mysql" module="com.mysql">
-												<xa-datasource-class>com.mysql.jdbc.Driver</xa-datasource-class> 
-										</driver>
+          <driver name="mysql" module="com.mysql">
+            <xa-datasource-class>com.mysql.jdbc.Driver</xa-datasource-class> 
+          </driver>
                 </drivers>
             </datasources>
         </subsystem>
@@ -341,7 +341,7 @@
         </subsystem>
         <subsystem xmlns="urn:jboss:domain:webservices:1.1">
             <modify-wsdl-address>true</modify-wsdl-address>
-						<wsdl-host>${jboss.bind.address:<%= @jboss_bind_address %>}</wsdl-host>
+      <wsdl-host>${jboss.bind.address:<%= @jboss_bind_address %>}</wsdl-host>
             <endpoint-config name="Standard-Endpoint-Config"/>
             <endpoint-config name="Recording-Endpoint-Config">
                 <pre-handler-chain name="recording-handlers" protocol-bindings="##SOAP11_HTTP ##SOAP11_HTTP_MTOM ##SOAP12_HTTP ##SOAP12_HTTP_MTOM">
@@ -353,10 +353,10 @@
     </profile>
     <interfaces>
         <interface name="management">
-						<inet-address value="${jboss.bind.address.management:<%= @jboss_bind_address %>}"/>
+      <inet-address value="${jboss.bind.address.management:<%= @jboss_bind_address %>}"/>
         </interface>
         <interface name="public">
-						<inet-address value="${jboss.bind.address:<%= @jboss_bind_address %>}"/>
+      <inet-address value="${jboss.bind.address:<%= @jboss_bind_address %>}"/>
         </interface>
         <!-- TODO - only show this if the jacorb subsystem is added  -->
         <interface name="unsecure">
@@ -364,7 +364,7 @@
               ~  Used for IIOP sockets in the standard configuration.
               ~                  To secure JacORB you need to setup SSL 
               -->
-						<inet-address value="${jboss.bind.address.unsecure:<%= @jboss_bind_address %>}"/>
+      <inet-address value="${jboss.bind.address.unsecure:<%= @jboss_bind_address %>}"/>
         </interface>
     </interfaces>
     <socket-binding-group name="standard-sockets" default-interface="public" port-offset="${jboss.socket.binding.port-offset:0}">
@@ -372,8 +372,8 @@
         <socket-binding name="management-http" interface="management" port="${jboss.management.http.port:9990}"/>
         <socket-binding name="management-https" interface="management" port="${jboss.management.https.port:9443}"/>
         <socket-binding name="ajp" port="8009"/>
-				<socket-binding name="http" port="<%= @jboss_http_bind_port %>"/>
-				<socket-binding name="https" port="<%= @jboss_https_bind_port %>"/>
+    <socket-binding name="http" port="<%= @jboss_http_bind_port %>"/>
+    <socket-binding name="https" port="<%= @jboss_https_bind_port %>"/>
         <socket-binding name="jgroups-diagnostics" port="0" multicast-address="224.0.75.75" multicast-port="7500"/>
         <socket-binding name="jgroups-mping" port="0" multicast-address="${jboss.default.multicast.address:230.0.0.4}" multicast-port="45700"/>
         <socket-binding name="jgroups-tcp" port="7600"/>
