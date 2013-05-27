@@ -1,49 +1,65 @@
 {
+  "name": "app_nginx_php",
+  "description": "Installs/Configures app_nginx_php",
+  "long_description": "Description\n===========\n\nRequirements\n============\n\nAttributes\n==========\n\nUsage\n=====\n\n",
   "maintainer": "RightScale Inc",
+  "maintainer_email": "premium@rightscale.com",
+  "license": "Apache 2.0",
+  "platforms": {
+  },
+  "dependencies": {
+    "app": ">= 0.0.0",
+    "repo": ">= 0.0.0",
+    "rightscale": ">= 0.0.0",
+    "nginx": ">= 0.0.0",
+    "php-fpm": ">= 0.0.0",
+    "sys_firewall": ">= 0.0.0"
+  },
+  "recommendations": {
+  },
+  "suggestions": {
+  },
+  "conflicting": {
+  },
+  "providing": {
+  },
+  "replacing": {
+  },
   "attributes": {
     "application/environment": {
-      "type": "string",
-      "calculated": false,
       "display_name": "Application Environment",
       "description": "Application Environment -> Dev,Prod",
       "required": "required",
       "choice": [
 
       ],
+      "calculated": false,
+      "type": "string",
       "recipes": [
 
       ]
+    },
+    "app_php/db_adapter": {
+      "display_name": "Database adapter for application",
+      "description": "Enter the database adapter which will be used to connect to the database. Example: mysql",
+      "default": "mysql",
+      "choice": [
+        "mysql",
+        "postgresql"
+      ],
+      "recipes": [
+        "app_php::default",
+        "app_nginx_php::default"
+      ],
+      "calculated": false,
+      "type": "string",
+      "required": "optional"
     }
   },
-  "license": "Apache 2.0",
-  "recommendations": {
-  },
-  "version": "0.1.0",
-  "description": "Installs/Configures app_nginx_php",
-  "suggestions": {
-  },
-  "maintainer_email": "premium@rightscale.com",
-  "long_description": "Description\n===========\n\nRequirements\n============\n\nAttributes\n==========\n\nUsage\n=====\n\n",
-  "conflicting": {
+  "groupings": {
   },
   "recipes": {
     "app_nginx_php::default": "Installs the php application server."
   },
-  "platforms": {
-  },
-  "name": "app_nginx_php/",
-  "replacing": {
-  },
-  "groupings": {
-  },
-  "providing": {
-  },
-  "dependencies": {
-    "rightscale": ">= 0.0.0",
-    "repo": ">= 0.0.0",
-    "nginx": ">= 0.0.0",
-    "sys_firewall": ">= 0.0.0",
-    "app": ">= 0.0.0",
-    "php-fpm": ">= 0.0.0"
-  }
+  "version": "0.1.0"
 }
