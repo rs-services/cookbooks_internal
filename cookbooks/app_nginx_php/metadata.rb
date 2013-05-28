@@ -18,3 +18,10 @@ attribute "application/environment",
   :display_name => "Application Environment",
   :description => "Application Environment -> Dev,Prod",
   :required => "required"
+
+attribute "app_php/db_adapter",
+  :display_name => "Database adapter for application",
+  :description => "Enter the database adapter which will be used to connect to the database. Example: mysql",
+  :default => "mysql",
+  :choice => [ "mysql", "postgresql" ],
+  :recipes => ["app_php::default", "app_nginx_php::default"]
