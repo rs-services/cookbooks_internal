@@ -105,6 +105,22 @@ action :install do
     })
   end
 
+  cookbook_file "/usr/local/jboss/bin/standalone.sh" do
+    source "standalone.sh"
+    owner "jboss"
+    group "jboss"
+    mode "0755"
+    cookbook "app_jboss"
+  end
+
+  template "/usr/local/jboss/standalone/configuration/samsung_java_opts.sh" do
+    source "#{node[:app_jboss][:tier]}.sh"
+    owner "jboss"
+    group "jboss"
+    mode "0444"
+    cookbook "app_jboss"
+  end
+
   directory "/etc/jboss-as" do
     owner "root"
     group "root"
