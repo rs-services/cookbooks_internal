@@ -83,7 +83,7 @@ bash "extract and compile" do
   EOF
 end
 
-%w{ /usr/share/nginx /var/log/nginx /etc/nginx /var/lib/nginx/tmp}.each do |dir|
+%w{ /ncom/ncom_bin/uwsgi_temp /ncom/ncom_bin/nas /ncom/ncom_bin/html /ncom/ncom_bin/client_body_temp /ncom/ncom_bin/sbin /ncom/ncom_bin/cert /ncom/ncom_bin/conf /ncom/ncom_bin/conf/ssl_priv /ncom/ncom_bin/conf/ssl /ncom/ncom_bin/logs /ncom/ncom_bin/logs/dig /ncom/ncom_bin/logs/temp /ncom/ncom_bin/proxy_temp}.each do |dir|
   directory dir do
     owner "nginx"
     group "nginx" 
