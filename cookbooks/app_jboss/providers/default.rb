@@ -114,11 +114,14 @@ action :install do
   end
 
   template "/usr/local/jboss/standalone/configuration/samsung_java_opts.sh" do
-    source "#{node[:app_jboss][:tier]}.sh"
+    source "tier_#{node[:app_jboss][:tier]}.sh.erb"
     owner "jboss"
     group "jboss"
     mode "0444"
     cookbook "app_jboss"
+    variables({
+      # Add appropriate vars here
+    })
   end
 
   directory "/etc/jboss-as" do
