@@ -1,0 +1,32 @@
+{
+  "platforms": {
+  },
+  "version": "0.1.0",
+  "providing": {
+  },
+  "conflicting": {
+  },
+  "license": "Apache 2.0",
+  "long_description": "sys_dns_public Cookbook\n=======================\nTODO: Enter the cookbook description here.\n\ne.g.\nThis cookbook makes your favorite breakfast sandwhich.\n\nRequirements\n------------\nTODO: List your cookbook requirements. Be sure to include any requirements this cookbook has on platforms, libraries, other cookbooks, packages, operating systems, etc.\n\ne.g.\n#### packages\n- `toaster` - sys_dns_public needs toaster to brown your bagel.\n\nAttributes\n----------\nTODO: List you cookbook attributes here.\n\ne.g.\n#### sys_dns_public::default\n<table>\n  <tr>\n    <th>Key</th>\n    <th>Type</th>\n    <th>Description</th>\n    <th>Default</th>\n  </tr>\n  <tr>\n    <td><tt>['sys_dns_public']['bacon']</tt></td>\n    <td>Boolean</td>\n    <td>whether to include bacon</td>\n    <td><tt>true</tt></td>\n  </tr>\n</table>\n\nUsage\n-----\n#### sys_dns_public::default\nTODO: Write usage instructions for each cookbook.\n\ne.g.\nJust include `sys_dns_public` in your node's `run_list`:\n\n```json\n{\n  \"name\":\"my_node\",\n  \"run_list\": [\n    \"recipe[sys_dns_public]\"\n  ]\n}\n```\n\nContributing\n------------\nTODO: (optional) If this is a public cookbook, detail the process for contributing. If this is a private cookbook, remove this section.\n\ne.g.\n1. Fork the repository on Github\n2. Create a named feature branch (like `add_component_x`)\n3. Write you change\n4. Write tests for your change (if applicable)\n5. Run the tests, ensuring they all pass\n6. Submit a Pull Request using Github\n\nLicense and Authors\n-------------------\nAuthors: TODO: List authors\n",
+  "description": "Installs/Configures sys_dns_public",
+  "name": "sys_dns_public",
+  "attributes": {
+  },
+  "suggestions": {
+  },
+  "recommendations": {
+  },
+  "dependencies": {
+    "rightscale": ">= 0.0.0",
+    "sys_dns": ">= 0.0.0"
+  },
+  "recipes": {
+    "sys_dns_public::default": "sets the public ip address"
+  },
+  "replacing": {
+  },
+  "maintainer_email": "premium@rightscale.com",
+  "maintainer": "RightScale Inc",
+  "groupings": {
+  }
+}
