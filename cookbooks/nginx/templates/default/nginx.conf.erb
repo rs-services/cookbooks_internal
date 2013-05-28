@@ -16,7 +16,21 @@
 #----------------------------------------------------------------------
 
 user              nginx;
-worker_processes  1;
+
+# -----------------------------------------------------------------------------------------------------------------------
+# Performance tunes
+# -----------------------------------------------------------------------------------------------------------------------
+
+worker_processes         8;
+worker_rlimit_nofile    20480;
+worker_priority    0;
+
+events  {
+    use epoll;
+    worker_connections    1024;
+    multi_accept off;
+}
+
 
 #error_log  /var/log/nginx/error.log   debug;
 #error_log  /var/log/nginx/error.log  notice;
@@ -32,9 +46,9 @@ pid        /var/run/nginx.pid;
 #
 #----------------------------------------------------------------------
 
-events {
+<!-- events {
     worker_connections  <%= @worker_connections %>;
-}
+} -->
 
 
 #----------------------------------------------------------------------
@@ -48,21 +62,55 @@ http {
     include       /etc/nginx/mime.types;
     default_type  application/octet-stream;
 
-    log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+    log_format upstream_log '$pid , $time_local , $cookie_JSESSIONID , $cookie_uid , $upstream_addr , $request_uri';
+    log_format processing_time '$request , $status , [$request_time] ';
+    log_format zero_log '[$time_local] $request_uri  http:$status  Content-Length:$sent_http_content_length SentByte:$bytes_sent Addr:$http_x_forwarded_for UA:$http_user_agent';
+
+    <!-- log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
                       '$status $body_bytes_sent "$http_referer" '
-                      '"$http_user_agent" "$http_x_forwarded_for"';
+                      '"$http_user_agent" "$http_x_forwarded_for"'; -->
 
     access_log  /var/log/nginx/access.log  main;
 
+    output_buffers  8 16k;
+    #postpone_output 1024;
+
+    keepalive_timeout         25;
+    keepalive_requests        10000;
+    tcp_nodelay               off;
+    tcp_nopush                on;
+    reset_timedout_connection on;
+
     sendfile        on;
-    #tcp_nopush     on;
+    send_timeout 30;
+
+    client_header_timeout     20s;
+    client_body_timeout       60s;
+    client_max_body_size      100m;
 
     #keepalive_timeout  0;
     keepalive_timeout  65;
 
-    #gzip  on;
+    charset       utf-8;
+    server_tokens off;
 
-    #
+    server_names_hash_bucket_size 128;
+
+    gzip            on;
+    gzip_disable    "MSIE [1-6]\.(?!.*SV1)";
+    gzip_types      text/plain text/javascript application/x-javascript text/css text/xml application/xml;
+    gzip_min_length 1024;
+    gzip_buffers    1 16k;
+
+    error_page 404 /pageNot.html;
+    error_page 403 /pageNot.html;
+    error_page 500 /systemError.html;
+    error_page 504 /systemError.html;
+
+    # ChatOn AJAX Cache
+    proxy_cache_path /ncom/ncom_bin/nginx/proxy_cache levels=1:1:2 keys_zone=CHATON:100m inactive=1h;
+
+    <!-- #
     # The default server
     #
     server {
@@ -128,5 +176,312 @@ http {
     # Load config files from the /etc/nginx/conf.d directory
     include /etc/nginx/conf.d/*.conf;
 
+} -->
+
+
+    # ---------------------------------------------------------------------
+    # Application servers
+    # ---------------------------------------------------------------------
+    upstream ncomportal_server {
+	sticky  path=/;
+        server 10.1.12.10:8080 fail_timeout=1m;
+        server 10.1.12.10:8180 fail_timeout=1m;
+        server 10.1.12.30:8080 fail_timeout=1m;
+        server 10.1.12.30:8180 fail_timeout=1m;
+        server 10.1.22.10:8080 fail_timeout=1m;
+        server 10.1.22.10:8180 fail_timeout=1m;
+        server 10.1.22.20:8080 fail_timeout=1m;
+        server 10.1.22.20:8180 fail_timeout=1m;
+    }
+
+    upstream admin_server {
+        server 10.1.13.20:8280;
+    }
+
+    upstream gateway_server {
+        server 10.1.13.20:8080 fail_timeout=1m;
+        server 10.1.23.20:8080 fail_timeout=1m;
+    }
+
+    upstream batch_server {
+        server 10.1.13.20:8380 fail_timeout=1m;
+        server 10.1.23.20:8380 fail_timeout=1m;
+    }
+
+    upstream ncomservice_server {
+        server 10.1.13.20:8180 fail_timeout=1m;
+        server 10.1.23.20:8180 fail_timeout=1m;
+    }
+
+    upstream redmine_server {
+        server 10.1.23.110:80;
+    }
+
+#server {
+#    listen 80;
+#    server_name redmine.content.samsung.com;
+#    access_log off;
+
+ #   location / {
+ #      proxy_pass http://redmine_server;
+#    }
+#}
+    # ---------------------------------------------------------------------
+    # N.com Static
+    # ---------------------------------------------------------------------
+
+    # ---------------------------------------------------------------------
+    # N.com Portal server
+    # ---------------------------------------------------------------------
+
+    server {
+        listen 80;
+        server_name content.samsung.com;
+        access_log /ncom/ncom_bin/nginx/logs/ncomportal.access.log zero_log;
+        #access_log /ncom/ncom_bin/nginx/logs/ncomportal.access_time.log processing_time;
+	error_log /ncom/ncom_bin/nginx/logs/ncomportal.error.log;
+
+        root /home/hudson/wwwdoc/content.samsung.com/;
+
+        location ~* \.(jpg|jpeg|gif|css|png|js|ico|html|swf|pdf|flv|csv|mp4|apk|xml|snb)$ {
+            access_log off;
+        }
+
+        location ~* \.(woff|ttf|eot|otf)$ {
+            add_header Access-Control-Allow-Origin *;
+        }
+
+        # Except for IR Country
+        location /ir/ {
+           rewrite ^ http://$server_name/common/selectyourcountry.do;
+        }
+
+	location /mobile/ir/ {
+	   rewrite ^ http://$server_name/common/404.do;
+	}
+
+        # Redirect to /global for apps's /go url
+        location /go {
+            rewrite ^ http://$server_name/global/main.do;
+        }
+
+        # ChatOn AJAX Cache
+        # Except for /svc/ajax/gateway/chaton/getChatonFriednChatJson
+        location ~ /svc/ajax/gateway/chaton/getChatOn {
+
+	    #access_log /ncom/ncom_bin/nginx/logs/chaton.access.log chaton_access_log;
+
+            proxy_pass http://ncomportal_server;
+            proxy_next_upstream timeout error;
+            proxy_connect_timeout 10;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+
+            proxy_cache_key       "$host$request_uri";
+            proxy_cache           CHATON;   # Cache Zone name
+            proxy_cache_valid     200 5m;   # Only for HTTP_200, 1 Hour cache
+            proxy_cache_use_stale updating; # Repeatable read
+
+            break;
+        }
+
+	location / {
+            proxy_pass http://ncomportal_server;
+            proxy_next_upstream timeout error;
+
+            proxy_connect_timeout 60;
+            proxy_read_timeout    600;
+
+            proxy_buffers           8 16k;
+            proxy_buffer_size       8k;
+            proxy_busy_buffers_size 16k;
+
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        }
+    }
+
+    server {
+        listen 443;
+        server_name content.samsung.com;
+
+        ssl                 on;
+        #ssl_certificate     /ncom/ncom_bin/nginx/cert/content.samsung.cert;
+        #ssl_certificate_key /ncom/ncom_bin/nginx/cert/content.samsung.key;
+        ssl_certificate     ssl/content.samsung.com.pem;
+        ssl_certificate_key ssl/prd_eu.pem;
+
+        ssl_session_timeout 5m;
+
+        ssl_protocols  SSLv3 TLSv1;
+        ssl_ciphers  !ADH:RC4+RSA:+HIGH:+EXP:+eNULL:AES256-SHA;
+        ssl_prefer_server_ciphers   on;
+
+        location / {
+            proxy_pass http://ncomportal_server;
+            proxy_next_upstream timeout error;
+
+            proxy_connect_timeout 60;
+            proxy_read_timeout    600;
+
+            proxy_buffers           8 16k;
+            proxy_buffer_size       8k;
+            proxy_busy_buffers_size 16k;
+
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        }
+    }
+
+    server {
+       listen 80;
+        server_name www.samsungn.com;
+        error_log logs/n.com.error.log;
+        location / {
+            return 400;
+        }
+    }
+    # ---------------------------------------------------------------------
+    # Admin Portal server
+    # ---------------------------------------------------------------------
+    server {
+        listen 80;
+        server_name admin.content.samsung.com;
+        access_log /ncom/ncom_bin/nginx/logs/admin.access.log zero_log;
+        error_log /ncom/ncom_bin/nginx/logs/admin.error.log;
+
+        location ^~ /redmine/ {
+            proxy_pass http://redmine_server;
+        }
+
+        location ~* \.(jpg|jpeg|gif|css|png|js|ico|html|xml|xls|xlsx|zip|swf|pdf|csv|htm|bmp)$ {
+            root /home/hudson/wwwdoc/admin.content.samsung.com;
+            access_log off;
+        }
+
+        location ~* \.(woff|ttf|eot|otf)$ {
+            root /home/hudson/wwwdoc/admin.content.samsung.com;
+            add_header Access-Control-Allow-Origin *;
+        }
+
+        location / {
+            root /home/hudson/wwwdoc/admin.content.samsung.com;
+            proxy_pass http://admin_server;
+            proxy_next_upstream timeout;
+
+            proxy_connect_timeout 60;
+            proxy_read_timeout    600;
+
+            proxy_buffers           8 16k;
+            proxy_buffer_size       8k;
+            proxy_busy_buffers_size 16k;
+
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        }
+    }
+    # ---------------------------------------------------------------------
+    # Gateway server
+    # ---------------------------------------------------------------------
+    server {
+        listen 80;
+        server_name gateway.content.samsung.com;
+        access_log /ncom/ncom_bin/nginx/logs/gateway.access.log zero_log;
+        error_log /ncom/ncom_bin/nginx/logs/gateway.error.log;
+
+        root /home/hudson/wwwdoc/gateway.content.samsung.com;
+
+        location / {
+            proxy_pass http://gateway_server;
+            proxy_next_upstream timeout error;
+
+            proxy_connect_timeout 60;
+            proxy_read_timeout    600;
+
+            proxy_buffers           8 16k;
+            proxy_buffer_size       8k;
+            proxy_busy_buffers_size 16k;
+
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        } 
+    }
+
+    # ---------------------------------------------------------------------
+    # Batch server
+    # ---------------------------------------------------------------------
+    server {
+        listen 80;
+        server_name batch.content.samsung.com;
+        access_log /ncom/ncom_bin/nginx/logs/batch.access.log zero_log;
+        error_log /ncom/ncom_bin/nginx/logs/batch.error.log;
+
+        root /home/hudson/wwwdoc/batch.content.samsung.com;
+
+        location / {
+            proxy_pass http://batch_server;
+            proxy_next_upstream timeout error;
+            proxy_connect_timeout 10;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        }
+    }
+
+    # ---------------------------------------------------------------------
+    # Ncomservice server
+    # ---------------------------------------------------------------------
+    server {
+        listen 80;
+        server_name api.content.samsung.com;
+        access_log /ncom/ncom_bin/nginx/logs/ncomservice.access.log zero_log;
+        error_log /ncom/ncom_bin/nginx/logs/ncomservice.error.log;
+
+        root /home/hudson/wwwdoc/api.content.samsung.com;
+
+        location / {
+            proxy_pass http://ncomservice_server;
+            proxy_next_upstream timeout error;
+            proxy_connect_timeout 10;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        }
+    }
+
+    server {
+        listen 443;
+        server_name api.content.samsung.com;
+        #access_log /ncom/ncom_bin/nginx/logs/ncomservice.access.log;
+        error_log /ncom/ncom_bin/nginx/logs/ncomservice.error.log;
+
+        ssl                 on;
+        #ssl_certificate     /ncom/ncom_bin/nginx/cert/content.samsung.cert;
+        #ssl_certificate_key /ncom/ncom_bin/nginx/cert/content.samsung.key;
+        ssl_certificate     ssl_priv/api.content.samsung.com.csr;
+        ssl_certificate_key ssl_priv/prd_eu_priv.key;
+
+        ssl_session_timeout 5m;
+
+        ssl_protocols  SSLv2 SSLv3 TLSv1;
+        ssl_ciphers  HIGH:!aNULL:!MD5;
+        ssl_prefer_server_ciphers   on;
+
+        location / {
+            proxy_pass http://ncomservice_server;
+            proxy_next_upstream timeout error;
+            proxy_connect_timeout 10;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        }
+    }
 }
+
+
 
