@@ -46,11 +46,11 @@ bash "extract and compile" do
     tar -xzf nginx.tar.gz
     cd nginx*
     ./configure --prefix=/usr/share/nginx \
-    --sbin-path=/usr/sbin/nginx \
-    --conf-path=/etc/nginx/nginx.conf \
-    --error-log-path=/var/log/nginx/error.log \
-    --http-log-path=/var/log/nginx/access.log \
-    --http-client-body-temp-path=/var/lib/nginx/tmp/client_body \
+    --sbin-path=/ncom/ncom_bin/sbin \
+    --conf-path=/ncom/ncom_bin/conf/nginx.conf \
+    --error-log-path=/ncom/ncom_bin/logs/error.log \
+    --http-log-path=/ncom/ncom_bin/logs/access.log \
+    --http-client-body-temp-path=/ncom/ncom_bin/client_body_temp \
     --http-proxy-temp-path=/var/lib/nginx/tmp/proxy \
     --http-fastcgi-temp-path=/var/lib/nginx/tmp/fastcgi \
     --http-uwsgi-temp-path=/var/lib/nginx/tmp/uwsgi \
