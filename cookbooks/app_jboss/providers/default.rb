@@ -124,7 +124,9 @@ action :install do
     mode "0444"
     cookbook "app_jboss"
     variables({
-      # Add appropriate vars here
+      :groups_tcp_port => node[:app_jboss][:groups_tcp_port],
+      :port            => node[:app_jboss][:port],
+      :server_name     => node[:app_jboss][:server_name]
     })
   end
 
