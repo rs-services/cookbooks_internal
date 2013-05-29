@@ -266,12 +266,12 @@
             <recovery-environment socket-binding="txn-recovery-environment" status-socket-binding="txn-status-manager"/>
             <coordinator-environment default-timeout="300"/>
         </subsystem>
-        <subsystem xmlns="urn:jboss:domain:web:1.1" default-virtual-server="content.samsung.com" native="false">
+        <subsystem xmlns="urn:jboss:domain:web:1.1" default-virtual-server="<%= @virtual_server %>" native="false">
             <configuration>
                 <jsp-configuration modification-test-interval="86400" generate-strings-as-char-arrays="true" source-vm="1.6" target-vm="1.6"/>
             </configuration>
             <connector name="http" protocol="HTTP/1.1" scheme="http" socket-binding="http" executor="http-thread-pool" max-connections="512"/>
-            <virtual-server name="content.samsung.com" enable-welcome-root="false"/>
+            <virtual-server name="<%= @virtual_server %>" enable-welcome-root="false"/>
         </subsystem>
         <subsystem xmlns="urn:jboss:domain:weld:1.0"/>
     </profile>
