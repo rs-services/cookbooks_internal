@@ -43,20 +43,33 @@ attribute "app_jboss/https_bind_port",
 	:required     => "recommended",
 	:default      => "8443"
 
-attribute "app_jboss/dbapplication_username",
+attribute "app_jboss/mysql_user_name",
 	:description  => "MySQL Username",
 	:recipes      => ["app_jboss::default"],
 	:type         => "string",
-	:display_name => "dbapplication_username",
+	:display_name => "mysql_user_name",
 	:required     => "required"
 
-attribute "app_jboss/dbapplication_password",
+attribute "app_jboss/mysql_password",
 	:description  => "MySQL Password",
 	:recipes      => ["app_jboss::default"],
 	:type         => "string",
-	:display_name => "dbapplication_password",
+	:display_name => "mysql_password",
 	:required     => "required"
 
+attribute "app_jboss/virtual_server_name",
+  :description  => "Virtualserver DNS name",
+	:recipes      => ["app_jboss::default"],
+	:type         => "string",
+	:display_name => "virtual_server_name",
+	:required     => "required"
+
+attribute "app_jboss/mysql_connection_url",
+  :description  => "MySQL jdbc:// type connection url. Separate multiple entries by commas",
+  :recipes      => ["app_jboss::default"],
+  :type         => "array",
+  :display_name => "mysql_connection_url",
+  :required     => "required"
 
 attribute "app_jboss/master_db_dnsname",
 	:description  => "MySQL Database DNS Name",

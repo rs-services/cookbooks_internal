@@ -101,7 +101,11 @@ action :install do
     variables({
       :jboss_bind_address    => node[:app_jboss][:bind_address],
       :jboss_http_bind_port  => node[:app_jboss][:http_bind_port],
-      :jboss_https_bind_port => node[:app_jboss][:https_bind_port]
+      :jboss_https_bind_port => node[:app_jboss][:https_bind_port],
+      :connection_url        => node[:app_jboss][:mysql_connection_url],
+      :user_name             => node[:app_jboss][:mysql_username],
+      :password              => node[:app_jboss][:mysql_password],
+      :virtual_server        => node[:app_jboss][:virtual_server_name]
     })
   end
 

@@ -80,26 +80,52 @@
       ],
       "calculated": false
     },
-    "app_jboss/dbapplication_username": {
+    "app_jboss/mysql_user_name": {
       "description": "MySQL Username",
       "recipes": [
         "app_jboss::default"
       ],
       "type": "string",
-      "display_name": "dbapplication_username",
+      "display_name": "mysql_user_name",
       "required": "required",
       "choice": [
 
       ],
       "calculated": false
     },
-    "app_jboss/dbapplication_password": {
+    "app_jboss/mysql_password": {
       "description": "MySQL Password",
       "recipes": [
         "app_jboss::default"
       ],
       "type": "string",
-      "display_name": "dbapplication_password",
+      "display_name": "mysql_password",
+      "required": "required",
+      "choice": [
+
+      ],
+      "calculated": false
+    },
+    "app_jboss/virtual_server_name": {
+      "description": "Virtualserver DNS name",
+      "recipes": [
+        "app_jboss::default"
+      ],
+      "type": "string",
+      "display_name": "virtual_server_name",
+      "required": "required",
+      "choice": [
+
+      ],
+      "calculated": false
+    },
+    "app_jboss/mysql_connection_url": {
+      "description": "MySQL jdbc:// type connection url. Separate multiple entries by commas",
+      "recipes": [
+        "app_jboss::default"
+      ],
+      "type": "array",
+      "display_name": "mysql_connection_url",
       "required": "required",
       "choice": [
 
