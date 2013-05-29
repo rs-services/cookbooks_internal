@@ -9,14 +9,14 @@ directory "/etc/nginx" do
   action :create
 end
 
-directory "/etc/nginx/conf.d" do
+directory "/ncom/ncom_bin/conf.d" do
   owner "root"
   group "root"
   mode 0755
   action :create
 end
 
-template "/etc/nginx/nginx.conf" do
+template "/ncom/ncom_bin/nginx.conf" do
   cookbook "nginx"
   source "nginx.conf.erb"
   owner "root"
@@ -29,7 +29,7 @@ template "/etc/nginx/nginx.conf" do
   action :create
 end
 
-template "/etc/nginx/fastcgi_params" do
+template "/ncom/ncom_bin/fastcgi_params" do
   cookbook "nginx"
   source "fastcgi_params.erb"
   owner "root"
