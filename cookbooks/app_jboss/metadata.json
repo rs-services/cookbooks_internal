@@ -80,6 +80,19 @@
       ],
       "calculated": false
     },
+    "app_jboss/mysql_connection_url": {
+      "description": "MySQL jdbc:// type connection url. Separate multiple entries by commas",
+      "recipes": [
+        "app_jboss::default"
+      ],
+      "type": "array",
+      "display_name": "mysql_connection_url",
+      "required": "required",
+      "choice": [
+
+      ],
+      "calculated": false
+    },
     "app_jboss/mysql_user_name": {
       "description": "MySQL Username",
       "recipes": [
@@ -119,58 +132,6 @@
       ],
       "calculated": false
     },
-    "app_jboss/mysql_connection_url": {
-      "description": "MySQL jdbc:// type connection url. Separate multiple entries by commas",
-      "recipes": [
-        "app_jboss::default"
-      ],
-      "type": "array",
-      "display_name": "mysql_connection_url",
-      "required": "required",
-      "choice": [
-
-      ],
-      "calculated": false
-    },
-    "app_jboss/master_db_dnsname": {
-      "description": "MySQL Database DNS Name",
-      "recipes": [
-        "app_jboss::default"
-      ],
-      "type": "string",
-      "display_name": "master_db_dnsname",
-      "required": "required",
-      "choice": [
-
-      ],
-      "calculated": false
-    },
-    "app_jboss/management_user": {
-      "description": "Managment UI Username",
-      "recipes": [
-        "app_jboss::default"
-      ],
-      "type": "string",
-      "display_name": "management_user",
-      "required": "required",
-      "choice": [
-
-      ],
-      "calculated": false
-    },
-    "app_jboss/management_password": {
-      "description": "Managment UI Password",
-      "recipes": [
-        "app_jboss::default"
-      ],
-      "type": "string",
-      "display_name": "management_password",
-      "required": "required",
-      "choice": [
-
-      ],
-      "calculated": false
-    },
     "app_jboss/groups_tcp_port": {
       "description": "Groups TCP Port",
       "recipes": [
@@ -204,6 +165,32 @@
       ],
       "type": "string",
       "display": "app_jboss/server_name",
+      "required": "required",
+      "choice": [
+
+      ],
+      "calculated": false
+    },
+    "app_jboss/management_user": {
+      "description": "Managment UI Username",
+      "recipes": [
+        "app_jboss::default"
+      ],
+      "type": "string",
+      "display_name": "management_user",
+      "required": "required",
+      "choice": [
+
+      ],
+      "calculated": false
+    },
+    "app_jboss/management_password": {
+      "description": "Managment UI Password",
+      "recipes": [
+        "app_jboss::default"
+      ],
+      "type": "string",
+      "display_name": "management_password",
       "required": "required",
       "choice": [
 

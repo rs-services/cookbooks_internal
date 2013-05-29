@@ -19,6 +19,8 @@ attribute "app_jboss/tier",
   :required     => "required",
   :choice       => ["admin", "batch", "gateway", "ncomportal", "ncomservice"]
 
+# Inputs for: templates/default/standalone-ha.xml.erb
+
 attribute "app_jboss/bind_address",
 	:description  => "Address for JBoss to bind to.",
 	:recipes      => ["app_jboss::default"],
@@ -43,6 +45,13 @@ attribute "app_jboss/https_bind_port",
 	:required     => "recommended",
 	:default      => "8443"
 
+attribute "app_jboss/mysql_connection_url",
+  :description  => "MySQL jdbc:// type connection url. Separate multiple entries by commas",
+  :recipes      => ["app_jboss::default"],
+  :type         => "array",
+  :display_name => "mysql_connection_url",
+  :required     => "required"
+
 attribute "app_jboss/mysql_user_name",
 	:description  => "MySQL Username",
 	:recipes      => ["app_jboss::default"],
@@ -63,35 +72,6 @@ attribute "app_jboss/virtual_server_name",
 	:type         => "string",
 	:display_name => "virtual_server_name",
 	:required     => "required"
-
-attribute "app_jboss/mysql_connection_url",
-  :description  => "MySQL jdbc:// type connection url. Separate multiple entries by commas",
-  :recipes      => ["app_jboss::default"],
-  :type         => "array",
-  :display_name => "mysql_connection_url",
-  :required     => "required"
-
-attribute "app_jboss/master_db_dnsname",
-	:description  => "MySQL Database DNS Name",
-	:recipes      => ["app_jboss::default"],
-	:type         => "string",
-	:display_name => "master_db_dnsname",
-	:required     => "required"
-
-attribute "app_jboss/management_user",
-	:description  => "Managment UI Username",
-	:recipes      => ["app_jboss::default"],
-	:type         => "string",
-	:display_name => "management_user",
-	:required     => "required"
-
-attribute "app_jboss/management_password",
-	:description  => "Managment UI Password",
-	:recipes      => ["app_jboss::default"],
-	:type         => "string",
-	:display_name => "management_password",
-	:required     => "required"
-
 
 ### Inputs for: templates/default/tier_*.sh
 
@@ -115,3 +95,19 @@ attribute "app_jboss/server_name",
   :type        => "string",
   :display     => "app_jboss/server_name",
   :required    => "required"
+
+# Inputs for: templates/default/mgmt-users.properties.erb
+
+attribute "app_jboss/management_user",
+	:description  => "Managment UI Username",
+	:recipes      => ["app_jboss::default"],
+	:type         => "string",
+	:display_name => "management_user",
+	:required     => "required"
+
+attribute "app_jboss/management_password",
+	:description  => "Managment UI Password",
+	:recipes      => ["app_jboss::default"],
+	:type         => "string",
+	:display_name => "management_password",
+	:required     => "required"
