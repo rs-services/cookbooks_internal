@@ -21,6 +21,23 @@
   "replacing": {
   },
   "attributes": {
+    "app_jboss/tier": {
+      "description": "Name of the tier this server belongs to.",
+      "recipes": [
+        "app_jboss::default"
+      ],
+      "type": "string",
+      "display_name": "tier",
+      "required": "required",
+      "choice": [
+        "admin",
+        "batch",
+        "gateway",
+        "ncomportal",
+        "ncomservice"
+      ],
+      "calculated": false
+    },
     "app_jboss/bind_address": {
       "description": "Address for JBoss to bind to.",
       "recipes": [

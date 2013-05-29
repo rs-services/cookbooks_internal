@@ -11,6 +11,14 @@ recipe "app_jboss::default"                  , "Sets and configures default app 
 recipe "app_jboss::install"                  , "Installs and configures JBoss."
 recipe "app_jboss::install_glusterfs_client" , "Installs Glusterfs client libraries."
 
+attribute "app_jboss/tier",
+  :description  => "Name of the tier this server belongs to.",
+  :recipes      => ["app_jboss::default"],
+  :type         => "string",
+  :display_name => "tier",
+  :required     => "required",
+  :choice       => ["admin", "batch", "gateway", "ncomportal", "ncomservice"]
+
 attribute "app_jboss/bind_address",
 	:description  => "Address for JBoss to bind to.",
 	:recipes      => ["app_jboss::default"],
