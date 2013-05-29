@@ -46,7 +46,7 @@ bash "extract and compile" do
     tar -xzf nginx.tar.gz
     cd nginx*
     ./configure --prefix=/usr/share/nginx \
-    --sbin-path=/ncom/ncom_bin/sbin \
+    --sbin-path=/ncom/ncom_bin/sbin/nginx \
     --conf-path=/ncom/ncom_bin/conf/nginx.conf \
     --error-log-path=/ncom/ncom_bin/logs/error.log \
     --http-log-path=/ncom/ncom_bin/logs/access.log \
