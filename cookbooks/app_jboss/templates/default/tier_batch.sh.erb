@@ -15,7 +15,7 @@ NCOM_SETTINGS="$NCOM_SETTINGS -Dncom.center.code=Global"
 
 NCOM_SETTINGS="$NCOM_SETTINGS -Dncom.deploy.path=/nas/deploy/application/batch"
 
-NCOM_SETTINGS="$NCOM_SETTINGS -Djboss.host.name=<%= @hostname %>:<%= @port %>"
+NCOM_SETTINGS="$NCOM_SETTINGS -Djboss.host.name=<%= ENV['HOSTNAME'] %>:<%= @port %>"
 NCOM_SETTINGS="$NCOM_SETTINGS -Djboss.node.name=<%= @server_name %>"
 NCOM_SETTINGS="$NCOM_SETTINGS -Djboss.server.config.dir=/ncom/ncom_app/batch/conf"
 NCOM_SETTINGS="$NCOM_SETTINGS -Djboss.server.log.dir=/ncom/ncom_app/batch/log/<%= @server_name %>"
@@ -28,7 +28,7 @@ NCOM_SETTINGS="$NCOM_SETTINGS -Dncom.cachelayer.off=true"
 NCOM_SETTINGS="$NCOM_SETTINGS -Dncom.was.name=$SERVER_NAME"
 
 # Infinispan
-NCOM_SETTINGS="$NCOM_SETTINGS -Djgroups.tcp.address=<%= @hostname %>"
+NCOM_SETTINGS="$NCOM_SETTINGS -Djgroups.tcp.address=<%= ENV['HOSTNAME'] %>"
 NCOM_SETTINGS="$NCOM_SETTINGS -Djgroups.tcp.port=<%= @groups_tcp_port %>"
 NCOM_SETTINGS="$NCOM_SETTINGS -Djboss.server.data.dir=/ncom/ncom_app/batch/data/<= @server_name %>"
 

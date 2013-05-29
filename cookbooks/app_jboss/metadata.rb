@@ -93,12 +93,25 @@ attribute "app_jboss/management_password",
 	:required     => "required"
 
 
-=begin
-attribute "app_jboss/java_opts",
-	:description  => "Java Options",
-	:recipes      => ["app_jboss::install", "app_jboss::setup_monitoring"],
-	:type         => "string",
-	:display_name => "java_opts",
-	:required     => "recommended",
-	:default      => "-Xms128m -Xmx512m -XX:MaxPermSize=256m -Dorg.jboss.resolver.warning=true -Dsun.rmi.dgc.client.gcInterval=3600000 -Dsun.rmi.dgc.server.gcInterval=3600000"
-=end
+### Inputs for: templates/default/tier_*.sh
+
+attribute "app_jboss/groups_tcp_port",
+  :description => "Groups TCP Port",
+  :recipes     => ["app_jboss::default"],
+  :type        => "string",
+  :display     => "app_jboss/groups_tcp_port",
+  :required    => "required"
+
+attribute "app_jboss/port",
+  :description => "TCP port to listen on",
+  :recipes     => ["app_jboss::default"],
+  :type        => "string",
+  :display     => "app_jboss/port",
+  :required    => "required"
+
+attribute "app_jboss/server_name",
+  :description => "DNS entry of this appserver",
+  :recipes     => ["app_jboss::default"],
+  :type        => "string",
+  :display     => "app_jboss/server_name",
+  :required    => "required"

@@ -14,7 +14,7 @@ NCOM_SETTINGS="$NCOM_SETTINGS -Dncom.program.name=admin"
 
 NCOM_SETTINGS="$NCOM_SETTINGS -Dncom.deploy.path=/nas/deploy/application/admin"
 
-NCOM_SETTINGS="$NCOM_SETTINGS -Djboss.host.name=<%= @hostname %>:<%= @port %>"
+NCOM_SETTINGS="$NCOM_SETTINGS -Djboss.host.name=<%= ENV['HOSTNAME'] %>:<%= @port %>"
 NCOM_SETTINGS="$NCOM_SETTINGS -Djboss.node.name=<%= @server_name %>"
 NCOM_SETTINGS="$NCOM_SETTINGS -Djboss.server.config.dir=/ncom/ncom_app/admin/conf"
 NCOM_SETTINGS="$NCOM_SETTINGS -Djboss.server.log.dir=/ncom/ncom_app/admin/log/<%= @server_name %>"
@@ -31,7 +31,7 @@ NCOM_SETTINGS="$NCOM_SETTINGS -Dsso.region.code=GC"
 NCOM_SETTINGS="$NCOM_SETTINGS -Dncom.was.name=<%= @server_name %>"
 
 # Infinispan
-NCOM_SETTINGS="$NCOM_SETTINGS -Djgroups.tcp.address=<%= @hostname %>"
+NCOM_SETTINGS="$NCOM_SETTINGS -Djgroups.tcp.address=<%= ENV['HOSTNAME'] %>"
 NCOM_SETTINGS="$NCOM_SETTINGS -Djgroups.tcp.port=<%= @groups_tcp_port %>"
 NCOM_SETTINGS="$NCOM_SETTINGS -Djboss.server.data.dir=/ncom/ncom_app/admin/data/<%= @server_name %>"
 

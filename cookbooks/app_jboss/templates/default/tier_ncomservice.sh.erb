@@ -14,7 +14,7 @@ NCOM_SETTINGS="$NCOM_SETTINGS -Dncom.program.name=ncomservice"
 
 NCOM_SETTINGS="$NCOM_SETTINGS -Dncom.deploy.path=/nas/deploy/application/ncomservice"
 
-NCOM_SETTINGS="$NCOM_SETTINGS -Djboss.host.name=<%= @hostname %>:<%= @port %>"
+NCOM_SETTINGS="$NCOM_SETTINGS -Djboss.host.name=<%= ENV['HOSTNAME'] %>:<%= @port %>"
 NCOM_SETTINGS="$NCOM_SETTINGS -Djboss.node.name=<%= @server_name %>"
 NCOM_SETTINGS="$NCOM_SETTINGS -Djboss.server.config.dir=/ncom/ncom_app/ncomservice/conf"
 NCOM_SETTINGS="$NCOM_SETTINGS -Djboss.server.log.dir=/ncom/ncom_app/ncomservice/log/<%= @server_name %>"

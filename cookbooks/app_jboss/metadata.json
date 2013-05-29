@@ -170,6 +170,45 @@
 
       ],
       "calculated": false
+    },
+    "app_jboss/groups_tcp_port": {
+      "description": "Groups TCP Port",
+      "recipes": [
+        "app_jboss::default"
+      ],
+      "type": "string",
+      "display": "app_jboss/groups_tcp_port",
+      "required": "required",
+      "choice": [
+
+      ],
+      "calculated": false
+    },
+    "app_jboss/port": {
+      "description": "TCP port to listen on",
+      "recipes": [
+        "app_jboss::default"
+      ],
+      "type": "string",
+      "display": "app_jboss/port",
+      "required": "required",
+      "choice": [
+
+      ],
+      "calculated": false
+    },
+    "app_jboss/server_name": {
+      "description": "DNS entry of this appserver",
+      "recipes": [
+        "app_jboss::default"
+      ],
+      "type": "string",
+      "display": "app_jboss/server_name",
+      "required": "required",
+      "choice": [
+
+      ],
+      "calculated": false
     }
   },
   "groupings": {
