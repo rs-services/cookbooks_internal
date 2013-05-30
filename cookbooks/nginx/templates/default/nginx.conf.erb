@@ -227,7 +227,7 @@ http {
         listen 443;
         server_name content.samsung.com;
 
-        ssl                 on;
+        #ssl                 on;
         #ssl_certificate     /ncom/ncom_bin/nginx/cert/content.samsung.cert;
         #ssl_certificate_key /ncom/ncom_bin/nginx/cert/content.samsung.key;
         #ssl_certificate     ssl/content.samsung.com.pem;
@@ -380,7 +380,7 @@ http {
         #access_log /ncom/ncom_bin/nginx/logs/ncomservice.access.log;
         error_log /ncom/ncom_bin/nginx/logs/ncomservice.error.log;
 
-        ssl                 on;
+        #ssl                 on;
         #ssl_certificate     /ncom/ncom_bin/nginx/cert/content.samsung.cert;
         #ssl_certificate_key /ncom/ncom_bin/nginx/cert/content.samsung.key;
         #ssl_certificate     ssl_priv/api.content.samsung.com.csr;
