@@ -30,7 +30,7 @@ user "nginx" do
 end 
 
 
-%w{ /usr/share/nginx /var/log/nginx /etc/nginx /var/lib/nginx/tmp}.each do |dir|
+%w{ /ncom/ncom_bin/nginx/proxy_cache /ncom/ncom_bin/uwsgi_temp /ncom/ncom_bin/nas /ncom/ncom_bin/html /ncom/ncom_bin/client_body_temp /ncom/ncom_bin/sbin /ncom/ncom_bin/cert /ncom/ncom_bin/conf /ncom/ncom_bin/conf/ssl_priv /ncom/ncom_bin/conf/ssl /ncom/ncom_bin/logs /ncom/ncom_bin/logs/dig /ncom/ncom_bin/logs/temp /ncom/ncom_bin/proxy_temp}.each do |dir|
   directory dir do
     owner "nginx"
     group "nginx" 
@@ -40,6 +40,16 @@ end
   end
 end
 
+%w{ /ncom/ncom_bin/nginx/logs/ncomportal.access.log /ncom/ncom_bin/nginx/logs/ncomportal.error.log error_log logs/n.com.error.log /ncom/ncom_bin/nginx/logs/admin.access.log /ncom/ncom_bin/nginx/logs/admin.error.log /ncom/ncom_bin/nginx/logs/gateway.access.log /ncom/ncom_bin/nginx/logs/gateway.error.log /ncom/ncom_bin/nginx/logs/batch.access.log /ncom/ncom_bin/nginx/logs/ncomservice.access.log /ncom/ncom_bin/nginx/logs/ncomservice.error.log /ncom/ncom_bin/nginx/logs/ncomservice.error.log}.each do |logfile|
+  file logfile do
+    owner "nginx"
+    group "nginx" 
+    mode "0777"
+    action :create
+  end
+end
+    
+
 bash "extract and compile" do
   code <<-EOF
     cd /tmp
@@ -48,8 +58,8 @@ bash "extract and compile" do
     ./configure --prefix=/usr/share/nginx \
     --sbin-path=/ncom/ncom_bin/sbin/nginx \
     --conf-path=/ncom/ncom_bin/conf/nginx.conf \
-    --error-log-path=/ncom/ncom_bin/logs/error.log \
-    --http-log-path=/ncom/ncom_bin/logs/access.log \
+    --error-log-path=/ncom/ncom_bin/logs/ncomportal.error.log \
+    --http-log-path=/ncom/ncom_bin/logs/ncomportal.access.log \
     --http-client-body-temp-path=/ncom/ncom_bin/client_body_temp \
     --http-proxy-temp-path=/var/lib/nginx/tmp/proxy \
     --http-fastcgi-temp-path=/var/lib/nginx/tmp/fastcgi \
@@ -83,7 +93,7 @@ bash "extract and compile" do
   EOF
 end
 
-%w{ /ncom/ncom_bin/uwsgi_temp /ncom/ncom_bin/nas /ncom/ncom_bin/html /ncom/ncom_bin/client_body_temp /ncom/ncom_bin/sbin /ncom/ncom_bin/cert /ncom/ncom_bin/conf /ncom/ncom_bin/conf/ssl_priv /ncom/ncom_bin/conf/ssl /ncom/ncom_bin/logs /ncom/ncom_bin/logs/dig /ncom/ncom_bin/logs/temp /ncom/ncom_bin/proxy_temp}.each do |dir|
+%w{ /ncom/ncom_bin/nginx/proxy_cache /ncom/ncom_bin/uwsgi_temp /ncom/ncom_bin/nas /ncom/ncom_bin/html /ncom/ncom_bin/client_body_temp /ncom/ncom_bin/sbin /ncom/ncom_bin/cert /ncom/ncom_bin/conf /ncom/ncom_bin/conf/ssl_priv /ncom/ncom_bin/conf/ssl /ncom/ncom_bin/logs /ncom/ncom_bin/logs/dig /ncom/ncom_bin/logs/temp /ncom/ncom_bin/proxy_temp}.each do |dir|
   directory dir do
     owner "nginx"
     group "nginx" 

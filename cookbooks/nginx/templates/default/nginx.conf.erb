@@ -157,9 +157,9 @@ http {
     server {
         listen 80;
         server_name content.samsung.com;
-        access_log /ncom/ncom_bin/nginx/logs/ncomportal.access.log zero_log;
+        access_log /ncom/ncom_bin/nginx/logs/ncomportal.access.log;
         #access_log /ncom/ncom_bin/nginx/logs/ncomportal.access_time.log processing_time;
-	error_log /ncom/ncom_bin/nginx/logs/ncomportal.error.log;
+		error_log /ncom/ncom_bin/nginx/logs/ncomportal.error.log;
 
         root /home/hudson/wwwdoc/content.samsung.com/;
 
@@ -270,7 +270,7 @@ http {
     server {
         listen 80;
         server_name admin.content.samsung.com;
-        access_log /ncom/ncom_bin/nginx/logs/admin.access.log zero_log;
+        access_log /ncom/ncom_bin/nginx/logs/admin.access.log;
         error_log /ncom/ncom_bin/nginx/logs/admin.error.log;
 
         location ^~ /redmine/ {
@@ -310,7 +310,7 @@ http {
     server {
         listen 80;
         server_name gateway.content.samsung.com;
-        access_log /ncom/ncom_bin/nginx/logs/gateway.access.log zero_log;
+        access_log /ncom/ncom_bin/nginx/logs/gateway.access.log;
         error_log /ncom/ncom_bin/nginx/logs/gateway.error.log;
 
         root /home/hudson/wwwdoc/gateway.content.samsung.com;
@@ -338,7 +338,7 @@ http {
     server {
         listen 80;
         server_name batch.content.samsung.com;
-        access_log /ncom/ncom_bin/nginx/logs/batch.access.log zero_log;
+        access_log /ncom/ncom_bin/nginx/logs/batch.access.log;
         error_log /ncom/ncom_bin/nginx/logs/batch.error.log;
 
         root /home/hudson/wwwdoc/batch.content.samsung.com;
@@ -359,7 +359,7 @@ http {
     server {
         listen 80;
         server_name api.content.samsung.com;
-        access_log /ncom/ncom_bin/nginx/logs/ncomservice.access.log zero_log;
+        access_log /ncom/ncom_bin/nginx/logs/ncomservice.access.log;
         error_log /ncom/ncom_bin/nginx/logs/ncomservice.error.log;
 
         root /home/hudson/wwwdoc/api.content.samsung.com;
