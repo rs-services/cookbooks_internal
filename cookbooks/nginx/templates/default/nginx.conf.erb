@@ -55,14 +55,14 @@ pid        /var/run/nginx.pid;
 #----------------------------------------------------------------------
 
 http {
-    include       /etc/nginx/mime.types;
+    include       /ncom/ncom_bin/conf/mime.types;
     default_type  application/octet-stream;
 
     log_format upstream_log '$pid , $time_local , $cookie_JSESSIONID , $cookie_uid , $upstream_addr , $request_uri';
     log_format processing_time '$request , $status , [$request_time] ';
     log_format zero_log '[$time_local] $request_uri  http:$status  Content-Length:$sent_http_content_length SentByte:$bytes_sent Addr:$http_x_forwarded_for UA:$http_user_agent';
 
-    access_log  /var/log/nginx/access.log  main;
+    access_log  /var/log/nginx/access.log;
 
     output_buffers  8 16k;
     #postpone_output 1024;
@@ -79,9 +79,6 @@ http {
     client_header_timeout     20s;
     client_body_timeout       60s;
     client_max_body_size      100m;
-
-    #keepalive_timeout  0;
-    keepalive_timeout  65;
 
     charset       utf-8;
     server_tokens off;
@@ -107,7 +104,6 @@ http {
     # Application servers
     # ---------------------------------------------------------------------
     upstream ncomportal_server {
-	sticky  path=/;
         server 10.1.12.10:8080 fail_timeout=1m;
         server 10.1.12.10:8180 fail_timeout=1m;
         server 10.1.12.30:8080 fail_timeout=1m;
@@ -234,14 +230,14 @@ http {
         ssl                 on;
         #ssl_certificate     /ncom/ncom_bin/nginx/cert/content.samsung.cert;
         #ssl_certificate_key /ncom/ncom_bin/nginx/cert/content.samsung.key;
-        ssl_certificate     ssl/content.samsung.com.pem;
-        ssl_certificate_key ssl/prd_eu.pem;
+        #ssl_certificate     ssl/content.samsung.com.pem;
+        #ssl_certificate_key ssl/prd_eu.pem;
 
-        ssl_session_timeout 5m;
+        #ssl_session_timeout 5m;
 
-        ssl_protocols  SSLv3 TLSv1;
-        ssl_ciphers  !ADH:RC4+RSA:+HIGH:+EXP:+eNULL:AES256-SHA;
-        ssl_prefer_server_ciphers   on;
+        #ssl_protocols  SSLv3 TLSv1;
+        #ssl_ciphers  !ADH:RC4+RSA:+HIGH:+EXP:+eNULL:AES256-SHA;
+        #ssl_prefer_server_ciphers   on;
 
         location / {
             proxy_pass http://ncomportal_server;
@@ -387,14 +383,14 @@ http {
         ssl                 on;
         #ssl_certificate     /ncom/ncom_bin/nginx/cert/content.samsung.cert;
         #ssl_certificate_key /ncom/ncom_bin/nginx/cert/content.samsung.key;
-        ssl_certificate     ssl_priv/api.content.samsung.com.csr;
-        ssl_certificate_key ssl_priv/prd_eu_priv.key;
+        #ssl_certificate     ssl_priv/api.content.samsung.com.csr;
+        #ssl_certificate_key ssl_priv/prd_eu_priv.key;
 
-        ssl_session_timeout 5m;
+        #ssl_session_timeout 5m;
 
-        ssl_protocols  SSLv2 SSLv3 TLSv1;
-        ssl_ciphers  HIGH:!aNULL:!MD5;
-        ssl_prefer_server_ciphers   on;
+        #ssl_protocols  SSLv2 SSLv3 TLSv1;
+        #ssl_ciphers  HIGH:!aNULL:!MD5;
+        #ssl_prefer_server_ciphers   on;
 
         location / {
             proxy_pass http://ncomservice_server;

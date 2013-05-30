@@ -16,7 +16,7 @@ directory "/ncom/ncom_bin/conf.d" do
   action :create
 end
 
-template "/ncom/ncom_bin/nginx.conf" do
+template "/ncom/ncom_bin/conf/nginx.conf" do
   cookbook "nginx"
   source "nginx.conf.erb"
   owner "root"
