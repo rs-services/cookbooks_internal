@@ -271,7 +271,31 @@ action :setup_db_connection do
   end
 end
 
-# TODO:
 action :setup_vhost do
-  log "Add :setup_vhost code here ..."
+
+  port = new_resource.port
+  app_root = new_resource.root
+
+  app_add_listen_port port
+
+  log "  Configuring apache vhost for jboss"
+  # See https://github.com/rightscale/cookbooks/blob/master/apache2/definitions/web_app.rb
+  # for the "web_app" definition.
+  # web_app "http-#{port}-#{node[:web_apache][:server_name]}.vhost" do
+
+  web_app "http-#{node[:app_jboss][:http_bind_port]}-#{node[:app_jboss][:virtual_server_name]}.vhost" do
+    template        "apache_vhost.erb"
+    cookbook        "app_jboss"
+    docroot         "/var/www"
+    vhost_port      port.to_s
+    server_name     "#{node[:app_jboss][:virtual_server_name]}"
+    allow_override  "All"
+    apache_log_dir  "/var/log/httpd"
+  end
+
+  # Apache server restart
+  service "apache2" do
+    action :restart
+    persist false
+  end
 end
