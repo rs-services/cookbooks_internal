@@ -40,7 +40,7 @@ end
   end
 end
 
-%w{ /ncom/ncom_bin/nginx/logs/ncomportal.access.log /ncom/ncom_bin/nginx/logs/ncomportal.error.log error_log logs/n.com.error.log /ncom/ncom_bin/nginx/logs/admin.access.log /ncom/ncom_bin/nginx/logs/admin.error.log /ncom/ncom_bin/nginx/logs/gateway.access.log /ncom/ncom_bin/nginx/logs/gateway.error.log /ncom/ncom_bin/nginx/logs/batch.access.log /ncom/ncom_bin/nginx/logs/ncomservice.access.log /ncom/ncom_bin/nginx/logs/ncomservice.error.log /ncom/ncom_bin/nginx/logs/ncomservice.error.log}.each do |logfile|
+%w{ /ncom/ncom_bin/nginx/logs/ncomportal.access.log /ncom/ncom_bin/nginx/logs/ncomportal.error.log /ncom/ncom_bin/nginx/logs/error_log /ncom/ncom_bin/nginx/logs/n.com.error.log /ncom/ncom_bin/nginx/logs/admin.access.log /ncom/ncom_bin/nginx/logs/admin.error.log /ncom/ncom_bin/nginx/logs/gateway.access.log /ncom/ncom_bin/nginx/logs/gateway.error.log /ncom/ncom_bin/nginx/logs/batch.access.log /ncom/ncom_bin/nginx/logs/ncomservice.access.log /ncom/ncom_bin/nginx/logs/ncomservice.error.log /ncom/ncom_bin/nginx/logs/ncomservice.error.log}.each do |logfile|
   file logfile do
     owner "nginx"
     group "nginx" 
