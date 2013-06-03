@@ -73,7 +73,7 @@ attribute "app_jboss/virtual_server_name",
 	:display_name => "virtual_server_name",
 	:required     => "required"
 
-### Inputs for: templates/default/tier_*.sh
+### Inputs for: templates/default/tier_$NAME.sh.erb
 
 attribute "app_jboss/groups_tcp_port",
   :description => "Groups TCP Port",
