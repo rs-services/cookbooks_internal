@@ -34,7 +34,7 @@ events  {
 
 #error_log  /var/log/nginx/error.log   debug;
 #error_log  /var/log/nginx/error.log  notice;
-error_log  /var/log/nginx/error.log  info;
+error_log   /ncom/ncom_bin/nginx/logs/error.log  info;
 
 pid        /var/run/nginx.pid;
 
@@ -62,7 +62,7 @@ http {
     log_format processing_time '$request , $status , [$request_time] ';
     log_format zero_log '[$time_local] $request_uri  http:$status  Content-Length:$sent_http_content_length SentByte:$bytes_sent Addr:$http_x_forwarded_for UA:$http_user_agent';
 
-    access_log  /var/log/nginx/access.log;
+    access_log  /ncom/ncom_bin/nginx/logs/access.log;
 
     output_buffers  8 16k;
     #postpone_output 1024;
