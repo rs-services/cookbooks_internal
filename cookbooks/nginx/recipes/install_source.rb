@@ -61,10 +61,10 @@ bash "extract and compile" do
     --error-log-path=/ncom/ncom_bin/logs/ncomportal.error.log \
     --http-log-path=/ncom/ncom_bin/logs/ncomportal.access.log \
     --http-client-body-temp-path=/ncom/ncom_bin/client_body_temp \
-    --http-proxy-temp-path=/var/lib/nginx/tmp/proxy \
-    --http-fastcgi-temp-path=/var/lib/nginx/tmp/fastcgi \
-    --http-uwsgi-temp-path=/var/lib/nginx/tmp/uwsgi \
-    --http-scgi-temp-path=/var/lib/nginx/tmp/scgi \
+    --http-proxy-temp-path=/ncom/ncom_bin/nginx/tmp/proxy \
+    --http-fastcgi-temp-path=/ncom/ncom_bin/nginx/tmp/fastcgi \
+    --http-uwsgi-temp-path=/ncom/ncom_bin/nginx/tmp/uwsgi \
+    --http-scgi-temp-path=/ncom/ncom_bin/nginx/tmp/scgi \
     --pid-path=/var/run/nginx.pid \
     --lock-path=/var/lock/subsys/nginx \
     --user=nginx \
