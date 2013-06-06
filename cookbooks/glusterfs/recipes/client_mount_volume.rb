@@ -83,7 +83,11 @@ end
 # create mount point
 log "===> Creating mount point #{MOUNT_POINT}"
 directory MOUNT_POINT do
+  owner "root"
+  group "root"
+  mode "0755"
   recursive true
+  action :create
 end
 
 # mount remote filesystem
