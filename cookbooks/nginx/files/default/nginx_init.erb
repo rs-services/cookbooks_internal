@@ -48,6 +48,7 @@ stop() {
 restart() {
     configtest || return $?
     stop
+    sleep 5
     start
 }
 

@@ -104,6 +104,7 @@ http {
     # Application servers
     # ---------------------------------------------------------------------
     upstream ncomportal_server {
+		##ncomportal_server
         server 10.1.12.10:8080 fail_timeout=1m;
         server 10.1.12.10:8180 fail_timeout=1m;
         server 10.1.12.30:8080 fail_timeout=1m;
@@ -115,37 +116,33 @@ http {
     }
 
     upstream admin_server {
+		##admin_server
         server 10.1.13.20:8280;
     }
 
     upstream gateway_server {
+		##gateway_server
         server 10.1.13.20:8080 fail_timeout=1m;
         server 10.1.23.20:8080 fail_timeout=1m;
     }
 
     upstream batch_server {
+		##batch_server
         server 10.1.13.20:8380 fail_timeout=1m;
         server 10.1.23.20:8380 fail_timeout=1m;
     }
 
     upstream ncomservice_server {
+		##ncomservice_server
         server 10.1.13.20:8180 fail_timeout=1m;
         server 10.1.23.20:8180 fail_timeout=1m;
     }
 
     upstream redmine_server {
+		##redmine_server
         server 10.1.23.110:80;
     }
 
-#server {
-#    listen 80;
-#    server_name redmine.content.samsung.com;
-#    access_log off;
-
- #   location / {
- #      proxy_pass http://redmine_server;
-#    }
-#}
     # ---------------------------------------------------------------------
     # N.com Static
     # ---------------------------------------------------------------------
@@ -207,39 +204,6 @@ http {
         }
 
 	location / {
-            proxy_pass http://ncomportal_server;
-            proxy_next_upstream timeout error;
-
-            proxy_connect_timeout 60;
-            proxy_read_timeout    600;
-
-            proxy_buffers           8 16k;
-            proxy_buffer_size       8k;
-            proxy_busy_buffers_size 16k;
-
-            proxy_set_header Host $host;
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        }
-    }
-
-    server {
-        listen 443;
-        server_name content.samsung.com;
-
-        #ssl                 on;
-        #ssl_certificate     /ncom/ncom_bin/nginx/cert/content.samsung.cert;
-        #ssl_certificate_key /ncom/ncom_bin/nginx/cert/content.samsung.key;
-        #ssl_certificate     ssl/content.samsung.com.pem;
-        #ssl_certificate_key ssl/prd_eu.pem;
-
-        #ssl_session_timeout 5m;
-
-        #ssl_protocols  SSLv3 TLSv1;
-        #ssl_ciphers  !ADH:RC4+RSA:+HIGH:+EXP:+eNULL:AES256-SHA;
-        #ssl_prefer_server_ciphers   on;
-
-        location / {
             proxy_pass http://ncomportal_server;
             proxy_next_upstream timeout error;
 
@@ -363,34 +327,6 @@ http {
         error_log /ncom/ncom_bin/nginx/logs/ncomservice.error.log;
 
         root /home/hudson/wwwdoc/api.content.samsung.com;
-
-        location / {
-            proxy_pass http://ncomservice_server;
-            proxy_next_upstream timeout error;
-            proxy_connect_timeout 10;
-            proxy_set_header Host $host;
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        }
-    }
-
-    server {
-        listen 443;
-        server_name api.content.samsung.com;
-        #access_log /ncom/ncom_bin/nginx/logs/ncomservice.access.log;
-        error_log /ncom/ncom_bin/nginx/logs/ncomservice.error.log;
-
-        #ssl                 on;
-        #ssl_certificate     /ncom/ncom_bin/nginx/cert/content.samsung.cert;
-        #ssl_certificate_key /ncom/ncom_bin/nginx/cert/content.samsung.key;
-        #ssl_certificate     ssl_priv/api.content.samsung.com.csr;
-        #ssl_certificate_key ssl_priv/prd_eu_priv.key;
-
-        #ssl_session_timeout 5m;
-
-        #ssl_protocols  SSLv2 SSLv3 TLSv1;
-        #ssl_ciphers  HIGH:!aNULL:!MD5;
-        #ssl_prefer_server_ciphers   on;
 
         location / {
             proxy_pass http://ncomservice_server;
