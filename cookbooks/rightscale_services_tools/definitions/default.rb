@@ -18,3 +18,4 @@ define :gen_profile_script, :enable => true, :cookbook_name => "" do
     end
   end
 end
+

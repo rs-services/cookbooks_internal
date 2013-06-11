@@ -1,4 +1,4 @@
-rs_utils_marker :begin
+rightscale_marker :begin
 
 case node[:platform]
 when "redhat","centos","scientific"
@@ -52,4 +52,4 @@ service "#{node[:sphinx][:service]}" do
   action :start
 end
 
-rs_utils_marker :end
+rightscale_marker :end

@@ -1,141 +1,75 @@
-maintainer       "DataStax"
-maintainer_email "joaquin@datastax.com"
-license          "Apache License"
-description      "Install and configure Cassandra in a multi-node environment"
-long_description IO.read(File.join(File.dirname(__FILE__), 'README.rdoc'))
-version          "0.1.4"
+maintainer       "RightScale Inc."
+maintainer_email "ps@rightscale.com"
+license          "All rights reserved"
+description      "Installs/Configures cassandra"
+long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
+version 					"1.2.1"
 
-depends "apt"
-depends "rs_utils"
-depends "sys_firewall"
+depends "rightscale"
 
-recipe           "cassandra::default", "Runs the full list of scripts needed."
-recipe           "cassandra::setup_repos", "Sets up the Apache Cassandra and DataStax Repos."
-recipe           "cassandra::required_packages", "Not doing anything currently."
-recipe           "cassandra::optional_packages", "Installs extra tools for Cassandra maintenance."
-recipe           "cassandra::install", "Installs the actual Cassandra package."
-recipe           "cassandra::additional_settings", "Additional settings for optimal performance for the cluster."
-recipe           "cassandra::token_generation", "Generates the token positions for the cluster."
-recipe           "cassandra::write_configs", "Writes the configurations for Cassandra."
-recipe           "cassandra::restart_service", "Restarts the Cassandra service."
+recipe "cassandra::install"   , "Add the Apache Cassandra repo and install software."
+recipe "cassandra::configure" , "Install Cassandra config files from Chef templates."
 
-attribute "cassandra/MAX_HEAP_SIZE",
-  :display_name => "MAX HEAP SIZE",
-  :description => "You may  want to set this, but it will calculate based on system size to 80% of memory",
+#### Required inputs ####
+
+attribute "cassandra/version",
+  :description  => "Version string of Cassandra to install.",
+  :recipes      => ["cassandra::install"],
+  :type         => "string",
+  :display_name => "version",
   :required     => "recommended",
-  :recipes      => ["cassandra::default"]
-
-attribute "cassandra/MAX_NEWSIZE",
-  :display_name => "MAX NEWSIZE",
-  :description => "You may want to set this, but it will calculate based on system size to 50%",
-  :required     => "recommended",
-  :recipes      => ["cassandra::default"]
-
-attribute "setup",
-  :display_name => "Setup Configurations",
-  :description => "Hash of Setup Configurations",
-  :type => "hash",
-  :required     => "recommended",
-  :recipes      => ["cassandra::default"]
-
-attribute "setup/deployment",
-  :display_name => "Deployment Version",
-  :description => "The deployment version for Cassandra. Choices are '07x', or '08x', or '10x', or 11x'",
-  :default => "11x",
-  :required     => "recommended",
-  :recipes      => ["cassandra::default"]
-
-attribute "setup/cluster_size",
-  :display_name => "Cluster Size",
-  :description => "Total number of nodes in the cluster",
-  :default => "4",
-  :required     => "recommended",
-  :recipes      => ["cassandra::default"]
-
-attribute "setup/current_role",
-  :display_name => "Current Role Being Assigned",
-  :description => "The role that the cluster is being assigned",
-  :default => "cassandra",
-  :required     => "recommended",
-  :recipes      => ["cassandra::default"]
-
-
-attribute "cassandra",
-  :display_name => "Cassandra",
-  :description => "Hash of Cassandra attributes",
-  :type => "hash",
-  :required     => "recommended",
-  :recipes      => ["cassandra::default"]
-
+  :default      => "1.2.3"
 
 attribute "cassandra/cluster_name",
-  :display_name => "Cassandra Cluster Name",
-  :description => "Keeps clusters together, not allowing servers from other clusters to talk",
-  :default => "Cassandra Cluster",
+  :description  => "Name of the Cassandra cluster.",
+  :recipes      => ["cassandra::configure"],
+  :type         => "string",
+  :display_name => "cluster_name",
+  :required     => "required"
+
+attribute "cassandra/seeds",
+  :description  => "Comma seperated list of seed hosts",
+  :recipes      => ["cassandra::configure"],
+  :type         => "string",
+  :display_name => "seeds",
+  :required     => "recommended"
+
+attribute "cassandra/num_tokens",
+  :description  => "Number of tokens assigned to this node",
+  :recipes      => ["cassandra::configure"],
+  :type         => "string",
+  :display_name => "num_tokens",
   :required     => "recommended",
-  :recipes      => ["cassandra::default"]
+  :default      => "256"
 
-attribute "cassandra/commitlog_dir",
-  :display_name => "Cassandra Commit Log Directory",
-  :description => "The location for the commit log (preferably on it's own drive or RAID0 device)",
-  :default => "/var/lib",
+attribute "cassandra/data_file_directories",
+  :description  => "Directories where Cassandra should store data on disk.",
+  :recipes      => ["cassandra::install", "cassandra::configure"],
+  :type         => "array",
+  :display_name => "data_file_directories",
   :required     => "recommended",
-  :recipes      => ["cassandra::default"]
+  :default      => "/mnt/ephemeral/cassandra/data"
 
-attribute "cassandra/data_dir",
-  :display_name => "Cassandra Data Directory",
-  :description => "The location for the data directory (preferably on it's own drive or RAID0 device)",
-  :default => "/var/lib",
+attribute "cassandra/commitlog_directory",
+  :description  => "Directory where commit logs will be written to.",
+  :recipes      => ["cassandra::install",  "cassandra::configure"],
+  :type         => "string",
+  :display_name => "commitlog_directory",
   :required     => "recommended",
-  :recipes      => ["cassandra::default"]
+  :default      => "/mnt/ephemeral/cassandra/commitlog"
 
-attribute "cassandra/token_position",
-  :display_name => "Cassandra Initial Token Position",
-  :description => "For use when adding a node that may have previously failed or been destroyed",
-  :default => "false",
+attribute "cassandra/saved_caches_directory",
+  :description  => "Directory where saved caches will be written to.",
+  :recipes      => ["cassandra::install", "cassandra::configure"],
+  :type         => "string",
+  :display_name => "saved_caches_directory",
   :required     => "recommended",
-  :recipes      => ["cassandra::default"]
+  :default      => "/mnt/ephemeral/cassandra/saved_caches"
 
-attribute "cassandra/initial_token",
-  :display_name => "Cassandra Initial Token",
-  :description => "The standard initial token",
-  :default => "false",
+attribute "cassandra/log4j_directory",
+  :description  => "Directory where the main logfile will be written to",
+  :recipes      => ["cassandra::install"],
+  :type         => "string",
+  :display_name => "log4j_directory",
   :required     => "recommended",
-  :recipes      => ["cassandra::default"]
-
-attribute "cassandra/seed",
-  :display_name => "Cassandra Seed Server",
-  :description => "The comma seperated list of seeds (Make sure to include one seed from each datacenter minimum)",
-  :default => "false",
-  :required     => "recommended",
-  :recipes      => ["cassandra::default"]
-
-attribute "cassandra/rpc_address",
-  :display_name => "Cassandra RPC Address",                                                                                                                                                                        
-  :description => "The address to bind the Thrift RPC service to (False sets RPC Address to the private IP)",
-  :default => "false",
-  :required     => "recommended",
-  :recipes      => ["cassandra::default"]
-
-attribute "cassandra/confPath",
-  :display_name => "Cassandra Settings Path",
-  :description => "The path for cassandra.yaml and cassandra-env.sh",
-  :default => "/etc/cassandra/",
-  :required     => "recommended",
-  :recipes      => ["cassandra::default"]
-
-
-
-attribute "internal",
-  :display_name => "Internal Hash",
-  :description => "Hash of Internal attributes",
-  :type => "hash",
-  :required     => "recommended",
-  :recipes      => ["cassandra::default"]
-
-attribute "internal/prime",
-  :display_name => "Internal Hash Primer",
-  :description => "Primes a datastore for internal use only",
-  :default => "true",
-  :required     => "recommended",
-  :recipes      => ["cassandra::default"]
+  :default      => "/mnt/ephemeral/cassandra/logs"

@@ -1,273 +1,273 @@
 {
+  "dependencies": {
+    "rightscale_services_tools": ">= 0.0.0",
+    "sys_firewall": ">= 0.0.0",
+    "monit": ">= 0.0.0",
+    "rightscale": ">= 0.0.0"
+  },
+  "version": "0.4.4",
+  "replacing": {
+  },
+  "suggestions": {
+  },
+  "recommendations": {
+  },
+  "recipes": {
+    "redis::replication": "adds replication",
+    "redis::monit": "adds redis, to monit",
+    "redis::default": "Installs and configures redis",
+    "redis::promote_to_master": "Run this script if the master has \nfailed or has problems. Converts a slave to master and updates all slaves with \nnew master in replication settings.",
+    "redis::remount-storage-and-restart-redis": "remounts /var/lib/redis/default, and restarts redis"
+  },
+  "providing": {
+  },
+  "conflicting": {
+  },
+  "platforms": {
+    "redhat": ">= 5.5",
+    "centos": ">= 5.5",
+    "ubuntu": ">= 8.04",
+    "debian": ">= 6.0"
+  },
   "groupings": {
   },
   "maintainer": "RightScale Inc",
+  "long_description": "= DESCRIPTION:\nThis cookbooks installs Redis 2 key-value datastore server. Redis can be installed from packages (where available) or source.\n\n= REQUIREMENTS:\nFor compiling from source: build-essential\n\n= ATTRIBUTES: \n[\"redis2\"][\"install_from\"] - _package_ to install from distro packages, any other value to install from source.\n[\"redis2\"][\"instances\"][\"default\"]  - default attributes for all redis instances, will be merged with per instance attributes\n[\"redis2\"][\"instances\"][instance_name] - per instance configuration attributes tree\n\n= USAGE:\nThis cookbook implements redis instances as a definition. If you plan to run only one instance, use the +redis::default_instance+ recipe which call a \"redis_default\" +redis_instance+.\nTo spawn instances of redis, use the +redis_instance+ definition, usage is pretty straight forward:\n<tt>\nredis_instance \"datastore\" do\n  port 8866\n  data_dir \"/mnt/redis/datastore\"\n  master master_node\nend\n</tt>\n\n_port_, <em>data_dir</em> and _master_ are the only attributes directly configurable using the definition syntax. Other attributes can be configured using the normal attribute interface under the <tt>node[\"redis2\"][\"instances\"][<em>instance_name</em>]</tt> scope. Missing attributes will be merged from <tt>node[\"redis2\"][\"instances\"][\"default\"]</tt>\n\nThe _master_ attribute will set up redis as a slave of a the same redis instance on another server. It will not set node[\"redis2\"][\"instances\"][<em>instance_name</em>][\"replication\"][\"role\"]</tt> (which can be _slave_ or _master_), because redis can be both at the same time (e.g. chained masters).\n\n== Recipes\n* redis2::auto - automagically call redis_instance for every instance defined in the node[\"redis2\"][\"instances\"] tree.\n* redis2::default_instance - use this if you want a simple recipe with a single redis instance\nIt's generally not a good idea to use the redis2::default_instance recipe. If you want a single redis instance, either use redis_instance definition or redis2::auto and define your instance in the attributes tree.\n\n== Changelog\n  04-23-2012 -> This cookbook was forked from Fewbytes Technologies, Inc. (avishai@fewbytes.com) by RightScale Inc. Report Issues to premium@rightscale.com, \n  a LICENSE-2.0 file was added. \n",
+  "license": "Apache 2.0",
+  "maintainer_email": "premium@rightscale.com",
   "description": "Installs/Configures redis",
   "attributes": {
+    "redis/no_appendfsync_on_rewrite": {
+      "required": "optional",
+      "recipes": [
+        "redis::default"
+      ],
+      "choice": [
+
+      ],
+      "calculated": false,
+      "type": "string",
+      "display_name": "Don't use fsync on rewrites",
+      "default": "no"
+    },
+    "redis/databases": {
+      "required": "optional",
+      "recipes": [
+        "redis::default"
+      ],
+      "choice": [
+
+      ],
+      "calculated": false,
+      "type": "string",
+      "display_name": "Number of Redis database",
+      "default": "16"
+    },
+    "redis/activerehashing": {
+      "required": "optional",
+      "recipes": [
+        "redis::default"
+      ],
+      "choice": [
+
+      ],
+      "calculated": false,
+      "type": "string",
+      "display_name": "Rehash redis table in memory",
+      "description": "Active rehashing uses 1 millisecond every 100 milliseconds of CPU time in order to help rehashing the main Redis hash table (the one mapping top-level keys to values). The hash table implementation redis uses (see dict.c) performs a lazy rehashing: the more operations you run into an hash table that is rehashing, the more rehashing \"steps\" are performed, so if the server is idle the rehashing is never complete and some more memory is used by the hash table.takes about 1ms every 100ms",
+      "default": "yes"
+    },
+    "redis/maxmemory_policy": {
+      "required": "optional",
+      "recipes": [
+        "redis::default"
+      ],
+      "choice": [
+
+      ],
+      "calculated": false,
+      "type": "string",
+      "display_name": "Memory eviction algorithm",
+      "default": "volatile-lru"
+    },
+    "redis/vm/page_size": {
+      "required": "optional",
+      "recipes": [
+        "redis::default"
+      ],
+      "choice": [
+
+      ],
+      "calculated": false,
+      "type": "string",
+      "display_name": "Memory page size (bytes) in swap file",
+      "description": "Redis swap files is split into pages. An object can be saved using multiple contiguous pages, but pages can't be shared between different objects. So if your page is too big, small objects swapped out on disk will waste a lot of space. If you page is too small, there is less space in the swap file (assuming you configured the same number of total swap file pages).",
+      "default": "32"
+    },
+    "redis/timeout": {
+      "required": "optional",
+      "recipes": [
+        "redis::default"
+      ],
+      "choice": [
+
+      ],
+      "calculated": false,
+      "type": "string",
+      "display_name": "Timeout before connection close",
+      "description": "Close the connection after a client is idle for N seconds (0 to disable)",
+      "default": "300"
+    },
+    "redis/vm/max_memory": {
+      "required": "optional",
+      "recipes": [
+        "redis::default"
+      ],
+      "choice": [
+
+      ],
+      "desription": "Configures the VM to use at max the specified amount of RAM. Everything that deos not fit will be swapped on disk *if* possible, that is, if there is still enough contiguous space in the swap file.",
+      "calculated": false,
+      "type": "string",
+      "display_name": "Maximum memory usage before swapping"
+    },
+    "redis/maxmemory_samples": {
+      "required": "optional",
+      "recipes": [
+        "redis::default"
+      ],
+      "choice": [
+
+      ],
+      "calculated": false,
+      "type": "string",
+      "display_name": "Sample size for eviction algorithms",
+      "default": "3"
+    },
+    "redis/maxmemory": {
+      "required": "optional",
+      "recipes": [
+        "redis::default"
+      ],
+      "choice": [
+
+      ],
+      "calculated": false,
+      "type": "string",
+      "display_name": "Maximum memory to use for redis",
+      "default": "Unset"
+    },
     "redis/vm/max_threads": {
       "required": "optional",
-      "type": "string",
-      "default": "4",
-      "calculated": false,
       "recipes": [
         "redis::default"
       ],
+      "choice": [
+
+      ],
+      "calculated": false,
+      "type": "string",
       "display_name": "Number of VM IO threads",
-      "choice": [
-
-      ]
-    },
-    "redis/bgsave": {
-      "required": "optional",
-      "type": "string",
-      "default": "true",
-      "calculated": false,
-      "recipe": [
-        "redis::default"
-      ],
-      "recipes": [
-
-      ],
-      "display_name": "Save Redis Info to Disk",
-      "choice": [
-        "true",
-        "false"
-      ]
+      "default": "4"
     },
     "redis/storage_type": {
       "required": "optional",
-      "type": "string",
-      "default": "storage1",
-      "calculated": false,
       "recipes": [
         "redis::remount-storage-and-restart-redis"
       ],
-      "display_name": "Redis Storage Location",
       "choice": [
         "storage1",
         "ephemeral",
         "storage2"
-      ]
+      ],
+      "calculated": false,
+      "type": "string",
+      "display_name": "Redis Storage Location",
+      "default": "storage1"
     },
     "redis/appendfsync": {
       "required": "optional",
-      "type": "string",
-      "default": "everysec",
-      "calculated": false,
       "recipes": [
         "redis::default"
       ],
+      "choice": [
+
+      ],
+      "calculated": false,
+      "type": "string",
       "display_name": "Call fsync after writing to append log",
-      "choice": [
-
-      ]
-    },
-    "redis/vm/pages": {
-      "required": "optional",
-      "description": "Number of total memory pages in the swap file. Given that the page table (a bitmap of free/used pages) is taken in memory, every 8 pages on disk will consume 1 byte of RAM. The total swap size is vm-page-size * vm-pages. With the default of 32-bytes memory pages and 134217728 pages Redis will use a 4 GB swap file, that will use 16 MB of RAM for the page table. It's better to use the smallest acceptable value for your application, but the default is large in order to work in most conditions.",
-      "type": "string",
-      "default": "134217728",
-      "calculated": false,
-      "recipes": [
-        "redis::default"
-      ],
-      "display_name": "Number of memory pages in the swap file",
-      "choice": [
-
-      ]
-    },
-    "redis/timeout": {
-      "required": "optional",
-      "description": "Close the connection after a client is idle for N seconds (0 to disable)",
-      "type": "string",
-      "default": "300",
-      "calculated": false,
-      "recipes": [
-        "redis::default"
-      ],
-      "display_name": "Timeout before connection close",
-      "choice": [
-
-      ]
-    },
-    "redis/replication/master_role": {
-      "required": "optional",
-      "type": "string",
-      "default": "master",
-      "calculated": false,
-      "recipes": [
-        "redis::default"
-      ],
-      "display_name": "Master Redis chef role",
-      "choice": [
-        "master",
-        "slave"
-      ]
-    },
-    "redis/no_appendfsync_on_rewrite": {
-      "required": "optional",
-      "type": "string",
-      "default": "no",
-      "calculated": false,
-      "recipes": [
-        "redis::default"
-      ],
-      "display_name": "Don't use fsync on rewrites",
-      "choice": [
-
-      ]
-    },
-    "redis/appendonly": {
-      "required": "optional",
-      "type": "string",
-      "default": "no",
-      "calculated": false,
-      "recipes": [
-        "redis::default"
-      ],
-      "display_name": "Write append log",
-      "choice": [
-
-      ]
-    },
-    "redis/maxmemory_policy": {
-      "required": "optional",
-      "type": "string",
-      "default": "volatile-lru",
-      "calculated": false,
-      "recipes": [
-        "redis::default"
-      ],
-      "display_name": "Memory eviction algorithm",
-      "choice": [
-
-      ]
+      "default": "everysec"
     },
     "redis/vm/enabled": {
       "required": "optional",
-      "type": "string",
-      "default": "no",
-      "calculated": false,
       "recipes": [
         "redis::default"
       ],
+      "choice": [
+
+      ],
+      "calculated": false,
+      "type": "string",
       "display_name": "Enable Redis swapping to disk",
-      "choice": [
-
-      ]
+      "default": "no"
     },
-    "redis/maxmemory": {
+    "redis/bgsave": {
       "required": "optional",
-      "type": "string",
-      "default": "Unset",
+      "recipes": [
+
+      ],
+      "choice": [
+        "true",
+        "false"
+      ],
+      "recipe": [
+        "redis::default"
+      ],
       "calculated": false,
+      "type": "string",
+      "display_name": "Save Redis Info to Disk",
+      "default": "true"
+    },
+    "redis/replication/master_role": {
+      "required": "required",
       "recipes": [
         "redis::default"
       ],
-      "display_name": "Maximum memory to use for redis",
       "choice": [
-
-      ]
-    },
-    "redis/vm/max_memory": {
-      "required": "optional",
-      "type": "string",
+        "master",
+        "slave"
+      ],
       "calculated": false,
+      "type": "string",
+      "display_name": "Master Redis chef role"
+    },
+    "redis/appendonly": {
+      "required": "optional",
       "recipes": [
         "redis::default"
       ],
-      "desription": "Configures the VM to use at max the specified amount of RAM. Everything that deos not fit will be swapped on disk *if* possible, that is, if there is still enough contiguous space in the swap file.",
-      "display_name": "Maximum memory usage before swapping",
       "choice": [
 
-      ]
-    },
-    "redis/maxmemory_samples": {
-      "required": "optional",
-      "type": "string",
-      "default": "3",
+      ],
       "calculated": false,
+      "type": "string",
+      "display_name": "Write append log",
+      "default": "no"
+    },
+    "redis/vm/pages": {
+      "required": "optional",
       "recipes": [
         "redis::default"
       ],
-      "display_name": "Sample size for eviction algorithms",
       "choice": [
 
-      ]
-    },
-    "redis/databases": {
-      "required": "optional",
-      "type": "string",
-      "default": "16",
-      "calculated": false,
-      "recipes": [
-        "redis::default"
       ],
-      "display_name": "Number of Redis database",
-      "choice": [
-
-      ]
-    },
-    "redis/activerehashing": {
-      "required": "optional",
-      "description": "Active rehashing uses 1 millisecond every 100 milliseconds of CPU time in order to help rehashing the main Redis hash table (the one mapping top-level keys to values). The hash table implementation redis uses (see dict.c) performs a lazy rehashing: the more operations you run into an hash table that is rehashing, the more rehashing \"steps\" are performed, so if the server is idle the rehashing is never complete and some more memory is used by the hash table.takes about 1ms every 100ms",
-      "type": "string",
-      "default": "yes",
       "calculated": false,
-      "recipes": [
-        "redis::default"
-      ],
-      "display_name": "Rehash redis table in memory",
-      "choice": [
-
-      ]
-    },
-    "redis/vm/page_size": {
-      "required": "optional",
-      "description": "Redis swap files is split into pages. An object can be saved using multiple contiguous pages, but pages can't be shared between different objects. So if your page is too big, small objects swapped out on disk will waste a lot of space. If you page is too small, there is less space in the swap file (assuming you configured the same number of total swap file pages).",
       "type": "string",
-      "default": "32",
-      "calculated": false,
-      "recipes": [
-        "redis::default"
-      ],
-      "display_name": "Memory page size (bytes) in swap file",
-      "choice": [
-
-      ]
+      "display_name": "Number of memory pages in the swap file",
+      "description": "Number of total memory pages in the swap file. Given that the page table (a bitmap of free/used pages) is taken in memory, every 8 pages on disk will consume 1 byte of RAM. The total swap size is vm-page-size * vm-pages. With the default of 32-bytes memory pages and 134217728 pages Redis will use a 4 GB swap file, that will use 16 MB of RAM for the page table. It's better to use the smallest acceptable value for your application, but the default is large in order to work in most conditions.",
+      "default": "134217728"
     }
   },
-  "platforms": {
-    "centos": ">= 5.5",
-    "ubuntu": ">= 8.04",
-    "redhat": ">= 5.5",
-    "debian": ">= 6.0"
-  },
-  "dependencies": {
-    "sys_firewall": ">= 0.0.0",
-    "monit": ">= 0.0.0",
-    "rs_utils": ">= 0.0.0"
-  },
-  "recipes": {
-    "redis::default_instance": "configures default instance",
-    "redis::remount-storage-and-restart-redis": "remounts /var/lib/redis/default, and restarts redis",
-    "redis::monit": "adds redis, to monit",
-    "redis::auto": "Configures and activates redis instances defined by attributes",
-    "redis::default": "Installs and configures redis"
-  },
-  "recommendations": {
-  },
-  "maintainer_email": "premium@rightscale.com",
-  "version": "0.4.4",
-  "suggestions": {
-  },
-  "providing": {
-  },
-  "license": "Apache 2.0",
-  "long_description": "= DESCRIPTION:\nThis cookbooks installs Redis 2 key-value datastore server. Redis can be installed from packages (where available) or source.\n\n= REQUIREMENTS:\nFor compiling from source: build-essential\n\n= ATTRIBUTES: \n[\"redis2\"][\"install_from\"] - _package_ to install from distro packages, any other value to install from source.\n[\"redis2\"][\"instances\"][\"default\"]  - default attributes for all redis instances, will be merged with per instance attributes\n[\"redis2\"][\"instances\"][instance_name] - per instance configuration attributes tree\n\n= USAGE:\nThis cookbook implements redis instances as a definition. If you plan to run only one instance, use the +redis::default_instance+ recipe which call a \"redis_default\" +redis_instance+.\nTo spawn instances of redis, use the +redis_instance+ definition, usage is pretty straight forward:\n<tt>\nredis_instance \"datastore\" do\n  port 8866\n  data_dir \"/mnt/redis/datastore\"\n  master master_node\nend\n</tt>\n\n_port_, <em>data_dir</em> and _master_ are the only attributes directly configurable using the definition syntax. Other attributes can be configured using the normal attribute interface under the <tt>node[\"redis2\"][\"instances\"][<em>instance_name</em>]</tt> scope. Missing attributes will be merged from <tt>node[\"redis2\"][\"instances\"][\"default\"]</tt>\n\nThe _master_ attribute will set up redis as a slave of a the same redis instance on another server. It will not set node[\"redis2\"][\"instances\"][<em>instance_name</em>][\"replication\"][\"role\"]</tt> (which can be _slave_ or _master_), because redis can be both at the same time (e.g. chained masters).\n\n== Recipes\n* redis2::auto - automagically call redis_instance for every instance defined in the node[\"redis2\"][\"instances\"] tree.\n* redis2::default_instance - use this if you want a simple recipe with a single redis instance\nIt's generally not a good idea to use the redis2::default_instance recipe. If you want a single redis instance, either use redis_instance definition or redis2::auto and define your instance in the attributes tree.\n\n== Changelog\n  04-23-2012 -> This cookbook was forked from Fewbytes Technologies, Inc. (avishai@fewbytes.com) by RightScale Inc. Report Issues to premium@rightscale.com, \n  a LICENSE-2.0 file was added. \n",
-  "name": "redis",
-  "conflicting": {
-  },
-  "replacing": {
-  }
+  "name": "redis"
 }

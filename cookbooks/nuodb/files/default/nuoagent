@@ -1,0 +1,142 @@
+#!/bin/sh -e
+#
+### BEGIN INIT INFO
+# Provides:          nuoagent
+# Required-Start:    $remote_fs $syslog $network
+# Required-Stop:     $remote_fs $syslog $network
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Start nuodb agent at boot time
+### END INIT INFO
+
+# Force error checking.
+set -e
+
+PIDDIR=/var/run/nuodb
+if [ ! -d $PIDDIR ]; then
+    mkdir -p $PIDDIR > /dev/null
+fi
+
+export NUODB_PIDFILE=$PIDDIR/pid
+
+# if you want to use a specific version of Java, it can be set here
+JAVA=`which java`
+
+# the root installation directory for NuoDB
+export NUODB_HOME=/opt/nuodb
+export NUODB_LOGFILE=/opt/nuodb/logs/nuodb_broker.log
+
+#if [ -z "$DPKG_MAINTSCRIPT_PACKAGE" ]; then
+    ECHO=echo
+#else
+#    ECHO=:
+#fi
+
+INITSCRIPT="$(basename "$0")"
+
+if [ -z "$1" ]; then
+    COMMAND=help
+else
+    COMMAND="$1"
+    shift
+fi
+
+#$ECHO "Rather than invoking init scripts through /etc/init.d, use the service(8)"
+#$ECHO "utility, e.g. service $INITSCRIPT help"
+
+# Looks for a known file, tries to read a PID from that file and tests if the
+# PID represents a reachable process. If all of these tests pass then the PID
+# is set to RUNNING_PID. If any test fails then RUNNING_PID is 0.
+lookup_running_pid() {
+    RUNNING_PID=0
+
+    if [ -r $NUODB_PIDFILE ]; then
+        read PID < "$NUODB_PIDFILE"
+        if [ -n $PID ]; then
+            if kill -0 $PID 2> /dev/null; then
+                RUNNING_PID=$PID
+            fi
+        fi
+    fi
+}
+
+start() {
+    lookup_running_pid
+    if [ $RUNNING_PID -ne 0 ]; then
+        $ECHO "Already running"
+    else
+        $ECHO "Starting NuoDB Agent/Broker... "
+		# run nuoagent as the nuodb user
+		su -s /bin/bash -m -c $NUODB_HOME/bin/run-nuoagent.sh nuodb
+        FOUND_PID=`cat ${NUODB_PIDFILE}`
+		if [ "$FOUND_PID" != "" ]; then
+			$ECHO "Started as $FOUND_PID"
+		else
+			$ECHO "Failed starting NuoDB Agent/Broker"
+		fi
+    fi
+}
+
+stop() {
+    lookup_running_pid
+    if [ $RUNNING_PID -ne 0 ]; then
+        $ECHO "Stopping..."
+        kill -TERM $RUNNING_PID >/dev/null 2>&1
+        sleep 1
+
+        if ! kill -0 $RUNNING_PID 2> /dev/null; then 
+            $ECHO "Stopped $RUNNING_PID"
+        else
+            status="0"
+            $ECHO "Killing $RUNNING_PID"
+            kill -KILL $RUNNING_PID >/dev/null 2>&1 || status="$?"
+            if [ "$status" != 0 ]; then
+                $ECHO "Failed to stop $RUNNING_PID"
+            fi
+        fi
+    else
+        $ECHO "Already stopped"
+    fi  
+    rm -f "$NUODB_PIDFILE" 2>&1 > /dev/null
+}
+
+restart() {
+    stop
+    start
+}
+
+status() {
+    lookup_running_pid
+    if [ $RUNNING_PID -ne 0 ]; then
+        $ECHO "Running"
+        exit 0
+    else
+        if [ -f "$NUODB_PIDFILE" ]; then
+            $ECHO "Failed"
+        else
+            $ECHO "Stopped"
+        fi
+        exit 1
+    fi
+}
+
+case $COMMAND in
+status)
+    status
+    ;;
+start)
+    start
+    ;;
+stop)
+    stop
+    ;;
+restart|reload|force-reload)
+    restart
+    ;;
+*)
+    $ECHO "Usage: $0 {start|stop|status|restart|reload|force-reload}"
+    exit 1
+esac
+
+exit 0
+

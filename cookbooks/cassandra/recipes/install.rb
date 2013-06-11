@@ -2,74 +2,71 @@
 # Cookbook Name:: cassandra
 # Recipe:: install
 #
-# Copyright 2011, DataStax
+# Copyright 2012, RightScale Inc
 #
-# Apache License
-#
-
-###################################################
-# 
-# Install Cassandra
-# 
-###################################################
-#
+# All rights reserved - Do Not Redistribute
 #
 
-# Not sure we need this?  
-execute "clear-data" do
-  command "rm -rf /var/lib/cassandra/data/system"
-  action :nothing
+rightscale_marker :begin
+
+# Create Cassandra user
+user "cassandra" do
+	comment "Cassandra software owner"
 end
 
-#service "cassandra" do 
-#  supports :status => true, :restart => true, :reload => true
-#  action [ :enable, :start ]
-#end
+# Download Cassandra
+remote_file "/tmp/cassandra.tar.gz" do
+	source "http://rs-professional-services-publishing.s3.amazonaws.com/cassandra/apache-cassandra-#{node['cassandra']['version']}-bin.tar.gz"
+	checksum "08313fbfd5cc7d91a637a2a27c5c6bb4d3bf6ce8ff5eae9a14c20474faa8cf12"
+end
 
-# Sets up a user to own the data directories
-node[:internal][:package_user] = "cassandra"
+# Untar and install
+bash "untar_cassandra" do
+	cwd "/tmp"
+	code <<-EOM
+		tar zxf cassandra.tar.gz -C /usr/local
+		ln -s /usr/local/apache-cassandra-#{node['cassandra']['version']} /usr/local/cassandra
+		chown -R cassandra: /usr/local/apache-cassandra-#{node['cassandra']['version']}
+	EOM
+end
 
-# Installs the latest Cassandra version depending on your deployment choice
-if node[:setup][:deployment] == "08x" or node[:setup][:deployment] == "07x" or  node[:setup][:deployment] == "10x" or  node[:setup][:deployment] == "11x"
-  case node[:platform]
-    when "ubuntu", "debian"
-      package "cassandra" do
-        notifies :run, resources(:execute => "clear-data"), :immediately
-      end
-
-    when "centos", "redhat", "fedora"
-#   Download cassandra rpm based on OS choice..  (hard set to 8 for the time being)
-#       execute "rpm -Uvh http://cassandra-rpm.googlecode.com/files/apache-cassandra-0.8.5-0.el5.noarch.rpm"
-       execute "rpm -Uvh http://cassandra-rpm.googlecode.com/files/apache-cassandra-1.0.10-0.el5.noarch.rpm"
-#      package "cassandra" do
-#        notifies :run, resources(:execute => "clear-data"), :immediately
-#      end
+# Create cassandra commit, saved_caches dirs and logging dir
+[ node['cassandra']['commitlog_directory'], node['cassandra']['saved_caches_directory'], node['cassandra']['log4j_directory'] ].each do |dir|
+  directory "#{dir}" do
+    owner "cassandra"
+    group "cassandra"
+    mode "0755"
+    action :create
+    recursive true
   end
 end
 
-# Drop the config.
-template "/etc/cassandra/cassandra-env.sh" do
-   owner "cassandra"
-   group "cassandra"
-   mode "0755"
-   source "cassandra-env.sh.erb"
+# Create cassandra data dir(s)
+node['cassandra']['data_file_directories'].each do |dir|
+  directory "#{dir}" do
+    owner "cassandra"
+    group "cassandra"
+    mode "0755"
+    action :create
+    recursive true
+  end
 end
 
-template "/etc/cassandra/cassandra.yaml" do
-   owner "cassandra"
-   group "cassandra"
-   mode "0644"
-   source "cassandra.yaml.erb"
-end
-
-template "/etc/cassandra/cassandra-topology.properties" do
+# Install log4j-server.properties
+template "/usr/local/apache-cassandra-#{node['cassandra']['version']}/conf/log4j-server.properties" do
+	source "log4j-server.properties.erb"
 	owner "cassandra"
 	group "cassandra"
 	mode "0644"
-	source "cassandra-topology.properties.erb"
-	# Pass the topology array as 't' to the template.
-	#variables(
-	#	:t => t
-	#)
-#   notifies :restart , resources(:service => "cassandra")
+	variables({
+		:log4j_directory => node['cassandra']['log4j_directory']
+	})
+end 
+
+cookbook_file "/etc/init.d/cassandra" do
+	source "cassandra"
+	mode "0755"
+	backup false
 end
+
+rightscale_marker :end

@@ -1,0 +1,22 @@
+#!/bin/bash
+#
+# chkconfig: - 86 15
+# description: Collectd is a statistics gathering daemon used to collect \
+#   system information ie. cpu, memory, disk, network
+
+
+. /etc/profile
+
+case "$1" in
+  start)
+        su - cassandra -c "/usr/local/cassandra/bin/cassandra -p /tmp/cassandra.pid"
+        ;;
+  stop)
+       kill $(cat /tmp/cassandra.pid)
+        ;;
+  *)
+        echo $"Usage: $0 {start|stop}"
+        exit 1
+esac
+
+exit $?

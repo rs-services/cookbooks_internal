@@ -5,9 +5,16 @@
 # RightScale Terms of Service available at http://www.rightscale.com/terms.php and,
 # if applicable, other agreements such as a RightScale Master Subscription Agreement.
 
+
 set[:hadoop][:version] = '1.0.3'
 set[:hadoop][:install_dir]='/home/hadoop'
-set[:env][:java_home]='/usr/java/default'
+case node[:platform]
+when "ubuntu"
+  set[:env][:java_home] = "/usr/lib/jvm/java-1.6.0-openjdk-amd64"
+when "centos", "redhat"
+  set[:env][:java_home] = "/usr/lib/jvm/java-1.6.0"
+end
+
 set[:hadoop][:user]='root'
 set[:hadoop][:group]='root'
 default[:hadoop][:dfs][:replication]='1'
