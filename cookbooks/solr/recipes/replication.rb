@@ -1,4 +1,4 @@
-rs_utils_marker :begin
+rightscale_marker :begin
 
 include_recipe "sys_dns::default"
 
@@ -57,4 +57,4 @@ if node[:solr][:replication][:server_type] == "slave"
 end
 
 service "tomcat6"
-rs_utils_marker :end
+rightscale_marker :end

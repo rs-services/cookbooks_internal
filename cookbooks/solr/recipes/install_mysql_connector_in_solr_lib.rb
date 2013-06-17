@@ -1,4 +1,4 @@
-rs_utils_marker :begin
+rightscale_marker :begin
 
 include_recipe 'solr::default'
 
@@ -14,4 +14,4 @@ end
 
 service "tomcat6"
 
-rs_utils_marker :end
+rightscale_marker :end
