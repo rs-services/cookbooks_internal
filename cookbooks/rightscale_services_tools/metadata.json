@@ -1,33 +1,73 @@
 {
-  "license": "All rights reserved",
-  "platforms": {
-  },
-  "description": "Installs/Configures rightscale_services_tools",
-  "name": "rightscale_services_tools",
-  "version": "0.0.1",
-  "replacing": {
-  },
-  "long_description": "Description\n===========\nA collection of useful tools brought to you buy the RightScale Services Team, make sure and check libraries, definitions, resources, and providers. There will be tools in each of those. \n\nRequirements\n============\n\nAttributes\n==========\n\nUsage\n=====\nRecipes-\n  vpc-nat:  Configures ip forwarding and iptables for AWS VPC NAT host\n\nDefinitions -\n  gen_profile_script\n\nLibraries - \n  has_connectivity(ip,port,proto = \"tcp\")\n\n  check_connectivity(host,port,message,timeout=60)\n\n\n",
-  "providing": {
-  },
-  "suggestions": {
-  },
-  "dependencies": {
-    "sysctl": ">= 0.0.0",
-    "rightscale": ">= 0.0.0"
-  },
-  "maintainer_email": "premium@rightscale.com",
   "groupings": {
   },
+  "name": "rightscale_services_tools",
+  "license": "All rights reserved",
+  "maintainer_email": "premium@rightscale.com",
+  "maintainer": "RightScale Inc",
+  "replacing": {
+  },
+  "dependencies": {
+    "rightscale": ">= 0.0.0",
+    "sysctl": ">= 0.0.0"
+  },
+  "platforms": {
+  },
   "attributes": {
+    "vpc_nat/other_instance_id": {
+      "required": "required",
+      "choice": [
+
+      ],
+      "type": "string",
+      "display_name": "Instance ID of other HA host",
+      "calculated": false,
+      "description": "The instance ID of the host to monitor.",
+      "recipes": [
+        "rightscale_services_tools::vpc-nat-ha"
+      ]
+    },
+    "vpc_nat/other_route_id": {
+      "required": "required",
+      "choice": [
+
+      ],
+      "type": "string",
+      "display_name": "VPC Route ID of VPC route ",
+      "calculated": false,
+      "description": "The route ID of the VPC route where the other instance is associated.",
+      "recipes": [
+        "rightscale_services_tools::vpc-nat-ha"
+      ]
+    },
+    "vpc_nat/route_id": {
+      "required": "required",
+      "choice": [
+
+      ],
+      "type": "string",
+      "display_name": "VPC Route ID of VPC Route Table",
+      "calculated": false,
+      "description": "The route ID of the VPC route where the other instance is associated.",
+      "recipes": [
+        "rightscale_services_tools::vpc-nat-ha"
+      ]
+    }
   },
   "recommendations": {
   },
-  "recipes": {
-    "rightscale_services_tools::vpc-nat": "enables AWS VPC NAT Host ipforwarding and iptables",
-    "rightscale_services_tools::default": "enables rightscale_services_tools"
-  },
-  "maintainer": "RightScale Inc",
   "conflicting": {
-  }
+  },
+  "description": "Installs/Configures rightscale_services_tools",
+  "suggestions": {
+  },
+  "version": "0.0.1",
+  "recipes": {
+    "rightscale_services_tools::default": "enables rightscale_services_tools",
+    "rightscale_services_tools::vpc-nat": "enables AWS VPC NAT Host ipforwarding and iptables",
+    "rightscale_services_tools::vpc-nat-ha": "enables AWS VPC NAT HA with another NAT Host"
+  },
+  "providing": {
+  },
+  "long_description": "Description\n===========\nA collection of useful tools brought to you buy the RightScale Services Team, make sure and check libraries, definitions, resources, and providers. There will be tools in each of those. \n\nRequirements\n============\n\nAttributes\n==========\n\nUsage\n=====\nRecipes-\n  vpc-nat:  Configures ip forwarding and iptables for AWS VPC NAT host\n\nDefinitions -\n  gen_profile_script\n\nLibraries - \n  has_connectivity(ip,port,proto = \"tcp\")\n\n  check_connectivity(host,port,message,timeout=60)\n\n\n"
 }
