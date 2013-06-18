@@ -33,7 +33,7 @@ if node[:solr][:replication][:server_type] == "master"
   sys_dns "default" do
     id node[:solr][:replication][:master_dns_id]
     address node[:cloud][:private_ips][0]
-    action :set_private
+    action :set!
   end
 end
 
@@ -52,7 +52,7 @@ if node[:solr][:replication][:server_type] == "slave"
   sys_dns "default" do
     id node[:solr][:replication][:slave_dns_id]
     address node[:cloud][:private_ips][0]
-    action :set_private
+    action :set!
   end 
 end
 
