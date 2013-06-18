@@ -46,7 +46,7 @@
       "type": "string",
       "display_name": "bind_address",
       "required": "recommended",
-      "default": "127.0.0.1",
+      "default": "0.0.0.0",
       "choice": [
 
       ],
@@ -81,7 +81,7 @@
       "calculated": false
     },
     "app_jboss/mysql_connection_url": {
-      "description": "MySQL jdbc:// type connection url. Separate multiple entries by commas",
+      "description": "MySQL jdbc:// or replication:// type connection url. Separate multiple entries by commas.  Add ?useUnicode=true&amp;characterEncoding=utf8&amp as extra options",
       "recipes": [
         "app_jboss::default"
       ],

@@ -1,0 +1,256 @@
+<?xml version="1.0" ?>
+
+<server xmlns="urn:jboss:domain:1.3">
+
+    <extensions>
+        <extension module="org.jboss.as.configadmin"/>
+        <extension module="org.jboss.as.connector"/>
+        <extension module="org.jboss.as.deployment-scanner"/>
+        <extension module="org.jboss.as.ee"/>
+        <extension module="org.jboss.as.jaxrs"/>
+        <extension module="org.jboss.as.jdr"/>
+        <extension module="org.jboss.as.jmx"/>
+        <extension module="org.jboss.as.logging"/>
+        <extension module="org.jboss.as.naming"/>
+        <extension module="org.jboss.as.pojo"/>
+        <extension module="org.jboss.as.remoting"/>
+        <extension module="org.jboss.as.sar"/>
+        <extension module="org.jboss.as.security"/>
+        <extension module="org.jboss.as.threads"/>
+        <extension module="org.jboss.as.transactions"/>
+        <extension module="org.jboss.as.web"/>
+        <extension module="org.jboss.as.weld"/>
+    </extensions>
+
+    <vault>
+        <vault-option name="KEYSTORE_URL" value="/nas/cluster/vault/keystore/vault.keystore"/>
+        <vault-option name="KEYSTORE_PASSWORD" value="MASK-3nJ0yKUDG5X"/>
+        <vault-option name="KEYSTORE_ALIAS" value="vault"/>
+        <vault-option name="SALT" value="NService"/>
+        <vault-option name="ITERATION_COUNT" value="50"/>
+        <vault-option name="ENC_FILE_DIR" value="/nas/cluster/vault/admin/"/>
+    </vault>
+
+    <management>
+        <security-realms>
+            <security-realm name="ManagementRealm">
+                <authentication>
+                    <local default-user="$local"/>
+                    <properties path="mgmt-users.properties" relative-to="jboss.server.config.dir"/>
+                </authentication>
+            </security-realm>
+            <security-realm name="ApplicationRealm">
+                <authentication>
+                    <local default-user="$local" allowed-users="*"/>
+                    <properties path="application-users.properties" relative-to="jboss.server.config.dir"/>
+                </authentication>
+                <authorization>
+                    <properties path="application-roles.properties" relative-to="jboss.server.config.dir"/>
+                </authorization>
+            </security-realm>
+        </security-realms>
+        <management-interfaces>
+            <native-interface security-realm="ManagementRealm">
+                <socket-binding native="management-native"/>
+            </native-interface>
+            <http-interface security-realm="ManagementRealm">
+                <socket-binding http="management-http"/>
+            </http-interface>
+        </management-interfaces>
+    </management>
+
+    <profile>
+        <subsystem xmlns="urn:jboss:domain:logging:1.1">
+            <console-handler name="CONSOLE">
+                <level name="INFO"/>
+                <formatter>
+                    <pattern-formatter pattern="%d{HH:mm:ss,SSS} %-5p [%c] (%t) %s%E%n"/>
+                </formatter>
+            </console-handler>
+            <periodic-rotating-file-handler name="FILE">
+                <level name="INFO"/>
+                <formatter>
+                    <pattern-formatter pattern="%d{HH:mm:ss,SSS} %-5p [%c] (%t) %s%E%n"/>
+                </formatter>
+                <file relative-to="jboss.server.log.dir" path="server.log"/>
+                <suffix value=".yyyy-MM-dd"/>
+                <append value="true"/>
+            </periodic-rotating-file-handler>
+            <logger category="com.arjuna">
+                <level name="WARN"/>
+            </logger>
+            <logger category="org.apache.tomcat.util.modeler">
+                <level name="WARN"/>
+            </logger>
+            <logger category="sun.rmi">
+                <level name="WARN"/>
+            </logger>
+            <logger category="jacorb">
+                <level name="WARN"/>
+            </logger>
+            <logger category="jacorb.config">
+                <level name="ERROR"/>
+            </logger>
+            <logger category="com.osp.g11n">
+                <level name="OFF"/>
+            </logger>
+            <logger category="nl.bitwalker">
+                <level name="OFF"/>
+            </logger>
+            <logger category="org.apache.tomcat.util.http.Cookies">
+                <level name="OFF"/>
+            </logger>
+            <root-logger>
+                <level name="INFO"/>
+                <handlers>
+<!--
+                    <handler name="CONSOLE"/>
+-->
+                    <handler name="FILE"/>
+                </handlers>
+            </root-logger>
+        </subsystem>
+        <subsystem xmlns="urn:jboss:domain:configadmin:1.0"/>
+        <subsystem xmlns="urn:jboss:domain:datasources:1.1">
+            <datasources>
+                <datasource jta="true" jndi-name="java:jboss/jdbc-ncom-dev" pool-name="MySQLDS" enabled="true" use-java-context="true" use-ccm="true">
+                    <connection-url>jdbc:mysql:<%= @connection_url %></connection-url>
+                    <driver>com.mysql</driver>
+                    <transaction-isolation>TRANSACTION_READ_COMMITTED</transaction-isolation>
+                    <pool>
+                        <min-pool-size>50</min-pool-size>
+                        <max-pool-size>50</max-pool-size>
+                        <prefill>true</prefill>
+                    </pool>
+                    <security>
+                        <user-name><%= @user_name %></user-name>
+                        <password><%= @password %></password>
+                    </security>
+                    <validation>
+                        <valid-connection-checker class-name="org.jboss.jca.adapters.jdbc.extensions.mysql.MySQLValidConnectionChecker"></valid-connection-checker>
+                        <exception-sorter class-name="org.jboss.jca.adapters.jdbc.extensions.mysql.MySQLExceptionSorter"></exception-sorter>                        
+                        <background-validation>true</background-validation>
+                        <background-validation-millis>2000</background-validation-millis>
+                    </validation>
+                </datasource>
+                <drivers>
+                    <driver name="com.mysql" module="com.mysql">
+                        <driver-class>com.mysql.jdbc.ReplicationDriver</driver-class>
+                    </driver>
+                </drivers>
+            </datasources>
+        </subsystem>
+        <subsystem xmlns="urn:jboss:domain:deployment-scanner:1.1">
+            <deployment-scanner path="${ncom.deploy.path}" auto-deploy-zipped="false" auto-deploy-exploded="false"/>
+        </subsystem>
+        <subsystem xmlns="urn:jboss:domain:ee:1.1">
+            <spec-descriptor-property-replacement>false</spec-descriptor-property-replacement>
+            <jboss-descriptor-property-replacement>true</jboss-descriptor-property-replacement>
+        </subsystem>
+        <subsystem xmlns="urn:jboss:domain:jaxrs:1.0"/>
+        <subsystem xmlns="urn:jboss:domain:jca:1.1">
+            <archive-validation enabled="true" fail-on-error="true" fail-on-warn="false"/>
+            <bean-validation enabled="true"/>
+            <default-workmanager>
+                <short-running-threads>
+                    <core-threads count="20"/>
+                    <queue-length count="50"/>
+                    <max-threads count="50"/>
+                    <keepalive-time time="10" unit="seconds"/>
+                </short-running-threads>
+                <long-running-threads>
+                    <core-threads count="20"/>
+                    <queue-length count="50"/>
+                    <max-threads count="50"/>
+                    <keepalive-time time="10" unit="seconds"/>
+                </long-running-threads>
+            </default-workmanager>
+            <cached-connection-manager/>
+        </subsystem>
+        <subsystem xmlns="urn:jboss:domain:jdr:1.0"/>
+        <subsystem xmlns="urn:jboss:domain:jmx:1.1">
+            <show-model value="true"/>
+            <remoting-connector/>
+        </subsystem>
+        <subsystem xmlns="urn:jboss:domain:naming:1.2"/>
+        <subsystem xmlns="urn:jboss:domain:pojo:1.0"/>
+        <subsystem xmlns="urn:jboss:domain:remoting:1.1">
+            <connector name="remoting-connector" socket-binding="remoting" security-realm="ApplicationRealm"/>
+        </subsystem>
+        <subsystem xmlns="urn:jboss:domain:resource-adapters:1.0"/>
+        <subsystem xmlns="urn:jboss:domain:sar:1.0"/>
+        <subsystem xmlns="urn:jboss:domain:security:1.2">
+            <security-domains>
+                <security-domain name="other" cache-type="default">
+                    <authentication>
+                        <login-module code="Remoting" flag="optional">
+                            <module-option name="password-stacking" value="useFirstPass"/>
+                        </login-module>
+                        <login-module code="RealmDirect" flag="required">
+                            <module-option name="password-stacking" value="useFirstPass"/>
+                        </login-module>
+                    </authentication>
+                </security-domain>
+                <security-domain name="jboss-web-policy" cache-type="default">
+                    <authorization>
+                        <policy-module code="Delegating" flag="required"/>
+                    </authorization>
+                </security-domain>
+                <security-domain name="jboss-ejb-policy" cache-type="default">
+                    <authorization>
+                        <policy-module code="Delegating" flag="required"/>
+                    </authorization>
+                </security-domain>
+            </security-domains>
+        </subsystem>
+        <subsystem xmlns="urn:jboss:domain:threads:1.1">
+            <unbounded-queue-thread-pool name="http-thread-pool">
+                <max-threads count="50"/>
+                <keepalive-time time="60" unit="minutes"/>
+            </unbounded-queue-thread-pool>
+        </subsystem>
+        <subsystem xmlns="urn:jboss:domain:transactions:1.2">
+            <core-environment>
+                <process-id>
+                    <uuid/>
+                </process-id>
+            </core-environment>
+            <recovery-environment socket-binding="txn-recovery-environment" status-socket-binding="txn-status-manager"/>
+            <coordinator-environment default-timeout="300"/>
+        </subsystem>
+        <subsystem xmlns="urn:jboss:domain:web:1.1" default-virtual-server="<%= @virtual_server %>" native="false">
+            <configuration>
+                <jsp-configuration modification-test-interval="86400" generate-strings-as-char-arrays="true" source-vm="1.6" target-vm="1.6"/>
+            </configuration>
+            <connector name="http" protocol="HTTP/1.1" scheme="http" socket-binding="http" enable-lookups="false" executor="http-thread-pool" max-connections="256"/>
+            <connector name="ajp" protocol="AJP/1.3" scheme="http" socket-binding="ajp" />
+            <virtual-server name="<%= @virtual_server %>" enable-welcome-root="false"/>
+        </subsystem>
+        <subsystem xmlns="urn:jboss:domain:weld:1.0"/>
+    </profile>
+
+    <interfaces>
+        <interface name="management">
+            <inet-address value="${jboss.bind.address.management:0.0.0.0}"/>
+        </interface>
+        <interface name="public">
+            <inet-address value="${jboss.bind.address:<%= @jboss_bind_address %>}"/>
+        </interface>
+        <interface name="unsecure">
+            <inet-address value="${jboss.bind.address.unsecure:127.0.0.1}"/>
+        </interface>
+    </interfaces>
+
+    <socket-binding-group name="standard-sockets" default-interface="public" port-offset="${jboss.socket.binding.port-offset:0}">
+        <socket-binding name="management-native" interface="management" port="${jboss.management.native.port:18089}"/>
+        <socket-binding name="management-http" interface="management" port="${jboss.management.http.port:18080}"/>
+        <socket-binding name="jmx-connector-registry" port="1090"/>
+        <socket-binding name="jmx-connector-server" port="1091"/>
+        <socket-binding name="http" port="<%= @jboss_http_bind_port %>"/>
+        <socket-binding name="ajp" port="8009"/>
+        <socket-binding name="remoting" port="4447"/>
+        <socket-binding name="txn-recovery-environment" port="4712"/>
+        <socket-binding name="txn-status-manager" port="4713"/>
+    </socket-binding-group>
+
+</server>

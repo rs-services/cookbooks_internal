@@ -27,7 +27,7 @@ attribute "app_jboss/bind_address",
 	:type         => "string",
 	:display_name => "bind_address",
 	:required     => "recommended",
-	:default      => "127.0.0.1"
+	:default      => "0.0.0.0"
 
 attribute "app_jboss/http_bind_port",
 	:description  => "Port for JBoss to accept incoming HTTP connections.",
@@ -46,7 +46,7 @@ attribute "app_jboss/https_bind_port",
 	:default      => "8443"
 
 attribute "app_jboss/mysql_connection_url",
-  :description  => "MySQL jdbc:// type connection url. Separate multiple entries by commas",
+  :description  => "MySQL jdbc:// or replication:// type connection url. Separate multiple entries by commas.  Add ?useUnicode=true&amp;characterEncoding=utf8&amp as extra options",
   :recipes      => ["app_jboss::default"],
   :type         => "array",
   :display_name => "mysql_connection_url",
