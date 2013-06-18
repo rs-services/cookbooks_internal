@@ -1,0 +1,5 @@
+LoadPlugin exec
+<Plugin exec>
+  #     userid    plugin executable            plugin        args
+  Exec "root" "<%= node[:rightscale][:collectd_lib] %>/plugins/hadoop.rb" "-h" "<%= node[:rightscale][:instance_uuid] %>" "-i" "10"
+</Plugin>

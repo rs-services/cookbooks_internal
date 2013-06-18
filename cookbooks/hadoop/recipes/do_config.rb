@@ -72,4 +72,20 @@ template "#{node[:hadoop][:install_dir]}/conf/slaves" do
   #variables(:namenodes =>node[:namenodes] )
 end
 
+log "Installing hadoop monitoring to #{node[:hadoop][:install_dir]}/conf"
+template "#{node[:hadoop][:install_dir]}/conf/hadoop-metrics2.properties" do
+  source "hadoop-metrics2.propertes"
+  owner "#{node[:hadoop][:user]}"
+  group "#{node[:hadoop][:group]}"
+  mode "0644"
+  #variables(:namenodes =>node[:namenodes] )
+end
+
+log "Adding Log rotate to /etc/logrotate.d/"
+template "/etc/logrotate.d/hadoop" do
+  source "logrotate"
+  mode "0644"
+  #variables(:namenodes =>node[:namenodes] )
+end
+
 rightscale_marker :end

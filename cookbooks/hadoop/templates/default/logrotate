@@ -1,0 +1,6 @@
+/home/hadoop/logs/* {
+    weekly
+    rotate 5
+    missingok   
+    compress
+}
