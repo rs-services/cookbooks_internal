@@ -51,14 +51,14 @@ end
 #  owner "#{node[:tomcat][:app_user]}"
 #end
 
-directory "/srv/tomcat6/webapps/#{node[:web_apache][:application_name]}" do
+directory "/home/webapps/#{node[:web_apache][:application_name]}" do
   action :create
   owner "#{node[:tomcat][:app_user]}"
   recursive true
 end
 
 log "Copying Solr war file to /srv/tomcat6/webapps/#{node[:web_apache][:application_name]}/solr.war"
-cookbook_file "/srv/tomcat6/webapps/#{node[:web_apache][:application_name]}/solr.war" do
+cookbook_file "/home/webapps/#{node[:web_apache][:application_name]}/solr.war" do
   source "apache-solr-3.5.0.war"
   owner "#{node[:tomcat][:app_user]}" 
   mode "0644"
