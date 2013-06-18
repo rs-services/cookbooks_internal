@@ -94,7 +94,7 @@ action :install do
   log "Installing JBoss init and config files ..."
 
   template "/usr/local/jboss/standalone/configuration/standalone-ha.xml" do
-    source "standalone-ha.xml.erb"
+    source "tier_#{node[:app_jboss][:tier]}.xml.erb"
     owner "jboss"
     group "jboss"
     cookbook "app_jboss"
