@@ -21,5 +21,33 @@ template "/root/nat-monitor.sh" do
   )
   action :create
 end
+template "/root/credentials.txt" do
+  source "credentials.erb"
+  owner  "root"
+  group  "root"
+  mode   "0600"
+  variables( :key=> node[:vpc_nat][:aws_account_id],
+  :secret=>node[:vpc_nat][:aws_account_secret]
+ 
+  )
+  action :create
+end
+
+bash "install cron" do
+  user "root"
+  cwd "/root"
+  code <<-EOH
+  echo '@reboot /root/nat_monitor.sh >> /tmp/nat_monitor.log' | crontab
+  EOH
+end
+
+bash "run nat_monitor.sh" do
+  user "root"
+  cwd "/root"
+  code <<-EOH
+  ./nat_monitor.sh >> /var/log/nat_monitor.log &
+  EOH
+end
+
 
 rightscale_marker :end
