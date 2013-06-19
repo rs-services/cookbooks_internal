@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: vpc-nat
-# Recipe:: default
+# Cookbook Name:: rightscale_services_tools
 #
 # Copyright 2013, Rightscale Inc.
 #
@@ -13,7 +13,7 @@ template "/root/nat-monitor.sh" do
   source "nat-monitor.erb"
   owner  "root"
   group  "root"
-  mode   "0644"
+  mode   "0700"
   variables( :other_instance_id=> node[:vpc_nat][:other_instance_id],
   :other_route_id=>node[:vpc_nat][:other_route_id],
   :route_id=>node[:vpc_nat][:route_id],
@@ -25,7 +25,7 @@ template "/root/credentials.txt" do
   source "credentials.erb"
   owner  "root"
   group  "root"
-  mode   "0600"
+  mode   "0400"
   variables( :key=> node[:vpc_nat][:aws_account_id],
   :secret=>node[:vpc_nat][:aws_account_secret]
  
@@ -33,18 +33,20 @@ template "/root/credentials.txt" do
   action :create
 end
 
-bash "install cron" do
+# not sure if this will every take affect
+bash "install cron to run on reboot" do
   user "root"
   cwd "/root"
   code <<-EOH
-  echo '@reboot /root/nat_monitor.sh >> /tmp/nat_monitor.log' | crontab
+  echo '@reboot /root/nat_monitor.sh > /tmp/nat_monitor.log' | crontab
   EOH
 end
 
-bash "run nat_monitor.sh" do
+bash "start nat_monitor.sh" do
   user "root"
   cwd "/root"
   code <<-EOH
+  pkill nat-monitor > /dev/null
   ./nat_monitor.sh >> /var/log/nat_monitor.log &
   EOH
 end

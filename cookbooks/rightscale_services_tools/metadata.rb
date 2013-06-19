@@ -10,8 +10,9 @@ depends 'sysctl'
 
 recipe "rightscale_services_tools::default", "enables rightscale_services_tools"
 recipe "rightscale_services_tools::vpc-nat", "enables AWS VPC NAT Host ipforwarding and iptables"
-recipe "rightscale_services_tools::vpc-nat-ha", "enables AWS VPC NAT HA with another NAT Host"
-
+recipe "rightscale_services_tools::vpc-nat-ha", "Configures NAT Monitor for NAT instance HA."
+recipe "rightscale_services_tools::start-nat-monitor", "Starts NAT monitor"
+recipe "rightscale_services_tools::stop-nat-monitor", "Stopss NAT monitor"
 
 attribute "vpc_nat/other_instance_id",
   :display_name => "Instance ID of other HA host",

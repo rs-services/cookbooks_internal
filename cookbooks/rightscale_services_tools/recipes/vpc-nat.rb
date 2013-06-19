@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: vpc-nat
+# Cookbook Name:: rightscale_services_tools
 # Recipe:: default
 #
 # Copyright 2013, Rightscale Inc.
