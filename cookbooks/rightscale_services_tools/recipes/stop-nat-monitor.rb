@@ -9,7 +9,7 @@
 
 rightscale_marker :begin
 
-bash "stop nat_monitor.sh" do
+bash "stop nat-monitor.sh" do
   user "root"
   cwd "/root"
   code <<-EOH

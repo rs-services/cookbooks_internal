@@ -14,7 +14,7 @@ bash "start nat_monitor.sh" do
   cwd "/root"
   code <<-EOH
   pkill nat-monitor > /dev/null
-  /root/nat_monitor.sh >> /var/log/nat_monitor.log &
+  /root/nat-monitor.sh >> /var/log/nat-monitor.log &
   EOH
 end
 

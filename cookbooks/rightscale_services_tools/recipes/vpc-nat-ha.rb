@@ -38,16 +38,16 @@ bash "install cron to run on reboot" do
   user "root"
   cwd "/root"
   code <<-EOH
-  echo '@reboot /root/nat_monitor.sh > /tmp/nat_monitor.log' | crontab
+  echo '@reboot /root/nat-monitor.sh > /tmp/nat-monitor.log' | crontab
   EOH
 end
 
-bash "start nat_monitor.sh" do
+bash "start nat-monitor.sh" do
   user "root"
   cwd "/root"
   code <<-EOH
   pkill nat-monitor > /dev/null
-  /root/nat_monitor.sh >> /var/log/nat_monitor.log &
+  /root/nat-monitor.sh >> /var/log/nat-monitor.log &
   EOH
 end
 
