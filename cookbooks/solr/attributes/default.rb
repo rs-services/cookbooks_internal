@@ -6,4 +6,9 @@ default[:solr][:core_name] = 'collection1'
 default[:solr][:replication][:files_to_replicate] = "schema.xml,stopwords.txt,elevate.xml"
 default[:solr][:replication][:slave_poll_interval] = "00:00:20"
 default[:solr][:storage_type] = 'ephemeral'
-default[:tomcat][:app_user] = 'tomcat' unless node[:tomcat][:app_user]
+case node[:platform]
+when "centos"
+  default[:tomcat][:app_user] = 'tomcat' unless node[:tomcat][:app_user]
+when "ubuntu"
+  default[:tomcat][:app_user] = 'tomcat6' unless node[:tomcat][:app_user]
+end
