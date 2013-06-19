@@ -154,72 +154,66 @@ action :install do
   end
 end # END :install
 
-# TODO: 
-action :setup_monitoring do
-  log "SETUP MONITORING NOT IMPLEMENTED YET"
-end
-
-=begin
-# Configure JBoss monitoring
+# Setup monitoring tools for jboss
 action :setup_monitoring do
 
-  log "Configuring collectd monitoring for JBoss ..."
+  install_target = node[:app_jboss][:install_target]
+
+  log " Setup of collectd monitoring for jboss"
 
   # Installing and configuring collectd plugin for JVM monitoring.
+  # Using the same plugin, which already present in app_tomcat cookbook.
   cookbook_file "/usr/share/java/collectd.jar" do
     source "collectd.jar"
-    owner "root"
-    group "root"
     mode "0644"
-    cookbook "app_jboss"
+    cookbook "app_tomcat"
   end
 
   # Linking collectd
-    link "/usr/local/jboss/lib/collectd.jar" do
+  link "#{install_target}/lib/collectd.jar" do
     to "/usr/share/java/collectd.jar"
-    not_if { !::File.exists?("/usr/share/java/collectd.jar") }
   end
 
-# TODO: I think this is supposed to be written to jboss/bin/standalone.conf.
-# Also this code should be using a template. I will correct it soon.
-  # Add collectd support to run.conf
-  bash "Add collectd to run.conf" do
-    flags "-ex"
-    code <<-EOH
-      cat <<'EOF'>>"/usr/local/jboss/bin/run.conf"
-JAVA_OPTS="\$JAVA_OPTS -Djcd.host=#{node[:rightscale][:instance_uuid]} -Djcd.instance=jboss -Djcd.dest=udp://#{node[:rightscale][:servers][:sketchy][:hostname]}:3011 -Djcd.tmpl=javalang -javaagent:#{install_target}/lib/collectd.jar"
-EOF
-    EOH
+  # Add collectd support to samsung_java_opts.sh
+
+  template "/usr/local/jboss/standalone/configuration/monitoring.sh" do
+    source "monitoring.sh.erb"
+    owner "jboss"
+    group "jboss"
+    mode "0444"
+    cookbook "app_jboss"
+    variables({
+      :instance_uuid => node[:rightscale][:instance_uuid],
+      :sketchy_server => node[:rightscale][:servers][:sketchy][:hostname],
+      :install_target     => node[:app_jboss][:install_target]
+    })
   end
 
   # Installing and configuring collectd plugin for JBoss monitoring.
   cookbook_file "/tmp/collectd-plugin-java.tar.gz" do
     source "collectd-plugin-java.tar.gz"
     mode "0644"
-    owner "root"
-    group "root"
     cookbook "app_jboss"
   end
 
   # Extracting the plugin
   bash "Extracting the plugin" do
     flags "-ex"
-    code <<-EOM
-      tar xzf /tmp/collectd-plugin-java.tar.gz -C /
-    EOM
+    code <<-EOH
+tar xzf /tmp/collectd-plugin-java.tar.gz -C /
+EOH
   end
 
   cookbook_file "#{node[:rightscale][:collectd_plugin_dir]}/GenericJMX.conf" do
+    action :create
     source "GenericJMX.conf"
-    owner "root"
-    group "root"
     mode "0644"
     cookbook "app_jboss"
-    action :create
     notifies :restart, resources(:service => "collectd")
   end
-end # END :setup_monitoring
-=end
+
+end
+
 
 action :code_update do
   deploy_dir = new_resource.destination

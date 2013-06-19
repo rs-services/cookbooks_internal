@@ -1,0 +1,9 @@
+#!/bin/sh
+
+#-----------------------------------------------------------------------
+# Monitoring Java options
+#-----------------------------------------------------------------------
+
+NCOM_SETTINGS="$NCOM_SETTINGS -Djcd.host=#{node[:rightscale][:instance_uuid]} -Djcd.instance=jboss -Djcd.dest=udp://#{node[:rightscale][:servers][:sketchy][:hostname]}:3011 -Djcd.tmpl=javalang -javaagent:#{install_target}/lib/collectd.jar"
+
+export NCOM_SETTINGS

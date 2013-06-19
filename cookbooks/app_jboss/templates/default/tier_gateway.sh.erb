@@ -38,6 +38,16 @@ NCOM_SETTINGS="$NCOM_SETTINGS -Djboss.socket.binding.port-offset=0"
 NCOM_SETTINGS="$NCOM_SETTINGS -Djava.net.preferIPv4Stack=true"
 
 #-----------------------------------------------------------------------
+# Add monitoring if it exists.
+#-----------------------------------------------------------------------
+
+if [ -f "/usr/local/jboss/standalone/configuration/monitoring.sh" ]; then
+
+source "/usr/local/jboss/standalone/configuration/monitoring.sh"
+
+fi
+
+#-----------------------------------------------------------------------
 # Run WAS
 #-----------------------------------------------------------------------
 
