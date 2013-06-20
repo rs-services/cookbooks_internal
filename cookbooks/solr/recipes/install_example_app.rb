@@ -6,7 +6,7 @@
 #
 # All rights reserved - Do Not Redistribute
 #
-rs_utils_marker :begin
+rightscale_marker :begin
 
 log "Including solr recipe as dependency"
 include_recipe "solr::default" 
@@ -231,4 +231,4 @@ execute "tar -xvzf /root/exampledocs.tar.gz -C /root/" do
   action :run
   creates "/root/exampledocs"
 end
-rs_utils_marker :end
+rightscale_marker :end

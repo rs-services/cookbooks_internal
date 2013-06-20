@@ -1,4 +1,4 @@
-rs_utils_marker :begin
+rightscale_marker :begin
 
 class Chef::Recipe
   include RightScale::BlockDeviceHelper
@@ -49,4 +49,4 @@ block_device NICKNAME do
   action :backup_lock_give
 end
 
-rs_utils_marker :end
+rightscale_marker :end
