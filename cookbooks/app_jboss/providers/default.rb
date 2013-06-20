@@ -163,7 +163,7 @@ action :setup_monitoring do
 
   # Installing and configuring collectd plugin for JVM monitoring.
   # Using the same plugin, which already present in app_jboss cookbook.
-  cookbook_file "/usr/share/java/collectd.jar" do
+  cookbook_file "/usr/java/collectd.jar" do
     source "collectd.jar"
     mode "0644"
     cookbook "app_jboss"
@@ -171,7 +171,7 @@ action :setup_monitoring do
 
   # Linking collectd
   link "#{install_target}/lib/collectd.jar" do
-    to "/usr/share/java/collectd.jar"
+    to "/usr/java/collectd.jar"
   end
 
   # Add collectd support to samsung_java_opts.sh
