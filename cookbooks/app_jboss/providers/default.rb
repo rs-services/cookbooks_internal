@@ -162,11 +162,11 @@ action :setup_monitoring do
   log " Setup of collectd monitoring for jboss"
 
   # Installing and configuring collectd plugin for JVM monitoring.
-  # Using the same plugin, which already present in app_tomcat cookbook.
+  # Using the same plugin, which already present in app_jboss cookbook.
   cookbook_file "/usr/share/java/collectd.jar" do
     source "collectd.jar"
     mode "0644"
-    cookbook "app_tomcat"
+    cookbook "app_jboss"
   end
 
   # Linking collectd
