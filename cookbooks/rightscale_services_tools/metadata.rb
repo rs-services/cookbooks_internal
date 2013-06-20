@@ -8,27 +8,27 @@ version          "0.0.1"
 depends 'rightscale'
 depends 'sysctl'
 
-recipe "rightscale_services_tools::default", "enables rightscale_services_tools"
-recipe "rightscale_services_tools::vpc-nat", "enables AWS VPC NAT Host ipforwarding and iptables"
+recipe "rightscale_services_tools::default", "Enable rightscale_services_tools"
+recipe "rightscale_services_tools::vpc-nat", "Enable AWS VPC NAT instance ipforwarding and iptables"
 recipe "rightscale_services_tools::vpc-nat-ha", "Configures NAT Monitor for NAT instance HA."
-recipe "rightscale_services_tools::start-nat-monitor", "Starts NAT monitor"
-recipe "rightscale_services_tools::stop-nat-monitor", "Stopss NAT monitor"
+recipe "rightscale_services_tools::start-nat-monitor", "Start NAT monitor"
+recipe "rightscale_services_tools::stop-nat-monitor", "Stop NAT monitor"
 
 attribute "vpc_nat/other_instance_id",
-  :display_name => "Instance ID of other HA host",
-  :description => "The instance ID of the host to monitor.",
+  :display_name => "Instance ID of other NAT HA Instance",
+  :description => "The instance ID of the instance to monitor.",
   :required => "required",
   :recipes => [ "rightscale_services_tools::vpc-nat-ha" ]
 
 attribute "vpc_nat/other_route_id",
-  :display_name => "VPC Route ID of VPC route ",
-  :description => "The route ID of the VPC route where the other instance is associated.",
+  :display_name => "VPC Route table ID",
+  :description => "The routetable Id of the VPC route where the other instance is associated.",
   :required => "required",
   :recipes => [ "rightscale_services_tools::vpc-nat-ha" ]
 
 attribute "vpc_nat/route_id",
   :display_name => "VPC Route ID of VPC Route Table",
-  :description => "The route ID of the VPC route where the other instance is associated.",
+  :description => "The route ID of the VPC route where the this instance is associated.",
   :required => "required",
   :recipes => [ "rightscale_services_tools::vpc-nat-ha" ]
 
