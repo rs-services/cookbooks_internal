@@ -57,7 +57,7 @@ directory "/home/webapps/#{node[:web_apache][:application_name]}" do
   recursive true
 end
 
-log "Copying Solr war file to /srv/tomcat6/webapps/#{node[:web_apache][:application_name]}/solr.war"
+log "Copying Solr war file to /home/webapps/#{node[:web_apache][:application_name]}/solr.war"
 cookbook_file "/home/webapps/#{node[:web_apache][:application_name]}/solr.war" do
   source "apache-solr-3.5.0.war"
   owner "#{node[:tomcat][:app_user]}" 
