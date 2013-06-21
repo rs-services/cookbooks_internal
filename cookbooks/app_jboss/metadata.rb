@@ -73,6 +73,31 @@ attribute "app_jboss/virtual_server_name",
 	:display_name => "virtual_server_name",
 	:required     => "required"
 
+attribute "app_jboss/s3_bucketname",
+  :description  => "S3 bucketname for JBoss clustering",
+	:recipes      => ["app_jboss::default"],
+	:type         => "string",
+	:display_name => "s3_bucketname",
+	:required     => "optional"
+
+attribute "app_jboss/aws_access_key",
+  :description  => "AWS_ACCESS_KEY for S3 bucket access
+   You need to provide cloud authentication credentials. 
+   Use your Amazon access key ID (e.g., cred:AWS_ACCESS_KEY_ID). ",
+	:recipes      => ["app_jboss::default"],
+	:type         => "string",
+	:display_name => "aws_access_key",
+	:required     => "optional"
+
+attribute "app_jboss/aws_secret_access_key",
+  :description  => "AWS_SECRET_ACCESS_KEY for S3 bucket access.
+   You need to provide cloud authentication credentials. 
+   Use your Amazon secret access key ID (e.g., cred:AWS_SECRET_ACCESS_KEY). ",
+	:recipes      => ["app_jboss::default"],
+	:type         => "string",
+	:display_name => "aws_secret_access_key",
+	:required     => "optional"
+
 ### Inputs for: templates/default/tier_$NAME.sh.erb
 
 attribute "app_jboss/groups_tcp_port",
