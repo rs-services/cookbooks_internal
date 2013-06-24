@@ -105,9 +105,9 @@ action :install do
       :connection_url        => node[:app_jboss][:mysql_connection_url],
       :user_name             => node[:app_jboss][:mysql_username],
       :password              => node[:app_jboss][:mysql_password],
-      :virtual_server        => node[:app_jboss][:virtual_server_name]
-      :s3_bucketname         => node[:app_jboss][:s3_bucketname]
-      :aws_access_key        => node[:app_jboss][:aws_access_key]
+      :virtual_server        => node[:app_jboss][:virtual_server_name],
+      :s3_bucketname         => node[:app_jboss][:s3_bucketname],
+      :aws_access_key        => node[:app_jboss][:aws_access_key],
       :aws_secretaccess_key  => node[:app_jboss][:aws_secret_access_key]
     })
   end
