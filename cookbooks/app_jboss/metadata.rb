@@ -78,6 +78,7 @@ attribute "app_jboss/s3_bucketname",
 	:recipes      => ["app_jboss::default"],
 	:type         => "string",
 	:display_name => "s3_bucketname",
+	:category => "JBOSS CLUSTERING",
 	:required     => "optional"
 
 attribute "app_jboss/aws_access_key",
@@ -87,6 +88,7 @@ attribute "app_jboss/aws_access_key",
 	:recipes      => ["app_jboss::default"],
 	:type         => "string",
 	:display_name => "aws_access_key",
+	:category => "JBOSS CLUSTERING",
 	:required     => "optional"
 
 attribute "app_jboss/aws_secret_access_key",
@@ -96,6 +98,7 @@ attribute "app_jboss/aws_secret_access_key",
 	:recipes      => ["app_jboss::default"],
 	:type         => "string",
 	:display_name => "aws_secret_access_key",
+	:category => "JBOSS CLUSTERING",
 	:required     => "optional"
 
 ### Inputs for: templates/default/tier_$NAME.sh.erb

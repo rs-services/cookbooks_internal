@@ -1,184 +1,34 @@
 {
-  "recipes": {
-    "app_jboss::default": "Sets and configures default app provider.",
-    "app_jboss::install": "Installs and configures JBoss.",
-    "app_jboss::install_glusterfs_client": "Installs Glusterfs client libraries."
-  },
-  "replacing": {
-  },
+  "name": "app_jboss",
+  "description": "Installs/Configures JBoss",
+  "long_description": "Description\n===========\n\nRequirements\n============\n\nAttributes\n==========\n\nUsage\n=====\n\n",
   "maintainer": "RightScale Inc.",
+  "maintainer_email": "ps@rightscale.com",
+  "license": "All rights reserved",
+  "platforms": {
+  },
   "dependencies": {
     "rightscale": ">= 0.0.0"
   },
-  "groupings": {
+  "recommendations": {
   },
-  "platforms": {
+  "suggestions": {
   },
   "conflicting": {
   },
+  "providing": {
+  },
+  "replacing": {
+  },
   "attributes": {
-    "app_jboss/management_user": {
-      "recipes": [
-        "app_jboss::default"
-      ],
-      "choice": [
-
-      ],
-      "type": "string",
-      "required": "required",
-      "calculated": false,
-      "display_name": "management_user",
-      "description": "Managment UI Username"
-    },
-    "app_jboss/virtual_server_name": {
-      "recipes": [
-        "app_jboss::default"
-      ],
-      "choice": [
-
-      ],
-      "type": "string",
-      "required": "required",
-      "calculated": false,
-      "display_name": "virtual_server_name",
-      "description": "Virtualserver DNS name"
-    },
-    "app_jboss/https_bind_port": {
-      "recipes": [
-        "app_jboss::default"
-      ],
-      "choice": [
-
-      ],
-      "type": "string",
-      "required": "recommended",
-      "calculated": false,
-      "default": "8443",
-      "display_name": "https_bind_port",
-      "description": "Port for JBoss to accept incoming HTTPS connections."
-    },
-    "app_jboss/mysql_connection_url": {
-      "recipes": [
-        "app_jboss::default"
-      ],
-      "choice": [
-
-      ],
-      "type": "array",
-      "required": "required",
-      "calculated": false,
-      "display_name": "mysql_connection_url",
-      "description": "MySQL jdbc:// or replication:// type connection url. Separate multiple entries by commas.  Add ?useUnicode=true&amp;characterEncoding=utf8&amp as extra options"
-    },
-    "app_jboss/server_name": {
-      "recipes": [
-        "app_jboss::default"
-      ],
-      "choice": [
-
-      ],
-      "type": "string",
-      "required": "required",
-      "calculated": false,
-      "display": "app_jboss/server_name",
-      "description": "DNS entry of this appserver"
-    },
-    "app_jboss/port": {
-      "recipes": [
-        "app_jboss::default"
-      ],
-      "choice": [
-
-      ],
-      "type": "string",
-      "required": "required",
-      "calculated": false,
-      "display": "app_jboss/port",
-      "description": "TCP port to listen on"
-    },
-    "app_jboss/aws_secret_access_key": {
-      "recipes": [
-        "app_jboss::default"
-      ],
-      "choice": [
-
-      ],
-      "type": "string",
-      "required": "optional",
-      "calculated": false,
-      "display_name": "aws_secret_access_key",
-      "description": "AWS_SECRET_ACCESS_KEY for S3 bucket access.\n   You need to provide cloud authentication credentials. \n   Use your Amazon secret access key ID (e.g., cred:AWS_SECRET_ACCESS_KEY). "
-    },
-    "app_jboss/http_bind_port": {
-      "recipes": [
-        "app_jboss::default"
-      ],
-      "choice": [
-
-      ],
-      "type": "string",
-      "required": "recommended",
-      "calculated": false,
-      "default": "8080",
-      "display_name": "http_bind_port",
-      "description": "Port for JBoss to accept incoming HTTP connections."
-    },
-    "app_jboss/aws_access_key": {
-      "recipes": [
-        "app_jboss::default"
-      ],
-      "choice": [
-
-      ],
-      "type": "string",
-      "required": "optional",
-      "calculated": false,
-      "display_name": "aws_access_key",
-      "description": "AWS_ACCESS_KEY for S3 bucket access\n   You need to provide cloud authentication credentials. \n   Use your Amazon access key ID (e.g., cred:AWS_ACCESS_KEY_ID). "
-    },
-    "app_jboss/management_password": {
-      "recipes": [
-        "app_jboss::default"
-      ],
-      "choice": [
-
-      ],
-      "type": "string",
-      "required": "required",
-      "calculated": false,
-      "display_name": "management_password",
-      "description": "Managment UI Password"
-    },
-    "app_jboss/groups_tcp_port": {
-      "recipes": [
-        "app_jboss::default"
-      ],
-      "choice": [
-
-      ],
-      "type": "string",
-      "required": "required",
-      "calculated": false,
-      "display": "app_jboss/groups_tcp_port",
-      "description": "Groups TCP Port"
-    },
-    "app_jboss/mysql_password": {
-      "recipes": [
-        "app_jboss::default"
-      ],
-      "choice": [
-
-      ],
-      "type": "string",
-      "required": "required",
-      "calculated": false,
-      "display_name": "mysql_password",
-      "description": "MySQL Password"
-    },
     "app_jboss/tier": {
+      "description": "Name of the tier this server belongs to.",
       "recipes": [
         "app_jboss::default"
       ],
+      "type": "string",
+      "display_name": "tier",
+      "required": "required",
       "choice": [
         "admin",
         "batch",
@@ -186,63 +36,216 @@
         "ncomportal",
         "ncomservice"
       ],
-      "type": "string",
-      "required": "required",
-      "calculated": false,
-      "display_name": "tier",
-      "description": "Name of the tier this server belongs to."
-    },
-    "app_jboss/s3_bucketname": {
-      "recipes": [
-        "app_jboss::default"
-      ],
-      "choice": [
-
-      ],
-      "type": "string",
-      "required": "optional",
-      "calculated": false,
-      "display_name": "s3_bucketname",
-      "description": "S3 bucketname for JBoss clustering"
-    },
-    "app_jboss/mysql_user_name": {
-      "recipes": [
-        "app_jboss::default"
-      ],
-      "choice": [
-
-      ],
-      "type": "string",
-      "required": "required",
-      "calculated": false,
-      "display_name": "mysql_user_name",
-      "description": "MySQL Username"
+      "calculated": false
     },
     "app_jboss/bind_address": {
+      "description": "Address for JBoss to bind to.",
       "recipes": [
         "app_jboss::default"
       ],
+      "type": "string",
+      "display_name": "bind_address",
+      "required": "recommended",
+      "default": "0.0.0.0",
       "choice": [
 
       ],
+      "calculated": false
+    },
+    "app_jboss/http_bind_port": {
+      "description": "Port for JBoss to accept incoming HTTP connections.",
+      "recipes": [
+        "app_jboss::default"
+      ],
       "type": "string",
+      "display_name": "http_bind_port",
       "required": "recommended",
-      "calculated": false,
-      "default": "0.0.0.0",
-      "display_name": "bind_address",
-      "description": "Address for JBoss to bind to."
+      "default": "8080",
+      "choice": [
+
+      ],
+      "calculated": false
+    },
+    "app_jboss/https_bind_port": {
+      "description": "Port for JBoss to accept incoming HTTPS connections.",
+      "recipes": [
+        "app_jboss::default"
+      ],
+      "type": "string",
+      "display_name": "https_bind_port",
+      "required": "recommended",
+      "default": "8443",
+      "choice": [
+
+      ],
+      "calculated": false
+    },
+    "app_jboss/mysql_connection_url": {
+      "description": "MySQL jdbc:// or replication:// type connection url. Separate multiple entries by commas.  Add ?useUnicode=true&amp;characterEncoding=utf8&amp as extra options",
+      "recipes": [
+        "app_jboss::default"
+      ],
+      "type": "array",
+      "display_name": "mysql_connection_url",
+      "required": "required",
+      "choice": [
+
+      ],
+      "calculated": false
+    },
+    "app_jboss/mysql_user_name": {
+      "description": "MySQL Username",
+      "recipes": [
+        "app_jboss::default"
+      ],
+      "type": "string",
+      "display_name": "mysql_user_name",
+      "required": "required",
+      "choice": [
+
+      ],
+      "calculated": false
+    },
+    "app_jboss/mysql_password": {
+      "description": "MySQL Password",
+      "recipes": [
+        "app_jboss::default"
+      ],
+      "type": "string",
+      "display_name": "mysql_password",
+      "required": "required",
+      "choice": [
+
+      ],
+      "calculated": false
+    },
+    "app_jboss/virtual_server_name": {
+      "description": "Virtualserver DNS name",
+      "recipes": [
+        "app_jboss::default"
+      ],
+      "type": "string",
+      "display_name": "virtual_server_name",
+      "required": "required",
+      "choice": [
+
+      ],
+      "calculated": false
+    },
+    "app_jboss/s3_bucketname": {
+      "description": "S3 bucketname for JBoss clustering",
+      "recipes": [
+        "app_jboss::default"
+      ],
+      "type": "string",
+      "display_name": "s3_bucketname",
+      "category": "JBOSS CLUSTERING",
+      "required": "optional",
+      "choice": [
+
+      ],
+      "calculated": false
+    },
+    "app_jboss/aws_access_key": {
+      "description": "AWS_ACCESS_KEY for S3 bucket access\n   You need to provide cloud authentication credentials. \n   Use your Amazon access key ID (e.g., cred:AWS_ACCESS_KEY_ID). ",
+      "recipes": [
+        "app_jboss::default"
+      ],
+      "type": "string",
+      "display_name": "aws_access_key",
+      "category": "JBOSS CLUSTERING",
+      "required": "optional",
+      "choice": [
+
+      ],
+      "calculated": false
+    },
+    "app_jboss/aws_secret_access_key": {
+      "description": "AWS_SECRET_ACCESS_KEY for S3 bucket access.\n   You need to provide cloud authentication credentials. \n   Use your Amazon secret access key ID (e.g., cred:AWS_SECRET_ACCESS_KEY). ",
+      "recipes": [
+        "app_jboss::default"
+      ],
+      "type": "string",
+      "display_name": "aws_secret_access_key",
+      "category": "JBOSS CLUSTERING",
+      "required": "optional",
+      "choice": [
+
+      ],
+      "calculated": false
+    },
+    "app_jboss/groups_tcp_port": {
+      "description": "Groups TCP Port",
+      "recipes": [
+        "app_jboss::default"
+      ],
+      "type": "string",
+      "display": "app_jboss/groups_tcp_port",
+      "required": "required",
+      "choice": [
+
+      ],
+      "calculated": false
+    },
+    "app_jboss/port": {
+      "description": "TCP port to listen on",
+      "recipes": [
+        "app_jboss::default"
+      ],
+      "type": "string",
+      "display": "app_jboss/port",
+      "required": "required",
+      "choice": [
+
+      ],
+      "calculated": false
+    },
+    "app_jboss/server_name": {
+      "description": "DNS entry of this appserver",
+      "recipes": [
+        "app_jboss::default"
+      ],
+      "type": "string",
+      "display": "app_jboss/server_name",
+      "required": "required",
+      "choice": [
+
+      ],
+      "calculated": false
+    },
+    "app_jboss/management_user": {
+      "description": "Managment UI Username",
+      "recipes": [
+        "app_jboss::default"
+      ],
+      "type": "string",
+      "display_name": "management_user",
+      "required": "required",
+      "choice": [
+
+      ],
+      "calculated": false
+    },
+    "app_jboss/management_password": {
+      "description": "Managment UI Password",
+      "recipes": [
+        "app_jboss::default"
+      ],
+      "type": "string",
+      "display_name": "management_password",
+      "required": "required",
+      "choice": [
+
+      ],
+      "calculated": false
     }
   },
-  "recommendations": {
+  "groupings": {
   },
-  "name": "app_jboss",
-  "license": "All rights reserved",
-  "maintainer_email": "ps@rightscale.com",
-  "suggestions": {
+  "recipes": {
+    "app_jboss::default": "Sets and configures default app provider.",
+    "app_jboss::install": "Installs and configures JBoss.",
+    "app_jboss::install_glusterfs_client": "Installs Glusterfs client libraries."
   },
-  "long_description": "Description\n===========\n\nRequirements\n============\n\nAttributes\n==========\n\nUsage\n=====\n\n",
-  "version": "0.1.2",
-  "providing": {
-  },
-  "description": "Installs/Configures JBoss"
+  "version": "0.1.2"
 }
