@@ -21,13 +21,13 @@ attribute "app_jboss/tier",
 
 # Inputs for: templates/default/standalone-ha.xml.erb
 
-attribute "app_jboss/bind_address",
-	:description  => "Address for JBoss to bind to.",
-	:recipes      => ["app_jboss::default"],
-	:type         => "string",
-	:display_name => "bind_address",
-	:required     => "recommended",
-	:default      => "0.0.0.0"
+#attribute "app_jboss/bind_address",
+#	:description  => "Address for JBoss to bind to.",
+#	:recipes      => ["app_jboss::default"],
+#	:type         => "string",
+#	:display_name => "bind_address",
+#	:required     => "recommended",
+#	:default      => "0.0.0.0"
 
 attribute "app_jboss/http_bind_port",
 	:description  => "Port for JBoss to accept incoming HTTP connections.",
