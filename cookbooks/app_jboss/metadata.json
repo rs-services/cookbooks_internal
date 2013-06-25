@@ -1,36 +1,114 @@
 {
-  "conflicting": {
-  },
-  "suggestions": {
-  },
-  "long_description": "Description\n===========\n\nRequirements\n============\n\nAttributes\n==========\n\nUsage\n=====\n\n",
-  "groupings": {
-  },
-  "description": "Installs/Configures JBoss",
   "name": "app_jboss",
-  "version": "0.1.2",
-  "providing": {
+  "groupings": {
   },
   "dependencies": {
     "rightscale": ">= 0.0.0"
   },
   "recipes": {
-    "app_jboss::install_glusterfs_client": "Installs Glusterfs client libraries.",
     "app_jboss::default": "Sets and configures default app provider.",
+    "app_jboss::install_glusterfs_client": "Installs Glusterfs client libraries.",
     "app_jboss::install": "Installs and configures JBoss."
+  },
+  "suggestions": {
+  },
+  "replacing": {
   },
   "platforms": {
   },
-  "maintainer_email": "ps@rightscale.com",
+  "version": "0.1.2",
+  "license": "All rights reserved",
+  "maintainer": "RightScale Inc.",
   "attributes": {
-    "app_jboss/tier": {
-      "type": "string",
-      "description": "Name of the tier this server belongs to.",
-      "calculated": false,
-      "display_name": "tier",
+    "app_jboss/aws_access_key": {
       "recipes": [
         "app_jboss::default"
       ],
+      "required": "required",
+      "calculated": false,
+      "description": "AWS_ACCESS_KEY for S3 bucket access\n   You need to provide cloud authentication credentials. \n   Use your Amazon access key ID (e.g., cred:AWS_ACCESS_KEY_ID). ",
+      "category": "JBOSS CLUSTERING",
+      "display_name": "aws_access_key",
+      "choice": [
+
+      ],
+      "type": "string"
+    },
+    "app_jboss/mysql_user_name": {
+      "recipes": [
+        "app_jboss::default"
+      ],
+      "required": "required",
+      "calculated": false,
+      "description": "MySQL Username",
+      "display_name": "mysql_user_name",
+      "choice": [
+
+      ],
+      "type": "string"
+    },
+    "app_jboss/s3_bucketname": {
+      "recipes": [
+        "app_jboss::default"
+      ],
+      "required": "required",
+      "calculated": false,
+      "description": "S3 bucketname for JBoss clustering",
+      "category": "JBOSS CLUSTERING",
+      "display_name": "s3_bucketname",
+      "choice": [
+
+      ],
+      "type": "string"
+    },
+    "app_jboss/https_bind_port": {
+      "default": "8443",
+      "recipes": [
+        "app_jboss::default"
+      ],
+      "required": "recommended",
+      "calculated": false,
+      "description": "Port for JBoss to accept incoming HTTPS connections.",
+      "display_name": "https_bind_port",
+      "choice": [
+
+      ],
+      "type": "string"
+    },
+    "app_jboss/management_user": {
+      "recipes": [
+        "app_jboss::default"
+      ],
+      "required": "required",
+      "calculated": false,
+      "description": "Managment UI Username",
+      "display_name": "management_user",
+      "choice": [
+
+      ],
+      "type": "string"
+    },
+    "app_jboss/groups_tcp_port": {
+      "display": "app_jboss/groups_tcp_port",
+      "recipes": [
+        "app_jboss::default"
+      ],
+      "required": "required",
+      "calculated": false,
+      "description": "Groups TCP Port",
+      "choice": [
+
+      ],
+      "type": "string"
+    },
+    "app_jboss/tier": {
+      "recipes": [
+        "app_jboss::default"
+      ],
+      "required": "required",
+      "calculated": false,
+      "description": "Name of the tier this server belongs to.",
+      "display_name": "tier",
       "choice": [
         "standalone-ha",
         "admin",
@@ -39,215 +117,136 @@
         "ncomportal",
         "ncomservice"
       ],
-      "required": "required"
-    },
-    "app_jboss/management_user": {
-      "type": "string",
-      "description": "Managment UI Username",
-      "calculated": false,
-      "display_name": "management_user",
-      "recipes": [
-        "app_jboss::default"
-      ],
-      "choice": [
-
-      ],
-      "required": "required"
-    },
-    "app_jboss/groups_tcp_port": {
-      "type": "string",
-      "description": "Groups TCP Port",
-      "calculated": false,
-      "recipes": [
-        "app_jboss::default"
-      ],
-      "choice": [
-
-      ],
-      "required": "required",
-      "display": "app_jboss/groups_tcp_port"
+      "type": "string"
     },
     "app_jboss/aws_secret_access_key": {
-      "type": "string",
-      "description": "AWS_SECRET_ACCESS_KEY for S3 bucket access.\n   You need to provide cloud authentication credentials. \n   Use your Amazon secret access key ID (e.g., cred:AWS_SECRET_ACCESS_KEY). ",
+      "recipes": [
+        "app_jboss::default"
+      ],
+      "required": "required",
       "calculated": false,
+      "description": "AWS_SECRET_ACCESS_KEY for S3 bucket access.\n   You need to provide cloud authentication credentials. \n   Use your Amazon secret access key ID (e.g., cred:AWS_SECRET_ACCESS_KEY). ",
       "category": "JBOSS CLUSTERING",
       "display_name": "aws_secret_access_key",
-      "recipes": [
-        "app_jboss::default"
-      ],
       "choice": [
 
       ],
-      "required": "required"
+      "type": "string"
     },
     "app_jboss/mysql_password": {
-      "type": "string",
+      "recipes": [
+        "app_jboss::default"
+      ],
+      "required": "required",
+      "calculated": false,
       "description": "MySQL Password",
-      "calculated": false,
       "display_name": "mysql_password",
-      "recipes": [
-        "app_jboss::default"
-      ],
       "choice": [
 
       ],
-      "required": "required"
-    },
-    "app_jboss/management_password": {
-      "type": "string",
-      "description": "Managment UI Password",
-      "calculated": false,
-      "display_name": "management_password",
-      "recipes": [
-        "app_jboss::default"
-      ],
-      "choice": [
-
-      ],
-      "required": "required"
-    },
-    "app_jboss/https_bind_port": {
-      "type": "string",
-      "description": "Port for JBoss to accept incoming HTTPS connections.",
-      "calculated": false,
-      "display_name": "https_bind_port",
-      "recipes": [
-        "app_jboss::default"
-      ],
-      "choice": [
-
-      ],
-      "required": "recommended",
-      "default": "8443"
-    },
-    "app_jboss/server_name": {
-      "type": "string",
-      "description": "DNS entry of this appserver",
-      "calculated": false,
-      "recipes": [
-        "app_jboss::default"
-      ],
-      "choice": [
-
-      ],
-      "required": "required",
-      "display": "app_jboss/server_name"
-    },
-    "app_jboss/port": {
-      "type": "string",
-      "description": "TCP port to listen on",
-      "calculated": false,
-      "recipes": [
-        "app_jboss::default"
-      ],
-      "choice": [
-
-      ],
-      "required": "required",
-      "display": "app_jboss/port"
-    },
-    "app_jboss/mysql_user_name": {
-      "type": "string",
-      "description": "MySQL Username",
-      "calculated": false,
-      "display_name": "mysql_user_name",
-      "recipes": [
-        "app_jboss::default"
-      ],
-      "choice": [
-
-      ],
-      "required": "required"
-    },
-    "app_jboss/http_bind_port": {
-      "type": "string",
-      "description": "Port for JBoss to accept incoming HTTP connections.",
-      "calculated": false,
-      "display_name": "http_bind_port",
-      "recipes": [
-        "app_jboss::default"
-      ],
-      "choice": [
-
-      ],
-      "required": "recommended",
-      "default": "8080"
-    },
-    "app_jboss/s3_bucketname": {
-      "type": "string",
-      "description": "S3 bucketname for JBoss clustering",
-      "calculated": false,
-      "category": "JBOSS CLUSTERING",
-      "display_name": "s3_bucketname",
-      "recipes": [
-        "app_jboss::default"
-      ],
-      "choice": [
-
-      ],
-      "required": "required"
-    },
-    "app_jboss/virtual_server_name": {
-      "type": "string",
-      "description": "Virtualserver DNS name",
-      "calculated": false,
-      "display_name": "virtual_server_name",
-      "recipes": [
-        "app_jboss::default"
-      ],
-      "choice": [
-
-      ],
-      "required": "required"
-    },
-    "app_jboss/mysql_connection_url": {
-      "type": "array",
-      "description": "MySQL jdbc:// or replication:// type connection url. Separate multiple entries by commas.  Add ?useUnicode=true&amp;characterEncoding=utf8&amp as extra options",
-      "calculated": false,
-      "display_name": "mysql_connection_url",
-      "recipes": [
-        "app_jboss::default"
-      ],
-      "choice": [
-
-      ],
-      "required": "required"
+      "type": "string"
     },
     "app_jboss/initial_member": {
-      "type": "string",
-      "description": "Initial members for cluster",
-      "calculated": false,
-      "category": "JBOSS CLUSTERING",
-      "display_name": "initial_member",
       "recipes": [
         "app_jboss::default"
-      ],
-      "choice": [
-
       ],
       "required": "required",
-      "default": "1"
-    },
-    "app_jboss/aws_access_key": {
-      "type": "string",
-      "description": "AWS_ACCESS_KEY for S3 bucket access\n   You need to provide cloud authentication credentials. \n   Use your Amazon access key ID (e.g., cred:AWS_ACCESS_KEY_ID). ",
       "calculated": false,
+      "description": "Initial members for cluster",
       "category": "JBOSS CLUSTERING",
-      "display_name": "aws_access_key",
-      "recipes": [
-        "app_jboss::default"
-      ],
+      "display_name": "initial_member",
       "choice": [
 
       ],
-      "required": "required"
+      "type": "string"
+    },
+    "app_jboss/virtual_server_name": {
+      "recipes": [
+        "app_jboss::default"
+      ],
+      "required": "required",
+      "calculated": false,
+      "description": "Virtualserver DNS name",
+      "display_name": "virtual_server_name",
+      "choice": [
+
+      ],
+      "type": "string"
+    },
+    "app_jboss/mysql_connection_url": {
+      "recipes": [
+        "app_jboss::default"
+      ],
+      "required": "required",
+      "calculated": false,
+      "description": "MySQL jdbc:// or replication:// type connection url. Separate multiple entries by commas.  Add ?useUnicode=true&amp;characterEncoding=utf8&amp as extra options",
+      "display_name": "mysql_connection_url",
+      "choice": [
+
+      ],
+      "type": "array"
+    },
+    "app_jboss/server_name": {
+      "display": "app_jboss/server_name",
+      "recipes": [
+        "app_jboss::default"
+      ],
+      "required": "required",
+      "calculated": false,
+      "description": "DNS entry of this appserver",
+      "choice": [
+
+      ],
+      "type": "string"
+    },
+    "app_jboss/http_bind_port": {
+      "default": "8080",
+      "recipes": [
+        "app_jboss::default"
+      ],
+      "required": "recommended",
+      "calculated": false,
+      "description": "Port for JBoss to accept incoming HTTP connections.",
+      "display_name": "http_bind_port",
+      "choice": [
+
+      ],
+      "type": "string"
+    },
+    "app_jboss/management_password": {
+      "recipes": [
+        "app_jboss::default"
+      ],
+      "required": "required",
+      "calculated": false,
+      "description": "Managment UI Password",
+      "display_name": "management_password",
+      "choice": [
+
+      ],
+      "type": "string"
+    },
+    "app_jboss/port": {
+      "display": "app_jboss/port",
+      "recipes": [
+        "app_jboss::default"
+      ],
+      "required": "required",
+      "calculated": false,
+      "description": "TCP port to listen on",
+      "choice": [
+
+      ],
+      "type": "string"
     }
   },
-  "replacing": {
+  "providing": {
   },
+  "description": "Installs/Configures JBoss",
   "recommendations": {
   },
-  "maintainer": "RightScale Inc.",
-  "license": "All rights reserved"
+  "conflicting": {
+  },
+  "maintainer_email": "ps@rightscale.com",
+  "long_description": "Description\n===========\n\nRequirements\n============\n\nAttributes\n==========\n\nUsage\n=====\n\n"
 }

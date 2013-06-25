@@ -100,8 +100,7 @@ attribute "app_jboss/initial_member",
 	:type         => "string",
 	:display_name => "initial_member",
 	:category => "JBOSS CLUSTERING",
-	:required     => "required",
-	:default      => "1"
+	:required     => "required"
 
 ### Inputs for: templates/default/tier_$NAME.sh.erb
 
