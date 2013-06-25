@@ -108,7 +108,8 @@ action :install do
       :virtual_server        => node[:app_jboss][:virtual_server_name],
       :s3_bucketname         => node[:app_jboss][:s3_bucketname],
       :aws_access_key        => node[:app_jboss][:aws_access_key],
-      :aws_secretaccess_key  => node[:app_jboss][:aws_secret_access_key]
+      :aws_secret_access_key => node[:app_jboss][:aws_secret_access_key],
+      :cluster_initial_members  => node[:app_jboss][:initial_member]
     })
   end
 

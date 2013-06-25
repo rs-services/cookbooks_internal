@@ -72,7 +72,7 @@ attribute "app_jboss/s3_bucketname",
 	:type         => "string",
 	:display_name => "s3_bucketname",
 	:category => "JBOSS CLUSTERING",
-	:required     => "optional"
+	:required     => "required"
 
 attribute "app_jboss/aws_access_key",
   :description  => "AWS_ACCESS_KEY for S3 bucket access
@@ -82,7 +82,7 @@ attribute "app_jboss/aws_access_key",
 	:type         => "string",
 	:display_name => "aws_access_key",
 	:category => "JBOSS CLUSTERING",
-	:required     => "optional"
+	:required     => "required"
 
 attribute "app_jboss/aws_secret_access_key",
   :description  => "AWS_SECRET_ACCESS_KEY for S3 bucket access.
@@ -92,7 +92,16 @@ attribute "app_jboss/aws_secret_access_key",
 	:type         => "string",
 	:display_name => "aws_secret_access_key",
 	:category => "JBOSS CLUSTERING",
-	:required     => "optional"
+	:required     => "required"
+
+attribute "app_jboss/initial_member",
+  :description  => "Initial members for cluster",
+	:recipes      => ["app_jboss::default"],
+	:type         => "string",
+	:display_name => "initial_member",
+	:category => "JBOSS CLUSTERING",
+	:required     => "required",
+	:default      => "1"
 
 ### Inputs for: templates/default/tier_$NAME.sh.erb
 
