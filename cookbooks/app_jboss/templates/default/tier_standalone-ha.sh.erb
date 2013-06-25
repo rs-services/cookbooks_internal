@@ -9,7 +9,7 @@ SERVER_NAME=NCOM11
 NCOM_SETTINGS=-Dncom.home.path=/ncom/ncom_app
 NCOM_SETTINGS="$NCOM_SETTINGS -Dncom.configuration.path=/nas/deploy/configure"
 NCOM_SETTINGS="$NCOM_SETTINGS -Dncom.log.path=/ncom/ncom_app/standalone-ha/log/<%= @server_name %>"
-NCOM_SETTINGS="$NCOM_SETTINGS -Dncom.server.type=Prd"
+NCOM_SETTINGS="$NCOM_SETTINGS -Dncom.server.type=Stg"
 NCOM_SETTINGS="$NCOM_SETTINGS -Dncom.program.name=standalone-ha"
 
 NCOM_SETTINGS="$NCOM_SETTINGS -Dncom.deploy.path=/nas/deploy/application/standalone-ha"
