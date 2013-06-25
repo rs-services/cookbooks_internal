@@ -30,6 +30,7 @@
       "display_name": "tier",
       "required": "required",
       "choice": [
+        "standalone-ha",
         "admin",
         "batch",
         "gateway",

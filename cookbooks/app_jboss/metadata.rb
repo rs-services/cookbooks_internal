@@ -17,7 +17,7 @@ attribute "app_jboss/tier",
   :type         => "string",
   :display_name => "tier",
   :required     => "required",
-  :choice       => ["admin", "batch", "gateway", "ncomportal", "ncomservice"]
+  :choice       => ["standalone-ha", "admin", "batch", "gateway", "ncomportal", "ncomservice"]
 
 # Inputs for: templates/default/standalone-ha.xml.erb
 
