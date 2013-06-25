@@ -37,6 +37,7 @@
         "ncomportal",
         "ncomservice"
       ],
+      "default": "standalone-ha",
       "calculated": false
     },
     "app_jboss/http_bind_port": {
