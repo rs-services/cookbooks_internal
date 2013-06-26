@@ -22,7 +22,7 @@ rightscale_marker :begin
     id node[:sys_dns][:id]
     address host_ip_string
     region node[:sys_dns][:region]
-    action :set
+    action :set_private
   end
 
 rightscale_marker :end
