@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CreateHealthCheckRequest xmlns="https://route53.amazonaws.com/doc/<%= @api_version %>/">
+   <CallerReference><%= @hostname %>  <%= @ip_address %> <%= @date %></CallerReference>
+   <HealthCheckConfig>
+      <IPAddress><%= @ip_address %></IPAddress>
+      <Port>80</Port>
+      <Type>HTTP</Type>
+      <ResourcePath>/</ResourcePath>
+      <FullyQualifiedDomainName><%= @hostname %></FullyQualifiedDomainName>
+   </HealthCheckConfig>
+</CreateHealthCheckRequest>

@@ -46,3 +46,12 @@ attribute "sys_dns/region",
   :choice => ["Chicago", "Dallas", "London"],
   :recipes => ["sys_dns::do_set_private", "sys_dns::default"]
 
+attribute "sys_dns/aws/failover_set_id",
+  :display_name => "AWS Failover Set ID", 
+  :description => "AWS Failover Set ID", 
+  :required => "optional"
+
+attribute "sys_dns/aws/health_check_uuid",
+  :display_name => "AWS Health Check UUID",
+  :description => "AWS Health Check UUID",
+  :required => "optional"

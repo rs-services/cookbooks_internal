@@ -39,6 +39,7 @@ module RightScale
         old_hosts_array=Resolv.getaddresses hostname
         new_ip_array=address.split(',')
         @logger.info(address)
+        
         # Generating Route53 secrets file
         aws_cred=<<EOF
 %awsSecretAccessKeys = (
@@ -53,8 +54,9 @@ EOF
         File.chmod(0600, secrets_filename)
 
         # Generating record update xml
-        endpoint = "https://route53.amazonaws.com/2010-10-01/"
-        xml_doc = "https://route53.amazonaws.com/doc/2010-10-01/"
+        api_version='2012-12-12'
+        endpoint = "https://route53.amazonaws.com/#{api_version}/"
+        xml_doc = "https://route53.amazonaws.com/doc/#{api_version}/"
         ttl = 60
         record_type = 'A'
 
@@ -71,6 +73,14 @@ EOF
         <ResourceRecordSet>
           <Name>#{hostname}.</Name>
           <Type>#{record_type}</Type>
+EOF
+if options['aws']['failover_set_id'] 
+  modify_cmd +=<<EOF
+          <SetIdentifier>#{options['aws']['failover_set_id']}</SetIdentifier>
+          <Failover>PRIMARY</Failover>
+EOF
+end
+modify_cmd+=<<EOF
           <TTL>#{ttl}</TTL>
           <ResourceRecords>
 EOF
@@ -85,6 +95,13 @@ end
 
 modify_cmd+=<<EOF
           </ResourceRecords>
+EOF
+if options['aws']['health_check_uuid']
+  modify_cmd+=<<EOF
+          <HealthCheckId>#{options['aws']['health_check_uuid']}</HealthCheckId>
+EOF
+end
+modify_cmd+=<<EOF
         </ResourceRecordSet>
       </Change>
       <Change>
@@ -92,6 +109,14 @@ modify_cmd+=<<EOF
         <ResourceRecordSet>
           <Name>#{hostname}.</Name>
           <Type>#{record_type}</Type>
+EOF
+if options['aws']['failover_set_id']
+  modify_cmd +=<<EOF
+          <SetIdentifier>#{options['aws']['failover_set_id']}</SetIdentifier>
+          <Failover>PRIMARY</Failover>
+EOF
+end
+modify_cmd +=<<EOF
           <TTL>#{ttl}</TTL>
           <ResourceRecords>
 EOF
@@ -106,6 +131,13 @@ end
 
 modify_cmd+=<<EOF
           </ResourceRecords>
+EOF
+if options['aws']['health_check_uuid']
+  modify_cmd+=<<EOF
+          <HealthCheckId>#{options['aws']['health_check_uuid']}</HealthCheckId>
+EOF
+end     
+modify_cmd+=<<EOF
         </ResourceRecordSet>
       </Change>
     </Changes>

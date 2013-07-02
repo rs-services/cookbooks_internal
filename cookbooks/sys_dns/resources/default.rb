@@ -20,3 +20,4 @@ attribute :address, :kind_of => String, :regex => /^(\d{1,3}).(\d{1,3}).(\d{1,3}
 attribute :region, :kind_of => String
 # One of the supported DNS providers: "DNSMadeEasy" / "DynDNS" / "Route53" / "CloudDNS"
 attribute :choice, :equal_to => [ "DNSMadeEasy", "DynDNS", "Route53", "CloudDNS" ]
+attribute :options, :kind_of => [ Array, Hash ]

@@ -10,6 +10,8 @@ depends "sys_dns"
 
 recipe "sys_dns_public::do_set_public", "Sets the DNS Record to the Public IP"
 recipe "sys_dns_public::set_public_ip_by_tag", "Sets IP Records by tag"
+recipe "sys_dns_public::do_aws_create_health_check", "creates aws health_check"
+
 
 attribute "sys_dns/id",
   :display_name => "DNS Record ID",

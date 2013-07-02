@@ -18,10 +18,14 @@ rightscale_marker :begin
   @host_ip_array<<node[:cloud][:public_ips][0] unless @host_ip_array.include?(node[:cloud][:public_ips][0])
   host_ip_string=@host_ip_array.join(',')
   log host_ip_string
+  options_hash=Hash.new
+  options_hash['aws']=Hash.new
+  node['sys_dns']['aws'].each { |k,v| options_hash['aws'][k]=v }
   sys_dns "default" do
     id node[:sys_dns][:id]
     address host_ip_string
     region node[:sys_dns][:region]
+    options options_hash
     action :set_private
   end
 
