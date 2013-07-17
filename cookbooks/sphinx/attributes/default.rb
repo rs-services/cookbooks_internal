@@ -20,7 +20,7 @@ when "redhat","centos","scientific"
   default[:sphinx][:lib_dir] = '/var/lib/sphinx'
   default[:sphinx][:package] = 'sphinx'
   default[:sphinx][:service] = 'searchd'
-  default[:sphinx][:mysql_packages] = 'mysql-client,mysql-server'
+  default[:sphinx][:mysql_packages] = 'mysql50,mysql50-server'
 when "ubuntu", "debian"
   default[:sphinx][:conf_dir] = '/etc/sphinxsearch'
   default[:sphinx][:conf_file] = "#{node[:sphinx][:conf_dir]}/sphinx.conf"
