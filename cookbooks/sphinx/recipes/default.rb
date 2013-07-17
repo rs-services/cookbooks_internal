@@ -58,7 +58,7 @@ log "Opening firewall port:#{node[:sphinx][:port]}"
 include_recipe "sys_firewall::default"
 sys_firewall "#{node[:sphinx][:port]}"
 
-log "creating profile"
+log "creating profile script, definition from rightscale_services_tools"
 gen_profile_script "default" do
   cookbook_name "sphinx"
   enable true
