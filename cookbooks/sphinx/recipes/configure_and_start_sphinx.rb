@@ -35,11 +35,6 @@ end
 
 sys_firewall node[:sphinx][:port]
 
-service "mysqld" do
-  action :start
-  only_if "test -e /etc/init.d/mysqld"
-end
-
 service "#{node[:sphinx][:service]}" do
   action :start
 end
