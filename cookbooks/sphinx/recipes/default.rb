@@ -8,12 +8,15 @@
 #
 rightscale_marker :begin
 log "installing the sphinx package"
-case node[:platform]
-when "redhat","centos","scientific"
-  yum_package "mysql50" do
+
+node[:sphinx][:mysql_packages].split(',').each do |pkg|
+  package pkg do
     action :install
   end
+end
 
+case node[:platform]
+when "redhat","centos","scientific"
   yum_package "#{node[:sphinx][:package]}" do
     action :install
   end
