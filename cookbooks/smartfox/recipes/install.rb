@@ -18,4 +18,13 @@ link "/opt/SFS" do
   to "/opt/SFS_PRO_1.6.9"
 end
 
+template "/opt/SFS/Server/conf/wrapper.conf" do
+  source "sfs-wrapper.erb"
+  owner "root"
+  group "root"
+  variables({
+   :fqdn =>  node[:cloud][:private_ips][0]
+  })
+end
+
 rightscale_marker :end
