@@ -27,4 +27,12 @@ template "/opt/SFS/Server/conf/wrapper.conf" do
   })
 end
 
+cookbook_file "/opt/SFS/Server/sfs" do
+  source"sfs"
+  owner "root"
+  group "root"
+  mode "0755"
+  action :create_if_missing
+end
+
 rightscale_marker :end
