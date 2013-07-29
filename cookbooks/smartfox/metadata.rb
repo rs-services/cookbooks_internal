@@ -20,7 +20,7 @@ attribute "smartfox/jmxremote_host",
 
 attribute "smartfox/rmi_server_hostname",
   :description => "DNS name of this Smartfox host",
-  :recipes     => ["smartfox::default"],
+  :recipes     => ["smartfox::install"],
   :type        => "string",
   :display     => "smartfox/rmi_server_hostname",
   :required    => "required"
