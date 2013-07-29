@@ -22,6 +22,32 @@
   "replacing": {
   },
   "attributes": {
+    "smartfox/jmxremote_host": {
+      "description": "Remote IP of licence server",
+      "recipes": [
+        "smartfox::install"
+      ],
+      "type": "string",
+      "display": "smartfox/jmxremote_host",
+      "required": "required",
+      "choice": [
+
+      ],
+      "calculated": false
+    },
+    "smartfox/rmi_server_hostname": {
+      "description": "DNS name of this Smartfox host",
+      "recipes": [
+        "smartfox::default"
+      ],
+      "type": "string",
+      "display": "smartfox/rmi_server_hostname",
+      "required": "required",
+      "choice": [
+
+      ],
+      "calculated": false
+    }
   },
   "groupings": {
   },

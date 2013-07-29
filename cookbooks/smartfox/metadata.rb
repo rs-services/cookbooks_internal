@@ -10,3 +10,17 @@ depends "rightscale"
 depends "repo"
 
 recipe "smartfox::install", "Installs Smartfox"
+
+attribute "smartfox/jmxremote_host",
+  :description => "Remote IP of licence server",
+  :recipes     => ["smartfox::install"],
+  :type        => "string",
+  :display     => "smartfox/jmxremote_host",
+  :required    => "required"
+
+attribute "smartfox/rmi_server_hostname",
+  :description => "DNS name of this Smartfox host",
+  :recipes     => ["smartfox::default"],
+  :type        => "string",
+  :display     => "smartfox/rmi_server_hostname",
+  :required    => "required"
