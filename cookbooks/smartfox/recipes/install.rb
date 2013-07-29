@@ -18,21 +18,23 @@ link "/opt/SFS" do
   to "/opt/SFS_PRO_1.6.9"
 end
 
-template "/opt/SFS/Server/conf/wrapper.conf" do
-  source "sfs-wrapper.erb"
-  owner "root"
-  group "root"
-  variables({
-   :fqdn =>  node[:cloud][:private_ips][0]
-  })
-end
-
 cookbook_file "/opt/SFS/Server/sfs" do
   source "sfs"
   owner "root"
   group "root"
   mode "0755"
   action :create_if_missing
+end
+
+template "/opt/SFS/Server/conf/wrapper.conf" do
+  source "sfs-wrapper.erb"
+  owner "root"
+  group "root"
+  variables({
+   :fqdn                => node[:cloud][:private_ips][0],
+   :rmi_server_hostname => node[:smartfox][:rmi_server_hostname],
+   :jmxremote_host      => node[:smartfox][:jmxremote_host]
+  })
 end
 
 rightscale_marker :end
