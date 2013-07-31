@@ -37,4 +37,10 @@ template "/opt/SFS/Server/conf/wrapper.conf" do
   })
 end
 
+bash "start_smartfox" do
+  code <<-EOM
+    /opt/SFS/Server/sfs start
+  EOM
+end
+
 rightscale_marker :end
