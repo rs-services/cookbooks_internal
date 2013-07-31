@@ -20,6 +20,6 @@ template "/tmp/503.http" do
   owner "root"
   group "root"
   source "503.http.erb"
-  variables( :html_content => "Hello World" )
+  variables( :html_contents => "Hello World" )
   action :create
 end
