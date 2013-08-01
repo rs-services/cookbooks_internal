@@ -142,7 +142,7 @@ action :write_backup_info do
   # for the "RightScale::Database::Helper" class.
   ::File.open(
     ::File.join(node[:db][:data_dir],
-    RightScale::Database::Helper::SNAPSHOT_POSITION_FILENAME),
+      RightScale::Database::Helper::SNAPSHOT_POSITION_FILENAME),
     ::File::CREAT|::File::TRUNC|::File::RDWR
   ) do |out|
     YAML.dump(masterstatus, out)
@@ -213,17 +213,17 @@ action :post_restore_cleanup do
   # actual size of restored /var/lib/mysql/ib_logfile0 (symlink).
   innodb_log_file_size_to_bytes =
     case node[:db_percona][:tunable][:innodb_log_file_size]
-    when /^(\d+)[Kk]$/
-      $1.to_i * 1024
-    when /^(\d+)[Mm]$/
-      $1.to_i * 1024**2
-    when /^(\d+)[Gg]$/
-      $1.to_i * 1024**3
-    when /^(\d+)$/
-      $1
-    else
-      raise "FATAL: unknown log file size"
-    end
+  when /^(\d+)[Kk]$/
+    $1.to_i * 1024
+  when /^(\d+)[Mm]$/
+    $1.to_i * 1024**2
+  when /^(\d+)[Gg]$/
+    $1.to_i * 1024**3
+  when /^(\d+)$/
+    $1
+  else
+    raise "FATAL: unknown log file size"
+  end
 
   if ::File.stat("/var/lib/mysql/ib_logfile0").size == innodb_log_file_size_to_bytes
     Chef::Log.info "  innodb log file sizes the same... OK."
@@ -410,6 +410,28 @@ end
 action :install_server do
 
   platform = node[:platform]
+  
+  bash "update yum repo for percona" do
+    user "root"
+    cwd "/tmp"
+    code <<-EOH
+  rpm -Uhv http://www.percona.com/downloads/percona-release/percona-release-0.0-1.x86_64.rpm
+    EOH
+    only_if { platform =~ /redhat|centos/ }
+  end
+  
+  bash "update yum repo for percona" do
+    user "root"
+    cwd "/tmp"
+    code <<-EOH
+   apt-key adv --keyserver keys.gnupg.net --recv-keys 1C4CBDCDCD2EFD2A
+   deb http://repo.percona.com/apt ubuntu main
+   deb-src http://repo.percona.com/apt ubuntu main
+    EOH
+    only_if { platform =~ /ubuntu/ }
+  end
+  
+  
 
   # MySQL server depends on MySQL client.
   # Calls the "install_client" action.
@@ -1225,7 +1247,7 @@ action :restore_from_dump_file do
           " #{node[:db][:dump][:filepath]}"
         import_dump = Mixlib::ShellOut.new(
           "#{node[:db][:dump][:uncompress_command]} #{node[:db][:dump][:filepath]} |" +
-          " mysql -u root -b #{db_name}"
+            " mysql -u root -b #{db_name}"
         )
         import_dump.run_command
         import_dump.error!
