@@ -3,7 +3,7 @@ maintainer_email "premium@rightscale.com"
 license          "All rights reserved"
 description      "Installs/Configures rightscale_services_tools"
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          "0.0.1"
+version          "1.0.1"
 
 depends 'rightscale'
 depends 'sysctl'
@@ -21,14 +21,14 @@ attribute "vpc_nat/other_instance_id",
   :recipes => [ "rightscale_services_tools::vpc-nat-ha" ]
 
 attribute "vpc_nat/other_route_id",
-  :display_name => "VPC Route table ID",
-  :description => "The routetable Id of the VPC route where the other instance is associated.",
+  :display_name => "VPC Route Table Id of the other HA server",
+  :description => "The VPC Route Table Id where the other instance is associated. Example: rtb-ea765f83",
   :required => "required",
   :recipes => [ "rightscale_services_tools::vpc-nat-ha" ]
 
 attribute "vpc_nat/route_id",
-  :display_name => "VPC Route ID of VPC Route Table",
-  :description => "The route ID of the VPC route where the this instance is associated.",
+  :display_name => "VPC Route Table Id of this server",
+  :description => "The VPC Route Table Id where this server is associated.  Example: rtb-7a019112",
   :required => "required",
   :recipes => [ "rightscale_services_tools::vpc-nat-ha" ]
 
