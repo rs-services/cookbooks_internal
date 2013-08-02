@@ -18,7 +18,7 @@
 # @param master_certificate [String] master database certificate
 # @param master_key [String] key for the master certificate
 #
-define(:db_percona_set_mycnf,
+define(:db_mysql_set_mycnf,
   :server_id => nil,
   :relay_log => nil,
   :innodb_log_file_size => nil,

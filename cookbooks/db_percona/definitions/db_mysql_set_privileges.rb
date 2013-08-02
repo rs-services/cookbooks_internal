@@ -13,7 +13,7 @@
 # @param password [String] Privilege password
 # @param db_name [String] Database name
 #
-define :db_percona_set_privileges,
+define :db_mysql_set_privileges,
   :preset => "administrator",
   :username => nil,
   :password => nil,
