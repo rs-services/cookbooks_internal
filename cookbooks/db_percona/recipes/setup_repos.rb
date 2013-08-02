@@ -9,5 +9,8 @@
 rightscale_marker
 
 db 'setup repos' do
+  persist true
+  provider node[:db][:provider]
+  db_version node[:db][:version]
   action :install_repos
 end
