@@ -249,7 +249,7 @@ define(:db_percona_set_mycnf,
       :myisamchk_sort_buffer_size =>
         node[:db_percona][:tunable][:myisamchk][:sort_buffer_size]
     )
-    cookbook "db_mysql"
+    cookbook "db_percona"
   end
 
   cookbook_file "/etc/mysql/setup-my-cnf.sh" do
@@ -257,7 +257,7 @@ define(:db_percona_set_mycnf,
     group "root"
     mode "0755"
     source "setup_my_cnf.sh"
-    cookbook "db_mysql"
+    cookbook "db_percona"
   end
 
   execute "/etc/mysql/setup-my-cnf.sh" do

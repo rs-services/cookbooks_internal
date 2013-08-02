@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: db_mysql
+# Cookbook Name:: db_percona
 #
 # Copyright RightScale, Inc. All rights reserved.
 # All access and use subject to the RightScale Terms of Service available at
@@ -23,7 +23,7 @@ define :db_percona_set_mysql_read_only, :read_only => false do
     variables(
       :read_only => read_only
     )
-    cookbook "db_mysql"
+    cookbook "db_percona"
   end
 
   # No need to do a restart - this is only called to update the config file and
