@@ -201,3 +201,6 @@ actions :promote
 # Sets database replication privileges for a slave. This is called when a slave
 # is initialized.
 actions :grant_replication_slave
+
+# sets up the percona yum repo
+actions :install_repos

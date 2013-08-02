@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: db_mysql
+# Cookbook Name:: db_percona
 #
 # Copyright RightScale, Inc. All rights reserved.
 # All access and use subject to the RightScale Terms of Service available at
@@ -42,7 +42,7 @@ end
 
 # Checks status of MySQL service
 action :status do
-  # See cookbooks/db_mysql/libraries/helper.rb for the "init" method.
+  # See cookbooks/db_percona/libraries/helper.rb for the "init" method.
   # See "rightscale_tools" gem for the "status" method.
   @db = init(new_resource)
   status = @db.status
@@ -51,7 +51,7 @@ end
 
 # Locks MySQL database
 action :lock do
-  # See cookbooks/db_mysql/libraries/helper.rb for the "init" method.
+  # See cookbooks/db_percona/libraries/helper.rb for the "init" method.
   # See "rightscale_tools" gem for the "lock" method.
   @db = init(new_resource)
   @db.lock
@@ -59,7 +59,7 @@ end
 
 # Unlocks MySQL database
 action :unlock do
-  # See cookbooks/db_mysql/libraries/helper.rb for the "init" method.
+  # See cookbooks/db_percona/libraries/helper.rb for the "init" method.
   # See "rightscale_tools" gem for the "unlock" method.
   @db = init(new_resource)
   @db.unlock
@@ -67,7 +67,7 @@ end
 
 # Relocates MySQL database data directory
 action :move_data_dir do
-  # See cookbooks/db_mysql/libraries/helper.rb for the "init" method.
+  # See cookbooks/db_percona/libraries/helper.rb for the "init" method.
   # See "rightscale_tools" gem for the "move_datadir" method.
   @db = init(new_resource)
   @db.move_datadir(new_resource.name, node[:db_percona][:datadir])
@@ -76,11 +76,11 @@ end
 # Resets MySQL database to a pristine state
 action :reset do
   # Set read/write in read_write_status.cnf
-  db_mysql_set_mysql_read_only "setup mysql read/write" do
+  db_percona_set_mysql_read_only "setup mysql read/write" do
     read_only false
   end
 
-  # See cookbooks/db_mysql/libraries/helper.rb for the "init" method.
+  # See cookbooks/db_percona/libraries/helper.rb for the "init" method.
   # See "rightscale_tools" gem for the "reset" method.
   @db = init(new_resource)
   @db.reset(new_resource.name, node[:db_percona][:datadir])
@@ -152,7 +152,7 @@ end
 # Verifies MySQL database is in a pristine state before performing a restore to
 # prevent overwriting of an existing database
 action :pre_restore_check do
-  # See cookbooks/db_mysql/libraries/helper.rb for the "init" method.
+  # See cookbooks/db_percona/libraries/helper.rb for the "init" method.
   # See "rightscale_tools" gem for the "pre_restore_sanity_check" method.
   @db = init(new_resource)
   @db.pre_restore_sanity_check
@@ -167,7 +167,7 @@ action :post_restore_cleanup do
 
   # Checks version matches because not all 11H2 snapshots (prior to 5.5 release)
   # saved provider or version. Assume MySQL 5.1 if nil.
-  snap_provider = master_info['DB_Provider'] ||= 'db_mysql'
+  snap_provider = master_info['DB_Provider'] ||= 'db_percona'
   current_provider = node[:db][:provider]
   snap_version = master_info['DB_Version'] ||= '5.1'
   Chef::Log.info "  Snapshot from #{snap_provider} version #{snap_version}"
@@ -235,11 +235,11 @@ action :post_restore_cleanup do
   end
 
   # Always update the my.cnf file on a restore.
-  # See cookbooks/db_mysql/definitions/db_mysql_set_mycnf.rb
-  # for the "db_mysql_set_mycnf" definition.
-  # See cookbooks/db_mysql/libraries/helper.rb
+  # See cookbooks/db_percona/definitions/db_percona_set_mycnf.rb
+  # for the "db_percona_set_mycnf" definition.
+  # See cookbooks/db_percona/libraries/helper.rb
   # for the "RightScale::Database::MySQL::Helper" class.
-  db_mysql_set_mycnf "setup_mycnf" do
+  db_percona_set_mycnf "setup_mycnf" do
     server_id RightScale::Database::MySQL::Helper.mycnf_uuid(node)
     relay_log RightScale::Database::MySQL::Helper.mycnf_relay_log(node)
     innodb_log_file_size ::File.stat("/var/lib/mysql/ib_logfile0").size
@@ -247,7 +247,7 @@ action :post_restore_cleanup do
       "enabled" ? true : false
   end
 
-  # See cookbooks/db_mysql/libraries/helper.rb for the "init" method.
+  # See cookbooks/db_percona/libraries/helper.rb for the "init" method.
   # See "rightscale_tools" gem for the "post_restore_cleanup" method.
   @db = init(new_resource)
   @db.post_restore_cleanup
@@ -280,7 +280,7 @@ end
 
 # Verifies whether the MySQL database is in a good state for taking a backup.
 action :pre_backup_check do
-  # See cookbooks/db_mysql/libraries/helper.rb for the "init" method.
+  # See cookbooks/db_percona/libraries/helper.rb for the "init" method.
   # See "rightscale_tools" gem for the "pre_backup_check" method.
   @db = init(new_resource)
   @db.pre_backup_check
@@ -288,7 +288,7 @@ end
 
 # Cleans up instance after backup
 action :post_backup_cleanup do
-  # See cookbooks/db_mysql/libraries/helper.rb for the "init" method.
+  # See cookbooks/db_percona/libraries/helper.rb for the "init" method.
   # See "rightscale_tools" gem for the "post_backup_steps" method.
   @db = init(new_resource)
   @db.post_backup_steps
@@ -300,8 +300,8 @@ action :set_privileges do
   priv_username = new_resource.privilege_username
   priv_password = new_resource.privilege_password
   priv_database = new_resource.privilege_database
-  # See cookbooks/db_mysql/definitions/db_mysql_set_privileges.rb for the "db_mysql_set_privileges" definition.
-  db_mysql_set_privileges "setup db privileges" do
+  # See cookbooks/db_percona/definitions/db_percona_set_privileges.rb for the "db_percona_set_privileges" definition.
+  db_percona_set_privileges "setup db privileges" do
     preset priv
     username priv_username
     password priv_password
@@ -309,9 +309,35 @@ action :set_privileges do
   end
 end
 
+action :install_repos do
+  
+  platform = node[:platform]
+  
+  bash "update yum repo for percona" do
+    user "root"
+    cwd "/tmp"
+    code <<-EOH
+  rpm -Uhv http://www.percona.com/downloads/percona-release/percona-release-0.0-1.x86_64.rpm
+    EOH
+    only_if { platform =~ /redhat|centos/ }
+  end
+  
+  bash "update apt-get repo for percona" do
+    user "root"
+    cwd "/tmp"
+    code <<-EOH
+   apt-key adv --keyserver keys.gnupg.net --recv-keys 1C4CBDCDCD2EFD2A
+   deb http://repo.percona.com/apt ubuntu main
+   deb-src http://repo.percona.com/apt ubuntu main
+    EOH
+    only_if { platform =~ /ubuntu/ }
+  end
+  
+end
+
 # Installs MySQL database client driver
 action :install_client do
-
+ 
   version = new_resource.db_version
   node[:db_percona][:client_packages_uninstall] = []
   node[:db_percona][:client_packages_install] = []
@@ -344,7 +370,7 @@ action :install_client do
     node[:db_percona][:client_packages_uninstall] = value_for_platform(
       ["centos", "redhat"] => {
         "5.8" => [],
-        "default" => ["mysql-libs"]
+        "default" => [""]
       },
       "default" => []
     )
@@ -411,28 +437,8 @@ action :install_server do
 
   platform = node[:platform]
   
-  bash "update yum repo for percona" do
-    user "root"
-    cwd "/tmp"
-    code <<-EOH
-  rpm -Uhv http://www.percona.com/downloads/percona-release/percona-release-0.0-1.x86_64.rpm
-    EOH
-    only_if { platform =~ /redhat|centos/ }
-  end
+  action_install_repos
   
-  bash "update yum repo for percona" do
-    user "root"
-    cwd "/tmp"
-    code <<-EOH
-   apt-key adv --keyserver keys.gnupg.net --recv-keys 1C4CBDCDCD2EFD2A
-   deb http://repo.percona.com/apt ubuntu main
-   deb-src http://repo.percona.com/apt ubuntu main
-    EOH
-    only_if { platform =~ /ubuntu/ }
-  end
-  
-  
-
   # MySQL server depends on MySQL client.
   # Calls the "install_client" action.
   action_install_client
@@ -453,7 +459,7 @@ action :install_server do
   end unless packages == ""
 
   # Stops MySQL service.
-  # See cookbooks/db_mysql/providers/default.rb for the "stop" action.
+  # See cookbooks/db_percona/providers/default.rb for the "stop" action.
   db node[:db][:data_dir] do
     action :stop
     persist false
@@ -549,7 +555,7 @@ action :install_server do
     node[:db_percona][:ssl_credentials].each do |name, data|
       template data[:path] do
         source "credential.pem.erb"
-        cookbook "db_mysql"
+        cookbook "db_percona"
         owner "mysql"
         group "mysql"
         mode "0400"
@@ -597,11 +603,11 @@ action :install_server do
   end
 
   # Sets up my.cnf
-  # See cookbooks/db_mysql/definitions/db_mysql_set_mycnf.rb
-  # for the "db_mysql_set_mycnf" definition.
-  # See cookbooks/db_mysql/libraries/helper.rb
+  # See cookbooks/db_percona/definitions/db_percona_set_mycnf.rb
+  # for the "db_percona_set_mycnf" definition.
+  # See cookbooks/db_percona/libraries/helper.rb
   # for the "RightScale::Database::MySQL::Helper" class.
-  db_mysql_set_mycnf "setup_mycnf" do
+  db_percona_set_mycnf "setup_mycnf" do
     server_id RightScale::Database::MySQL::Helper.mycnf_uuid(node)
     relay_log RightScale::Database::MySQL::Helper.mycnf_relay_log(node)
     innodb_log_file_size ::File.size?("/var/lib/mysql/ib_logfile0")
@@ -610,7 +616,7 @@ action :install_server do
   end
 
   # Setup read_write_status.cnf
-  db_mysql_set_mysql_read_only "setup mysql read/write" do
+  db_percona_set_mysql_read_only "setup mysql read/write" do
     read_only false
   end
 
@@ -621,7 +627,7 @@ action :install_server do
     variables(
       :ulimit => mysql_file_ulimit
     )
-    cookbook "db_mysql"
+    cookbook "db_percona"
   end
 
   # Changes root's limitations for THIS shell. The entry in the limits.d will be
@@ -637,7 +643,7 @@ action :install_server do
   template "/etc/sysconfig/#{node[:db_percona][:service_name]}" do
     source "sysconfig-mysqld.erb"
     mode "0755"
-    cookbook "db_mysql"
+    cookbook "db_percona"
     variables(
       :init_timeout => node[:db_percona][:init_timeout]
     )
@@ -651,14 +657,14 @@ action :install_server do
     only_if { platform == "ubuntu" }
     mode "0600"
     source "debian.cnf"
-    cookbook "db_mysql"
+    cookbook "db_percona"
   end
 
   cookbook_file "/etc/mysql/debian-start" do
     only_if { platform == "ubuntu" }
     mode "0755"
     source "debian-start"
-    cookbook "db_mysql"
+    cookbook "db_percona"
   end
 
   # Fixes permissions: during the first startup after installation some of the
@@ -673,7 +679,7 @@ action :install_server do
 
   Chef::Log.info "  Server installed.  Starting MySQL"
   # Starts MySQL.
-  # See cookbooks/db_mysql/providers/default.rb for the "start" action.
+  # See cookbooks/db_percona/providers/default.rb for the "start" action.
   db node[:db][:data_dir] do
     action :start
     persist false
@@ -818,7 +824,7 @@ action :setup_monitoring do
     source "collectd-plugin-mysql.conf.erb"
     mode "0644"
     backup false
-    cookbook "db_mysql"
+    cookbook "db_percona"
     notifies :restart, resources(:service => "collectd")
     variables(
       :collectd_master_slave_mode =>
@@ -865,7 +871,7 @@ action :promote do
   end
 
   # Set read/write in read_write_status.cnf
-  db_mysql_set_mysql_read_only "setup mysql read/write" do
+  db_percona_set_mysql_read_only "setup mysql read/write" do
     read_only false
   end
 
@@ -873,11 +879,11 @@ action :promote do
   node[:db_percona][:log_bin_enabled] = true
 
   # Sets up my.cnf
-  # See cookbooks/db_mysql/definitions/db_mysql_set_mycnf.rb
-  # for the "db_mysql_set_mycnf" definition.
-  # See cookbooks/db_mysql/libraries/helper.rb
+  # See cookbooks/db_percona/definitions/db_percona_set_mycnf.rb
+  # for the "db_percona_set_mycnf" definition.
+  # See cookbooks/db_percona/libraries/helper.rb
   # for the "RightScale::Database::MySQL::Helper" class.
-  db_mysql_set_mycnf "setup_mycnf" do
+  db_percona_set_mycnf "setup_mycnf" do
     server_id RightScale::Database::MySQL::Helper.mycnf_uuid(node)
     relay_log RightScale::Database::MySQL::Helper.mycnf_relay_log(node)
     innodb_log_file_size ::File.stat("/var/lib/mysql/ib_logfile0").size
@@ -885,7 +891,7 @@ action :promote do
       "enabled" ? true : false
   end
 
-  # See cookbooks/db_mysql/providers/default.rb for the "start" action.
+  # See cookbooks/db_percona/providers/default.rb for the "start" action.
   db node[:db][:data_dir] do
     action :start
     persist false
@@ -1108,11 +1114,11 @@ action :enable_replication do
 
   unless current_restore_process == :no_restore
     # Sets up my.cnf
-    # See cookbooks/db_mysql/definitions/db_mysql_set_mycnf.rb
-    # for the "db_mysql_set_mycnf" definition.
-    # See cookbooks/db_mysql/libraries/helper.rb
+    # See cookbooks/db_percona/definitions/db_percona_set_mycnf.rb
+    # for the "db_percona_set_mycnf" definition.
+    # See cookbooks/db_percona/libraries/helper.rb
     # for the "RightScale::Database::MySQL::Helper" class.
-    db_mysql_set_mycnf "setup_mycnf" do
+    db_percona_set_mycnf "setup_mycnf" do
       server_id RightScale::Database::MySQL::Helper.mycnf_uuid(node)
       relay_log RightScale::Database::MySQL::Helper.mycnf_relay_log(node)
       innodb_log_file_size ::File.stat("/var/lib/mysql/ib_logfile0").size
@@ -1130,7 +1136,7 @@ action :enable_replication do
     group 'mysql'
   end
 
-  # See cookbooks/db_mysql/providers/default.rb for "start" action.
+  # See cookbooks/db_percona/providers/default.rb for "start" action.
   db node[:db][:data_dir] do
     action :start
     persist false
@@ -1167,7 +1173,7 @@ action :enable_replication do
   end
 
   # Set read_only in read_write_status.cnf
-  db_mysql_set_mysql_read_only "setup mysql read only" do
+  db_percona_set_mysql_read_only "setup mysql read only" do
     read_only true
   end
 
