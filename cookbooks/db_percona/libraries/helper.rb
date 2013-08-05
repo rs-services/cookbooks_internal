@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: db_mysql
+# Cookbook Name:: db_percona
 #
 # Copyright RightScale, Inc. All rights reserved.
 # All access and use subject to the RightScale Terms of Service available at
@@ -30,7 +30,7 @@ module RightScale
             Chef::Log.warn "  Please contact Rightscale to upgrade your account."
           end
           mount_point = new_resource.name
-          version = node[:db][:version].to_f > 5.1 ? :percona55 : :mysql
+          version = node[:db][:version].to_f > 5.1 ? :mysql55 : :mysql
           Chef::Log.info "  Using version: #{version} : #{node[:db][:version]}"
 
           RightScale::Tools::Database.factory(version, new_resource.user, new_resource.password, mount_point, Chef::Log)
