@@ -154,8 +154,9 @@ end
 action :pre_restore_check do
   # See cookbooks/db_percona/libraries/helper.rb for the "init" method.
   # See "rightscale_tools" gem for the "pre_restore_sanity_check" method.
-  @db = init(new_resource)
-  @db.pre_restore_sanity_check
+  #@db = init(new_resource)
+  #@db.pre_restore_sanity_check
+  log "Action pre_restore_check not implmented for Percona"
 end
 
 # Validates the restored backup and cleans up the instance after restore.
@@ -284,7 +285,7 @@ action :pre_backup_check do
   # See "rightscale_tools" gem for the "pre_backup_check" method.
   # @db = init(new_resource)
   # @db.pre_backup_check
-  log "pre_backup_check not implemented for Percona"
+  log "Action pre_backup_check not implemented for Percona"
 end
 
 # Cleans up instance after backup
