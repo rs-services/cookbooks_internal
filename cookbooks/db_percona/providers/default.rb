@@ -235,8 +235,8 @@ action :post_restore_cleanup do
   end
 
   # Always update the my.cnf file on a restore.
-  # See cookbooks/db_percona/definitions/db_mysql_set_mycnf.rb
-  # for the "db_mysql_set_mycnf" definition.
+  # See cookbooks/db_percona/definitions/db_percona_set_mycnf.rb
+  # for the "db_percona_set_mycnf" definition.
   # See cookbooks/db_percona/libraries/helper.rb
   # for the "RightScale::Database::MySQL::Helper" class.
   db_mysql_set_mycnf "setup_mycnf" do
@@ -282,8 +282,9 @@ end
 action :pre_backup_check do
   # See cookbooks/db_percona/libraries/helper.rb for the "init" method.
   # See "rightscale_tools" gem for the "pre_backup_check" method.
-  @db = init(new_resource)
-  @db.pre_backup_check
+  # @db = init(new_resource)
+  # @db.pre_backup_check
+  log "pre_backup_check not implemented for Percona"
 end
 
 # Cleans up instance after backup
@@ -601,8 +602,8 @@ action :install_server do
   end
 
   # Sets up my.cnf
-  # See cookbooks/db_percona/definitions/db_mysql_set_mycnf.rb
-  # for the "db_mysql_set_mycnf" definition.
+  # See cookbooks/db_percona/definitions/db_percona_set_mycnf.rb
+  # for the "db_percona_set_mycnf" definition.
   # See cookbooks/db_percona/libraries/helper.rb
   # for the "RightScale::Database::MySQL::Helper" class.
   db_mysql_set_mycnf "setup_mycnf" do
@@ -714,6 +715,10 @@ action :install_server do
       con.query("FLUSH PRIVILEGES")
       con.close
     end
+  end
+  # percona used mysql while this recipe used mysqld
+  link "/etc/init.d/mysql" do
+    to "/etc/init.d/mysqld"
   end
 end
 
@@ -877,8 +882,8 @@ action :promote do
   node[:db_percona][:log_bin_enabled] = true
 
   # Sets up my.cnf
-  # See cookbooks/db_percona/definitions/db_mysql_set_mycnf.rb
-  # for the "db_mysql_set_mycnf" definition.
+  # See cookbooks/db_percona/definitions/db_percona_set_mycnf.rb
+  # for the "db_percona_set_mycnf" definition.
   # See cookbooks/db_percona/libraries/helper.rb
   # for the "RightScale::Database::MySQL::Helper" class.
   db_mysql_set_mycnf "setup_mycnf" do
@@ -1112,8 +1117,8 @@ action :enable_replication do
 
   unless current_restore_process == :no_restore
     # Sets up my.cnf
-    # See cookbooks/db_percona/definitions/db_mysql_set_mycnf.rb
-    # for the "db_mysql_set_mycnf" definition.
+    # See cookbooks/db_percona/definitions/db_percona_set_mycnf.rb
+    # for the "db_percona_set_mycnf" definition.
     # See cookbooks/db_percona/libraries/helper.rb
     # for the "RightScale::Database::MySQL::Helper" class.
     db_mysql_set_mycnf "setup_mycnf" do
