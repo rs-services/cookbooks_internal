@@ -1,6 +1,6 @@
 rightscale_marker :begin
 
-hostname=node[:sys][:hostname].delete!('#').gsub(/ /,'-')
+hostname=node[:sys][:hostname].delete('#').delete('.').delete('(').delete(')').gsub(/ - /,'-').gsub(/ /,'-').downcase
 bash "set-hostname" do
   code <<-EOF
     hostname #{hostname}
