@@ -12,7 +12,7 @@ version = "5.5"
 node[:db][:version] = version
 node[:db][:provider] = "db_percona"
 
-log "  Setting DB MySQL version to #{version}"
+log "  Setting DB Percona version to #{version}"
 
 # Set MySQL 5.5 specific node variables in this recipe.
 #

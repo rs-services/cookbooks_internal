@@ -10,7 +10,7 @@
 #
 # @param read_only [Boolean] Set read_only value
 #
-define :db_mysql_set_mysql_read_only, :read_only => false do
+define :db_percona_set_mysql_read_only, :read_only => false do
 
   read_only = params[:read_only] ? 1 : 0
   log "  Installing read_write_status.cnf with read_only = #{read_only}"

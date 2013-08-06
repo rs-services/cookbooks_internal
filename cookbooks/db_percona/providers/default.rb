@@ -76,7 +76,7 @@ end
 # Resets MySQL database to a pristine state
 action :reset do
   # Set read/write in read_write_status.cnf
-  db_mysql_set_mysql_read_only "setup mysql read/write" do
+  db_percona_set_mysql_read_only "setup mysql read/write" do
     read_only false
   end
 
@@ -239,7 +239,7 @@ action :post_restore_cleanup do
   # for the "db_percona_set_mycnf" definition.
   # See cookbooks/db_percona/libraries/helper.rb
   # for the "RightScale::Database::MySQL::Helper" class.
-  db_mysql_set_mycnf "setup_mycnf" do
+  db_percona_set_mycnf "setup_mycnf" do
     server_id RightScale::Database::MySQL::Helper.mycnf_uuid(node)
     relay_log RightScale::Database::MySQL::Helper.mycnf_relay_log(node)
     innodb_log_file_size ::File.stat("/var/lib/mysql/ib_logfile0").size
@@ -301,8 +301,8 @@ action :set_privileges do
   priv_username = new_resource.privilege_username
   priv_password = new_resource.privilege_password
   priv_database = new_resource.privilege_database
-  # See cookbooks/db_percona/definitions/db_mysql_set_privileges.rb for the "db_mysql_set_privileges" definition.
-  db_mysql_set_privileges "setup db privileges" do
+  # See cookbooks/db_percona/definitions/db_percona_set_privileges.rb for the "db_percona_set_privileges" definition.
+  db_percona_set_privileges "setup db privileges" do
     preset priv
     username priv_username
     password priv_password
@@ -606,7 +606,7 @@ action :install_server do
   # for the "db_percona_set_mycnf" definition.
   # See cookbooks/db_percona/libraries/helper.rb
   # for the "RightScale::Database::MySQL::Helper" class.
-  db_mysql_set_mycnf "setup_mycnf" do
+  db_percona_set_mycnf "setup_mycnf" do
     server_id RightScale::Database::MySQL::Helper.mycnf_uuid(node)
     relay_log RightScale::Database::MySQL::Helper.mycnf_relay_log(node)
     innodb_log_file_size ::File.size?("/var/lib/mysql/ib_logfile0")
@@ -615,7 +615,7 @@ action :install_server do
   end
 
   # Setup read_write_status.cnf
-  db_mysql_set_mysql_read_only "setup mysql read/write" do
+  db_percona_set_mysql_read_only "setup mysql read/write" do
     read_only false
   end
 
@@ -874,7 +874,7 @@ action :promote do
   end
 
   # Set read/write in read_write_status.cnf
-  db_mysql_set_mysql_read_only "setup mysql read/write" do
+  db_percona_set_mysql_read_only "setup mysql read/write" do
     read_only false
   end
 
@@ -886,7 +886,7 @@ action :promote do
   # for the "db_percona_set_mycnf" definition.
   # See cookbooks/db_percona/libraries/helper.rb
   # for the "RightScale::Database::MySQL::Helper" class.
-  db_mysql_set_mycnf "setup_mycnf" do
+  db_percona_set_mycnf "setup_mycnf" do
     server_id RightScale::Database::MySQL::Helper.mycnf_uuid(node)
     relay_log RightScale::Database::MySQL::Helper.mycnf_relay_log(node)
     innodb_log_file_size ::File.stat("/var/lib/mysql/ib_logfile0").size
@@ -1121,7 +1121,7 @@ action :enable_replication do
     # for the "db_percona_set_mycnf" definition.
     # See cookbooks/db_percona/libraries/helper.rb
     # for the "RightScale::Database::MySQL::Helper" class.
-    db_mysql_set_mycnf "setup_mycnf" do
+    db_percona_set_mycnf "setup_mycnf" do
       server_id RightScale::Database::MySQL::Helper.mycnf_uuid(node)
       relay_log RightScale::Database::MySQL::Helper.mycnf_relay_log(node)
       innodb_log_file_size ::File.stat("/var/lib/mysql/ib_logfile0").size
@@ -1176,7 +1176,7 @@ action :enable_replication do
   end
 
   # Set read_only in read_write_status.cnf
-  db_mysql_set_mysql_read_only "setup mysql read only" do
+  db_percona_set_mysql_read_only "setup mysql read only" do
     read_only true
   end
 
