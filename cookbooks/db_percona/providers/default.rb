@@ -717,8 +717,8 @@ action :install_server do
     end
   end
   # percona used mysql while this recipe used mysqld
-  link "/etc/init.d/mysql" do
-    to "/etc/init.d/mysqld"
+  link "/etc/init.d/mysqld" do
+    to "/etc/init.d/mysql"
   end
 end
 
