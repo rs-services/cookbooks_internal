@@ -45,8 +45,8 @@ block_device NICKNAME do
   action :primary_backup
 end
 
-block_device NICKNAME do
-  action :backup_lock_give
-end
+#block_device NICKNAME do
+#  action :backup_lock_give
+#end
 
 rightscale_marker :end
