@@ -1,115 +1,115 @@
 {
   "description": "Installs/Configures rightscale_services_tools",
-  "name": "rightscale_services_tools/",
-  "attributes": {
-    "vpc_nat/other_instance_id": {
-      "required": "required",
-      "description": "The instance ID of the instance to monitor.",
-      "display_name": "Instance ID of other NAT HA Instance",
-      "recipes": [
-        "rightscale_services_tools::vpc-nat-ha"
-      ],
-      "calculated": false,
-      "type": "string",
-      "choice": [
-
-      ]
-    },
-    "vpc_nat/route_id": {
-      "required": "required",
-      "description": "The route ID of the VPC route where the this instance is associated.",
-      "display_name": "VPC Route ID of VPC Route Table",
-      "recipes": [
-        "rightscale_services_tools::vpc-nat-ha"
-      ],
-      "calculated": false,
-      "type": "string",
-      "choice": [
-
-      ]
-    },
-    "sys/hostname": {
-      "required": "required",
-      "description": "Hostname to set system to",
-      "display_name": "System Hostname",
-      "recipes": [
-        "rightscale_services_tools::do-set-hostname"
-      ],
-      "calculated": false,
-      "type": "string",
-      "choice": [
-
-      ]
-    },
-    "vpc_nat/aws_account_secret": {
-      "required": "required",
-      "description": "Use your AWS secret access key (e.g., cred:AWS_SECRET_ACCESS_KEY)",
-      "display_name": "AWS Account Secret Key",
-      "recipes": [
-        "rightscale_services_tools::vpc-nat-ha"
-      ],
-      "calculated": false,
-      "type": "string",
-      "choice": [
-
-      ]
-    },
-    "vpc_nat/aws_account_id": {
-      "required": "required",
-      "description": "Use your Amazon access key ID (e.g., cred:AWS_ACCESS_KEY_ID)",
-      "display_name": "AWS Account Id ",
-      "recipes": [
-        "rightscale_services_tools::vpc-nat-ha"
-      ],
-      "calculated": false,
-      "type": "string",
-      "choice": [
-
-      ]
-    },
-    "vpc_nat/other_route_id": {
-      "required": "required",
-      "description": "The routetable Id of the VPC route where the other instance is associated.",
-      "display_name": "VPC Route table ID",
-      "recipes": [
-        "rightscale_services_tools::vpc-nat-ha"
-      ],
-      "calculated": false,
-      "type": "string",
-      "choice": [
-
-      ]
-    }
-  },
-  "providing": {
-  },
-  "platforms": {
-  },
-  "maintainer_email": "premium@rightscale.com",
-  "version": "0.0.1",
+  "version": "1.0.2",
   "recipes": {
-    "rightscale_services_tools::start-nat-monitor": "Start NAT monitor",
-    "rightscale_services_tools::vpc-nat-ha": "Configures NAT Monitor for NAT instance HA.",
-    "rightscale_services_tools::vpc-nat": "Enable AWS VPC NAT instance ipforwarding and iptables",
-    "rightscale_services_tools::default": "Enable rightscale_services_tools",
     "rightscale_services_tools::do-set-hostname": "sets hostname",
-    "rightscale_services_tools::stop-nat-monitor": "Stop NAT monitor"
+    "rightscale_services_tools::default": "Enable rightscale_services_tools",
+    "rightscale_services_tools::stop-nat-monitor": "Stop NAT monitor",
+    "rightscale_services_tools::vpc-nat": "Enable AWS VPC NAT instance ipforwarding and iptables",
+    "rightscale_services_tools::start-nat-monitor": "Start NAT monitor",
+    "rightscale_services_tools::vpc-nat-ha": "Configures NAT Monitor for NAT instance HA."
   },
-  "groupings": {
-  },
-  "conflicting": {
-  },
-  "license": "All rights reserved",
-  "recommendations": {
-  },
-  "suggestions": {
-  },
-  "long_description": "Description\n===========\nA collection of useful tools brought to you buy the RightScale Services Team, make sure and check libraries, definitions, resources, and providers. There will be tools in each of those. \n\nRequirements\n============\n\nAttributes\n==========\n\nUsage\n=====\nRecipes-\n  vpc-nat:  Configures ip forwarding and iptables for AWS VPC NAT host\n  vpc-nat-ha:  Setup monitoring another NAT instance for HA setup\n\nDefinitions -\n  gen_profile_script\n\nLibraries - \n  has_connectivity(ip,port,proto = \"tcp\")\n\n  check_connectivity(host,port,message,timeout=60)\n\n\n",
   "replacing": {
   },
   "dependencies": {
     "rightscale": ">= 0.0.0",
     "sysctl": ">= 0.0.0"
   },
-  "maintainer": "RightScale Inc"
+  "maintainer": "RightScale Inc",
+  "conflicting": {
+  },
+  "license": "All rights reserved",
+  "maintainer_email": "premium@rightscale.com",
+  "providing": {
+  },
+  "platforms": {
+  },
+  "name": "rightscale_services_tools/",
+  "recommendations": {
+  },
+  "long_description": "Description\n===========\nA collection of useful tools brought to you buy the RightScale Services Team, make sure and check libraries, definitions, resources, and providers. There will be tools in each of those. \n\nRequirements\n============\n\nAttributes\n==========\n\nUsage\n=====\nRecipes-\n  vpc-nat:  Configures ip forwarding and iptables for AWS VPC NAT host\n  vpc-nat-ha:  Setup monitoring another NAT instance for HA setup\n\nDefinitions -\n  gen_profile_script\n\nLibraries - \n  has_connectivity(ip,port,proto = \"tcp\")\n\n  check_connectivity(host,port,message,timeout=60)\n\n\n",
+  "groupings": {
+  },
+  "attributes": {
+    "sys/hostname": {
+      "required": "required",
+      "display_name": "System Hostname",
+      "description": "Hostname to set system to",
+      "recipes": [
+        "rightscale_services_tools::do-set-hostname"
+      ],
+      "type": "string",
+      "choice": [
+
+      ],
+      "calculated": false
+    },
+    "vpc_nat/aws_account_secret": {
+      "required": "required",
+      "display_name": "AWS Account Secret Key",
+      "description": "Use your AWS secret access key (e.g., cred:AWS_SECRET_ACCESS_KEY)",
+      "recipes": [
+        "rightscale_services_tools::vpc-nat-ha"
+      ],
+      "type": "string",
+      "choice": [
+
+      ],
+      "calculated": false
+    },
+    "vpc_nat/other_route_id": {
+      "required": "required",
+      "display_name": "VPC Route Table Id of the other HA server",
+      "description": "The VPC Route Table Id where the other instance is associated. Example: rtb-ea765f83",
+      "recipes": [
+        "rightscale_services_tools::vpc-nat-ha"
+      ],
+      "type": "string",
+      "choice": [
+
+      ],
+      "calculated": false
+    },
+    "vpc_nat/route_id": {
+      "required": "required",
+      "display_name": "VPC Route Table Id of this server",
+      "description": "The VPC Route Table Id where this server is associated.  Example: rtb-7a019112",
+      "recipes": [
+        "rightscale_services_tools::vpc-nat-ha"
+      ],
+      "type": "string",
+      "choice": [
+
+      ],
+      "calculated": false
+    },
+    "vpc_nat/other_instance_id": {
+      "required": "required",
+      "display_name": "Instance ID of other NAT HA Instance",
+      "description": "The instance ID of the instance to monitor.",
+      "recipes": [
+        "rightscale_services_tools::vpc-nat-ha"
+      ],
+      "type": "string",
+      "choice": [
+
+      ],
+      "calculated": false
+    },
+    "vpc_nat/aws_account_id": {
+      "required": "required",
+      "display_name": "AWS Account Id ",
+      "description": "Use your Amazon access key ID (e.g., cred:AWS_ACCESS_KEY_ID)",
+      "recipes": [
+        "rightscale_services_tools::vpc-nat-ha"
+      ],
+      "type": "string",
+      "choice": [
+
+      ],
+      "calculated": false
+    }
+  },
+  "suggestions": {
+  }
 }

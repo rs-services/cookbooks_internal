@@ -1,6 +1,8 @@
 #!/bin/sh
 # This script will monitor another NAT instance and take over its routes
 # if communication with the other instance fails
+#set JAVA_HOME for ec2 commands
+export JAVA_HOME=/usr/java/default
 
 # NAT instance variables
 # Other instance's IP to ping and route to grab if other node goes down
@@ -20,30 +22,12 @@ Wait_Between_Pings=2
 Wait_for_Instance_Stop=60
 Wait_for_Instance_Start=300
 
-# Run aws-apitools-common.sh to set up default environment variables and to
-# leverage AWS security credentials provided by EC2 roles
-#. /etc/profile.d/aws-apitools-common.sh
+# setup the ec2 env.
+. /etc/profile.d/ec2.sh
 
+# setup aws creds
 . /root/credentials.txt
 
-# Determine the NAT instance private IP so we can ping the other NAT instance, take over
-# its route, and reboot it.  Requires EC2 DescribeInstances, ReplaceRoute, and Start/RebootInstances
-# permissions.  The following example EC2 Roles policy will authorize these commands:
-# {
-#  "Statement": [
-#    {
-#      "Action": [
-#        "ec2:DescribeInstances",
-#        "ec2:CreateRoute",
-#        "ec2:ReplaceRoute",
-#        "ec2:StartInstances",
-#        "ec2:StopInstances"
-#      ],
-#      "Effect": "Allow",
-#      "Resource": "*"
-#    }
-#  ]
-# }
 
 # Get this instance's ID
 Instance_ID=`/usr/bin/curl --silent http://169.254.169.254/latest/meta-data/instance-id`
