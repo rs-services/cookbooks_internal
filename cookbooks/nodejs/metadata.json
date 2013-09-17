@@ -1,30 +1,46 @@
 {
-  "version": "0.1.0",
-  "attributes": {
-  },
-  "providing": {
-  },
-  "name": "nodejs/",
+  "maintainer_email": "premium@rightscale.com",
   "conflicting": {
   },
-  "long_description": "Description\n===========\n\nRequirements\n============\n\nAttributes\n==========\n\nUsage\n=====\n\n",
+  "license": "Apache 2.0",
+  "maintainer": "RightScale Inc",
+  "replacing": {
+  },
   "dependencies": {
+    "rightscale": ">= 0.0.0"
+  },
+  "name": "nodejs",
+  "attributes": {
+    "nodejs/npm/packages": {
+      "calculated": false,
+      "choice": [
+
+      ],
+      "required": "required",
+      "recipes": [
+        "nodejs::npm_packages_install"
+      ],
+      "display_name": "NPM Package List",
+      "description": "NPM Package List",
+      "type": "string"
+    }
   },
   "platforms": {
   },
-  "recipes": {
-    "nodejs::default": "installs nodejs"
-  },
+  "long_description": "Description\n===========\n\nRequirements\n============\n\nAttributes\n==========\n\nUsage\n=====\n\n",
   "groupings": {
   },
-  "replacing": {
+  "recipes": {
+    "nodejs::default": "installs nodejs",
+    "nodejs::npm_packages_install": "installs npm packages",
+    "nodejs::npm_config_set": "sets npm config settings"
   },
   "recommendations": {
   },
-  "maintainer": "RightScale Inc",
-  "suggestions": {
+  "description": "Installs/Configures nodejs",
+  "version": "0.1.2",
+  "providing": {
   },
-  "license": "Apache 2.0",
-  "maintainer_email": "premium@rightscale.com",
-  "description": "Installs/Configures nodejs"
+  "suggestions": {
+  }
 }
