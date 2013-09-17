@@ -1,0 +1,46 @@
+{
+  "long_description": "apache_mod_header Cookbook\n==========================\nTODO: Enter the cookbook description here.\n\ne.g.\nThis cookbook makes your favorite breakfast sandwhich.\n\nRequirements\n------------\nTODO: List your cookbook requirements. Be sure to include any requirements this cookbook has on platforms, libraries, other cookbooks, packages, operating systems, etc.\n\ne.g.\n#### packages\n- `toaster` - apache_mod_header needs toaster to brown your bagel.\n\nAttributes\n----------\nTODO: List you cookbook attributes here.\n\ne.g.\n#### apache_mod_header::default\n<table>\n  <tr>\n    <th>Key</th>\n    <th>Type</th>\n    <th>Description</th>\n    <th>Default</th>\n  </tr>\n  <tr>\n    <td><tt>['apache_mod_header']['bacon']</tt></td>\n    <td>Boolean</td>\n    <td>whether to include bacon</td>\n    <td><tt>true</tt></td>\n  </tr>\n</table>\n\nUsage\n-----\n#### apache_mod_header::default\nTODO: Write usage instructions for each cookbook.\n\ne.g.\nJust include `apache_mod_header` in your node's `run_list`:\n\n```json\n{\n  \"name\":\"my_node\",\n  \"run_list\": [\n    \"recipe[apache_mod_header]\"\n  ]\n}\n```\n\nContributing\n------------\nTODO: (optional) If this is a public cookbook, detail the process for contributing. If this is a private cookbook, remove this section.\n\ne.g.\n1. Fork the repository on Github\n2. Create a named feature branch (like `add_component_x`)\n3. Write you change\n4. Write tests for your change (if applicable)\n5. Run the tests, ensuring they all pass\n6. Submit a Pull Request using Github\n\nLicense and Authors\n-------------------\nAuthors: TODO: List authors\n",
+  "dependencies": {
+    "web_apache": ">= 0.0.0",
+    "rightscale": ">= 0.0.0"
+  },
+  "name": "apache_mod_header",
+  "providing": {
+  },
+  "maintainer": "RightScale Inc",
+  "recommendations": {
+  },
+  "license": "Apache 2.0",
+  "version": "0.1.0",
+  "replacing": {
+  },
+  "conflicting": {
+  },
+  "platforms": {
+  },
+  "description": "Installs/Configures apache_mod_header",
+  "maintainer_email": "premium@rightscale.com",
+  "suggestions": {
+  },
+  "recipes": {
+    "apache_mod_header::default": "enables mod_headers, and restarts apache",
+    "apache_mod_header::set_app_server_name": "sets the AppServerName header"
+  },
+  "groupings": {
+  },
+  "attributes": {
+    "apache_mod_header/app_server_name": {
+      "type": "string",
+      "required": "required",
+      "choice": [
+
+      ],
+      "calculated": false,
+      "description": "Name to set header to",
+      "recipes": [
+        "apache_mod_header::set_app_server_name"
+      ],
+      "display_name": "Name to set header to"
+    }
+  }
+}

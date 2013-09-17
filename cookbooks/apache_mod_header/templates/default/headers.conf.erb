@@ -1,0 +1,8 @@
+<IfModule mod_headers.c>
+
+<% @headers.each do |k,v| %>
+  Header set <%= k %> "<%= v  %>"
+<% end %>
+
+</IfModule>
+
