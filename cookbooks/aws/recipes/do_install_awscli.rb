@@ -16,7 +16,7 @@ template "/root/.aws/config" do
   owner "root"
   group "root"
   mode "0600"
-  variables( :aws_access_key_id => node[:aws][:access_key_id],
+  variables( :aws_access_key_id => node[:aws][:aws_access_key_id],
              :aws_secret_access_key => node[:aws][:aws_secret_access_key],
              :aws_region  => node[:aws][:region] )
   action :create
