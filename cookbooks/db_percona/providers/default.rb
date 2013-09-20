@@ -387,7 +387,7 @@ action :install_client do
       },
       "ubuntu" => {
         "10.04" => [],
-        "default" => ["percona-server-client-5.5", "percona-server-devel-5.5"]
+        "default" => ["percona-server-client-5.5"]
       },
       "default" => []
     )
