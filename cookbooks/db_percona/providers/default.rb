@@ -329,10 +329,11 @@ action :install_repos do
     cwd "/tmp"
     code <<-EOH
       apt-key adv --keyserver keys.gnupg.net --recv-keys 1C4CBDCDCD2EFD2A
-      cat<<'EOF' >/etc/apt/sources.list.d/percona
-        deb http://repo.percona.com/apt ubuntu main
-        deb-src http://repo.percona.com/apt ubuntu main
+      cat<<'EOF' >/etc/apt/sources.list.d/percona.list
+deb http://repo.percona.com/apt #{node['lsb']['codename']} main
+deb-src http://repo.percona.com/apt #{node[:lsb][:codename]} main
 EOF
+      apt-get update
     EOH
     only_if { platform =~ /ubuntu/ }
   end
