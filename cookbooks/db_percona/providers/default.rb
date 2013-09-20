@@ -319,7 +319,7 @@ action :install_repos do
     user "root"
     cwd "/tmp"
     code <<-EOH
-  rpm -Uhv http://www.percona.com/downloads/percona-release/percona-release-0.0-1.x86_64.rpm
+      rpm -Uhv http://www.percona.com/downloads/percona-release/percona-release-0.0-1.x86_64.rpm
     EOH
     only_if { platform =~ /redhat|centos/ }
   end
@@ -328,9 +328,11 @@ action :install_repos do
     user "root"
     cwd "/tmp"
     code <<-EOH
-   apt-key adv --keyserver keys.gnupg.net --recv-keys 1C4CBDCDCD2EFD2A
-   deb http://repo.percona.com/apt ubuntu main
-   deb-src http://repo.percona.com/apt ubuntu main
+      apt-key adv --keyserver keys.gnupg.net --recv-keys 1C4CBDCDCD2EFD2A
+      cat<<'EOF' >/etc/apt/sources.list.d/percona
+        deb http://repo.percona.com/apt ubuntu main
+        deb-src http://repo.percona.com/apt ubuntu main
+EOF
     EOH
     only_if { platform =~ /ubuntu/ }
   end
