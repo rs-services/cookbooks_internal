@@ -39,13 +39,6 @@ define(:db_percona_set_mycnf,
   # Shared servers get 50% of the resources allocated to a dedicated server.
   usage = node[:db_percona][:server_usage] == "shared" ? 0.5 : 1
 
-  log "  innodb_log_file_size script start" +
-    ": #{node[:db_percona][:tunable][:innodb_log_file_size]}"
-
-  log "  usage" +
-    ": #{usage}"
-
-
   # We are working with MB. Set GB so X * GB can be used in conditional.
   GB = 1024
   # Converts memory from kB to MB.
@@ -85,14 +78,9 @@ define(:db_percona_set_mycnf,
   node[:db_percona][:tunable][:long_query_time] ||= "long_query_time = 5"
   node[:db_percona][:tunable][:slave_net_timeout] ||= 60
 
-
-  log "  innodb_log_file_size before if" +
-    ": #{node[:db_percona][:tunable][:innodb_log_file_size]}"
-
   # Sets the buffer sizes and InnoDB log properties.
   # Overrides buffer sizes for really small servers.
   if mem < 1 * GB
-    log "  ***in_if"
     node[:db_percona][:tunable][:key_buffer] ||=
       value_with_units(16, "M", usage)
     node[:db_percona][:tunable][:isamchk][:key_buffer] ||=
@@ -108,7 +96,6 @@ define(:db_percona_set_mycnf,
     node[:db_percona][:tunable][:innodb_log_buffer_size] ||=
       value_with_units(16, "M", usage)
   else
-    log "  ***in_else"
     node[:db_percona][:tunable][:key_buffer] ||=
       value_with_units(128, "M", usage)
     node[:db_percona][:tunable][:isamchk][:key_buffer] ||=
@@ -124,12 +111,6 @@ define(:db_percona_set_mycnf,
     node[:db_percona][:tunable][:innodb_log_buffer_size] ||=
       value_with_units(8, "M", usage)
   end
-  
-    log "  Setting innodb_log_file_size" +
-    " to: #{node[:db_percona][:tunable][:innodb_log_file_size]}"
-    
-    log "  params innodb_log_file_size" +
-    " to: #{params[:innodb_log_file_size]}"
 
   # Adjusts tunable values based on memory range.
   #
