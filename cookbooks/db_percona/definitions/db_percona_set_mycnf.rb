@@ -39,6 +39,13 @@ define(:db_percona_set_mycnf,
   # Shared servers get 50% of the resources allocated to a dedicated server.
   usage = node[:db_percona][:server_usage] == "shared" ? 0.5 : 1
 
+  log "  innodb_log_file_size script start" +
+    ": #{node[:db_percona][:tunable][:innodb_log_file_size]}"
+
+  log "  usage" +
+    ": #{usage}"
+
+
   # We are working with MB. Set GB so X * GB can be used in conditional.
   GB = 1024
   # Converts memory from kB to MB.
@@ -77,6 +84,10 @@ define(:db_percona_set_mycnf,
     "log_slow_queries = /var/log/mysqlslow.log"
   node[:db_percona][:tunable][:long_query_time] ||= "long_query_time = 5"
   node[:db_percona][:tunable][:slave_net_timeout] ||= 60
+
+
+  log "  innodb_log_file_size before if" +
+    ": #{node[:db_percona][:tunable][:innodb_log_file_size]}"
 
   # Sets the buffer sizes and InnoDB log properties.
   # Overrides buffer sizes for really small servers.
