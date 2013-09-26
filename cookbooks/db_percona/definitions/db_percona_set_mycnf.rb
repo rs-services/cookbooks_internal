@@ -81,6 +81,7 @@ define(:db_percona_set_mycnf,
   # Sets the buffer sizes and InnoDB log properties.
   # Overrides buffer sizes for really small servers.
   if mem < 1 * GB
+    log "  ***in_if"
     node[:db_percona][:tunable][:key_buffer] ||=
       value_with_units(16, "M", usage)
     node[:db_percona][:tunable][:isamchk][:key_buffer] ||=
@@ -96,6 +97,7 @@ define(:db_percona_set_mycnf,
     node[:db_percona][:tunable][:innodb_log_buffer_size] ||=
       value_with_units(16, "M", usage)
   else
+    log "  ***in_else"
     node[:db_percona][:tunable][:key_buffer] ||=
       value_with_units(128, "M", usage)
     node[:db_percona][:tunable][:isamchk][:key_buffer] ||=
@@ -111,6 +113,12 @@ define(:db_percona_set_mycnf,
     node[:db_percona][:tunable][:innodb_log_buffer_size] ||=
       value_with_units(8, "M", usage)
   end
+  
+    log "  Setting innodb_log_file_size" +
+    " to: #{node[:db_percona][:tunable][:innodb_log_file_size]}"
+    
+    log "  params innodb_log_file_size" +
+    " to: #{params[:innodb_log_file_size]}"
 
   # Adjusts tunable values based on memory range.
   #
