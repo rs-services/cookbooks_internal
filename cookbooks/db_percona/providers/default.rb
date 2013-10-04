@@ -516,6 +516,22 @@ action :install_server do
     recursive true
   end
 
+bash "Patching /etc/init.d/mysql to add a quick sleep to prevent exit 1 on start" do
+  flags "-ex"
+  user "root"
+  cwd "/tmp"
+  code <<-EOH
+    if ! grep -q "sleep 1 #to avoid exit1 on start" /etc/init.d/mysql; then
+      echo "*** Patching /etc/init.d/mysql"
+      sed -r -i "/^mysqld_status.*/ a\\
+    sleep 1 #to avoid exit1 on start" /etc/init.d/mysql
+    else
+      echo "*** /etc/init.d/mysql is already patched"
+    fi
+  EOH
+end
+
+
   # Determine whether to enable SSL for MySQL based on provided inputs.
   # SSL will only be enabled if all inputs are populated.
   node[:db_percona][:ssl_enabled] =
