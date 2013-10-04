@@ -65,6 +65,21 @@ db node[:db][:data_dir] do
   action :install_server
 end
 
+bash "Patching /etc/init.d/mysql to add a quick sleep to prevent exit 1 on start" do
+  flags "-ex"
+  user "root"
+  cwd "/tmp"
+  code <<-EOH
+    if ! grep -q "sleep 1 #to avoid exit1 on start" /etc/init.d/mysql; then
+      echo "*** Patching /etc/init.d/mysql"
+      sed -r -i "/^mysqld_status.*/ a\\
+    sleep 1 #to avoid exit1 on start" /etc/init.d/mysql
+    else
+      echo "*** /etc/init.d/mysql is already patched"
+    fi
+  EOH
+end
+
 # Determine if server is currently a master or a slave on boot.
 # This determines that the instance returned from a Stop/Start
 #
