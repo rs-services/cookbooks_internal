@@ -52,19 +52,4 @@ node[:db][:init_timeout] = node[:db_percona][:init_timeout]
 node[:db][:info_file_options] = ["mysql -V", "cat /etc/mysql/conf.d/my.cnf"]
 node[:db][:info_file_location] = "/etc/mysql"
 
-bash "Patching /etc/init.d/mysql to add a quick sleep to prevent exit 1 on start" do
-  flags "-ex"
-  user "root"
-  cwd "/tmp"
-  code <<-EOH
-    if ! grep -q "sleep 1 #to avoid exit1 on start" /etc/init.d/mysql; then
-      echo "*** Patching /etc/init.d/mysql"
-      sed -r -i "/^mysqld_status.*/ a\\
-    sleep 1 #to avoid exit1 on start" /etc/init.d/mysql
-    else
-      echo "*** /etc/init.d/mysql is already patched"
-    fi
-  EOH
-end
-
 log "  Using MySQL service name: #{node[:db_percona][:service_name]}"
