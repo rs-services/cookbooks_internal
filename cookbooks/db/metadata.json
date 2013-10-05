@@ -2,7 +2,7 @@
   "suggestions": {
   },
   "name": "db",
-  "version": "13.5.11",
+  "version": "13.5.12",
   "dependencies": {
     "db_postgres": ">= 0.0.0",
     "db_percona": ">= 0.0.0",
