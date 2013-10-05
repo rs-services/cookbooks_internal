@@ -4,7 +4,7 @@ license          "Copyright RightScale, Inc. All rights reserved."
 description      "Provides the Percona implementation of the 'db' resource to" +
                  " install and manage Percona database stand-alone servers and clients."
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          "13.5.13"
+version          "13.5.14"
 
 supports "centos"
 supports "redhat"
