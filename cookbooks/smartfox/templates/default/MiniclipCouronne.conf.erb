@@ -1,0 +1,75 @@
+#********************************************************************
+# Smarbox Properties
+#********************************************************************
+# This file should be located in System.getProperty("user.dir")+"\\
+
+
+# send unhandled exceptions 
+sendexceptions = 0
+#receiver list
+se.raketspel.smartbox.application.alfapetGame.* = magnus@raketspel.se
+se.* = nisse@raketspel.se
+
+# load list for the applicationLookUp list <applications.0..99>
+applications.0 = se.raketspel.miniclipcouronne.application.couronne.CouronneGame
+
+#load the list of lobbies and their paths
+lobby.0 = se.raketspel.miniclipcouronne.application.tableLobby.TableLobby
+lobby.1 = se.raketspel.miniclipcouronne.application.singleplayerLobby.SingleplayerLobby
+lobby.2 = se.raketspel.miniclipcouronne.application.blackBoxLobby.BlackBoxLobby
+lobby.3 = se.raketspel.miniclipcouronne.application.nptLobby.NptLobby
+
+# load list of modules. A Module is any kind of part in smartbox
+#unrouted i.e. "AUTH"-message
+module.-1 = -1
+#LobbyManager
+module.0 = 0
+#Lobby
+module.1 = 1
+#Game
+module.2 = 2
+#Buddy
+module.3 = 3
+#Abuse
+module.4 = 4
+#Tournament
+module.5 = 5
+#Leauge
+module.6 = 6
+#IM
+module.7 = 7
+#Score
+module.8 = 8
+#Alfapet
+module.9 = 2
+#Couronne
+module.10 = 2
+#Othello
+module.11 = 2
+#Dogfight
+module.12 = 2
+
+#userclass
+ExtraUserDataClass = se.raketspel.miniclipcouronne.data.ExtraCouronneUserData
+
+#UserManagerClass
+UserManagerClass = se.raketspel.miniclipcouronne.application.miniclipUserManager.MiniclipUserManager
+
+#load balancer class
+LoadBalancerClass = se.raketspel.miniclipcouronne.application.loadBalancer.LoadBalancer
+LoadBalancerServerIp = <%= @discpool_load_balancer_dns_name %>
+LoadBalancerServerName = <%= @discpool_load_balancer_dns_name %>
+
+#Database Setup
+# default mySQL (FRANKE - Couronne)
+#db.driver =  com.mysql.jdbc.Driver
+#db.url =jdbc:mysql://192.168.1.9:3306/RS_Couronne?user=root
+#db.username = root
+#db.password = 1022
+
+#Database Setup
+# default mySQL (raketspel-4@miniclip)
+db.driver =  com.mysql.jdbc.Driver
+db.url =jdbc:mysql://<%= @bullfrog_poker_db_host %>:3306/RS_Couronne?autoReconnect=true
+db.username = <%= @bullfrog_poker_username %>
+db.password = <%= @bullfrog_poker_password %>

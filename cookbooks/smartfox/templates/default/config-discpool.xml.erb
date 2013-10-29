@@ -1,0 +1,173 @@
+<!--
+
+	SmartFoxServer PRO 
+	(c) 2004-2007 gotoAndPlay()
+	www.gotoandplay.it
+	www.smartfoxserver.com
+	
+	Main Configuration file
+	version 1.6.2
+	
+	NOTE:
+	You can find detailed informations on how to configure the server by reading
+	the tutorials in section 2 of the documentation.
+	( http://www.smartfoxserver.com/docs/docPages/config/basics.htm )
+	
+-->
+
+<SmartFoxConfig>
+	
+	<ServerSetup>
+		
+		<LicenseServer>
+      <ip><%= @license_server %></ip>
+      <license><%= @license_number%></license>
+		</LicenseServer>
+
+		<ServerIP>*</ServerIP>
+		<ServerPort>9339</ServerPort>
+		
+		<AutoSendPolicyFile>true</AutoSendPolicyFile>
+		<MaxUserIdleTime>86400</MaxUserIdleTime>
+		
+		<!-- Server Variables limits (-1 = unlimited) -->
+		<MaxRoomVars>-1</MaxRoomVars>
+		<MaxUserVars>-1</MaxUserVars>
+
+		<EnableNPC>true</EnableNPC>
+		
+		<AntiFlood active="false">
+			<MinMsgTime tolerance="100">1000</MinMsgTime>
+			<MaxRepeatedMessages>1000</MaxRepeatedMessages>
+			<WarningsBeforeKick>1000</WarningsBeforeKick>
+			<WarningMessage><![CDATA[No flooding allowed!)]]></WarningMessage>
+			<KickMessage><![CDATA[You've been warned! No flooding! Now you're kicked]]></KickMessage>
+			<BanMessage><![CDATA[Stop Flooding!! You're being banned]]></BanMessage>			
+			<BanAfter timeSpan="1">3</BanAfter>
+		</AntiFlood>
+		
+		<BadWordsFilter active="false">
+			<FilterMode>filter</FilterMode> <!-- REMOVE or FILTER -->
+			<StripCharacters><![CDATA[,.;:_!$%&/#*-+]]></StripCharacters>
+			<Warnings>true</Warnings>
+			<FilterRoomNames>true</FilterRoomNames>
+			<FilterUserNames>true</FilterUserNames>
+			<WarningsBeforeKick>3</WarningsBeforeKick>
+			<WarningMessage><![CDATA[No swearing!)]]></WarningMessage>
+			<KickMessage><![CDATA[You've been warned! No Swearing! Now you're kicked]]></KickMessage>
+			<BanMessage><![CDATA[Stop Swearing! You're being banned!]]></BanMessage>	
+			<BanAfter timeSpan="1">3</BanAfter>
+			
+			<BadWordsList>
+				<badWord>motherfucker</badWord>				
+				<badWord>dickhead</badWord>
+				<badWord>asshole</badWord>
+				<badWord>shithead</badWord>
+				<badWord>shit</badWord>
+				<badWord>fucking</badWord>
+				<badWord>fuck</badWord>
+				<badWord>dickhead</badWord>
+				<badWord>bastard</badWord>
+				<badWord>nigger</badWord>
+				<badWord>idiot</badWord>
+				<badWord>bitch</badWord>
+			</BadWordsList>
+		</BadWordsFilter>
+		
+		<BanCleaning>auto</BanCleaning>
+		<BanDuration>1800</BanDuration> <!-- 30 min -->
+		<BannedLoginMessage>You have been banned!</BannedLoginMessage>
+		
+		<OutQueueThreads>4</OutQueueThreads>
+		<ExtHandlerThreads>1</ExtHandlerThreads>
+		<MaxWriterQueue>150</MaxWriterQueue>
+		
+		<!-- 
+			New since 1.6.0 
+			Set the client queue size and the max. allowed dropped packets
+		-->
+		<ClientMessagQueue>
+			<QueueSize>150</QueueSize>
+			<MaxAllowedDroppedPackets>1</MaxAllowedDroppedPackets>
+		</ClientMessagQueue>
+		
+		<MaxIncomingQueue>10000</MaxIncomingQueue>
+		<DeadChannelsPolicy>strict</DeadChannelsPolicy>
+		<MaxMsgLen>4096</MaxMsgLen>
+		
+		<LogMaxSize>5000000</LogMaxSize>
+		<LogMaxFiles>5</LogMaxFiles>
+		
+		<!--
+			Available options are:
+			
+			FINEST
+			FINER
+			FINE
+			CONFIG
+			INFO
+			WARNING
+			SEVERE
+
+		-->
+		<FileLoggingLevel>WARNING</FileLoggingLevel>
+		<ConsoleLoggingLevel>WARNING</ConsoleLoggingLevel>	
+		
+		<!-- Adminisitrator login -->
+		<AdminLogin>raketspel</AdminLogin>
+		<AdminPassword>Wr3Cf87mgl2As</AdminPassword>
+		
+		<!-- Allowed administrator IP addresses -->
+		<AdminAllowedAddresses>
+			<AllowedAddress>*.*.*.*</AllowedAddress>
+		</AdminAllowedAddresses>
+		
+		<!-- Allow remote debugging of extensions -->
+		<ExtensionRemoteDebug>true</ExtensionRemoteDebug>
+		
+		<!-- 
+			Allow global autoreload of extensions upon file save 
+			You should specify in each Zone if the autoreload is enabled.
+		-->
+		<AutoReloadExtensions>true</AutoReloadExtensions>
+		
+		<ExtensionRemoteDebug>true</ExtensionRemoteDebug>
+		
+		<IpFilter>0</IpFilter>
+		
+		<Mailer>
+			<MailHost>test.mail.com</MailHost>
+			<MailUser>foo</MailUser>
+			<MailPass>bar</MailPass>
+			<SmtpPort>25</SmtpPort>
+			<WorkerThreads>1</WorkerThreads>
+		</Mailer>
+		
+		<!-- Enable / Disable remote zone info -->
+		<EnableZoneInfo>false</EnableZoneInfo>
+		
+		<!-- Enable / Disable embedded webserver -->
+		<WebServer active="true">
+			<CfgFile>webserver/cfg/jetty.xml</CfgFile>
+		</WebServer>
+		
+		<!--  raw custom protocol separator --> 
+		<RawProtocolSeparator><![CDATA[%]]></RawProtocolSeparator>
+		
+	</ServerSetup>
+	
+	
+	
+	<!--
+		Zones Configuration.
+	-->
+	<Zones>	
+		<Zone name="MiniclipCouronne" uCountUpdate="false" emptyNames="false" customLogin="true">
+			<Rooms>
+			</Rooms>
+			<Extensions>
+				<extension name="A" className="se.raketspel.smartbox.core.ExtensionCore" type="java"/>
+			</Extensions>
+		</Zone>	
+	</Zones>
+</SmartFoxConfig>

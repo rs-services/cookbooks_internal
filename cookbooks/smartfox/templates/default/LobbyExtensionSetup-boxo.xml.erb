@@ -1,0 +1,31 @@
+<game>
+        <minPlayers>2</minPlayers>
+        <maxPlayers>2</maxPlayers>
+	<debugDump>0</debugDump>
+	<queueClass>com.miniclip.lobby.queue.RatingQueue</queueClass>
+
+
+	<sendOnlineFriends>false</sendOnlineFriends>
+        <debugWithBots>false</debugWithBots>
+        <benchmarkFile>webserver/webapps/root/lobby.log</benchmarkFile>
+        <serpentServer>http://<%= @serpent_endpoint %>:8080/v2/json.php</serpentServer>
+        <gameId>3278</gameId>
+
+
+	<database>
+		<gametype>30</gametype>
+    <url>jdbc:mysql://<%= @bullfrog_poker_db_host %>:3306/lobby?cacheCallableStmts=true&amp;autoReconnect=true&amp;interactiveClient=true</url>
+    <username><%= @bullfrog_poker_username %></username>
+    <password><%= @bullfrog_poker_password %></password>
+        </database>
+
+        <myServer>
+                <id>30</id>
+                <smartfoxHostname><%= @hostname %></smartfoxHostname>
+                <smartfoxPort>9339</smartfoxPort>
+                <interserverHostname><%= @hostname %></interserverHostname>
+                <interserverport>10010</interserverport>
+        </myServer>
+
+
+</game>

@@ -1,0 +1,128 @@
+#********************************************************************
+# Wrapper License Properties (Ignored by Community Edition)
+#********************************************************************
+# Include file problems can be debugged by removing the first '#'
+#  from the following line:
+##include.debug
+#include ../conf/wrapper-license.conf
+
+#********************************************************************
+# Wrapper Java Properties
+#********************************************************************
+# Java Application
+wrapper.java.command=jre/bin/java
+
+# Java Main class.  This class must implement the WrapperListener interface
+#  or guarantee that the WrapperManager class is initialized.  Helper
+#  classes are provided to do this for you.  See the Integration section
+#  of the documentation for details.
+wrapper.java.mainclass=org.tanukisoftware.wrapper.WrapperSimpleApp
+
+# Java Classpath (include wrapper.jar)  Add class path elements as
+#  needed starting from 1
+wrapper.java.classpath.1=./
+wrapper.java.classpath.2=lib/activation.jar
+wrapper.java.classpath.3=lib/jetty-6.1.3.jar
+wrapper.java.classpath.4=lib/jetty-util-6.1.3.jar
+wrapper.java.classpath.5=lib/wrapper.jar
+wrapper.java.classpath.6=lib/mail.jar
+wrapper.java.classpath.7=lib/mailapi.jar
+wrapper.java.classpath.8=lib/mina-core.jar
+wrapper.java.classpath.9=lib/nanoxml-2.2.1.jar
+wrapper.java.classpath.10=lib/servlet-api-2.5-6.1.3.jar
+wrapper.java.classpath.11=lib/sfsls.jar
+wrapper.java.classpath.12=lib/slf4j-api.jar
+wrapper.java.classpath.13=lib/slf4j-jdk14.jar
+wrapper.java.classpath.14=lib/smtp.jar
+wrapper.java.classpath.15=lib/jsp-2.1/commons-el-1.0.jar
+wrapper.java.classpath.16=lib/jsp-2.1/core-3.1.0.jar
+wrapper.java.classpath.17=lib/jsp-2.1/jsp-2.1.jar
+wrapper.java.classpath.18=lib/jsp-2.1/jsp-api-2.1.jar
+wrapper.java.classpath.19=lib/jsp-2.1/jstl.jar
+wrapper.java.classpath.20=lib/jsp-2.1/standard.jar
+
+# Java Library Path (location of Wrapper.DLL or libwrapper.so)
+wrapper.java.library.path.1=./lib
+
+# Java Additional Parameters
+#wrapper.java.additional.1=
+wrapper.java.additional.1=-Dcom.sun.management.jmxremote.port=3905
+wrapper.java.additional.2=-Dcom.sun.management.jmxremote.ssl=false
+wrapper.java.additional.3=-Dcom.sun.management.jmxremote.authenticate=false
+wrapper.java.additional.4=-Dcom.sun.management.jmxremote.host=<%= @rmi_server_hostname %>
+wrapper.java.additional.5=-Djava.rmi.server.hostname=<%= @jmxremote_host %>
+
+# Initial Java Heap Size (in MB)
+#wrapper.java.initmemory=3
+
+# Maximum Java Heap Size (in MB)
+#wrapper.java.maxmemory=64
+
+# Application parameters.  Add parameters as needed starting from 1
+#wrapper.app.parameter.1=
+wrapper.app.parameter.1=it.gotoandplay.smartfoxserver.licenseserver.d
+
+#********************************************************************
+# Wrapper Logging Properties
+#********************************************************************
+# Format of output for the console.  (See docs for formats)
+wrapper.logfile.rollmode=DATE
+wrapper.console.format=PM
+
+# Log Level for console output.  (See docs for log levels)
+wrapper.console.loglevel=INFO
+
+# Log file to use for wrapper output logging.
+wrapper.logfile=./logs/wrapper/wrapper_YYYYMMDD.log
+
+# Format of output for the log file.  (See docs for formats)
+wrapper.logfile.format=LPTM
+
+# Log Level for log file output.  (See docs for log levels)
+wrapper.logfile.loglevel=INFO
+
+# Maximum size that the log file will be allowed to grow to before
+#  the log is rolled. Size is specified in bytes.  The default value
+#  of 0, disables log rolling.  May abbreviate with the 'k' (kb) or
+#  'm' (mb) suffix.  For example: 10m = 10 megabytes.
+wrapper.logfile.maxsize=50m
+
+# Maximum number of rolled log files which will be allowed before old
+#  files are deleted.  The default value of 0 implies no limit.
+wrapper.logfile.maxfiles=10
+
+# Log Level for sys/event log output.  (See docs for log levels)
+wrapper.syslog.loglevel=NONE
+
+#********************************************************************
+# Wrapper Windows Properties
+#********************************************************************
+# Title to use when running as a console
+wrapper.console.title=SFSLicenseServer
+
+#********************************************************************
+# Wrapper Windows NT/2000/XP Service Properties
+#********************************************************************
+# WARNING - Do not modify any of these properties when an application
+#  using this configuration file has been installed as a service.
+#  Please uninstall the service before modifying this section.  The
+#  service can then be reinstalled.
+
+# Name of the service
+wrapper.ntservice.name=SFSLicenseServer
+
+# Display name of the service
+wrapper.ntservice.displayname=SmartFoxServer License Server
+
+# Description of the service
+wrapper.ntservice.description=SmartFoxServer License Server
+
+# Service dependencies.  Add dependencies as needed starting from 1
+wrapper.ntservice.dependency.1=
+
+# Mode in which the service is installed.  AUTO_START or DEMAND_START
+wrapper.ntservice.starttype=AUTO_START
+
+# Allow the service to interact with the desktop.
+wrapper.ntservice.interactive=false
+

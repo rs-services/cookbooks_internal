@@ -2,14 +2,13 @@
   "name": "smartfox",
   "description": "Installs/Configures smartfox",
   "long_description": "smartfox Cookbook\n=================\nTODO: Installs Smartfox Pro\n\n\nRequirements\n------------\nTODO: List your cookbook requirements. Be sure to include any requirements this cookbook has on platforms, libraries, other cookbooks, packages, operating systems, etc.\n\ne.g.\n#### packages\n- `toaster` - smartfox needs toaster to brown your bagel.\n\nAttributes\n----------\nTODO: List you cookbook attributes here.\n\ne.g.\n#### smartfox::default\n<table>\n  <tr>\n    <th>Key</th>\n    <th>Type</th>\n    <th>Description</th>\n    <th>Default</th>\n  </tr>\n  <tr>\n    <td><tt>['smartfox']['bacon']</tt></td>\n    <td>Boolean</td>\n    <td>whether to include bacon</td>\n    <td><tt>true</tt></td>\n  </tr>\n</table>\n\nUsage\n-----\n#### smartfox::default\nTODO: Write usage instructions for each cookbook.\n\ne.g.\nJust include `smartfox` in your node's `run_list`:\n\n```json\n{\n  \"name\":\"my_node\",\n  \"run_list\": [\n    \"recipe[smartfox]\"\n  ]\n}\n```\n\nContributing\n------------\nTODO: (optional) If this is a public cookbook, detail the process for contributing. If this is a private cookbook, remove this section.\n\ne.g.\n1. Fork the repository on Github\n2. Create a named feature branch (like `add_component_x`)\n3. Write you change\n4. Write tests for your change (if applicable)\n5. Run the tests, ensuring they all pass\n6. Submit a Pull Request using Github\n\nLicense and Authors\n-------------------\nAuthors: TODO: List authors\n",
-  "maintainer": "YOUR_COMPANY_NAME",
-  "maintainer_email": "YOUR_EMAIL",
+  "maintainer": "Rightscale Professional Services",
+  "maintainer_email": "ps@rightscale.com",
   "license": "All rights reserved",
   "platforms": {
   },
   "dependencies": {
-    "rightscale": ">= 0.0.0",
-    "repo": ">= 0.0.0"
+    "rightscale": ">= 0.0.0"
   },
   "recommendations": {
   },
@@ -22,27 +21,193 @@
   "replacing": {
   },
   "attributes": {
-    "smartfox/jmxremote_host": {
-      "description": "Remote IP of licence server",
+    "smartfox/license_server": {
+      "description": "DNS address of Smartfox License Server",
       "recipes": [
         "smartfox::install"
       ],
       "type": "string",
-      "display": "smartfox/jmxremote_host",
+      "display": "smartfox/license_server",
       "required": "required",
       "choice": [
 
       ],
       "calculated": false
     },
-    "smartfox/rmi_server_hostname": {
-      "description": "DNS name of this Smartfox host",
+    "smartfox/license_number": {
+      "description": "License slot number",
       "recipes": [
         "smartfox::install"
       ],
       "type": "string",
-      "display": "smartfox/rmi_server_hostname",
+      "display": "smartfox/license_server",
       "required": "required",
+      "choice": [
+
+      ],
+      "calculated": false
+    },
+    "smartfox/storage_account_id": {
+      "description": "API public key of storage provider (s3, cloudfiles, ...)",
+      "recipes": [
+        "smartfox::install",
+        "smartfox::install_license_server"
+      ],
+      "type": "string",
+      "display": "smartfox/storage_account_id",
+      "required": "required",
+      "choice": [
+
+      ],
+      "calculated": false
+    },
+    "smartfox/storage_account_secret": {
+      "description": "API private key of storage provider (s3, cloudfiles, ...)",
+      "recipes": [
+        "smartfox::install",
+        "smartfox::install_license_server"
+      ],
+      "type": "string",
+      "display": "smartfox/storage_account_secret",
+      "required": "required",
+      "choice": [
+
+      ],
+      "calculated": false
+    },
+    "smartfox/bucket": {
+      "description": "Bucket name where Smartfox is stored",
+      "recipes": [
+        "smartfox::install",
+        "smartfox::install_license_server"
+      ],
+      "type": "string",
+      "display": "smartfox/bucket",
+      "required": "required",
+      "choice": [
+
+      ],
+      "calculated": false
+    },
+    "smartfox/file": {
+      "description": "Path to file in container",
+      "recipes": [
+        "smartfox::install",
+        "smartfox::install_license_server"
+      ],
+      "type": "string",
+      "display": "smartfox/bucket",
+      "required": "required",
+      "choice": [
+
+      ],
+      "calculated": false
+    },
+    "smartfox/provider": {
+      "description": "Storage account provider (s3, cloudfiles, ...)",
+      "recipes": [
+        "smartfox::install",
+        "smartfox::install_license_server"
+      ],
+      "type": "string",
+      "display": "smartfox/provider",
+      "required": "required",
+      "choice": [
+
+      ],
+      "calculated": false
+    },
+    "smartfox/tier": {
+      "description": "Smartfox tier of this host",
+      "recipes": [
+        "smartfox::install"
+      ],
+      "type": "string",
+      "display": "smartfox/tier",
+      "required": "required",
+      "choice": [
+        "5inarow",
+        "anagrammagic",
+        "boxo",
+        "discpool",
+        "bullfrogpoker",
+        "dogfight"
+      ],
+      "calculated": false
+    },
+    "smartfox/hostname": {
+      "description": "DNS name of this host",
+      "recipes": [
+        "smartfox::install"
+      ],
+      "type": "string",
+      "display": "smartfox/hostname",
+      "required": "required",
+      "choice": [
+
+      ],
+      "calculated": false
+    },
+    "smartfox/bullfrog_poker_db_host": {
+      "description": "DNS name Bullfrog Poker database host",
+      "recipes": [
+        "smartfox::install"
+      ],
+      "type": "string",
+      "display": "smartfox/bullfrog_poker_db_host",
+      "required": "required",
+      "choice": [
+
+      ],
+      "calculated": false
+    },
+    "smartfox/bullfrog_poker_username": {
+      "description": "Bullfrog poker database username",
+      "recipes": [
+        "smartfox::install"
+      ],
+      "type": "string",
+      "display": "smartfox/bullfrog_poker_username",
+      "required": "required",
+      "choice": [
+
+      ],
+      "calculated": false
+    },
+    "smartfox/bullfrog_poker_password": {
+      "description": "Bullfrog poker database password",
+      "recipes": [
+        "smartfox::install"
+      ],
+      "type": "string",
+      "display": "smartfox/bullfrog_poker_password",
+      "required": "required",
+      "choice": [
+
+      ],
+      "calculated": false
+    },
+    "smartfox/serpent_endpoint": {
+      "description": "Serpent API endpoint hostname",
+      "recipes": [
+        "smartfox::install"
+      ],
+      "type": "string",
+      "display": "smartfox/serpent_endpoint",
+      "required": "required",
+      "choice": [
+
+      ],
+      "calculated": false
+    },
+    "smartfox/discpool_load_balancer_dns_name": {
+      "description": "DNS name of the loadbalancer used by Discpool",
+      "recipes": [
+        "smartfox::install"
+      ],
+      "type": "string",
+      "display": "smartfox/discpool_load_balancer_dns_name",
+      "required": "optional",
       "choice": [
 
       ],
@@ -52,7 +217,8 @@
   "groupings": {
   },
   "recipes": {
-    "smartfox::install": "Installs Smartfox"
+    "smartfox::install": "Installs Smartfox",
+    "smartfox::install_license_server": "Installs Smartfox license server"
   },
   "version": "0.1.0"
 }
