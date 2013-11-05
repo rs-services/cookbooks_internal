@@ -12,6 +12,12 @@ version = "5.5"
 node[:db][:version] = version
 node[:db][:provider] = "db_percona"
 
+#16KB is the recommended by AWS:
+#http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSPerformance.html
+stripesize = "16"
+
+`sed -i 's/:stripesize => 256/:stripesize => #{stripesize}/' /opt/rightscale/sandbox/lib/ruby/gems/1.8/gems/rightscale_tools-*/lib/rightscale_tools/block_device/lvm.rb`
+
 log "  Setting DB Percona version to #{version}"
 
 # Set MySQL 5.5 specific node variables in this recipe.
