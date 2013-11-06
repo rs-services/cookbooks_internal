@@ -15,8 +15,10 @@ node[:db][:provider] = "db_percona"
 #16KB is the recommended by AWS:
 #http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSPerformance.html
 stripesize = "16"
-
 `sed -i 's/:stripesize => 256/:stripesize => #{stripesize}/' /opt/rightscale/sandbox/lib/ruby/gems/1.8/gems/rightscale_tools-*/lib/rightscale_tools/block_device/lvm.rb`
+
+#patch lvm.rb to retry when lvremove fails. This avoids backups failing and leaving the DB locked
+`sed -r -i 's/(lvremove.*):ignore_failure => true/\1:retry_num => 5, :retry_sleep => 10/g' /opt/rightscale/sandbox/lib/ruby/gems/1.8/gems/rightscale_tools-*/lib/rightscale_tools/block_device/lvm.rb`
 
 log "  Setting DB Percona version to #{version}"
 
