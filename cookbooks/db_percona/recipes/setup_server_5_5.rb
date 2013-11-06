@@ -18,7 +18,11 @@ stripesize = "16"
 `sed -i 's/:stripesize => 256/:stripesize => #{stripesize}/' /opt/rightscale/sandbox/lib/ruby/gems/1.8/gems/rightscale_tools-*/lib/rightscale_tools/block_device/lvm.rb`
 
 #patch lvm.rb to retry when lvremove fails. This avoids backups failing and leaving the DB locked
-`sed -r -i 's/(lvremove.*):ignore_failure => true/\\1:retry_num => 5, :retry_sleep => 10/g' /opt/rightscale/sandbox/lib/ruby/gems/1.8/gems/rightscale_tools-*/lib/rightscale_tools/block_device/lvm.rb`
+`sed -r -i 's/(.*lvremove.*):ignore_failure => true\\)/          snap_exists = execute("lvs | grep blockdevice_lvm_snapshot", :ignore_failure => true)\\n\\1:retry_num => 5, :retry_sleep => 10) unless snap_exists.empty?/g' /opt/rightscale/sandbox/lib/ruby/gems/1.8/gems/rightscale_tools-*/lib/rightscale_tools/block_device/lvm.rb`
+#lvm.rb should then have this:
+#          snap_exists = execute("lvs | grep blockdevice_lvm_snapshot", :ignore_failure => true)
+#          @platform.lvremove(@snapshot_device, :force => true, :retry_num => 5, :retry_sleep => 10) unless snap_exists.empty?
+
 
 log "  Setting DB Percona version to #{version}"
 
