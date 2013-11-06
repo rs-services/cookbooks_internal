@@ -214,7 +214,7 @@
     }
   },
   "maintainer": "RightScale, Inc.",
-  "version": "13.5.15",
+  "version": "13.5.16",
   "dependencies": {
     "block_device": ">= 0.0.0",
     "sys_dns": ">= 0.0.0",
