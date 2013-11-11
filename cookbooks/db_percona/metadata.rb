@@ -52,7 +52,7 @@ attribute "db_percona/log_bin",
   :recipes => [
     "db_percona::setup_server_5_5"
   ]
-  
+
 attribute "db_percona/tunable/innodb_log_file_size",
   :display_name => "Percona InnoDB Log Size",
   :description =>
