@@ -56,7 +56,7 @@ attribute "db_percona/log_bin",
 attribute "db_percona/tunable/innodb_log_file_size",
   :display_name => "Percona InnoDB Log Size",
   :description =>
-    "Defines the mysql innodb_log_file_size my.cnf parameter",
+    "Defines the mysql innodb_log_file_size my.cnf parameter"+
     " Example: 512M",
   :required => "optional",
   :default => "64M",
