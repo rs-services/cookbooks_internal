@@ -4,7 +4,7 @@ license          "Copyright RightScale, Inc. All rights reserved."
 description      "Provides the Percona implementation of the 'db' resource to" +
                  " install and manage Percona database stand-alone servers and clients."
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          "13.5.18"
+version          "13.5.19"
 
 supports "centos"
 supports "redhat"
@@ -49,6 +49,17 @@ attribute "db_percona/log_bin",
     " Example: /mnt/percona-binlogs/percona-bin",
   :required => "optional",
   :default => "/mnt/ephemeral/percona-binlogs/percona-bin",
+  :recipes => [
+    "db_percona::setup_server_5_5"
+  ]
+  
+attribute "db_percona/tunable/innodb_log_file_size",
+  :display_name => "Percona InnoDB Log Size",
+  :description =>
+    "Defines the mysql innodb_log_file_size my.cnf parameter",
+    " Example: 512M",
+  :required => "optional",
+  :default => "64M",
   :recipes => [
     "db_percona::setup_server_5_5"
   ]
