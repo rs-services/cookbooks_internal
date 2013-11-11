@@ -18,25 +18,5 @@ depends "rightscale"
 recipe "db_percona::setup_server_5_5",
   "Sets the DB Percona provider. Sets version 5.5 and node variables specific" +
   " to Percona 5.5."
-recipe "db_percona::setup_repos",
-  "Add the percona repository"
 
-attribute "db_percona",
-  :display_name => "General Database Options",
-  :type => "hash"
 
-# == Default server attributes
-#
-attribute "db_percona/server_usage",
-  :display_name => "Server Usage",
-  :description =>
-    "When set to 'dedicated' all server resources are allocated to Percona." +
-    " When set to 'shared' less resources are allocated for Percona" +
-    " so that it can be run concurrently with other" +
-    " apps like Apache and Rails for example. Example: shared",
-  :choice => ["shared", "dedicated"],
-  :required => "optional",
-  :default => "shared",
-  :recipes => [
-    "db_percona::setup_server_5_5"
-  ]
