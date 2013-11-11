@@ -1,7 +1,8 @@
 maintainer       "RightScale, Inc."
 maintainer_email "support@rightscale.com"
 license          "Copyright RightScale, Inc. All rights reserved."
-description      "Provides the Percona"
+description      "Provides the Percona implementation of the 'db' resource to" +
+                 " install and manage Percona database stand-alone servers and clients."
 version          "13.5.20"
 
 supports "centos"
