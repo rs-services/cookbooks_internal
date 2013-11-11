@@ -1,9 +1,7 @@
 maintainer       "RightScale, Inc."
 maintainer_email "support@rightscale.com"
 license          "Copyright RightScale, Inc. All rights reserved."
-description      "Provides the Percona implementation of the 'db' resource to" +
-                 " install and manage Percona database stand-alone servers and clients."
-long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
+description      "Provides the Percona"
 version          "13.5.20"
 
 supports "centos"
