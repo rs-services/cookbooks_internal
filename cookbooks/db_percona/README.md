@@ -66,4 +66,55 @@ The 'read_only' flag in the MySQL configuration is set by the definition
 and changed to 'true' while initializing a slave server, and set back to
 'false' when the slave is promoted to a master server.
 
+### Attributes:
+
+These are settings used in recipes and templates. Default values are noted.
+
+Note: Only "internal" cookbook attributes are described here. Descriptions of
+attributes which have inputs can be found in the metadata.rb cookbook file. For
+generic db attributes, refer to the db cookbook readme.
+
+##### General attributes
+
+* `node[:db_mysql][:collectd_master_slave_mode]` -
+  The mode for collectd in MySQL server.
+* `node[:db_mysql][:port]` -
+  The port on which MySQL server listens.
+* `node[:db_mysql][:log_bin_enabled]` -
+  Determines whether binary logging is enabled or disabled.
+* `node[:db_mysql][:datadir]` -
+  The data directory for MySQL server where the database contents are stored.
+* `node[:db_mysql][:bind_address]` -
+  The IP address that MySQL server uses to bind. It is set to "0.0.0.0" allowing
+  mysql clients/GUI tools to connect from the outside.
+* `node[:db_mysql][:dump][:storage_account_provider]` -
+  The storage account provided MySQL dump backup.
+* `node[:db_mysql][:dump][:storage_account_id]` -
+  The storage account ID for MySQL dump backup.
+* `node[:db_mysql][:dump][:storage_account_secret]` -
+  The storage account secret for MySQL dump backup.
+* `node[:db_mysql][:dump][:container]` -
+  The container name to be used for dump backup.
+* `node[:db_mysql][:dump][:prefix]` -
+  The prefix to be used with container name.
+
+##### System tuning parameters
+
+* `node[:db_mysql][:file_ulimit]` -
+  A tuning parameter to set maximum open files for mysql and root users.
+* `node[:db_mysql][:backup][:slave][:max_allowed_lag]` -
+  Maximum allowed lag time for MySQL slave backup.
+
+##### Platform dependent
+
+* `node[:db_mysql][:log]` - The log file location for MySQL server.
+* `node[:db_mysql][:log_error]` - The error log file location for MySQL server.
+
+## LICENSE:
+
+Copyright RightScale, Inc. All rights reserved.
+All access and use subject to the RightScale Terms of Service available at
+http://www.rightscale.com/terms.php and, if applicable, other agreements
+such as a RightScale Master Subscription Agreement.
+
 
