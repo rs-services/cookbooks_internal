@@ -521,12 +521,10 @@ bash "Patching /etc/init.d/mysql to add a quick sleep to prevent exit 1 on start
   user "root"
   cwd "/tmp"
   code <<-EOH
-    if ! grep -q "sleep 5 #to avoid exit1 on start" /etc/init.d/mysql; then
+    if ! grep -q "sleep 10 #to avoid exit1 on start" /etc/init.d/mysql; then
       echo "*** Patching /etc/init.d/mysql"
       sed -r -i "/^mysqld_status.*/ a\\
-    sleep 10 #to avoid exit1 on start" /etc/init.d/mysql
-      #to see what's causing the start failure
-      sed -i 's|#!/bin/bash|#!/bin/bash -x|' /etc/init.d/mysql
+        sleep 10 #to avoid exit1 on start" /etc/init.d/mysql
     else
       echo "*** /etc/init.d/mysql is already patched"
     fi
