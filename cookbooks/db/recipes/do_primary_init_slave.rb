@@ -21,3 +21,10 @@ log "  Authentication information provided by inputs is ignored for slave server
 db_register_slave "restore from primary" do
   action :primary_restore
 end
+
+if (node[:db][:dns][:slave] && ("#{node[:db][:dns][:slave][:id]}" != "")) {
+  log "  Updating slave DNS using recipe db::do_set_dns_slave"
+  include_recipe "db::do_set_dns_slave"
+} else {
+  log "  NOT updating slave DNS since input db/dns/slave/id is undefined"
+}
