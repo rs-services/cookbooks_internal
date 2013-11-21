@@ -24,4 +24,5 @@ end
 
 remote_recipe "Request slave DNS update" do
   recipe "db::do_set_dns_slave"
+  recipients_tags "server:uuid=#{node[:rightscale][:instance_uuid]}"
 end
