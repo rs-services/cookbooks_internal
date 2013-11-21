@@ -22,9 +22,6 @@ db_register_slave "restore from primary" do
   action :primary_restore
 end
 
-#if (node[:db][:dns][:slave] && ("#{node[:db][:dns][:slave][:id]}" != ""))
-  log "  Updating slave DNS using recipe db::do_set_dns_slave"
-  include_recipe "db::do_set_dns_slave"
-#else
-#  log "  NOT updating slave DNS since input db/dns/slave/id is undefined"
-#end
+remote_recipe "Request slave DNS update" do
+  recipe "db::do_set_dns_slave"
+end
