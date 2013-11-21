@@ -7,7 +7,7 @@ description      "This cookbook provides a set of database recipes used by" +
                  " but generic recipes that use the Lightweight Resource" +
                  " Provider (LWRP) interface."
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          "13.5.15"
+version          "13.5.16"
 
 supports "centos"
 supports "redhat"
