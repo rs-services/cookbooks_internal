@@ -8,4 +8,4 @@ version          '2.0.1'
 
 depends "rightscale"
 
-recipe "cassandra::install"
+recipe "cassandra::install", "Downloads Cassandra RPM's and Oracle JRE"
