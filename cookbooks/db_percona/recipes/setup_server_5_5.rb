@@ -22,14 +22,6 @@ if File.exists?(linux_rb)
   COOKBOOK_FILES_PATH = ::File.join(::File.dirname(__FILE__), "..", "files", "default")
   log "  Copying #{COOKBOOK_FILES_PATH}/linux.rb to #{linux_rb}"
   `cp #{COOKBOOK_FILES_PATH}/linux.rb #{linux_rb}`
-
-  linux_rb="#{linux_rb}_cookbook_file"
-  log "  Patching #{linux_rb}"
-  cookbook_file "#{linux_rb}" do
-    action :create
-    source "linux.rb"
-    mode "0664"
-  end
 else
   log "  Missing #{linux_rb}"
 end
