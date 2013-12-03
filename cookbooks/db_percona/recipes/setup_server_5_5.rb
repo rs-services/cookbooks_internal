@@ -12,11 +12,18 @@ version = "5.5"
 node[:db][:version] = version
 node[:db][:provider] = "db_percona"
 
+
 #patch linux.rb, as per Lopaka:
 ###this code will fix a bug where mounting of the new lvm device happens before it is enabled
 ###and will raise when the properties of the ubuntu bug shows
 linux_rb="/opt/rightscale/sandbox/lib/ruby/gems/1.8/gems/rightscale_tools-1.7.14/lib/rightscale_tools/platform/linux.rb"
+
+COOKBOOK_FILES_PATH = ::File.join(::File.dirname(__FILE__), "..", "files", "default")
+log "  Copying #{COOKBOOK_FILES_PATH}/linux.rb to #{linux_rb}"
+`cp #{COOKBOOK_FILES_PATH}/linux.rb #{linux_rb}`
+
 if File.exists?(linux_rb)
+  linux_rb="#{linux_rb}_cookbook_file"
   log "  Patching #{linux_rb}"
   cookbook_file "#{linux_rb}" do
     action :create
