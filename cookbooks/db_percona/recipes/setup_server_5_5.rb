@@ -12,20 +12,6 @@ version = "5.5"
 node[:db][:version] = version
 node[:db][:provider] = "db_percona"
 
-
-linux_rb="/opt/rightscale/sandbox/lib/ruby/gems/1.8/gems/rightscale_tools-1.7.14/lib/rightscale_tools/platform/linux.rb"
-
-if File.exists?(linux_rb)
-  log "  Patching #{linux_rb}"
-  cookbook_file "#{linux_rb}" do
-    action :create
-    source "linux.rb"
-    mode "0664"
-  end
-else
-  log "  Missing #{linux_rb}"
-end
-
 log "  Setting DB Percona version to #{version}"
 
 # Set MySQL 5.5 specific node variables in this recipe.
