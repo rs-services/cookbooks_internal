@@ -49,7 +49,7 @@ end
 bash "update_alternatives_to_oracle_java" do
   flags "-ex"
   code <<-EOM
-    alternatives --install /usr/bin/java java /usr/java/jre1.7.0_version/bin/java 20000
+    alternatives --install /usr/bin/java java /usr/java/jre1.7.0_45/bin/java 20000
   EOM
 end
 
