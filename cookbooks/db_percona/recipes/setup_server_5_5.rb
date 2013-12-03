@@ -18,11 +18,11 @@ node[:db][:provider] = "db_percona"
 ###and will raise when the properties of the ubuntu bug shows
 linux_rb="/opt/rightscale/sandbox/lib/ruby/gems/1.8/gems/rightscale_tools-1.7.14/lib/rightscale_tools/platform/linux.rb"
 
-COOKBOOK_FILES_PATH = ::File.join(::File.dirname(__FILE__), "..", "files", "default")
-log "  Copying #{COOKBOOK_FILES_PATH}/linux.rb to #{linux_rb}"
-`cp #{COOKBOOK_FILES_PATH}/linux.rb #{linux_rb}`
-
 if File.exists?(linux_rb)
+  COOKBOOK_FILES_PATH = ::File.join(::File.dirname(__FILE__), "..", "files", "default")
+  log "  Copying #{COOKBOOK_FILES_PATH}/linux.rb to #{linux_rb}"
+  `cp #{COOKBOOK_FILES_PATH}/linux.rb #{linux_rb}`
+
   linux_rb="#{linux_rb}_cookbook_file"
   log "  Patching #{linux_rb}"
   cookbook_file "#{linux_rb}" do
