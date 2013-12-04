@@ -224,7 +224,7 @@ seed_provider:
       parameters:
           # seeds is actually a comma-delimited list of addresses.
           # Ex: "<ip1>,<ip2>,<ip3>"
-          <% seeds.each do |seed| %>
+          <% @seeds.each do |seed| %>
             - seeds: "<%= seed %>, "
           <% end %>
 

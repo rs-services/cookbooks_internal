@@ -32,7 +32,8 @@ template "/etc/cassandra/conf/cassandra.yaml" do
   group "root"
   mode "0644"
   variables({
-    :seeds => seed_ips
+    :cluster_name => node[:cassandra][:cluster_name],
+    :seeds        => seed_ips
   })
 end
 
