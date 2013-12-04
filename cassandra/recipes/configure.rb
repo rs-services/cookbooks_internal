@@ -28,8 +28,8 @@ end
 
 template "/etc/cassandra/conf/cassandra.yaml" do
   source "cassandra.yaml.erb"
-  owner "root"
-  group "root"
+  owner "cassandra"
+  group "cassandra"
   mode "0644"
   variables({
     :cluster_name => node[:cassandra][:cluster_name],
