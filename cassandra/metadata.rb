@@ -10,3 +10,10 @@ depends "rightscale"
 
 recipe "cassandra::install", "Downloads Cassandra RPM's and Oracle JRE"
 recipe "cassandra::configure", "Configures cassandra.yaml"
+
+attribute "cassandra/cluster_name",
+	:description => "Name of the Cassandra cluster",
+	:recipes     => ["cassandra::configure"],
+	:type        => "string",
+	:display     => "cassandra/cluster_name",
+	:required    => "required"
