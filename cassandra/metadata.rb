@@ -40,4 +40,4 @@ attribute "cassandra/saved_caches_directory",
   :type        => "string",
   :display     => "cassandra/saved_caches_directory",
   :required    => "recommended",
-  :default     => "/mnt/ephemeral/cassandra/saved_cached"
+  :default     => "/mnt/ephemeral/cassandra/saved_caches"
