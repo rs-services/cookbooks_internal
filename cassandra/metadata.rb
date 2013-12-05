@@ -23,7 +23,7 @@ attribute "cassandra/commitlog_directory",
   :recipes     => ["cassandra::configure"],
   :type        => "string",
   :display     => "cassandra/commitlog_directory",
-  :required    => "required",
+  :required    => "recommended",
   :default     => "/mnt/ephemeral/cassandra/commitlog"
 
 attribute "cassandra/data_file_directories",
@@ -31,7 +31,7 @@ attribute "cassandra/data_file_directories",
   :recipes     => ["cassandra::configure"],
   :type        => "array",
   :display     => "cassandra/data_file_directories",
-  :required    => "required",
+  :required    => "recommended",
   :default     => "/mnt/ephemeral/cassandra/data"
 
 attribute "cassandra/saved_caches_directory",
@@ -39,5 +39,5 @@ attribute "cassandra/saved_caches_directory",
   :recipes     => ["cassandra::configure"],
   :type        => "string",
   :display     => "cassandra/saved_caches_directory",
-  :required    => "required",
+  :required    => "recommended",
   :default     => "/mnt/ephemeral/cassandra/saved_cached"
