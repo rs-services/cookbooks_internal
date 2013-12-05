@@ -9,7 +9,7 @@ version          '2.0.1'
 depends "rightscale"
 
 recipe "cassandra::install", "Downloads Cassandra RPM's and Oracle JRE"
-recipe "cassandra::configure", "Configures cassandra.yaml"
+recipe "cassandra::configure", "Configures cassandra.yaml and starts the service"
 
 attribute "cassandra/cluster_name",
 	:description => "Name of the Cassandra cluster",
@@ -17,3 +17,27 @@ attribute "cassandra/cluster_name",
 	:type        => "string",
 	:display     => "cassandra/cluster_name",
 	:required    => "required"
+  
+attribute "cassandra/commitlog_directory",
+  :description => "Directory where Cassandra commitlogs are stored",
+  :recipes     => ["cassandra::configure"],
+  :type        => "string",
+  :display     => "cassandra/commitlog_directory",
+  :required    => "required",
+  :default     => "/mnt/ephemeral/cassandra/commitlog"
+
+attribute "cassandra/data_file_directories",
+  :description => "Comma separated list of directories where Cassandra data files should be stored",
+  :recipes     => ["cassandra::configure"],
+  :type        => "array",
+  :display     => "cassandra/data_file_directories",
+  :required    => "required",
+  :default     => "/mnt/ephemeral/cassandra/data"
+
+attribute "cassandra/saved_caches_directory",
+  :description => "Directory where Cassandra saved caches are stored",
+  :recipes     => ["cassandra::configure"],
+  :type        => "string",
+  :display     => "cassandra/saved_caches_directory",
+  :required    => "required",
+  :default     => "/mnt/ephemeral/cassandra/saved_cached"
