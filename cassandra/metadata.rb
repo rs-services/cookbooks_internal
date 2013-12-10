@@ -24,7 +24,7 @@ attribute "cassandra/snitch",
   :type        => "string",
   :display     => "cassandra/snitch",
   :choice      => ["SimpleSnitch", "Ec2Snitch", "Ec2MultiRegionSnitch"],
-  :default     => "SimpleSnitch",
+  :default     => "Ec2Snitch",
   :required    => "recommended"
   
 attribute "cassandra/commitlog_directory",
