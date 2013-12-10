@@ -7,6 +7,8 @@
 # All rights reserved - Do Not Redistribute
 #
 
+# Recommended production settings: http://www.datastax.com/documentation/cassandra/2.0/webhelp/index.html#cassandra/install/installRecommendSettings.html
+
 rightscale_marker :begin
 
 remote_file "#{Chef::Config[:file_cache_path]}/cassandra20-2.0.3-1.noarch.rpm" do
@@ -50,6 +52,20 @@ bash "update_alternatives_to_oracle_java" do
   flags "-ex"
   code <<-EOM
     alternatives --install /usr/bin/java java /usr/java/jre1.7.0_45/bin/java 20000
+  EOM
+end
+
+cookbook_file "/etc/sysctl.conf" do
+  source "sysctl.conf"
+  mode "0644"
+  owner "root"
+  group "root"
+end
+
+bash "disable_swap" do
+  flags "-ex"
+  code <<-EOM
+    swapoff --all
   EOM
 end
 
