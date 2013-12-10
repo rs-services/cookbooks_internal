@@ -22,6 +22,7 @@ attribute "cassandra/snitch",
   :description => "Cassandra snitch to use. See: http://www.datastax.com/documentation/cassandra/2.0/mobile/cassandra/architecture/architectureSnitchesAbout_c.html",
   :recipes     => ["cassandra::configure"],
   :type        => "string",
+  :display     => "cassandra/snitch",
   :choice      => ["SimpleSnitch", "Ec2Snitch", "Ec2MultiRegionSnitch"],
   :default     => "SimpleSnitch",
   :required    => "recommended"
