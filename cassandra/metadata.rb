@@ -17,6 +17,14 @@ attribute "cassandra/cluster_name",
 	:type        => "string",
 	:display     => "cassandra/cluster_name",
 	:required    => "required"
+
+attribute "cassandra/snitch",
+  :description => "Cassandra snitch to use. See: http://www.datastax.com/documentation/cassandra/2.0/mobile/cassandra/architecture/architectureSnitchesAbout_c.html",
+  :recipes     => ["cassandra::configure"],
+  :type        => "string",
+  :choice      => ["SimpleSnitch", "Ec2Snitch", "Ec2MultiRegionSnitch"],
+  :default     => "SimpleSnitch",
+  :required    => "recommended"
   
 attribute "cassandra/commitlog_directory",
   :description => "Directory where Cassandra commitlogs are stored",

@@ -47,6 +47,7 @@ template "/etc/cassandra/conf/cassandra.yaml" do
   mode "0644"
   variables({
     :cluster_name           => node[:cassandra][:cluster_name],
+		:snitch									=> node[:cassandra][:snitch],
     :commitlog_directory    => node[:cassandra][:commitlog_directory],
     :data_file_directories  => node[:cassandra][:data_file_directories],
     :saved_caches_directory => node[:cassandra][:saved_caches_directory],
