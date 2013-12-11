@@ -18,7 +18,7 @@ seed_ips = Array.new
 
 seed_hosts = rightscale_server_collection "seed_hosts" do
   tags ["cassandra:seed_host=true"]
-  mandatory_tags ["server:private_ip_0"]
+  mandatory_tags ["server:public_ip_0"]
   empty_ok false
   action :nothing
 end
@@ -27,7 +27,7 @@ seed_hosts.run_action(:load)
 if node["server_collection"]["seed_hosts"]
   Chef::Log.info "Server collection found ..."
   node["server_collection"]["seed_hosts"].to_hash.values.each do |tag|
-    seed_ips.push(RightScale::Utils::Helper.get_tag_value("server:private_ip_0", tag))
+    seed_ips.push(RightScale::Utils::Helper.get_tag_value("server:public_ip_0", tag))
   end
 end
 
