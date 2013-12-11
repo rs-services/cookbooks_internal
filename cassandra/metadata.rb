@@ -18,6 +18,14 @@ attribute "cassandra/cluster_name",
 	:display     => "cassandra/cluster_name",
 	:required    => "required"
 
+attribute "cassandra/is_seed_host",
+  :description => "Is this host going to be a seed host?",
+  :recipes     => ["casssandra::install"],
+  :type        => "string",
+  :display     => "cassandra/is_seed_host",
+  :choice      => ["true", "false"],
+  :required    => "required"
+
 attribute "cassandra/snitch",
   :description => "Cassandra snitch to use. See: http://www.datastax.com/documentation/cassandra/2.0/mobile/cassandra/architecture/architectureSnitchesAbout_c.html",
   :recipes     => ["cassandra::configure"],
