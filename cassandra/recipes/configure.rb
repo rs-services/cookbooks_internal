@@ -9,9 +9,9 @@
 
 rightscale_marker :begin
 
-seed_hosts      = Array.new
-ring_hosts  = Array.new
-dirs            = Array.new
+seed_ips   = Array.new
+ring_hosts = Array.new
+dirs       = Array.new
 
 # Collect directories to create
 dirs.push(node[:cassandra][:commitlog_directory])
