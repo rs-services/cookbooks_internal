@@ -34,7 +34,7 @@ if node["server_collection"]["seed_hosts"]
   end
 end
 
-# Find hosts and what cloud they are on
+# Find hosts and what cloud belong to
 cassandra_hosts = rightscale_server_collection "cassandra_hosts" do
   tags ["cassandra:seed_host"]
   mandatory_tags ["server:public_ip_0"]
@@ -46,7 +46,9 @@ cassandra_hosts.run_action(:load)
 if node["server_collection"]["cassandra_hosts"]
   Chef::Log.info "Found all hosts in the Cassandra ring ..."
   node["server_collection"]["cassandra_hosts"].to_hash.values.each do |tag|
-    ring_hosts.push([RightScale::Utils::Helper.get_tag_value("server:public_ip_0", tag), RightScale::Utils::Helper.get_tag_value("cassandra:cloud", tag), RightScale::Utils::Helper.get_tag_value("cassandra:region", tag)])
+    ring_hosts.push([RightScale::Utils::Helper.get_tag_value("server:public_ip_0", tag), 
+                    RightScale::Utils::Helper.get_tag_value("cassandra:cloud", tag), 
+                    RightScale::Utils::Helper.get_tag_value("cassandra:region", tag)])
   end
 end
 
