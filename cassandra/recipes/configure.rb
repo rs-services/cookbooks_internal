@@ -78,8 +78,8 @@ end
 
 template "/etc/cassandra/conf/cassandra-topology.properties" do
   source "cassandra-topology.properties.erb"
-  owner "root"
-  group "root"
+  owner "cassandra"
+  group "cassandra"
   mode "0644"
   variables({
     :ring_hosts => ring_hosts
