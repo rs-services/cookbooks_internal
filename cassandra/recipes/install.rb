@@ -11,6 +11,15 @@
 
 rightscale_marker :begin
 
+right_link_tag "cassandra:seed_host=#{node[:cassandra][:is_seed_host]}"
+right_link_tag "cassandra:cloud=#{node[:cloud][:provider]}" 
+
+if node[:cloud][:provider] == "ec2"
+  right_link_tag "cassandra:region=#{node[:ec2][:placement][:availability_zone]}"
+elsif node[:cloud][:provider] == "google"
+  right_link_tag "cassandra:region=#{node[:google][:zone].split('/').last}"
+end
+
 remote_file "#{Chef::Config[:file_cache_path]}/cassandra20-2.0.3-1.noarch.rpm" do
   source "http://stefhen-rightscale.s3.amazonaws.com/cassandra/cassandra20-2.0.3-1.noarch.rpm"
   checksum "8d403cfeb0b7a4136da97402a49364e30caaeca0a5daf981fdd839900e3cd4c8"

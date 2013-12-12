@@ -20,7 +20,7 @@ attribute "cassandra/cluster_name",
 
 attribute "cassandra/is_seed_host",
   :description => "Is this host going to be a seed host?",
-  :recipes     => ["casssandra::install"],
+  :recipes     => ["cassandra::install"],
   :type        => "string",
   :display     => "cassandra/is_seed_host",
   :choice      => ["true", "false"],
@@ -31,7 +31,7 @@ attribute "cassandra/snitch",
   :recipes     => ["cassandra::configure"],
   :type        => "string",
   :display     => "cassandra/snitch",
-  :choice      => ["SimpleSnitch", "Ec2Snitch", "Ec2MultiRegionSnitch"],
+  :choice      => ["SimpleSnitch", "Ec2Snitch", "Ec2MultiRegionSnitch", "PropertyFileSnitch"],
   :default     => "Ec2Snitch",
   :required    => "recommended"
   

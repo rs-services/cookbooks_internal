@@ -9,13 +9,16 @@
 
 rightscale_marker :begin
 
-dirs = Array.new
+seed_hosts      = Array.new
+ring_hosts  = Array.new
+dirs            = Array.new
+
+# Collect directories to create
 dirs.push(node[:cassandra][:commitlog_directory])
 dirs.push(node[:cassandra][:saved_caches_directory])
 dirs += node[:cassandra][:data_file_directories]
 
-seed_ips = Array.new
-
+# Find hosts that are going to be Cassandra seeds
 seed_hosts = rightscale_server_collection "seed_hosts" do
   tags ["cassandra:seed_host=true"]
   mandatory_tags ["server:public_ip_0"]
@@ -28,6 +31,22 @@ if node["server_collection"]["seed_hosts"]
   Chef::Log.info "Server collection found ..."
   node["server_collection"]["seed_hosts"].to_hash.values.each do |tag|
     seed_ips.push(RightScale::Utils::Helper.get_tag_value("server:public_ip_0", tag))
+  end
+end
+
+# Find hosts and what cloud they are on
+cassandra_hosts = rightscale_server_collection "cassandra_hosts" do
+  tags ["cassandra:seed_host"]
+  mandatory_tags ["server:public_ip_0"]
+  empty_ok false
+  action :nothing
+end
+cassandra_hosts.run_action(:load)
+
+if node["server_collection"]["cassandra_hosts"]
+  Chef::Log.info "Found all hosts in the Cassandra ring ..."
+  node["server_collection"]["cassandra_hosts"].to_hash.values.each do |tag|
+    ring_hosts.push([RightScale::Utils::Helper.get_tag_value("server:public_ip_0", tag), RightScale::Utils::Helper.get_tag_value("cassandra:cloud", tag), RightScale::Utils::Helper.get_tag_value("cassandra:region", tag)])
   end
 end
 
@@ -54,6 +73,16 @@ template "/etc/cassandra/conf/cassandra.yaml" do
     :listen_address         => node[:cloud][:private_ips][0],
     :broadcast_address      => node[:cloud][:public_ips][0],
     :seeds                  => seed_ips
+  })
+end
+
+template "/etc/cassandra/conf/cassandra-topology.properties" do
+  source "cassandra-topology.properties.erb"
+  owner "root"
+  group "root"
+  mode "0644"
+  variables({
+    :ring_hosts => ring_hosts
   })
 end
 
