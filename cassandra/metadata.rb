@@ -25,7 +25,7 @@ attribute "cassandra/is_seed_host",
   :display     => "cassandra/is_seed_host",
   :choice      => ["true", "false"],
   :default     => "false",
-  :required    => "required"
+  :required    => "recommended"
 
 attribute "cassandra/snitch",
   :description => "Cassandra snitch to use. See: http://www.datastax.com/documentation/cassandra/2.0/mobile/cassandra/architecture/architectureSnitchesAbout_c.html",
