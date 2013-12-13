@@ -24,6 +24,7 @@ attribute "cassandra/is_seed_host",
   :type        => "string",
   :display     => "cassandra/is_seed_host",
   :choice      => ["true", "false"],
+  :default     => "false",
   :required    => "required"
 
 attribute "cassandra/snitch",
