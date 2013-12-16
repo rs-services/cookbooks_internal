@@ -34,6 +34,7 @@ if node["server_collection"]["seed_hosts"]
   end
 end
 
+=begin
 # Find hosts and what cloud belong to
 cassandra_hosts = rightscale_server_collection "cassandra_hosts" do
   tags ["cassandra:seed_host"]
@@ -51,6 +52,7 @@ if node["server_collection"]["cassandra_hosts"]
                     RightScale::Utils::Helper.get_tag_value("cassandra:region", tag)])
   end
 end
+=end
 
 dirs.each do |dir|
   directory "#{dir}" do
@@ -78,6 +80,7 @@ template "/etc/cassandra/conf/cassandra.yaml" do
   })
 end
 
+=begin
 template "/etc/cassandra/conf/cassandra-topology.properties" do
   source "cassandra-topology.properties.erb"
   owner "cassandra"
@@ -87,6 +90,7 @@ template "/etc/cassandra/conf/cassandra-topology.properties" do
     :ring_hosts => ring_hosts
   })
 end
+=end
 
 service "cassandra" do
   action [:enable, :start]

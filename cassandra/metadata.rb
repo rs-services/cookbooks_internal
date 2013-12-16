@@ -32,7 +32,7 @@ attribute "cassandra/snitch",
   :recipes     => ["cassandra::configure"],
   :type        => "string",
   :display     => "cassandra/snitch",
-  :choice      => ["SimpleSnitch", "Ec2Snitch", "Ec2MultiRegionSnitch", "PropertyFileSnitch"],
+  :choice      => ["SimpleSnitch", "Ec2Snitch", "Ec2MultiRegionSnitch", "GossipingPropertyFileSnitch"],
   :default     => "Ec2Snitch",
   :required    => "recommended"
   
