@@ -67,6 +67,24 @@ define :db_do_backup, :backup_type => "primary" do
   # previously. Make sure block_device::default recipe has been run.
   # See cookbooks/block_device/providers/default.rb for the "snapshot" action.
   block_device NICKNAME do
+    # Select the device to backup and set up arguments required for backup.
+    lineage node[:db][:backup][:lineage]
+    max_snapshots get_device_or_default(node, :device1, :backup, :primary, :keep, :max_snapshots)
+    keep_daily get_device_or_default(node, :device1, :backup, :primary, :keep, :keep_daily)
+    keep_weekly get_device_or_default(node, :device1, :backup, :primary, :keep, :keep_weekly)
+    keep_monthly get_device_or_default(node, :device1, :backup, :primary, :keep, :keep_monthly)
+    keep_yearly get_device_or_default(node, :device1, :backup, :primary, :keep, :keep_yearly)
+
+    # Secondary arguments
+    secondary_cloud get_device_or_default(node, :device1, :backup, :secondary, :cloud)
+    secondary_endpoint get_device_or_default(node, :device1, :backup, :secondary, :endpoint) || ""
+    secondary_container get_device_or_default(node, :device1, :backup, :secondary, :container)
+    secondary_user get_device_or_default(node, :device1, :backup, :secondary, :cred, :user)
+    secondary_secret get_device_or_default(node, :device1, :backup, :secondary, :cred, :secret)
+
+    # the type of backup (:primary or :secondary)
+    backup_type do_backup_type.to_sym
+    
     action :snapshot
   end
 

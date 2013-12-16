@@ -21,8 +21,3 @@ log "  Authentication information provided by inputs is ignored for slave server
 db_register_slave "restore from primary" do
   action :primary_restore
 end
-
-remote_recipe "Request slave DNS update" do
-  recipe "db::do_set_dns_slave"
-  recipients_tags "server:uuid=#{node[:rightscale][:instance_uuid]}"
-end

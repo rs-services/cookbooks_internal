@@ -1,3 +1,4 @@
+name             "db"
 maintainer       "RightScale, Inc."
 maintainer_email "support@rightscale.com"
 license          "Copyright RightScale, Inc. All rights reserved."
@@ -7,7 +8,7 @@ description      "This cookbook provides a set of database recipes used by" +
                  " but generic recipes that use the Lightweight Resource" +
                  " Provider (LWRP) interface."
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          "13.5.16"
+version          "13.5.0"
 
 supports "centos"
 supports "redhat"
@@ -18,7 +19,6 @@ depends "block_device"
 depends "sys_firewall"
 depends "db_mysql"
 depends "db_postgres"
-depends "db_percona"
 
 recipe "db::default",
   "Selects and installs database client. It also sets up the provider" +
@@ -378,7 +378,7 @@ attribute "db/provider_type",
     " of the database." +
     " Example: db_mydatabase_1.0, db_mysql_5.1, db_mysql_5.5, db_postgres_9.1",
   :required => "required",
-  :choice => ["db_mysql_5.1", "db_mysql_5.5", "db_postgres_9.1","db_percona_5.5"],
+  :choice => ["db_mysql_5.1", "db_mysql_5.5", "db_postgres_9.1"],
   :recipes => ["db::default"]
 
 # == Backup/Restore
