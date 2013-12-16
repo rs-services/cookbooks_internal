@@ -8,7 +8,7 @@ description      "This cookbook provides a set of database recipes used by" +
                  " but generic recipes that use the Lightweight Resource" +
                  " Provider (LWRP) interface."
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          "13.5.51"
+version          "13.5.52"
 
 supports "centos"
 supports "redhat"
@@ -19,6 +19,7 @@ depends "block_device"
 depends "sys_firewall"
 depends "db_mysql"
 depends "db_postgres"
+depends "db_percona"
 
 recipe "db::default",
   "Selects and installs database client. It also sets up the provider" +
