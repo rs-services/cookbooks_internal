@@ -76,8 +76,8 @@ template "/etc/cassandra/conf/cassandra-rackdc.properties" do
   group "cassandra"
   mode "0644"
   variables({
-    :datacenter => node[:cassandra][:cloud],
-    :rack       => node[:cassandra][:region]
+    :datacenter => datacenter,
+    :rack       => rack
   })
 end
 
