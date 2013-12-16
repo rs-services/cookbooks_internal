@@ -92,6 +92,17 @@ template "/etc/cassandra/conf/cassandra-topology.properties" do
 end
 =end
 
+template "/etc/cassandra/conf/cassandra-rackdc.properties" do
+  source "cassandra-rackdc.properties.erb"
+  owner "cassandra"
+  group "cassandra"
+  mode "0644"
+  variables({
+    :datacenter => node[:cassandra][:cloud],
+    :rack       => node[:cassandra][:region]
+  })
+end
+
 service "cassandra" do
   action [:enable, :start]
 end
