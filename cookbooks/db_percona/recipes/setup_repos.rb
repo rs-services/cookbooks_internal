@@ -8,7 +8,7 @@
 
 rightscale_marker
 
-db 'setup repos' do
+db_percona 'setup repos' do
   persist true
   provider node[:db][:provider]
   db_version node[:db][:version]
