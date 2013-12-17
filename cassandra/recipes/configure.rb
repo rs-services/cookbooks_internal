@@ -90,7 +90,7 @@ if node[:cassandra][:require_inter_node_encryption] == "true"
   bash "install_cassandra_certs" do
     flags "-ex"
     code <<-EOM
-      rs_run_rightscript --name "Install Cassandra Certs"
+      rs_run_right_script --name "Install Cassandra Certs"
     EOM
   end
 end
