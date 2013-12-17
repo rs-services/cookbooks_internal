@@ -72,15 +72,3 @@ bash "disable_swap" do
 end
 
 rightscale_marker :end
-
-=begin
-if node[:cloud][:provider] == "ec2"
-  right_link_tag "cassandra:cloud=ec2-#{node[:ec2][:placement][:availability_zone].chop}"
-  right_link_tag "cassandra:region=#{node[:ec2][:placement][:availability_zone]}"
-elsif node[:cloud][:provider] == "google"
-  right_link_tag "cassandra:cloud=google-#{node[:google][:zone].split('/').last.chop.chop}"
-  right_link_tag "cassandra:region=#{node[:google][:zone].split('/').last}"
-end
-=end
-
-
