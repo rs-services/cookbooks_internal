@@ -634,17 +634,16 @@ request_scheduler: org.apache.cassandra.scheduler.NoScheduler
 # http://download.oracle.com/javase/6/docs/technotes/guides/security/jsse/JSSERefGuide.html#CreateKeystore
 #
 server_encryption_options:
-    internode_encryption: none
-    keystore: conf/.keystore
+    internode_encryption: all
+    keystore: /etc/cassandra/conf/keystore
     keystore_password: cassandra
-    truststore: conf/.truststore
+    truststore: /etc/cassandra/conf/truststore
     truststore_password: cassandra
-    # More advanced defaults below:
-    # protocol: TLS
-    # algorithm: SunX509
-    # store_type: JKS
-    # cipher_suites: [TLS_RSA_WITH_AES_128_CBC_SHA,TLS_RSA_WITH_AES_256_CBC_SHA]
-    # require_client_auth: false
+    protocol: TLS
+    algorithm: SunX509
+    store_type: JKS
+    cipher_suites: [TLS_RSA_WITH_AES_128_CBC_SHA,TLS_RSA_WITH_AES_256_CBC_SHA]
+    require_client_auth: false
 
 # enable or disable client/server encryption.
 client_encryption_options:
