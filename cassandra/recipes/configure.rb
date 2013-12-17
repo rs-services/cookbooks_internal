@@ -56,7 +56,7 @@ end
 
 # Install main Cassandra config file
 template "/etc/cassandra/conf/cassandra.yaml" do
-  source "cassandra.yaml.erb"
+  source "#{node[:cassandra][:require_inter_node_encryption]}-cassandra.yaml.erb"
   owner "cassandra"
   group "cassandra"
   mode "0644"
@@ -83,6 +83,15 @@ if node[:cassandra][:snitch] == "GossipingPropertyFileSnitch"
       :datacenter => datacenter,
       :rack       => rack
     })
+  end
+end
+
+if node[:cassandra][:require_inter_node_encryption] == "true"
+  bash "install_cassandra_certs" do
+    flags "-ex"
+    code <<-EOM
+      rs_run_rightscript --name "Install Cassandra Certs"
+    EOM
   end
 end
 
