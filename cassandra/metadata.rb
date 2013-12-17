@@ -59,3 +59,12 @@ attribute "cassandra/saved_caches_directory",
   :display     => "cassandra/saved_caches_directory",
   :required    => "recommended",
   :default     => "/mnt/ephemeral/cassandra/saved_caches"
+
+attribute "cassandra/require_inter_node_encryption",
+  :description => "Enable encryption between Cassandra nodes?",
+  :recipe      => ["cassandra::configure"],
+  :type        => "string",
+  :display     => "cassandra/require_inter_node_encryption",
+  :choice      => ["true", "false",
+  :required    => "recommended",
+  :default     => "false"

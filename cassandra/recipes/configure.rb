@@ -72,15 +72,18 @@ template "/etc/cassandra/conf/cassandra.yaml" do
   })
 end
 
-template "/etc/cassandra/conf/cassandra-rackdc.properties" do
-  source "cassandra-rackdc.properties.erb"
-  owner "cassandra"
-  group "cassandra"
-  mode "0644"
-  variables({
-    :datacenter => datacenter,
-    :rack       => rack
-  })
+# Only install rackdc.properties if using GossipingPropertyFileSnitch
+if node[:cassandra][:snitch] == "GossipingPropertyFileSnitch"
+  template "/etc/cassandra/conf/cassandra-rackdc.properties" do
+    source "cassandra-rackdc.properties.erb"
+    owner "cassandra"
+    group "cassandra"
+    mode "0644"
+    variables({
+      :datacenter => datacenter,
+      :rack       => rack
+    })
+  end
 end
 
 service "cassandra" do
