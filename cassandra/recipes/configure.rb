@@ -86,6 +86,7 @@ if node[:cassandra][:snitch] == "GossipingPropertyFileSnitch"
   end
 end
 
+# Install Cassandra truststore / keystore certs and start service via the RightScript
 if node[:cassandra][:require_inter_node_encryption] == "true"
   bash "install_cassandra_certs" do
     flags "-ex"
@@ -95,8 +96,11 @@ if node[:cassandra][:require_inter_node_encryption] == "true"
   end
 end
 
-service "cassandra" do
-  action [:enable, :start]
+# Only start Cassandra here if not using encryption, otherwise it is started above
+if node[:cassandra][:require_inter_node_encryption] == "false"
+  service "cassandra" do
+    action [:enable, :start]
+  end
 end
 
 rightscale_marker :end
