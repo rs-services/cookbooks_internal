@@ -65,6 +65,6 @@ attribute "cassandra/require_inter_node_encryption",
   :recipe      => ["cassandra::configure"],
   :type        => "string",
   :display     => "cassandra/require_inter_node_encryption",
-  :choice      => ["true", "false",
+  :choice      => ["true", "false"],
   :required    => "recommended",
   :default     => "false"
