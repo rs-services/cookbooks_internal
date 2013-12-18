@@ -14,12 +14,12 @@ rightscale_marker :begin
 right_link_tag "cassandra:seed_host=#{node[:cassandra][:is_seed_host]}"
 
 remote_file "#{Chef::Config[:file_cache_path]}/cassandra20-2.0.3-1.noarch.rpm" do
-  source "http://stefhen-rightscale.s3.amazonaws.com/cassandra/cassandra20-2.0.3-1.noarch.rpm"
+  source "http://rs-professional-services-publishing.s3.amazonaws.com/cassandra/cassandra12-1.2.6-1.noarch.rpm"
   checksum "8d403cfeb0b7a4136da97402a49364e30caaeca0a5daf981fdd839900e3cd4c8"
 end
 
 remote_file "#{Chef::Config[:file_cache_path]}/dsc20-2.0.3-1.noarch.rpm" do
-  source "http://stefhen-rightscale.s3.amazonaws.com/cassandra/dsc20-2.0.3-1.noarch.rpm"
+  source "http://rs-professional-services-publishing.s3.amazonaws.com/cassandra/cassandra12-1.2.6-1.noarch.rpm"
   checksum "6122f34b3d9bcc425b4663c397c2ce3331c2ef6b25e31ab5f8e91b84a682b0de"
 end
 
