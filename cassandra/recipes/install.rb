@@ -64,6 +64,21 @@ cookbook_file "/etc/sysctl.conf" do
   group "root"
 end
 
+cookbook_file "/etc/security/limits.d/cassandra.conf" do
+  source "cassandra.conf"
+  owner "root"
+  group "root"
+  mode "0644"
+  backup false
+end
+
+cookbook_file "/etc/cassandra/conf/cassandra-env.sh" do
+  source "cassandra-env.sh"
+  owner "cassandra"
+  group "cassandra"
+  mode "0755"
+end
+
 bash "disable_swap" do
   flags "-ex"
   code <<-EOM
