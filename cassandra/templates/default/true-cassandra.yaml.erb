@@ -652,9 +652,9 @@ index_interval: 128
 server_encryption_options:
     internode_encryption: all
     keystore: /etc/cassandra/conf/keystore
-    keystore_password: cassandra
+    keystore_password: <%= @encryption_password %>
     truststore: /etc/cassandra/conf/truststore
-    truststore_password: cassandra
+    truststore_password: <%= @encryption_password %>
     protocol: TLS
     algorithm: SunX509
     store_type: JKS

@@ -66,6 +66,7 @@ template "/etc/cassandra/conf/cassandra.yaml" do
     :commitlog_directory    => node[:cassandra][:commitlog_directory],
     :data_file_directories  => node[:cassandra][:data_file_directories],
     :saved_caches_directory => node[:cassandra][:saved_caches_directory],
+    :encryption_password    => node[:cassandra][:encryption_password],
     :listen_address         => node[:cloud][:private_ips][0],
     :broadcast_address      => node[:cloud][:public_ips][0],
     :seeds                  => seed_ips
