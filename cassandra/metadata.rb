@@ -71,7 +71,7 @@ attribute "cassandra/require_inter_node_encryption",
 
 attribute "cassandra/encryption_password",
   :description => "The password to be used for the keystore and truststore files",
-  :recipe      => ["cassandra::configure"],
+  :recipes     => ["cassandra::configure"],
   :type        => "string",
   :display     => "cassandra/encryption_password",
   :required    => "recommended"
