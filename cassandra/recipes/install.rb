@@ -56,6 +56,7 @@ remote_file "/usr/java/jre1.7.0_45/lib/security/US_export_policy.jar" do
   owner "root"
   group "root"
   mode "0644"
+  backup false
 end
 
 remote_file "/usr/java/jre1.7.0_45/lib/security/local_policy.jar" do
@@ -64,6 +65,7 @@ remote_file "/usr/java/jre1.7.0_45/lib/security/local_policy.jar" do
   owner "root"
   group "root"
   mode "0644"
+  backup false
 end
 
 bash "update_alternatives_to_oracle_java" do
