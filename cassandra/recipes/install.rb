@@ -50,6 +50,22 @@ package "jre" do
   provider Chef::Provider::Package::Rpm
 end
 
+remote_file "/usr/java/jre1.7.0_45/lib/security/US_export_policy.jar" do
+  source "https://s3.amazonaws.com/rs-professional-services-publishing/cassandra/US_export_policy.jar"
+  checksum "b800fef6edc0f74560608cecf3775f7a91eb08d6c3417aed81a87c6371726115"
+  owner "root"
+  group "root"
+  mode "0644"
+end
+
+remote_file "/usr/java/jre1.7.0_45/lib/security/local_policy.jar" do
+  source "https://s3.amazonaws.com/rs-professional-services-publishing/cassandra/local_policy.jar"
+  checksum "4a5c8f64107c349c662ea688563e5cd07d675255289ab25246a3a46fc4f85767"
+  owner "root"
+  group "root"
+  mode "0644"
+end
+
 bash "update_alternatives_to_oracle_java" do
   flags "-ex"
   code <<-EOM
