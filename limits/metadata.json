@@ -1,0 +1,44 @@
+{
+  "name": "limits",
+  "description": "Installs limits.conf",
+  "long_description": "limits Cookbook\n==================\nSimple cookbook to install /etc/security/limits.conf\n",
+  "maintainer": "RightScale Inc",
+  "maintainer_email": "premium@rightscale.com",
+  "license": "All rights reserved",
+  "platforms": {
+  },
+  "dependencies": {
+    "rightscale": ">= 0.0.0"
+  },
+  "recommendations": {
+  },
+  "suggestions": {
+  },
+  "conflicting": {
+  },
+  "providing": {
+  },
+  "replacing": {
+  },
+  "attributes": {
+    "limits/priority": {
+      "description": "Priority value to set postgres user pids to (can be negative).",
+      "recipes": [
+        "limits::default"
+      ],
+      "type": "string",
+      "display": "limits/priority",
+      "required": "required",
+      "choice": [
+
+      ],
+      "calculated": false
+    }
+  },
+  "groupings": {
+  },
+  "recipes": {
+    "limits::default": "Installs limits.conf"
+  },
+  "version": "0.1.0"
+}
