@@ -1,11 +1,17 @@
 aws Cookbook
 ============
-This cookbooks is filled with AWS tools such as postfix ses setup, aws cli, etc. 
+TODO: Enter the cookbook description here.
+
+e.g.
+This cookbook makes your favorite breakfast sandwhich.
 
 Requirements
 ------------
-- `rightscale` - http://www.github.com/rightscale/rightscale_cookbooks
-- `python` - https://github.com/opscode-cookbooks/python
+TODO: List your cookbook requirements. Be sure to include any requirements this cookbook has on platforms, libraries, other cookbooks, packages, operating systems, etc.
+
+e.g.
+#### packages
+- `toaster` - aws needs toaster to brown your bagel.
 
 Attributes
 ----------

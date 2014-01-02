@@ -12,7 +12,10 @@ mydestination = localdomain, localhost, localhost.localdomain, localhost, $myhos
 mynetworks = 127.0.0.0/8
 mailbox_size_limit = 0
 recipient_delimiter = +
- 
+<% if @virtual_alias_domains %>
+virtual_alias_domains = <%= @virtual_alias_domains.join(',') %>
+virtual_alias_maps = hash:/etc/postfix/virtual
+<% end %> 
 # SECURITY NOTE: Listening on all interfaces. Make sure your firewall is
 # configured correctly
 inet_interfaces = all
