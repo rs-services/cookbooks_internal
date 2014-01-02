@@ -4,7 +4,7 @@ rightscale_marker :begin
 #     codes.  It also sends all errors to stdout.  So we have to grep its
 #     output in order to determine success.
 #
-CMD_LOG = "/tmp/gluster.out.#{$$}"
+CMD_LOG = "/tmp/gluster.server_create_cluster.out.#{$$}"
 
 # Constants as shortcuts for attributes
 #
@@ -13,6 +13,7 @@ TAG_VOLUME = node[:glusterfs][:tag][:volume]
 TAG_BRICK  = node[:glusterfs][:tag][:brick]
 VOL_TYPE   = node[:glusterfs][:server][:volume_type]
 REPL_COUNT = node[:glusterfs][:server][:replica_count].to_i
+AUTH_ALLOW = node[:glusterfs][:server][:volume_auth]
 IP_ADDR    = node[:cloud][:private_ips][0]
 
 list_tags = "rs_tag --list --format text |tr ' ' '\\n'"
@@ -83,8 +84,12 @@ ruby_block "Create volume" do
     end
 
     # Run the command
-    system "#{cmd} &> #{CMD_LOG}"
-    GlusterFS::Error.check(CMD_LOG, "Volume creation")
+    result = ""
+    IO.popen("#{cmd}") { |gl_io| result = gl_io.gets.chomp }
+    if ! File.open("#{CMD_LOG}", 'w') { |file| file.write(result) }
+           Chef::Log.info "===> unable to write to #{CMD_LOG}"
+    end
+    GlusterFS::Error.check(CMD_LOG, "Volume creation: #{result}")
 
     # Set some options on the volume
     Chef::Log.info "===> Configuring volume."
@@ -92,14 +97,19 @@ ruby_block "Create volume" do
 
     # FIXME should be glusterfs/server/volume_options input
     # FIXME check for successful output on these
-    system "#{SET_OPT} auth.allow '172.*,10.*' &>/dev/null"
+    system "#{SET_OPT} auth.allow '#{AUTH_ALLOW}' &>/dev/null"
     system "#{SET_OPT} nfs.disable on &>/dev/null"
     system "#{SET_OPT} network.frame-timeout 60 &>/dev/null"
 
+    sleep 5   #Sleep for a bit so things sync up
     # Finally start the volume
     Chef::Log.info "===> Starting volume."
-    system "gluster volume start #{VOL_NAME} &> #{CMD_LOG}"
-    GlusterFS::Error.check(CMD_LOG, "Starting volume")
+    result = ""
+    IO.popen("gluster volume start #{VOL_NAME}") { |gl_io| result = gl_io.gets.chomp }
+    if ! File.open("#{CMD_LOG}", 'w') { |file| file.write(result) }
+           Chef::Log.info "===> unable to write to #{CMD_LOG}"
+    end
+    GlusterFS::Error.check(CMD_LOG, "Starting volume: #{result}")
 
   end #block do
 end #ruby_block do

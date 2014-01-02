@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "rightscale": ">= 0.0.0",
-    "block_device": ">= 0.0.0"
+    "apt": ">= 0.0.0"
   },
   "recommendations": {
   },
@@ -35,6 +35,21 @@
         "glusterfs::default",
         "glusterfs::server_create_cluster",
         "glusterfs::server_join_cluster"
+      ],
+      "calculated": false,
+      "type": "string"
+    },
+    "glusterfs/server/volume_auth": {
+      "display_name": "Volume Auth",
+      "description": "The GlusterFS volume auth.allow to use (ex.: 172.*,10.*,173.*)",
+      "required": "optional",
+      "default": "*",
+      "recipes": [
+        "glusterfs::default",
+        "glusterfs::server_create_cluster"
+      ],
+      "choice": [
+
       ],
       "calculated": false,
       "type": "string"
@@ -88,6 +103,38 @@
       "calculated": false,
       "type": "string"
     },
+    "glusterfs/server/replace_brick": {
+      "display_name": "Replace Brick",
+      "description": "Number of the brick to be replaced",
+      "required": "optional",
+      "recipes": [
+        "glusterfs::default",
+        "glusterfs::server_live_migrate",
+        "glusterfs::server_replace_brick"
+      ],
+      "choice": [
+
+      ],
+      "calculated": false,
+      "type": "string"
+    },
+    "glusterfs/server/replace_brick_forced": {
+      "display_name": "Force Brick Replace",
+      "description": "Force brick replacement for dead node",
+      "required": "optional",
+      "default": "No",
+      "choice": [
+        "No",
+        "Yes"
+      ],
+      "recipes": [
+        "glusterfs::default",
+        "glusterfs::server_live_migrate",
+        "glusterfs::server_replace_brick"
+      ],
+      "calculated": false,
+      "type": "string"
+    },
     "glusterfs/client/mount_point": {
       "display_name": "Mount point",
       "description": "(Client only) The directory path where the GlusterFS volume should be mounted (e.g., /mnt/storage).",
@@ -131,7 +178,9 @@
     "glusterfs::server_handle_probe_request": "Remote recipe intended to be called by glusterfs::server_{create,join}_cluster",
     "glusterfs::server_handle_tag_updates": "Remote recipe intended to be called by glusterfs::server_{create,join}_cluster",
     "glusterfs::server_handle_detach_request": "Remote recipe intended to be called by glusterfs::server_decommission",
-    "glusterfs::client_mount_volume": "Runs mount(8) with `-t glusterfs' option to mount glusterfs"
+    "glusterfs::server_handle_live_migration": "Remote recipe intended to be called by glusterfs::server_live_migrate",
+    "glusterfs::client_mount_volume": "Runs mount(8) with `-t glusterfs' option to mount glusterfs",
+    "glusterfs::server_live_migrate": "Live migrate a brick from one live node to another"
   },
-  "version": "0.0.2"
+  "version": "0.0.3"
 }

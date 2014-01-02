@@ -22,4 +22,19 @@ right_link_tag "#{TAG_SPARE}=true" do
   action :publish
 end
 
+if ! #{TAG_SPARE} == true
+  foo = `gluster volume info #{INPUT_VOLUME}`.split("\n").select{|x|x=~/#{node[:cloud][:private_ips][0]}/}
+
+  if foo.to_s == ''
+     foo = "Brick0:"
+  end
+
+  node[:glusterfs][:server][:brick] = foo.to_s.split(':')[0].tr('Brick', '')
+
+  log "===> Tagging myself with #{node[:glusterfs][:tag][:bricknum]}=#{node[:glusterfs][:server][:brick]}"
+  right_link_tag "#{node[:glusterfs][:tag][:bricknum]}=#{node[:glusterfs][:server][:brick]}" do
+    action :publish
+  end
+end
+
 rightscale_marker :end

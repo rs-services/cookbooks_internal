@@ -1,4 +1,4 @@
-rs_utils_marker :begin
+rightscale_marker :begin
 
 class Chef::Recipe
   include RightScale::BlockDeviceHelper
@@ -21,10 +21,10 @@ log " Input lineage_override #{lineage_override}"
 log " Using lineage #{restore_lineage}"
 #
 
-block_device NICKNAME do
-  action :backup_lock_take
-  force false
-end
+#block_device NICKNAME do
+#  action :backup_lock_take
+#  force false
+#end
 
 log " Performing Primary backup Snapshot with lineage #{restore_lineage}.."
 # Requires block_device node[:db][:block_device] to be instantiated
@@ -45,8 +45,8 @@ block_device NICKNAME do
   action :primary_backup
 end
 
-block_device NICKNAME do
-  action :backup_lock_give
-end
+#block_device NICKNAME do
+#  action :backup_lock_give
+#end
 
-rs_utils_marker :end
+rightscale_marker :end

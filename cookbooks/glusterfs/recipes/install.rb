@@ -8,25 +8,21 @@
 rightscale_marker :begin
 
 case node[:platform]
-when 'ubuntu'
-
-  log "===> Installing nfs-common"
-  package "nfs-common"
-
-  log "===> Installing glusterfs package"
-  cookbook_file "/tmp/#{node[:glusterfs][:client][:pkg_name]}" do
-    source node[:glusterfs][:client][:pkg_name]
-    mode "0644"
+ when 'ubuntu'
+  unless apt_repository "glusterfs" do
+   uri "http://ppa.launchpad.net/semiosis/glusterfs-3.2/ubuntu"
+   components ["main"]
+   distribution node['lsb']['codename']
+   keyserver "keyserver.ubuntu.com"
+   key "774BAC4D"
   end
-  dpkg_package "glusterfs" do
-    source "/tmp/#{node[:glusterfs][:client][:pkg_name]}"
-    action :install
-  end
-
-when 'centos'
-  package "glusterfs"       # from epel
-  package "glusterfs-fuse"  #
-else
+ end
+  package "glusterd"
+ when 'centos'
+  package "glusterfs" # from epel
+ when 'redhat'
+  package "glusterfs" # from epel
+ else
   raise "Unsupported platform '#{node[:platform]}'"
 end
 

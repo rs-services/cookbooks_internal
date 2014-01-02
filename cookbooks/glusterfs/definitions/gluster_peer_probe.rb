@@ -36,27 +36,15 @@ define :gluster_peer_probe, :peers => [] do
           raise "`gluster peer status' failed: #{e.message}"
         end
 
-        # test tcp port connectivity and send the probe
+        # send the probe
         if ! peered
-          # check the port
-          require 'socket'
-          require 'timeout'
-          Chef::Log.info "===>  - not peered, checking port connectivity"
-          begin
-            Timeout::timeout(5) do
-              TCPSocket.new(ip, 24007).close
-            end
-          rescue Timeout::Error,
-            Errno::EHOSTUNREACH,
-            Errno::ECONNREFUSED,
-            Errno::ECONNRESET
-            raise "Couldn't connect to #{ip}:24007 - " +
-              "are your security groups configured correctly?"
+         # TODO netcat the por
+         result = ""
+          Chef::Log.info "===>  - not peered, sending probe command"
+          IO.popen("gluster peer probe #{ip}") { |gl_io| result = gl_io.gets.chomp }
+          if ! File.open("#{CMD_LOG}", 'w') { |file| file.write(result) }
+           Chef::Log.info "===> unable to write to #{CMD_LOG}"
           end
-
-          # send the probe
-          Chef::Log.info "===>  - connected! sending probe command"
-          system "gluster peer probe #{ip} &> #{CMD_LOG}"
           GlusterFS::Error.check(CMD_LOG, "Adding #{ip} to cluster")
         end
 

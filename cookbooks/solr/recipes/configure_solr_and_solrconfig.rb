@@ -1,4 +1,4 @@
-rs_utils_marker :begin
+rightscale_marker :begin
 
 include_recipe "solr::default"
 
@@ -20,4 +20,4 @@ template "#{node[:solr][:conf_dir]}/solrconfig.xml" do
   #variables ( :solr_persist => "true" )
 end
 
-rs_utils_marker :end
+rightscale_marker :end

@@ -16,6 +16,28 @@ MOUNT_POINT  = node[:glusterfs][:client][:mount_point]
 # tags to search for (Attributes)
 TAG_VOLUME   = node[:glusterfs][:tag][:volume]
 
+#Install fuse package
+#
+case node[:platform]
+when 'centos'
+  package "fuse"
+  package "glusterfs-fuse"
+when 'redhat'
+  package "fuse"
+  package "glusterfs-fuse"
+when 'ubuntu'
+ apt_repository "glusterfs" do
+   uri "http://ppa.launchpad.net/semiosis/glusterfs-3.2/ubuntu"
+   components ["main"]
+   distribution node['lsb']['codename']
+   keyserver "keyserver.ubuntu.com"
+   key "774BAC4D"
+ end
+ package "glusterfs-client"
+else
+  raise "Unsupported platform '#{node[:platform]}'"
+end
+
 # find all servers providing the volume we need
 r = server_collection "glusterfs" do
   tags "#{TAG_VOLUME}=#{VOL_NAME}"
@@ -61,7 +83,11 @@ end
 # create mount point
 log "===> Creating mount point #{MOUNT_POINT}"
 directory MOUNT_POINT do
+  owner "root"
+  group "root"
+  mode "0755"
   recursive true
+  action :create
 end
 
 # mount remote filesystem

@@ -2,7 +2,7 @@ volume management
     type mgmt/glusterd
     option working-directory /etc/glusterd
     option transport-type tcp
-    option transport.socket.keepalive-time 10
-    option transport.socket.keepalive-interval 2
-    option auth.allow: 172.*,10.*
+    option transport.socket.keepalive-time 30
+    option transport.socket.keepalive-interval 4
+    option auth.allow: *
 end-volume

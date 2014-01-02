@@ -1,0 +1,131 @@
+{
+  "conflicting": {
+  },
+  "long_description": "389-DS Cookbook\n===============\nTODO: Enter the cookbook description here.\n\ne.g.\nThis cookbook makes your favorite breakfast sandwhich.\n\nRequirements\n------------\nTODO: List your cookbook requirements. Be sure to include any requirements this cookbook has on platforms, libraries, other cookbooks, packages, operating systems, etc.\n\ne.g.\n#### packages\n- `toaster` - 389-DS needs toaster to brown your bagel.\n\nAttributes\n----------\nTODO: List you cookbook attributes here.\n\ne.g.\n#### 389-DS::default\n<table>\n  <tr>\n    <th>Key</th>\n    <th>Type</th>\n    <th>Description</th>\n    <th>Default</th>\n  </tr>\n  <tr>\n    <td><tt>['389-DS']['bacon']</tt></td>\n    <td>Boolean</td>\n    <td>whether to include bacon</td>\n    <td><tt>true</tt></td>\n  </tr>\n</table>\n\nUsage\n-----\n#### 389-DS::default\nTODO: Write usage instructions for each cookbook.\n\ne.g.\nJust include `389-DS` in your node's `run_list`:\n\n```json\n{\n  \"name\":\"my_node\",\n  \"run_list\": [\n    \"recipe[389-DS]\"\n  ]\n}\n```\n\nContributing\n------------\nTODO: (optional) If this is a public cookbook, detail the process for contributing. If this is a private cookbook, remove this section.\n\ne.g.\n1. Fork the repository on Github\n2. Create a named feature branch (like `add_component_x`)\n3. Write you change\n4. Write tests for your change (if applicable)\n5. Run the tests, ensuring they all pass\n6. Submit a Pull Request using Github\n\nLicense and Authors\n-------------------\nAuthors: TODO: List authors\nhttp://www.unixmen.com/setup-directory-serverldap-in-centos-6-4-rhel-6-4/\nhttp://www.centos.org/docs/5/html/CDS/install/8.0/Installation_Guide-Advanced_Configuration-Silent.html\n",
+  "dependencies": {
+    "sys_firewall": ">= 0.0.0",
+    "rightscale": ">= 0.0.0",
+    "rightscale_services_tools": ">= 0.0.0",
+    "sysctl": ">= 0.0.0",
+    "sys_dns": ">= 0.0.0"
+  },
+  "platforms": {
+  },
+  "maintainer": "RightScale Inc",
+  "name": "DS389",
+  "version": "0.1.0",
+  "groupings": {
+  },
+  "maintainer_email": "premium@rightscale.com",
+  "suggestions": {
+  },
+  "recommendations": {
+  },
+  "recipes": {
+    "DS389::setup_replication": "sets up multi-master replication",
+    "DS389::setup_monitoring": "installs exec plugin, for collectd",
+    "DS389::default": "Installs 389 ds"
+  },
+  "attributes": {
+    "DS389/Hostname": {
+      "choice": [
+
+      ],
+      "display_name": "Hostname",
+      "required": "required",
+      "calculated": false,
+      "recipes": [
+
+      ],
+      "description": "hostname",
+      "type": "string"
+    },
+    "DS389/dns_id": {
+      "choice": [
+
+      ],
+      "display_name": "DNS ID",
+      "required": "required",
+      "calculated": false,
+      "recipes": [
+
+      ],
+      "description": "DNS ID",
+      "type": "string"
+    },
+    "DS389/RootDNPwd": {
+      "choice": [
+
+      ],
+      "display_name": "RootDNPwd",
+      "required": "required",
+      "calculated": false,
+      "recipes": [
+
+      ],
+      "description": "RootDNPwd",
+      "type": "string"
+    },
+    "DS389/ConfigDirectoryAdminPwd": {
+      "choice": [
+
+      ],
+      "display_name": "ConfigDirectoryAdminPwd",
+      "required": "required",
+      "calculated": false,
+      "recipes": [
+
+      ],
+      "description": "ConfigDirectoryAdminPwd",
+      "type": "string"
+    },
+    "DS389/AdminDomain": {
+      "choice": [
+
+      ],
+      "display_name": "Admin Domain",
+      "default": "example.com",
+      "required": "optional",
+      "calculated": false,
+      "recipes": [
+
+      ],
+      "description": "Admin Domain",
+      "type": "string"
+    },
+    "DS389/ConfigDirectoryAdminID": {
+      "choice": [
+
+      ],
+      "display_name": "ConfigDirectoryAdminID",
+      "required": "required",
+      "calculated": false,
+      "recipes": [
+
+      ],
+      "description": "ConfigDirectoryAdminID",
+      "type": "string"
+    },
+    "DS389/install_type": {
+      "choice": [
+        "package",
+        "source"
+      ],
+      "display_name": "Install Type(Package/Source)",
+      "default": "package",
+      "required": "optional",
+      "calculated": false,
+      "recipes": [
+
+      ],
+      "description": "Install Type(Package/Source)",
+      "type": "string"
+    }
+  },
+  "license": "Apache 2.0",
+  "replacing": {
+  },
+  "providing": {
+  },
+  "description": "Installs/Configures 389-DS"
+}

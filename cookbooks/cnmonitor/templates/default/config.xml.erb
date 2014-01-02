@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+// Configuration file for CN=Monitor
+-->
+<cnmonitor>
+  <!-- 1. Not inherited options -->
+  <general>
+    <!-- Language code -->
+    <language>en</language>
+    <database>
+      <username>root</username>
+      <password></password>
+      <host>localhost</host>
+      <database>cnmonitor</database>
+      <type>mysql</type>
+    </database>
+    <!-- 2. General Environment Level -->
+    <environment>
+      <!-- If you want to enable sending mails -->
+      <!--
+      <wwwaddress>http://myserver.mydomain.com/monitor</wwwaddress>
+      <mailfrom>serveradmin@localhost.com</mailfrom>
+      <mailto>mail1.mydomain.com,mail2.mydomain.com</mailto>
+      -->
+      <dn>uid=monitor.cnmonitor,ou=people,dc=example,dc=com</dn>
+      <password>secret</password>
+    </environment>
+  </general>
+ <!--
+ // 3. Environment Level
+ // You can add several environment sections
+ // Options i.e. dn, password added to the environment sections
+ // are inherited to server sections
+ //-->
+  <environment>
+    <name>Local environment</name>
+    <server>
+      <name>localhost</name>
+      <url>http://<%= node[:cloud][:public_ips][0] %></url>
+      <description>A short description</description>
+    </server>
+  </environment>
+</cnmonitor>

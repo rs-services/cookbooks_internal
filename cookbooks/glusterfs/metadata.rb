@@ -2,11 +2,10 @@ maintainer       "RightScale, Inc."
 maintainer_email "support@rightscale.com"
 license          "Apache 2.0"
 description      "GlusterFS recipes" 
-version          "0.0.2"
+version          "0.0.3"
 
 depends "rightscale"
-depends "block_device"
-#depends "aria2"
+depends "apt"
 
 recipe "glusterfs::default", "Currently unused"
 recipe "glusterfs::install", "Downloads and installs GlusterFS"
@@ -18,7 +17,12 @@ recipe "glusterfs::server_decommission", "Removes bricks from the volume, detach
 recipe "glusterfs::server_handle_probe_request", "Remote recipe intended to be called by glusterfs::server_{create,join}_cluster"
 recipe "glusterfs::server_handle_tag_updates", "Remote recipe intended to be called by glusterfs::server_{create,join}_cluster"
 recipe "glusterfs::server_handle_detach_request", "Remote recipe intended to be called by glusterfs::server_decommission"
+recipe "glusterfs::server_handle_live_migration", "Remote recipe intended to be called by glusterfs::server_live_migrate"
 recipe "glusterfs::client_mount_volume", "Runs mount(8) with `-t glusterfs' option to mount glusterfs"
+recipe "glusterfs::server_live_migrate", "Live migrate a brick from one live node to another"
+
+# TODO  Make an attribute with volume types choices (distributed, striped,
+#       replicated, etc.) and use it in server_create_cluster accordingly.
 
 attribute "glusterfs/server/volume_type",
     :display_name => "Volume Type",
@@ -29,6 +33,14 @@ attribute "glusterfs/server/volume_type",
     :recipes      => [ "glusterfs::default",
                        "glusterfs::server_create_cluster",
                        "glusterfs::server_join_cluster" ]
+
+attribute "glusterfs/server/volume_auth",
+    :display_name => "Volume Auth",
+    :description  => "The GlusterFS volume auth.allow to use (ex.: 172.*,10.*,173.*)",
+    :required     => "optional",
+    :default      => "*",
+    :recipes      => [ "glusterfs::default",
+                       "glusterfs::server_create_cluster" ]
 
 attribute "glusterfs/volume_name",
     :display_name => "Volume Name",
@@ -57,6 +69,24 @@ attribute "glusterfs/server/replica_count",
     :recipes      => [ "glusterfs::default",
                        "glusterfs::server_create_cluster",
                        "glusterfs::server_join_cluster" ]
+
+attribute "glusterfs/server/replace_brick",
+    :display_name => "Replace Brick",
+    :description  => "Number of the brick to be replaced",
+    :required     => "optional",
+    :recipes      => [ "glusterfs::default",
+                       "glusterfs::server_live_migrate",
+                       "glusterfs::server_replace_brick" ]
+
+attribute "glusterfs/server/replace_brick_forced",
+    :display_name => "Force Brick Replace",
+    :description  => "Force brick replacement for dead node",
+    :required     => "optional",
+    :default      => "No",
+    :choice       => [ "No", "Yes" ],
+    :recipes      => [ "glusterfs::default",
+                       "glusterfs::server_live_migrate",
+                       "glusterfs::server_replace_brick" ]
 
 attribute "glusterfs/client/mount_point",
     :display_name => "Mount point",

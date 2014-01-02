@@ -6,7 +6,7 @@
 #
 # All rights reserved - Do Not Redistribute
 #
-rs_utils_marker :begin
+rightscale_marker :begin
  
 log "Solr Directory: #{node[:solr][:install_dir]}"
 
@@ -51,14 +51,14 @@ end
 #  owner "#{node[:tomcat][:app_user]}"
 #end
 
-directory "/srv/tomcat6/webapps/#{node[:web_apache][:application_name]}" do
+directory "/home/webapps/#{node[:web_apache][:application_name]}" do
   action :create
   owner "#{node[:tomcat][:app_user]}"
   recursive true
 end
 
-log "Copying Solr war file to /srv/tomcat6/webapps/#{node[:web_apache][:application_name]}/solr.war"
-cookbook_file "/srv/tomcat6/webapps/#{node[:web_apache][:application_name]}/solr.war" do
+log "Copying Solr war file to /home/webapps/#{node[:web_apache][:application_name]}/solr.war"
+cookbook_file "/home/webapps/#{node[:web_apache][:application_name]}/solr.war" do
   source "apache-solr-3.5.0.war"
   owner "#{node[:tomcat][:app_user]}" 
   mode "0644"
@@ -93,4 +93,4 @@ if node[:sys_firewall][:enabled] == "enabled"
   sys_firewall "8000"
 end
 
-rs_utils_marker :end
+rightscale_marker :end

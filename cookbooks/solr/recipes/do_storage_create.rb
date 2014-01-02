@@ -1,4 +1,4 @@
-rs_utils_marker :begin
+rightscale_marker :begin
 
 class Chef::Recipe
   include RightScale::BlockDeviceHelper
@@ -35,4 +35,4 @@ directory "/mnt/ephemeral/solr" do
   only_if "test -e /mnt/ephemeral/solr"
 end
 
-rs_utils_marker :end
+rightscale_marker :end

@@ -1,0 +1,111 @@
+{
+  "recommendations": {
+  },
+  "description": "Installs/Configures aws",
+  "replacing": {
+  },
+  "recipes": {
+    "aws::do_install_ses": "configures aws for amazon",
+    "aws::do_install_awscli": "installs aws cli"
+  },
+  "suggestions": {
+  },
+  "maintainer_email": "premium@rightscale.com",
+  "groupings": {
+  },
+  "maintainer": "RightScale Inc",
+  "version": "0.1.5",
+  "attributes": {
+    "aws/ses/username": {
+      "description": "SES Username",
+      "required": "required",
+      "recipes": [
+        "aws::do_install_ses"
+      ],
+      "calculated": false,
+      "display_name": "SES Username",
+      "choice": [
+
+      ],
+      "type": "string"
+    },
+    "aws/aws_secret_access_key": {
+      "description": "AWS Secret Access Key",
+      "required": "required",
+      "recipes": [
+        "aws::do_install_awscli"
+      ],
+      "calculated": false,
+      "display_name": "AWS Secret Access Key",
+      "choice": [
+
+      ],
+      "type": "string"
+    },
+    "aws/aws_access_key_id": {
+      "description": "AWS Access Key ID",
+      "required": "required",
+      "recipes": [
+        "aws::do_install_awscli"
+      ],
+      "calculated": false,
+      "display_name": "AWS Access Key ID",
+      "choice": [
+
+      ],
+      "type": "string"
+    },
+    "aws/ses/domain": {
+      "description": "SES domain",
+      "required": "required",
+      "recipes": [
+        "aws::do_install_ses"
+      ],
+      "calculated": false,
+      "display_name": "SES domain",
+      "choice": [
+
+      ],
+      "type": "string"
+    },
+    "aws/region": {
+      "description": "AWS Region",
+      "required": "required",
+      "recipes": [
+        "aws::do_install_awscli"
+      ],
+      "calculated": false,
+      "display_name": "AWS Region",
+      "choice": [
+
+      ],
+      "type": "string"
+    },
+    "aws/ses/password": {
+      "description": "SES password",
+      "required": "required",
+      "recipes": [
+        "aws::do_install_ses"
+      ],
+      "calculated": false,
+      "display_name": "SES password",
+      "choice": [
+
+      ],
+      "type": "string"
+    }
+  },
+  "providing": {
+  },
+  "dependencies": {
+    "rightscale": ">= 0.0.0",
+    "python": ">= 0.0.0"
+  },
+  "license": "Apache 2.0",
+  "long_description": "aws Cookbook\n============\nThis cookbooks is filled with AWS tools such as postfix ses setup, aws cli, etc. \n\nRequirements\n------------\n- `rightscale` - http://www.github.com/rightscale/rightscale_cookbooks\n- `python` - https://github.com/opscode-cookbooks/python\n\nAttributes\n----------\nTODO: List you cookbook attributes here.\n\ne.g.\n#### aws::default\n<table>\n  <tr>\n    <th>Key</th>\n    <th>Type</th>\n    <th>Description</th>\n    <th>Default</th>\n  </tr>\n  <tr>\n    <td><tt>['aws']['bacon']</tt></td>\n    <td>Boolean</td>\n    <td>whether to include bacon</td>\n    <td><tt>true</tt></td>\n  </tr>\n</table>\n\nUsage\n-----\n#### aws::default\nTODO: Write usage instructions for each cookbook.\n\ne.g.\nJust include `aws` in your node's `run_list`:\n\n```json\n{\n  \"name\":\"my_node\",\n  \"run_list\": [\n    \"recipe[aws]\"\n  ]\n}\n```\n\nContributing\n------------\nTODO: (optional) If this is a public cookbook, detail the process for contributing. If this is a private cookbook, remove this section.\n\ne.g.\n1. Fork the repository on Github\n2. Create a named feature branch (like `add_component_x`)\n3. Write you change\n4. Write tests for your change (if applicable)\n5. Run the tests, ensuring they all pass\n6. Submit a Pull Request using Github\n\nLicense and Authors\n-------------------\nAuthors: TODO: List authors\n",
+  "conflicting": {
+  },
+  "platforms": {
+  },
+  "name": "aws"
+}

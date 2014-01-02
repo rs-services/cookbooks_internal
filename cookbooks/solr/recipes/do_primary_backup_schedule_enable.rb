@@ -1,4 +1,4 @@
-rs_utils_marker :begin
+rightscale_marker :begin
 
 class Chef::Recipe
   include RightScale::BlockDeviceHelper
@@ -23,4 +23,4 @@ cron "RightScale remote_recipe #{recipe}" do
   action :create
 end
 
-rs_utils_marker :end
+rightscale_marker :end
