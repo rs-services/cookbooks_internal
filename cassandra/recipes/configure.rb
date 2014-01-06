@@ -100,7 +100,15 @@ end
 # Only start Cassandra here if not using encryption, otherwise it is started above
 if node[:cassandra][:require_inter_node_encryption] == "false"
   service "cassandra" do
-    action [:enable, :start]
+    action [:enable]
+  end
+  
+  # Starting Cassandra via service above silently fails for some reason. Start it via the cli instead.
+  bash "start_cassandra" do
+    flags "-ex"
+    code <<-EOM
+      service cassandra start
+    EOM
   end
 end
 
