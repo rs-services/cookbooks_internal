@@ -7,7 +7,7 @@
 #
 
 default[:cassandra][:version]          = "http://rs-professional-services-publishing.s3.amazonaws.com/cassandra/cassandra12-1.2.6-1.noarch.rpm"
-default[:cassandra][:version][:rpm]    = :cassandra12-1.2.6-1.noarch.rpm"
+default[:cassandra][:version][:rpm]    = "cassandra12-1.2.6-1.noarch.rpm"
 
 default[:cassandra][:datastax]         = "http://rs-professional-services-publishing.s3.amazonaws.com/cassandra/dsc12-1.2.6-1.noarch.rpm"
 default[:cassandra][:datastax][:rpm]   = "dsc12-1.2.6-1.noarch.rpm"
