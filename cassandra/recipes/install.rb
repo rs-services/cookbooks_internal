@@ -13,18 +13,18 @@ rightscale_marker :begin
 
 right_link_tag "cassandra:seed_host=#{node[:cassandra][:is_seed_host]}"
 
-remote_file "#{Chef::Config[:file_cache_path]}/cassandra12-1.2.6-1.noarch.rpm" do
-  source "http://rs-professional-services-publishing.s3.amazonaws.com/cassandra/cassandra12-1.2.6-1.noarch.rpm"
+remote_file "#{Chef::Config[:file_cache_path]}/#{node[:cassandra][:version][:rpm]}" do
+  source "#{node[:cassandra][:version]}"
   checksum "6e41d897c052a7d4efbbb6d2be1fb61a79492d058333ab496ef9d678910eb6e6"
 end
 
-remote_file "#{Chef::Config[:file_cache_path]}/dsc12-1.2.6-1.noarch.rpm" do
-  source "http://rs-professional-services-publishing.s3.amazonaws.com/cassandra/dsc12-1.2.6-1.noarch.rpm"
+remote_file "#{Chef::Config[:file_cache_path]}/#{node[:cassandra][:datastax][:rpm]}" do
+  source "#{node[:cassandra][:datastax]}"
   checksum "38a29503f913daea343b22964608898f3f33c08bb02b6046ab1b9d1d12089db0"
 end
 
-remote_file "#{Chef::Config[:file_cache_path]}/jre-7u45-linux-x64.rpm" do
-  source "http://rs-professional-services-publishing.s3.amazonaws.com/cassandra/jre-7u45-linux-x64.rpm"
+remote_file "#{Chef::Config[:file_cache_path]}/#{node[:cassandra][:jre][:rpm]}" do
+  source "#{node[:cassandra][:jre]}"
   checksum "b3d28c3415cffd965a63cd789d945cf9da827d960525537cc0b10c6c6a98221a"
 end
 
@@ -34,24 +34,24 @@ end
 
 package "cassandra12" do
   action :install
-  source "#{Chef::Config[:file_cache_path]}/cassandra12-1.2.6-1.noarch.rpm"
+  source "#{Chef::Config[:file_cache_path]}/#{node[:cassandra][:version][:rpm]}"
   provider Chef::Provider::Package::Rpm
 end
 
 package "dsc12" do
   action :install
-  source "#{Chef::Config[:file_cache_path]}/dsc12-1.2.6-1.noarch.rpm"
+  source "#{Chef::Config[:file_cache_path]}/#{node[:cassandra][:datastax][:rpm]}"
   provider Chef::Provider::Package::Rpm
 end
 
 package "jre" do
   action :install
-  source "#{Chef::Config[:file_cache_path]}/jre-7u45-linux-x64.rpm"
+  source "#{Chef::Config[:file_cache_path]}/#{node[:cassandra][:jre][:rpm]}"
   provider Chef::Provider::Package::Rpm
 end
 
 remote_file "/usr/java/jre1.7.0_45/lib/security/US_export_policy.jar" do
-  source "https://s3.amazonaws.com/rs-professional-services-publishing/cassandra/US_export_policy.jar"
+  source "#{node[:cassandra][:us_export_policy]}"
   checksum "b800fef6edc0f74560608cecf3775f7a91eb08d6c3417aed81a87c6371726115"
   owner "root"
   group "root"
@@ -60,7 +60,7 @@ remote_file "/usr/java/jre1.7.0_45/lib/security/US_export_policy.jar" do
 end
 
 remote_file "/usr/java/jre1.7.0_45/lib/security/local_policy.jar" do
-  source "https://s3.amazonaws.com/rs-professional-services-publishing/cassandra/local_policy.jar"
+  source "#{node[:cassandra][:local_policy]}"
   checksum "4a5c8f64107c349c662ea688563e5cd07d675255289ab25246a3a46fc4f85767"
   owner "root"
   group "root"
