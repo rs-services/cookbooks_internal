@@ -75,3 +75,17 @@ attribute "cassandra/encryption_password",
   :type        => "string",
   :display     => "cassandra/encryption_password",
   :required    => "recommended"
+
+attribute "cassandra/truststore_url",
+  :description => "URL to truststore (if using encryption see documentation for creating this file).",
+  :recipes     => ["cassandra::configure"],
+  :type        => "string",
+  :display     => "cassandra/truststore_url",
+  :required    => "recommended"
+
+attribute "cassandra/keystore_url",
+  :description => "URL to keystore (if using encryption see documentation for creating this file).",
+  :recipes     => ["cassandra::configure"],
+  :type        => "string",
+  :display     => "cassandra/keystore_url",
+  :required    => "recommended"
