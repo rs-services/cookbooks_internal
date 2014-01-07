@@ -76,16 +76,45 @@ attribute "cassandra/encryption_password",
   :display     => "cassandra/encryption_password",
   :required    => "recommended"
 
-attribute "cassandra/truststore_url",
-  :description => "URL to truststore (if using encryption see documentation for creating this file).",
+attribute "cassandra/bucket",
+  :description => "S3 / Cloudfiles bucket where truststore / keystore are located",
+  :recipes     => ["cassandra::configure"],
+  :type        => "string",
+  :display     => "cassandra/bucket",
+  :required    => "recommended"
+
+attribute "cassandra/provider",
+  :description => "File storage provider where truststore / keystore are located (if using encryption, otherwise ignore)",
+  :recipes => ["cassandra::configure"],
+  :type => "string",
+  :display => "cassandra/provider",
+  :choice => ["S3, cloudfiles"]
+
+attribute "cassandra/storage_account_id",
+  :description => "Access key ID of storage provider",
+  :recipes     => ["cassandra::configure"],
+  :type        => "string",
+  :display     => "cassandra/storage_account_id",
+  :required    => "recommended"
+
+attribute "cassandra/storage_account_secret",
+  :description => "Secret key ID of storage provider",
+  :recipes     => ["cassandra::configure"],
+  :type        => "string",
+  :display     => "cassandra/storage_account_secret",
+  :required    => "recommended"
+
+attribute "cassandra/truststore",
+  :description => "Location of truststore in bucket (if using encryption see documentation for creating this file).",
   :recipes     => ["cassandra::configure"],
   :type        => "string",
   :display     => "cassandra/truststore_url",
   :required    => "recommended"
 
-attribute "cassandra/keystore_url",
-  :description => "URL to keystore (if using encryption see documentation for creating this file).",
+attribute "cassandra/keystore",
+  :description => "Location of keystore in bucket (if using encryption see documentation for creating this file).",
   :recipes     => ["cassandra::configure"],
   :type        => "string",
   :display     => "cassandra/keystore_url",
   :required    => "recommended"
+
