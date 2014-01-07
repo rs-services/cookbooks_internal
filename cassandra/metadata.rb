@@ -88,7 +88,7 @@ attribute "cassandra/provider",
   :recipes => ["cassandra::configure"],
   :type => "string",
   :display => "cassandra/provider",
-  :choice => ["S3, cloudfiles"]
+  :choice => ["S3", "cloudfiles"]
 
 attribute "cassandra/storage_account_id",
   :description => "Access key ID of storage provider",
