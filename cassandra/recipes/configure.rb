@@ -51,6 +51,7 @@ dirs.each do |dir|
     group "cassandra"
     mode "0755"
     recursive true
+    action :create
   end
 end
 
@@ -87,29 +88,41 @@ if node[:cassandra][:snitch] == "GossipingPropertyFileSnitch"
   end
 end
 
-# Install Cassandra truststore / keystore certs and start service via the RightScript
+# Install Cassandra truststore / keystore certs if needed
 if node[:cassandra][:require_inter_node_encryption] == "true"
-  bash "install_cassandra_certs" do
-    flags "-ex"
+  bash "download_keystore" do
     code <<-EOM
-      rs_run_right_script --name "Install Cassandra Certs"
+      export STORAGE_ACCOUNT_ID="#{node[:cassandra][:storage_account_id]}"
+      export STORAGE_ACCOUNT_SECRET="#{node[:cassandra][:storage_account_secret]}"
+      /opt/rightscale/sandbox/bin/ros_util get -c "#{node[:cassandra][:bucket]}" -s "#{node[:cassandra][:keystore]}" \
+        -C "#{node[:cassandra][:provider]}" -d "/etc/cassandra/conf/keystore"
+      chmod 0440 /etc/cassandra/conf/keystore
+      chown cassandra:cassandra /etc/cassandra/conf/keystore
+    EOM
+  end
+
+  bash "download_truststore" do
+    code <<-EOM
+      export STORAGE_ACCOUNT_ID="#{node[:cassandra][:storage_account_id]}"
+      export STORAGE_ACCOUNT_SECRET="#{node[:cassandra][:storage_account_secret]}"
+      /opt/rightscale/sandbox/bin/ros_util get -c "#{node[:cassandra][:bucket]}" -s "#{node[:cassandra][:truststore]}" \
+        -C "#{node[:cassandra][:provider]}" -d "/etc/cassandra/conf/truststore"
+      chmod 0440 /etc/cassandra/conf/truststore
+      chown cassandra:cassandra /etc/cassandra/conf/truststore
     EOM
   end
 end
 
-# Only start Cassandra here if not using encryption, otherwise it is started above
-if node[:cassandra][:require_inter_node_encryption] == "false"
-  service "cassandra" do
-    action [:enable]
-  end
-  
-  # Starting Cassandra via service above silently fails for some reason. Start it via the cli instead.
-  bash "start_cassandra" do
-    flags "-ex"
-    code <<-EOM
-      service cassandra start
-    EOM
-  end
+service "cassandra" do
+  action :enable
+end
+
+# Starting Cassandra via service above silently fails for some reason. Start it via the cli instead.
+bash "start_cassandra" do
+  flags "-ex"
+  code <<-EOM
+    service cassandra start
+  EOM
 end
 
 rightscale_marker :end
