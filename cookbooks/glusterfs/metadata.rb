@@ -61,7 +61,7 @@ attribute "glusterfs/server/storage_path",
                        "glusterfs::server_set_tags",
                        "glusterfs::server_create_cluster",
                        "glusterfs::server_join_cluster",
-                       "glusterfs::server_configure"
+                       "glusterfs::server_configure" ]
 
 attribute "glusterfs/server/replica_count",
     :display_name => "Replica Count",
