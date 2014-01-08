@@ -6,6 +6,7 @@ version          "0.0.3"
 
 depends "rightscale"
 depends "apt"
+depends "logrotate"
 
 recipe "glusterfs::default", "Currently unused"
 recipe "glusterfs::install", "Downloads and installs GlusterFS"

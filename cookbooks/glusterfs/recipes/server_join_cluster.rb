@@ -143,6 +143,15 @@ if ! peer_uuid.empty?
       GlusterFS::Error.check(CMD_LOG, "Adding bricks")
     end
   end
+  brick=node[:glusterfs][:server][:storage_path]
+  brick[0]=''
+  logrotate_app 'gluster-brick' do
+    cookbook  'logrotate'
+    path      "/var/log/glusterfs/bricks/#{brick.gsub('/','-')}.log"
+    frequency 'daily'
+    rotate    7
+    create    '644 root root'
+  end
 
   # Remove TAG_SPARE from hosts and add TAG_ATTACH
   #
