@@ -47,6 +47,5 @@ when 'redhat'
   end
 end
 
-include_recipe "glusterfs::setup_logrotate"
 
 rightscale_marker :end
