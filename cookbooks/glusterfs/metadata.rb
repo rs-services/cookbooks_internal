@@ -21,6 +21,7 @@ recipe "glusterfs::server_handle_detach_request", "Remote recipe intended to be 
 recipe "glusterfs::server_handle_live_migration", "Remote recipe intended to be called by glusterfs::server_live_migrate"
 recipe "glusterfs::client_mount_volume", "Runs mount(8) with `-t glusterfs' option to mount glusterfs"
 recipe "glusterfs::server_live_migrate", "Live migrate a brick from one live node to another"
+recipe "glusterfs::setup_logrotate", "adds logrotate recipe"
 
 # TODO  Make an attribute with volume types choices (distributed, striped,
 #       replicated, etc.) and use it in server_create_cluster accordingly.
