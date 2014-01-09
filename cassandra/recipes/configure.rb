@@ -34,7 +34,7 @@ seed_hosts = rightscale_server_collection "seed_hosts" do
 
   # Use internal IP's if using Ec2Snitch, otherwise use public.
   if node[:cassandra][:snitch] == "Ec2Snitch"
-    mandatory_tags["server:private_ip_0"]
+    mandatory_tags ["server:private_ip_0"]
   else
     mandatory_tags ["server:public_ip_0"]
   end
