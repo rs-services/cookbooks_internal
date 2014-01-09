@@ -47,11 +47,11 @@ when 'redhat'
   end
 end
 
-brick=node[:glusterfs][:server][:storage_path]
-brick[0]=''
+brick_path=node[:glusterfs][:server][:storage_path]
+brick_path[0]=''
 logrotate_app 'gluster-brick' do
   cookbook  'logrotate'
-  paths      "/var/log/glusterfs/bricks/#{brick.gsub('/','-')}.log"
+  paths      "/var/log/glusterfs/bricks/#{brick_path.gsub('/','-')}.log"
   frequency 'daily'
   rotate    7
   create    '644 root root'
