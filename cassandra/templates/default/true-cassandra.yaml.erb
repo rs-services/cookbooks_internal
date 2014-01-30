@@ -234,7 +234,7 @@ seed_provider:
       parameters:
           # seeds is actually a comma-delimited list of addresses.
           # Ex: "<ip1>,<ip2>,<ip3>"
-          - seeds: "<% @seeds.each do |seed| %><%= seed %>,<% end %>"
+          - seeds: "<%= @seeds.join(',') %>"
 # emergency pressure valve: each time heap usage after a full (CMS)
 # garbage collection is above this fraction of the max, Cassandra will
 # flush the largest memtables.  
