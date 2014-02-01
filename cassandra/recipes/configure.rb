@@ -88,6 +88,8 @@ template "/etc/cassandra/conf/cassandra.yaml" do
     :data_file_directories  => node[:cassandra][:data_file_directories],
     :saved_caches_directory => node[:cassandra][:saved_caches_directory],
     :encryption_password    => node[:cassandra][:encryption_password],
+    :authorizer             => node[:cassandra][:authorizer],
+    :authenticator          => node[:cassandra][:authenticator],
     :listen_address         => node[:cloud][:private_ips][0],
     :broadcast_address      => node[:cloud][:public_ips][0],
     :seeds                  => seed_ips

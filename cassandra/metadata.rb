@@ -76,6 +76,24 @@ attribute "cassandra/encryption_password",
   :display     => "cassandra/encryption_password",
   :required    => "recommended"
 
+attribute "cassandra/authenticator",
+  :description => "Cassandra authentication backend",
+  :recipes     => ["cassandra::configure"],
+  :type        => "string",
+  :display     => "cassandra/authenticator",
+  :choice      => ["AllowAllAuthenticator", "PasswordAuthenticator"],
+  :required    => "recommended",
+  :default     => "AllowAllAuthenticator"
+
+attribute "cassandra/authorizer",
+  :description => "Cassandra authorizer",
+  :recipes     => ["cassandra::configure"],
+  :type        => "string",
+  :display     => "cassandra/authorizer",
+  :choice      => ["AllowAllAuthorizer", "CassandraAuthorizer"],
+  :required    => "recommended",
+  :default     => "AllowAllAuthorizer"
+
 attribute "cassandra/bucket",
   :description => "S3 / Cloudfiles bucket where truststore / keystore are located",
   :recipes     => ["cassandra::configure"],
