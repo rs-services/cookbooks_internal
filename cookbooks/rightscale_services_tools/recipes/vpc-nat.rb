@@ -9,13 +9,17 @@
 
 rightscale_marker :begin
 
-template "/etc/iptables.snat" do
-  source "iptables.snat.erb"
-  owner  "root"
-  group  "root"
-  mode   "0644"
-  variables( :cidr => node[:vpc_nat][:vpc_ipv4_cidr_block] )
-  action :create
+if (node[:vpc_nat][:vpc_ipv4_cidr_block])
+  template "/etc/iptables.snat" do
+    source "iptables.snat.erb"
+    owner  "root"
+    group  "root"
+    mode   "0644"
+    variables( :cidr => node[:vpc_nat][:vpc_ipv4_cidr_block] )
+    action :create
+  end
+else
+  raise "*** node[:vpc_nat][:vpc_ipv4_cidr_block], defined in attributes/default.rb is empty"
 end
 
 sysctl "net.ipv4.ip_forward" do
