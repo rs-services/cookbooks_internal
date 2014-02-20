@@ -28,6 +28,16 @@ sysctl "net.ipv4.conf.eth0.send_redirects" do
   action :set
 end
 
-
+# sys_firewall::default disables iptables when node[:sys_firewall][:enabled]==disabled
+bash "iptables-restore" do
+  flags "-ex"
+  user "root"
+  cwd "/tmp"
+  code <<-EOH
+    if [ -f "/etc/iptables.snat" ]; then
+      iptables-restore < /etc/iptables.snat
+    fi
+  EOH
+end
 
 rightscale_marker :end
