@@ -7,6 +7,7 @@ long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version          '0.1.0'
 
 depends "rightscale"
+depends "apache2"
 depends "web_apache"
 
 recipe "apache_mod_header::default", "enables mod_headers, and restarts apache"
