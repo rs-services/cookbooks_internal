@@ -18,7 +18,7 @@
 #
 rightscale_marker :begin
 
-execute "a2enmod headers"
+include_recipe "apache2::mod_headers"
 
 service "#{node[:web_apache][:config_subdir]}" do
   action :restart
