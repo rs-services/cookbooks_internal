@@ -2,7 +2,7 @@ maintainer       "RightScale, Inc."
 maintainer_email "support@rightscale.com"
 license          "Apache 2.0"
 description      "GlusterFS recipes" 
-version          "0.0.3"
+version          "0.0.4"
 
 depends "rightscale"
 depends "apt"

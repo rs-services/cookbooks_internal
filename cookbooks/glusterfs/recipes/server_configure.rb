@@ -38,8 +38,13 @@ when 'ubuntu'
   end
 when 'centos'
   # TODO epel package doesn't have an init script
-  execute "glusterd" do
-      not_if "pgrep glusterd"
+  service "glusterd" do
+    action [ :enable, :start ]
+    supports :status => true, :restart => true
+    ignore_failure true #XXX See comment above
+  end
+  service "glusterfsd" do
+    action :start
   end
 when 'redhat'
   execute "glusterd" do

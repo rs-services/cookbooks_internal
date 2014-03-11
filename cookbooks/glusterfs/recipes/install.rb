@@ -20,8 +20,10 @@ case node[:platform]
   package "glusterd"
  when 'centos'
   package "glusterfs" # from epel
+  package "glusterfs-server"
  when 'redhat'
   package "glusterfs" # from epel
+  package "glusterfs-server"
  else
   raise "Unsupported platform '#{node[:platform]}'"
 end
