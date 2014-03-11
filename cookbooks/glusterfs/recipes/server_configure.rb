@@ -45,6 +45,7 @@ when 'centos'
   end
   service "glusterfsd" do
     action :start
+    ignore_failure true
   end
 when 'redhat'
   execute "glusterd" do
