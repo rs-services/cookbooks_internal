@@ -1,9 +1,10 @@
 if node[:web_apache][:config_subdir].nil?
   Chef::Log.info "web_apache config_subdir nil, setting by file"
-  if File.exists?('/etc/httpd')
+  case node[:platform]
+  when "centos","redhat"
     Chef::Log.info "/etc/httpd found"
     config_subdir='httpd'
-  elsif File.exists?('/etc/apache2')
+  when "debian","ubuntu"   
     Chef::Log.info "/etc/apache2 found"
     config_subdir='apache2'
   end
