@@ -14,8 +14,9 @@ bash "start nat_monitor.sh" do
   cwd "/root"
   code <<-EOH
   pkill nat-monitor > /dev/null
-  /root/nat-monitor.sh >> /var/log/nat-monitor.log &
+  /root/nat-monitor.sh >> /var/log/nat-monitor.log 2>&1
   EOH
+  only_if {node[:vpc_nat][:nat_ha]=='enabled'}
 end
 
 rightscale_marker :end

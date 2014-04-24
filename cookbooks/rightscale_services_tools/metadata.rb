@@ -3,7 +3,7 @@ maintainer_email "premium@rightscale.com"
 license          "All rights reserved"
 description      "Installs/Configures rightscale_services_tools"
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          "1.0.1"
+version          "1.0.2"
 
 depends 'rightscale'
 depends 'sysctl'
@@ -43,3 +43,13 @@ attribute "vpc_nat/aws_account_secret",
   :description => "Use your AWS secret access key (e.g., cred:AWS_SECRET_ACCESS_KEY)",
   :required => "required",
   :recipes => [ "rightscale_services_tools::vpc-nat-ha" ]
+
+attribute "vpc_nat/nat_ha",
+  :display_name => "VPC  NAT High Availablity",
+  :description => "With two NAT servers enable NAT HA.  Set to enabled if you are 
+using two NAT servers in one VPC.  Default is disabled.",
+  :choice=>["enabled",'disabled'],
+  :default=> 'disabled',
+  :required => "required",
+  :recipes => [ "rightscale_services_tools::vpc-nat-ha",
+  "rightscale_services_tools::start-nat-monitor" ]
