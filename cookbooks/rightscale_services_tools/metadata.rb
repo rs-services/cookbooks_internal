@@ -49,7 +49,6 @@ attribute "vpc_nat/nat_ha",
   :description => "With two NAT servers enable NAT HA.  Set to enabled if you are 
 using two NAT servers in one VPC.  Default is disabled.",
   :choice=>["enabled",'disabled'],
-  :default=> 'disabled',
   :required => "required",
   :recipes => [ "rightscale_services_tools::vpc-nat-ha",
   "rightscale_services_tools::start-nat-monitor" ]
