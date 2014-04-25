@@ -28,7 +28,7 @@ template "/root/nat-monitor.sh" do
     :other_route_id=>node[:vpc_nat][:other_route_id],
     :route_id=>node[:vpc_nat][:route_id],
     :ec2_url => node[:vpc_nat][:ec2_url],
-    :java_home => nodenode[:vpc_nat][:java_home]
+    :java_home => node[:vpc_nat][:java_home]
   )
   action :create
 end
