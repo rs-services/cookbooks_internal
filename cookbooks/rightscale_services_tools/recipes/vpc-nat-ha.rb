@@ -8,8 +8,13 @@
 #
 
 rightscale_marker :begin
-# fail right way if java is not installed.
-raise "JAVA doesn't seem to be installed!  JAVA_HOME is not set." if ENV["JAVA_HOME"] or ENV["JAVA_HOME"].blank?
+#raise "JAVA doesn't seem to be installed!  JAVA_HOME is not set." if node[:vpc_nat][:java_home].blank?
+
+log "Test if JAVA_HOME is set properly."
+execute "#{node[:vpc_nat][:java_home]}/bin/java -version | grep 'java version' | wc -l" do
+  returns "1"
+  action :run
+end
 
 if node[:vpc_nat][:nat_ha]=='enabled'
   
@@ -23,7 +28,8 @@ template "/root/nat-monitor.sh" do
   variables( :other_instance_id=> node[:vpc_nat][:other_instance_id],
     :other_route_id=>node[:vpc_nat][:other_route_id],
     :route_id=>node[:vpc_nat][:route_id],
-    :ec2_url => node[:vpc_nat][:ec2_url]
+    :ec2_url => node[:vpc_nat][:ec2_url],
+    :java_home => nodenode[:vpc_nat][:java_home]
   )
   action :create
 end

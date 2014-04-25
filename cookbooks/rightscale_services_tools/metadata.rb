@@ -52,3 +52,9 @@ using two NAT servers in one VPC.  Default is disabled.",
   :required => "required",
   :recipes => [ "rightscale_services_tools::vpc-nat-ha",
   "rightscale_services_tools::start-nat-monitor" ]
+
+attribute "vpc_nat/java_home",
+  :display_name => "Override the JAVA_HOME path",
+  :description => "JAVA is used for ec2 cli commands.  Use this input to override the default JAVA_HOME path",
+  :required => "optional",
+  :recipes => [ "rightscale_services_tools::vpc-nat-ha"]
