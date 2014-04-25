@@ -53,7 +53,7 @@ if node[:vpc_nat][:nat_ha]=='enabled'
     EOH
   end
 
-  rightscale_tools_services "start monitor" do
+  rightscale_services_tools "start monitor" do
     action :start_nat_monitor
   end
  

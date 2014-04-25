@@ -9,7 +9,7 @@
 
 rightscale_marker :begin
 
-rightscale_tools_services "stop nat monitor" do
+rightscale_services_tools "stop nat monitor" do
   action :stop_nat_monitor
 end
 
