@@ -10,7 +10,7 @@
 rightscale_marker :begin
 
 rightscale_tools_services "start monitor" do
-  action :start_monitor
+  action :start_nat_monitor
   only_if {node[:vpc_nat][:nat_ha]=='enabled'}
 end
 
