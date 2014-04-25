@@ -19,9 +19,33 @@ case node[:platform]
  end
   package "glusterd"
  when 'centos'
+  execute "create-yum-cache" do
+    command "yum -q makecache"
+    action :nothing
+  end
+
+  ruby_block "reload-internal-yum-cache" do
+    block do
+      Chef::Provider::Package::Yum::YumCache.instance.reload
+    end
+    action :nothing
+  end
+
+  remote_file "/etc/yum.repos.d/gluster.epel.repo" do
+    source "http://download.gluster.org/pub/gluster/glusterfs/3.4/3.4.2/EPEL.repo/glusterfs-epel.repo"
+    owner "root"
+    group "root"
+    mode 0644
+    action :create
+    notifies :run, "execute[create-yum-cache]", :immediately
+    notifies :create, "ruby_block[reload-internal-yum-cache]", :immediately
+  end
+
   package "glusterfs" # from epel
+  package "glusterfs-server"
  when 'redhat'
   package "glusterfs" # from epel
+  #package "glusterfs-server"
  else
   raise "Unsupported platform '#{node[:platform]}'"
 end

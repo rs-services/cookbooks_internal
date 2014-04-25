@@ -1,0 +1,33 @@
+myhostname = <%= @hostname %>.<%= @domain %>
+mydomain = example.com
+myorigin = <%= @domain %>
+ 
+smtpd_banner = $myhostname ESMTP $mail_name
+biff = no
+append_dot_mydomain = no
+ 
+alias_maps = hash:/etc/aliases
+alias_database = hash:/etc/aliases
+mydestination = localdomain, localhost, localhost.localdomain, localhost, $myhostname, $mydomain
+mynetworks = 127.0.0.0/8
+mailbox_size_limit = 0
+recipient_delimiter = +
+<% if @virtual_alias_domains %>
+virtual_alias_domains = <%= @virtual_alias_domains.join(',') %>
+virtual_alias_maps = hash:/etc/postfix/virtual
+<% end %> 
+# SECURITY NOTE: Listening on all interfaces. Make sure your firewall is
+# configured correctly
+inet_interfaces = all
+
+relayhost = email-smtp.us-east-1.amazonaws.com:25
+smtp_sasl_auth_enable = yes
+smtp_sasl_security_options = noanonymous
+smtp_sasl_password_maps = hash:/etc/postfix/sasl_passwd
+smtp_use_tls = yes
+smtp_tls_security_level = encrypt
+smtp_tls_note_starttls_offer = yes 
+smtp_tls_CAfile = /etc/ssl/certs/ca-bundle.crt 
+default_destination_concurrency_limit = 4
+ 
+soft_bounce = yes

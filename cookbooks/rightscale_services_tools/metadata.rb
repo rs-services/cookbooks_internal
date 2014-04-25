@@ -3,7 +3,7 @@ maintainer_email "premium@rightscale.com"
 license          "All rights reserved"
 description      "Installs/Configures rightscale_services_tools"
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          "1.0.2"
+version          "1.0.4"
 
 depends 'rightscale'
 depends 'sysctl'
@@ -13,6 +13,7 @@ recipe "rightscale_services_tools::vpc-nat", "Enable AWS VPC NAT instance ipforw
 recipe "rightscale_services_tools::vpc-nat-ha", "Configures NAT Monitor for NAT instance HA."
 recipe "rightscale_services_tools::start-nat-monitor", "Start NAT monitor"
 recipe "rightscale_services_tools::stop-nat-monitor", "Stop NAT monitor"
+recipe "rightscale_services_tools::do-set-hostname", "sets hostname"
 
 attribute "vpc_nat/other_instance_id",
   :display_name => "Instance ID of other NAT HA Instance",
@@ -58,3 +59,9 @@ attribute "vpc_nat/java_home",
   :description => "JAVA is used for ec2 cli commands.  Use this input to override the default JAVA_HOME path",
   :required => "optional",
   :recipes => [ "rightscale_services_tools::vpc-nat-ha"]
+
+attribute "sys/hostname",
+  :display_name => "System Hostname",
+  :description => "Hostname to set system to",
+  :required => "required",
+  :recipes => [ "rightscale_services_tools::do-set-hostname" ]
