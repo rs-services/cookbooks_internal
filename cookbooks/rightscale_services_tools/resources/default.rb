@@ -1,0 +1,2 @@
+actions :start_nat_monitor
+actions :stop_nat_monitor
