@@ -9,8 +9,8 @@
 
 rightscale_marker :begin
 
-  vpc_nat "stop nat monitor" do
-    action :stop_nat_monitor
-  end
+rightscale_tools_services "stop nat monitor" do
+  action :stop_nat_monitor
+end
 
 rightscale_marker :end
