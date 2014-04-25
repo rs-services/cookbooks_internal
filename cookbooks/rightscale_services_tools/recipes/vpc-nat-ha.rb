@@ -11,10 +11,11 @@ rightscale_marker :begin
 #raise "JAVA doesn't seem to be installed!  JAVA_HOME is not set." if node[:vpc_nat][:java_home].blank?
 
 log "Test if JAVA_HOME is set properly."
-execute "#{node[:vpc_nat][:java_home]}/bin/java -version | grep 'java version' | wc -l" do
-  returns "1"
+java=execute "#{node[:vpc_nat][:java_home]}/bin/java -version | grep 'java version' | wc -l" do
   action :run
 end
+
+log "java: #{java}"
 
 if node[:vpc_nat][:nat_ha]=='enabled'
   
