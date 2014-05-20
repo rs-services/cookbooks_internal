@@ -59,7 +59,7 @@ while [ . ]; do
         ROUTE_HEALTHY=1
       fi
       # Check NAT state to see if we should stop it or start it again
-      NAT_STATE=`/home/ec2/bin/ec2-describe-instances $NAT_ID -U $EC2_URL | grep INSTANCE | awk '{print $5;}'`
+      NAT_STATE=`/home/ec2/bin/ec2-describe-instances $NAT_ID -U $EC2_URL | grep INSTANCE | awk '{print $6;}'`
       if [ "$NAT_STATE" == "stopped" ]; then
         echo `date` "-- Other NAT instance stopped, starting it back up"
         /home/ec2/bin/ec2-start-instances $NAT_ID -U $EC2_URL
