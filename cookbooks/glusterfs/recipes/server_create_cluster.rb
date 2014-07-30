@@ -30,7 +30,7 @@ Chef::Log.info "Replica Count: #{REPL_COUNT} " +
 # Check if we already have a volume
 sh = bash "Check existing volume" do
   code <<-EOF
-    if ! gluster volume info |grep -Gqx 'No volumes present'
+    if ! gluster volume info  2>&1|grep -Gqx 'No volumes present'
     then
         echo "!!!> This host is already part of a volume!"
         echo
@@ -62,14 +62,15 @@ if VOL_TYPE == "Replicated"
   #Chef::Log.info "PRUNED: #{node[:glusterfs][:server][:spares].inspect}"
 end
 
-# Create a trusted pool from the IPs we have
+log "Create a trusted pool from the IPs we have"
 gluster_peer_probe "spares" do
   peers node[:glusterfs][:server][:spares]
 end
 
-# Create a new volume from everyone's bricks
+log "Create a new volume from everyone's bricks"
 ruby_block "Create volume" do
   block do
+    require 'mixlib/shellout'
     Chef::Log.info "===> Creating volume #{VOL_NAME}"
 
     # Build the command...
@@ -84,12 +85,11 @@ ruby_block "Create volume" do
     end
 
     # Run the command
+    Chef::Log.info "CMD: #{cmd}"
     result = ""
-    IO.popen("#{cmd}") { |gl_io| result = gl_io.gets.chomp }
-    if ! File.open("#{CMD_LOG}", 'w') { |file| file.write(result) }
-           Chef::Log.info "===> unable to write to #{CMD_LOG}"
-    end
-    GlusterFS::Error.check(CMD_LOG, "Volume creation: #{result}")
+    brick=Mixlib::ShellOut.new("#{cmd}").run_command
+    Chef::Log.info brick.stdout
+    Chef::Log.info brick.stderr
 
     # Set some options on the volume
     Chef::Log.info "===> Configuring volume."
@@ -97,22 +97,36 @@ ruby_block "Create volume" do
 
     # FIXME should be glusterfs/server/volume_options input
     # FIXME check for successful output on these
+    Chef::Log.info "setting auth.allow to #{AUTH_ALLOW}"
     system "#{SET_OPT} auth.allow '#{AUTH_ALLOW}' &>/dev/null"
-    system "#{SET_OPT} nfs.disable on &>/dev/null"
+    #Chef::Log.info "Setting nfs.disable on"
+    #system "#{SET_OPT} nfs.disable on &>/dev/null"
+    Chef::Log.info "Setting network.frame-timeout to 60"
     system "#{SET_OPT} network.frame-timeout 60 &>/dev/null"
+    Chef::Log.info "Setting performance.cache-size to #{node[:glusterfs][:cache_size]}"
+    system "#{SET_OPT} performance.cache-size #{node[:glusterfs][:cache_size]}"
 
     sleep 5   #Sleep for a bit so things sync up
     # Finally start the volume
     Chef::Log.info "===> Starting volume."
-    result = ""
-    IO.popen("gluster volume start #{VOL_NAME}") { |gl_io| result = gl_io.gets.chomp }
-    if ! File.open("#{CMD_LOG}", 'w') { |file| file.write(result) }
-           Chef::Log.info "===> unable to write to #{CMD_LOG}"
-    end
-    GlusterFS::Error.check(CMD_LOG, "Starting volume: #{result}")
+    result=Mixlib::ShellOut.new("gluster volume start #{VOL_NAME}").run_command
+    Chef::Log.info "gluster volume start #{VOL_NAME} STDOUT: #{result.stdout}, STDERR:#{result.stderr}"
+
+    Chef::Log.info "Volume Status"
+    result=Mixlib::ShellOut.new("gluster volume status").run_command
+    Chef::Log.info "STDOUT: #{result.stdout}\n STDERR: #{result.stderr}"
+
+    Chef::Log.info "Volume Info"
+    result=Mixlib::ShellOut.new("gluster volume info #{VOL_NAME}").run_command
+    Chef::Log.info "STDOUT: #{result.stdout}\n STDERR: #{result.stderr}"
 
   end #block do
 end #ruby_block do
+
+remote_recipe "restart_gluster" do
+  recipe "glusterfs::server_restart_gluster"
+  recipients_tags "glusterfs_server:volume=#{VOL_NAME}"
+end
 
 ## Remove TAG_SPARE from hosts and add TAG_ATTACH
 #

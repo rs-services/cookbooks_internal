@@ -19,7 +19,7 @@ TAG_VOLUME   = node[:glusterfs][:tag][:volume]
 #Install fuse package
 #
 case node[:platform]
-when 'centos'
+when 'centos','redhat'
   execute "create-yum-cache" do
     command "yum -q makecache"
     action :nothing
@@ -41,10 +41,6 @@ when 'centos'
     notifies :run, "execute[create-yum-cache]", :immediately
     notifies :create, "ruby_block[reload-internal-yum-cache]", :immediately
   end
-
-  package "fuse"
-  package "glusterfs-fuse"
-when 'redhat'
   package "fuse"
   package "glusterfs-fuse"
 when 'ubuntu'
