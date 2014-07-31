@@ -9,13 +9,9 @@
 
 rightscale_marker :begin
 
-bash "start nat_monitor.sh" do
-  user "root"
-  cwd "/root"
-  code <<-EOH
-  pkill nat-monitor > /dev/null
-  /root/nat-monitor.sh >> /var/log/nat-monitor.log &
-  EOH
+rightscale_services_tools "start monitor" do
+  action :start_nat_monitor
+  only_if {node[:vpc_nat][:nat_ha]=='enabled'}
 end
 
 rightscale_marker :end

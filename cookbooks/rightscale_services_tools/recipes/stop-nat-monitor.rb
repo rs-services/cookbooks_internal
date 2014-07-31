@@ -9,12 +9,8 @@
 
 rightscale_marker :begin
 
-bash "stop nat-monitor.sh" do
-  user "root"
-  cwd "/root"
-  code <<-EOH
-  pkill nat-monitor > /dev/null
-  EOH
+rightscale_services_tools "stop nat monitor" do
+  action :stop_nat_monitor
 end
 
 rightscale_marker :end

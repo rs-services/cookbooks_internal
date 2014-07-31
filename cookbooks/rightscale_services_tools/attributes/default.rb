@@ -4,3 +4,5 @@ if node[:cloud][:provider] == 'ec2'
   set[:vpc_nat][:vpc_ipv4_cidr_block] =ENV['EC2_MAC'].blank? ? "0.0.0.0/0":ENV["EC2_NETWORK_INTERFACES_MACS_#{node[:vpc_nat][:ec2_mac]}_VPC_IPV4_CIDR_BLOCK"]
   set[:vpc_nat][:ec2_url]= "https://ec2.#{ENV['EC2_PLACEMENT_AVAILABILITY_ZONE'][0..-2]}.amazonaws.com"
 end
+
+default[:vpc_nat][:java_home]="/usr/lib/jvm/jre"
