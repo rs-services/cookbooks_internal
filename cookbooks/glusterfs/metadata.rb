@@ -3,7 +3,7 @@ maintainer       "RightScale, Inc."
 maintainer_email "support@rightscale.com"
 license          "Apache 2.0"
 description      "GlusterFS recipes" 
-version          "0.0.5"
+version          "0.6.0"
 
 depends "rightscale"
 depends "apt"
@@ -27,6 +27,12 @@ recipe "glusterfs::volume_restore", "restores volume"
 recipe "glusterfs::config_restored_volume_attrs", "sets volume attributes"
 # TODO  Make an attribute with volume types choices (distributed, striped,
 #       replicated, etc.) and use it in server_create_cluster accordingly.
+
+attribute "glusterfs/version",
+  :display_name => "Gluster Version",
+  :description => "Gluster version to install, i.e. 3.5.1.",
+  :required => "required",
+  :recipes => [ "glusterfs::install", "glusterfs::client_mount_volume"]
 
 attribute "glusterfs/server/volume_type",
     :display_name => "Volume Type",

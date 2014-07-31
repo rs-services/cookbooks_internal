@@ -13,3 +13,4 @@ default_unless[:glusterfs][:server][:brick] = "0"
 default_unless[:glusterfs][:server][:replace_brick] = ""
 
 default[:glusterfs][:cache_size]="32MB"
+default[:glusterfs][:version]='LATEST'

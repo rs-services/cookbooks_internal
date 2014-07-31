@@ -32,15 +32,12 @@ when 'centos','redhat'
     action :nothing
   end
 
-  remote_file "/etc/yum.repos.d/gluster.epel.repo" do
-    source "http://download.gluster.org/pub/gluster/glusterfs/3.4/3.4.2/EPEL.repo/glusterfs-epel.repo"
-    owner "root"
-    group "root"
-    mode 0644
-    action :create
-    notifies :run, "execute[create-yum-cache]", :immediately
-    notifies :create, "ruby_block[reload-internal-yum-cache]", :immediately
+  glusterfs "create repo" do
+    version node[:glusterfs][:version]
+    action :create_repo
   end
+  
+
   package "fuse"
   package "glusterfs-fuse"
 when 'ubuntu'
