@@ -7,6 +7,8 @@ action :create_repo do
   if version!= "LATEST"
       major,minor,min = version.split(".")
   end
+  
+  log "Creating repo for version #{major}.#{minor}.#{min}"
 
   template  "/etc/yum.repos.d/gluster.epel.repo" do
     source "repo.erb"
