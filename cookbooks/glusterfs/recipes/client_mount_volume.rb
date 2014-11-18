@@ -42,7 +42,7 @@ when 'centos','redhat'
   package "glusterfs-fuse"
 when 'ubuntu'
  apt_repository "glusterfs" do
-   uri "http://ppa.launchpad.net/semiosis/glusterfs-3.2/ubuntu"
+   uri "http://ppa.launchpad.net/semiosis/ubuntu-glusterfs-3.5/ubuntu"
    components ["main"]
    distribution node['lsb']['codename']
    keyserver "keyserver.ubuntu.com"
