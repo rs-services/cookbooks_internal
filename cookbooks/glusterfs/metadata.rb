@@ -7,6 +7,7 @@ version          "0.7.0"
 
 depends "marker"
 depends "apt"
+depends "yum"
 depends 'rightscale_tag'
 depends 'filesystem', '~> 0.9.0'
 depends 'lvm', '~> 1.1.0'
