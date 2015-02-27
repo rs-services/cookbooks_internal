@@ -48,7 +48,7 @@ if foo.to_s == ''
    foo = "Brick0:"
 end
 
-node[:glusterfs][:server][:brick] = foo.to_s.split(':')[0].tr('Brick', '')
+node.override[:glusterfs][:server][:brick] = foo.to_s.split(':')[0].tr('Brick', '')
 
 log "===> Tagging myself with #{node[:glusterfs][:tag][:bricknum]}=#{node[:glusterfs][:server][:brick]}"
 machine_tag "#{node[:glusterfs][:tag][:bricknum]}=#{node[:glusterfs][:server][:brick]}" do

@@ -80,7 +80,7 @@ sleep 5
  # its brick is in fact part of the volume, thus safe to run on all hosts.)
  
   log "===> Running remote recipe to update tags"
-  remote_recipe "update_tags" do
+  rsc_remote_recipe "update_tags" do
     recipe "glusterfs::server_handle_tag_updates"
     recipients_tags  spare_uuid_tag
   end

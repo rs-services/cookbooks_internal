@@ -68,7 +68,7 @@ if VOL_TYPE == "Replicated"
 else
   # If this isn't a replicated volume, then we're the only spare
   # (only want to add ourself and our brick to the pool)
-  node[:glusterfs][:server][:spares] = [IP_ADDR]
+  node.override[:glusterfs][:server][:spares] = [IP_ADDR]
 end
 
 # Find an existing host in the pool so he can invite us

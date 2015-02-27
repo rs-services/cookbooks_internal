@@ -102,7 +102,7 @@ if ! peer_uuid.empty?
 #Run remote recipe of peer to migrate brick off
 if ! spare_ip.empty?
   log "===> Running remote recipe on attached peer"
-  remote_recipe "start live migration" do
+  rsc_remote_recipe "start live migration" do
     recipe "glusterfs::server_handle_live_migration"
     attributes :glusterfs => {
       :server => {

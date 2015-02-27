@@ -35,6 +35,6 @@ define :prune_spares, :replica_count=>2, :myip=>nil do
   #end #if VOL_TYPE=="Replicated"
 
   Chef::Log.info "===> Using hosts #{hosts_final.inspect}"
-  node[:glusterfs][:server][:spares] = hosts_final
+  node.override[:glusterfs][:server][:spares] = hosts_final
 
 end
