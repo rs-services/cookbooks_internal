@@ -1,4 +1,4 @@
-rightscale_marker :begin
+marker "recipe_start"
 # XXX The `gluster' binary is unintelligent and does not return useful return
 #     codes.  It also sends all errors to stdout.  So we have to grep its
 #     output in order to determine success.
@@ -37,4 +37,3 @@ log "setfattr -x trusted.gfid STDOUT: #{attr2.stdout} STDERR: #{attr2.stderr}"
 attr3=Mixlib::ShellOut.new("rm -fr #{EXPORT_DIR}/.glusterfs").run_command
 log "rm -fr #{EXPORT_DIR}/.glusterfs STDOUT: #{attr3.stdout} STDERR: #{attr3.stderr}"
 
-rightscale_marker :end

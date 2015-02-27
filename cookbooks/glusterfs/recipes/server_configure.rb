@@ -1,4 +1,4 @@
-rightscale_marker :begin
+marker "recipe_start"
 
 ETC_DIR  = "/etc/glusterfs"
 VOL_FILE = "#{ETC_DIR}/glusterd.vol"
@@ -19,23 +19,25 @@ end
 log "===> Enabling glusterd service"
 case node[:platform]
 when 'ubuntu'
-  service "glusterd" do
+  service "glusterfs-server" do
     action [ :enable, :start ]
     supports :status => true, :restart => true
     ignore_failure true #XXX See comment above
   end
   #XXX See comment above
-  bash "make sure it started" do
+ b= bash "make sure it started" do
     code <<-EOF
       i=0
       while ! pgrep glusterd
       do
-        /etc/init.d/glusterd start
+        /etc/init.d/glusterfs-server start
         i=`expr $i + 1`
         [ $i -eq 10 ] && break
       done
     EOF
+    action :nothing
   end
+  b.run_action(:run)
 when 'centos','redhat'
   service "glusterd" do
     action [ :enable, :start ]
@@ -44,4 +46,3 @@ when 'centos','redhat'
   end
 end
 
-rightscale_marker :end

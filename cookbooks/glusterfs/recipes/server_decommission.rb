@@ -1,4 +1,4 @@
-rightscale_marker :begin
+marker "recipe_start"
 
 # XXX The `gluster' binary is unintelligent and does not return useful return
 #     codes.  It also sends all errors to stdout.  So we have to grep its
@@ -56,16 +56,24 @@ ruby_block "gluster volume remove-brick" do
   only_if "gluster volume info #{VOL_NAME} | grep -Gqw #{BRICK_NAME}"
 end
 
-find_attached_peer "find_peer" do
-  tags "#{TAG_ATTACH}=true"
-  secondary_tags "#{TAG_VOLUME}=#{VOL_NAME}"
-end
+ ruby_block "searching master tags" do
+    block do
+      tags = tag_search(node,"#{TAG_ATTACH}=true} #{TAG_VOLUME}=#{VOL_NAME}").first
+
+      Chef::Log.info "Master IP: " + tags["server:private_ip_0"].first.value
+      Chef::Log.info "Master Hostname: " + tags["server:uuid="].first.value
+    end
+  end
+
+#  node.override[:glusterfs][:server][:peer_uuid_tag] = tags.detect do |u|
+#          u =~ /^server:uuid=/
+#        end
 #Chef::Log.info "UUID: #{node[:glusterfs][:server][:peer_uuid_tag]}"
 peer_uuid = node[:glusterfs][:server][:peer_uuid_tag]
 
 if ! peer_uuid.empty?
   log "===> Running remote recipe on attached peer"
-  remote_recipe "Handle our detach request" do
+  rsc_remote_recipe "glusterfs::server_handle_detach_request" do
     recipe "glusterfs::server_handle_detach_request"
     attributes :glusterfs => {
       :server => {
@@ -101,13 +109,11 @@ end
 # Reset the tags
 #
 log "===> Deleting tag #{TAG_ATTACH}=true"
-right_link_tag "#{TAG_ATTACH}=true" do
-  action :remove
+machine_tag "#{TAG_ATTACH}=true" do
+  action :delete
 end
 
 log "===> Adding tag #{TAG_SPARE}=true"
-right_link_tag "#{TAG_SPARE}=true" do
-  action :publish
+machine_tag "#{TAG_SPARE}=true" do
+  action :create
 end
-
-rightscale_marker :end

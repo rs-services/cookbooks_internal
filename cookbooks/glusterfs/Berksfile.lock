@@ -1,0 +1,40 @@
+{
+  "sources": {
+    "glusterfs": {
+      "path": "."
+    },
+    "rsc_remote_recipe": {
+      "path": "../../../../rightscale-services-cookbooks/rsc_remote_recipe"
+    },
+    "apt": {
+      "locked_version": "2.6.0"
+    },
+    "yum-epel": {
+      "locked_version": "0.4.0"
+    },
+    "marker": {
+      "locked_version": "1.0.1"
+    },
+    "rightscale_tag": {
+      "locked_version": "1.0.5"
+    },
+    "machine_tag": {
+      "locked_version": "1.0.8"
+    },
+    "filesystem": {
+      "locked_version": "0.9.0"
+    },
+    "lvm": {
+      "locked_version": "1.1.2"
+    },
+    "rightscale_volume": {
+      "locked_version": "1.2.5"
+    },
+    "rightscale_backup": {
+      "locked_version": "1.1.6"
+    },
+    "yum": {
+      "locked_version": "3.5.1"
+    }
+  }
+}

@@ -3,11 +3,16 @@ maintainer       "RightScale, Inc."
 maintainer_email "support@rightscale.com"
 license          "Apache 2.0"
 description      "GlusterFS recipes" 
-version          "0.6.2"
+version          "0.7.0"
 
-depends "rightscale"
+depends "marker"
 depends "apt"
-depends "block_device"
+depends 'rightscale_tag'
+depends 'filesystem', '~> 0.9.0'
+depends 'lvm', '~> 1.1.0'
+depends 'rightscale_volume', '~> 1.2.4'
+depends 'rightscale_backup', '~> 1.1.5'
+depends 'rsc_remote_recipe'
 
 recipe "glusterfs::default", "Currently unused"
 recipe "glusterfs::install", "Downloads and installs GlusterFS"

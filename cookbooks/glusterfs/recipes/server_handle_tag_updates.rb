@@ -1,4 +1,4 @@
-rightscale_marker :begin
+marker "recipe_start"
 
 # Constants as shortcuts for attributes
 # 
@@ -33,13 +33,13 @@ bash "gluster volume info #{VOL_NAME}" do
 end
 
 log "===> Ok! Removing tag #{TAG_SPARE}=true"
-right_link_tag "#{TAG_SPARE}=true" do
-  action :remove
+machine_tag "#{TAG_SPARE}=true" do
+  action :delete
 end
 
 log "===> Adding tag #{TAG_ATTACH}=true"
-right_link_tag "#{TAG_ATTACH}=true" do
-  action :publish
+machine_tag "#{TAG_ATTACH}=true" do
+  action :create
 end
 
 foo = `gluster volume info #{VOL_NAME}`.split("\n").select{|x|x=~/#{node[:cloud][:private_ips][0]}/}
@@ -51,8 +51,6 @@ end
 node[:glusterfs][:server][:brick] = foo.to_s.split(':')[0].tr('Brick', '')
 
 log "===> Tagging myself with #{node[:glusterfs][:tag][:bricknum]}=#{node[:glusterfs][:server][:brick]}"
-right_link_tag "#{node[:glusterfs][:tag][:bricknum]}=#{node[:glusterfs][:server][:brick]}" do
-  action :publish
+machine_tag "#{node[:glusterfs][:tag][:bricknum]}=#{node[:glusterfs][:server][:brick]}" do
+  action :create
 end
-
-rightscale_marker :end

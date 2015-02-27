@@ -5,7 +5,7 @@
 # http://www.rightscale.com/terms.php and, if applicable, other agreements such
 # as a RightScale Master Subscription Agreement.
 
-rightscale_marker :begin
+marker "recipe_start"
 
 case node[:platform]
 when 'ubuntu'
@@ -15,9 +15,11 @@ when 'ubuntu'
       distribution node['lsb']['codename']
       keyserver "keyserver.ubuntu.com"
       key "774BAC4D"
+      action :nothing
     end
+    resource("apt_repository[glusterfs]", :add)
   end
-  package "glusterd"
+  package "glusterfs-server"
 when 'centos','redhat'
   execute "create-yum-cache" do
     command "yum -q makecache"
@@ -43,5 +45,8 @@ else
   raise "Unsupported platform '#{node[:platform]}'"
 end
 
-rightscale_marker :end
+  class Chef::Resource::RubyBlock
+    include Chef::MachineTagHelper
+  end
 
+  include_recipe "machine_tag::default"

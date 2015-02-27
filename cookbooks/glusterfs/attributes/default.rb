@@ -14,3 +14,14 @@ default_unless[:glusterfs][:server][:replace_brick] = ""
 
 default[:glusterfs][:cache_size]="32MB"
 default[:glusterfs][:version]='LATEST'
+
+default[:glusterfs][:volume_name]="glusterfs"
+default[:glusterfs][:server][:storage_path]="/mnt/ephemeral/glusterfs"
+default[:glusterfs][:server][:peer_uuid_tag] = ""
+  
+case node[:platform] 
+when "debian"
+  #default["glusterfs"]["servicename"]="glusterfs"
+when "rhel"
+  #default["glusterfs"]["servicename"]="glusterd"
+end

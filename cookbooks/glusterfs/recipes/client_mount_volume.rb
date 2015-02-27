@@ -4,7 +4,17 @@
 # RightScale Terms of Service available at http://www.rightscale.com/terms.php and,
 # if applicable, other agreements such as a RightScale Master Subscription Agreement.
 
-rightscale_marker :begin
+marker "recipe_start"
+
+
+class Chef::Recipe
+  include GlusterFS::Tags
+end
+#class Chef::Resource::RubyBlock
+#  include Chef::MachineTagHelper
+#end
+#
+include_recipe "machine_tag::default"
 
 # name of the GlusterFS volume we want to mount (Input)
 VOL_NAME     = node[:glusterfs][:volume_name]
@@ -54,25 +64,42 @@ else
 end
 
 # find all servers providing the volume we need
-r = server_collection "glusterfs" do
-  tags "#{TAG_VOLUME}=#{VOL_NAME}"
-  action :nothing
+tags = find_gluster_servers_by_volume(node, VOL_NAME)
+#tags = tag_search(node,"glusterfs_server:volume=#{VOL_NAME}")
+glusterfs_ip=""
+tags.each do |id, tags| 
+  glusterfs_ip = tags["private_ips"].first
 end
-r.run_action(:load)
+
+#ruby_block "searching master tags" do
+#  block do
+#    tags = tag_search(node, "glusterfs_server:volume=#{VOL_NAME}")
+#    
+#   Chef::Log.info "Tags #{tags}" 
+#    
+# end
+#end
+
+#r = server_collection "glusterfs" do
+#  tags "#{TAG_VOLUME}=#{VOL_NAME}"
+#  action :nothing
+#end
+#r.run_action(:load)
 
 # get the IP address of one of them (doesn't matter which one)
-glusterfs_ip=""
-r = ruby_block "Find Server IP" do
-  block do
-    node[:server_collection]["glusterfs"].each do |id, tags|
-      ip_tag = tags.detect { |t| t =~ /^server:private_ip_0=/ }
-      glusterfs_ip = ip_tag.gsub(/^.*=/, '')
-      break   # just need one
-    end
-  end
-  action :nothing
-end
-r.run_action(:create)
+#glusterfs_ip=""
+#ruby_block "Find Server IP" do
+#  block do
+#    tags.each do |id, tags|
+#      Chef::Log.info "tags #{tags}"
+#      ip_tag = tags.detect { |t| t =~ /^server:private_ip_0=/ }
+#      glusterfs_ip = ip_tag.gsub(/^.*=/, '')
+#      break   # just need one
+#    end
+#  end
+#  action :nothing
+#end
+#r.run_action(:create)
 
 if glusterfs_ip.empty?
     raise "!!!> Didn't find any servers with tag #{TAG_VOLUME}=#{VOL_NAME}"
@@ -117,5 +144,4 @@ bash "mount_glusterfs" do
   not_if "/bin/grep -qw '#{MOUNT_POINT}' /proc/mounts"
 end
 
-rightscale_marker :end
 

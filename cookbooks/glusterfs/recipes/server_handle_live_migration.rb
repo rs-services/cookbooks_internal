@@ -1,4 +1,4 @@
-rightscale_marker :begin
+marker "recipe_start"
 
 TAG_SPARE  = node[:glusterfs][:tag][:spare]
 TAG_ATTACH = node[:glusterfs][:tag][:attached]
@@ -84,5 +84,3 @@ sleep 5
     recipe "glusterfs::server_handle_tag_updates"
     recipients_tags  spare_uuid_tag
   end
-
-rightscale_marker :end

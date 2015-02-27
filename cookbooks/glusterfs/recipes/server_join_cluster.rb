@@ -1,4 +1,4 @@
-rightscale_marker :begin
+marker "recipe_start"
 
 # XXX The `gluster' binary is unintelligent and does not return useful return
 #     codes.  It also sends all errors to stdout.  So we have to grep its
@@ -157,5 +157,3 @@ if ! peer_uuid.empty?
 else
   raise "!!!> No existing GlusterFS servers found for this volume!"
 end
-
-rightscale_marker :end

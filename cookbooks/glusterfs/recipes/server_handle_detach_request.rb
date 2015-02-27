@@ -1,4 +1,4 @@
-rightscale_marker :begin
+marker "recipe_start"
 
 # XXX The `gluster' binary is unintelligent and does not return useful return
 #     codes.  It also sends all errors to stdout.  So we have to grep its
@@ -19,5 +19,3 @@ ruby_block "gluster peer detach #{peer_ip}" do
     GlusterFS::Error.check(CMD_LOG, "Removing #{peer_ip} from cluster")
   end
 end
-
-rightscale_marker :end

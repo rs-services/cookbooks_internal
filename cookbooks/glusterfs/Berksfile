@@ -1,0 +1,14 @@
+site :opscode
+
+metadata
+
+cookbook "rsc_remote_recipe", path:'~/git/rightscale-services-cookbooks/rsc_remote_recipe'
+
+
+group :integration do
+  cookbook 'apt', '~> 2.6.0'
+  cookbook 'yum-epel', '~> 0.4.0'
+ # cookbook 'curl', '~> 1.1.0'
+ # cookbook 'fake', path: './test/cookbooks/fake'
+ # cookbook 'rhsm', '~> 1.0.0'
+end

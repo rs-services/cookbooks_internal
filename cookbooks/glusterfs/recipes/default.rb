@@ -4,12 +4,11 @@
 # RightScale Terms of Service available at http://www.rightscale.com/terms.php and,
 # if applicable, other agreements such as a RightScale Master Subscription Agreement.
 
-rightscale_marker :begin
+marker "recipe_start"
 
-  # debug
-  require 'pp'
-  pretty = PP.pp(node,'')
-  File.open('/tmp/node.js', 'w') { |f| f.write pretty }
+include_recipe "glusterfs::install"
+include_recipe "glusterfs::server_configure"
+include_recipe "glusterfs::server_set_tags"
 
-rightscale_marker :end
+
 

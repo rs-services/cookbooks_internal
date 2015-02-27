@@ -1,4 +1,4 @@
-rightscale_marker :begin
+marker "recipe_start"
 
 service "glusterd" do
   action [ :restart ]
@@ -6,4 +6,3 @@ service "glusterd" do
   ignore_failure true
 end
 
-rightscale_marker :end
