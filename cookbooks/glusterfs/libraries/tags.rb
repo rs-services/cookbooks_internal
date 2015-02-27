@@ -119,7 +119,7 @@ module GlusterFS
     # @see .find_database_servers
     #
     def find_gluster_servers_by_volume(node, volumn_name, options = {})
-      GlusterFS::Tags.find_gluster_servers_volume(node, volumn_name, options)
+      GlusterFS::Tags.find_gluster_servers_by_volume(node, volumn_name, options)
     end
 
     def self.find_gluster_servers_by_spare(node,tags, secondary_tags, volume_name, options={})
@@ -135,6 +135,7 @@ module GlusterFS
       # about this helper method.
       servers = Chef::MachineTagHelper.tag_search(node, "#{tags}")
 
+      # don't include the current server
       if volume_name
         servers.reject! do |tags|
           !tags.include?(::MachineTag::Tag.machine_tag('glusterfs_server', 'volume', volume_name))
