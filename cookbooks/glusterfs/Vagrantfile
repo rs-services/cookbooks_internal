@@ -96,7 +96,7 @@ Vagrant.configure("2") do |config|
         "recipe[rightscale_tag::default]",
         "recipe[glusterfs::default]",
         "recipe[glusterfs::server_create_cluster]",
-        "recipe[glusterfs::server_join_cluster]"
+       # "recipe[glusterfs::server_join_cluster]"
       ]
     end
   end

@@ -5,7 +5,7 @@ define :find_attached_peer, :tags=>[], :secondary_tags=>[] do
   end
   r=ruby_block "find attached peers" do
     block do
-      tags = tag_search(node, ["#{params[:tags]}","#{params[:secondary_tags]}"]).first
+      tags = tag_search(node, ["#{params[:tags]}"]).first
       node.override[:glusterfs][:server][:peer_uuid_tag] = tags["server:uuid"].first.value
       node.override[:glusterfs][:server][:peer] = tags["server:private_ip_0"].first.value
     end

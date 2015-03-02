@@ -6,7 +6,8 @@ define :find_all_spares, :tags=>[], :secondary_tags=>[] do
   ips =[]
   r=ruby_block "find all spares" do
     block do
-      tags = tag_search(node, ["#{params[:tags]}","#{params[:secondary_tags]}"])
+     # tags = tag_search(node, ["#{params[:tags]}","#{params[:secondary_tags]}"])
+      tags = tag_search(node, "#{params[:tags]}")
       tags.each do |tag|
         tag["server:private_ip_0"].each do |t|
           ips << t.value
