@@ -138,6 +138,7 @@ ruby_block "Create volume" do
 end #ruby_block do
 
 rsc_remote_recipe "glusterfs::server_restart_gluster" do
+  recipe "glusterfs::server_restart_gluster"
   recipient_tags  "glusterfs_server:volume=#{VOL_NAME}"
   action :run
 end
@@ -148,6 +149,7 @@ end
 # its brick is in fact part of the volume, thus safe to run on all hosts.)
 
 rsc_remote_recipe "glusterfs::server_handle_tag_updates" do
+  recipe "glusterfs::server_handle_tag_updates"
   recipient_tags "#{TAG_SPARE}=true"
   action :run
 end
