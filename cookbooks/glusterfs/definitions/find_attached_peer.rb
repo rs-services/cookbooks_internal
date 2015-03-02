@@ -1,6 +1,8 @@
 # find all servers marked as 'attached' (joined into trusted pool)
 define :find_attached_peer, :tags=>[], :secondary_tags=>[] do
-
+  class Chef::Resource::RubyBlock
+    include Chef::MachineTagHelper
+  end
   r=ruby_block "find attached peers" do
     block do
       tags = tag_search(node, ["#{params[:tags]}","#{params[:secondary_tags]}"]).first

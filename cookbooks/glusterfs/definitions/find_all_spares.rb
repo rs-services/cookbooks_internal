@@ -1,6 +1,8 @@
 # find all servers marked as 'spare'
 define :find_all_spares, :tags=>[], :secondary_tags=>[] do
-
+  class Chef::Resource::RubyBlock
+    include Chef::MachineTagHelper
+  end
   ips =[]
   r=ruby_block "find all spares" do
     block do
