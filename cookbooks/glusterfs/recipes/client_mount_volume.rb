@@ -10,9 +10,9 @@ marker "recipe_start"
 class Chef::Recipe
   include GlusterFS::Tags
 end
-#class Chef::Resource::RubyBlock
-#  include Chef::MachineTagHelper
-#end
+class Chef::Resource::RubyBlock
+  include Chef::MachineTagHelper
+end
 #
 include_recipe "machine_tag::default"
 
@@ -51,60 +51,34 @@ when 'centos','redhat'
   package "fuse"
   package "glusterfs-fuse"
 when 'ubuntu'
- apt_repository "glusterfs" do
-   uri "http://ppa.launchpad.net/semiosis/ubuntu-glusterfs-3.5/ubuntu"
-   components ["main"]
-   distribution node['lsb']['codename']
-   keyserver "keyserver.ubuntu.com"
-   key "774BAC4D"
- end
- package "glusterfs-client"
+  apt_repository "glusterfs" do
+    uri "http://ppa.launchpad.net/semiosis/ubuntu-glusterfs-3.5/ubuntu"
+    components ["main"]
+    distribution node['lsb']['codename']
+    keyserver "keyserver.ubuntu.com"
+    key "774BAC4D"
+  end
+  package "glusterfs-client"
 else
   raise "Unsupported platform '#{node[:platform]}'"
 end
 
 # find all servers providing the volume we need
-tags = find_gluster_servers_by_volume(node, VOL_NAME)
-#tags = tag_search(node,"glusterfs_server:volume=#{VOL_NAME}")
-glusterfs_ip=""
-tags.each do |id, tags| 
-  glusterfs_ip = tags["private_ips"].first
+glusterfs_ip =""
+r=ruby_block "find server ip" do
+  block do
+    tags = tag_search(node, "#{TAG_VOLUME}=#{VOL_NAME}").first
+    Chef::Log.info "tags: #{tags.inspect}"
+    glusterfs_ip =  tags["server:private_ip_0"].first.value
+  end
 end
+r.run_action(:create)
 
-#ruby_block "searching master tags" do
-#  block do
-#    tags = tag_search(node, "glusterfs_server:volume=#{VOL_NAME}")
-#    
-#   Chef::Log.info "Tags #{tags}" 
-#    
-# end
-#end
-
-#r = server_collection "glusterfs" do
-#  tags "#{TAG_VOLUME}=#{VOL_NAME}"
-#  action :nothing
-#end
-#r.run_action(:load)
-
-# get the IP address of one of them (doesn't matter which one)
-#glusterfs_ip=""
-#ruby_block "Find Server IP" do
-#  block do
-#    tags.each do |id, tags|
-#      Chef::Log.info "tags #{tags}"
-#      ip_tag = tags.detect { |t| t =~ /^server:private_ip_0=/ }
-#      glusterfs_ip = ip_tag.gsub(/^.*=/, '')
-#      break   # just need one
-#    end
-#  end
-#  action :nothing
-#end
-#r.run_action(:create)
 
 if glusterfs_ip.empty?
-    raise "!!!> Didn't find any servers with tag #{TAG_VOLUME}=#{VOL_NAME}"
+  raise "!!!> Didn't find any servers with tag #{TAG_VOLUME}=#{VOL_NAME}"
 else
-    log "===> Found GlusterFS server at #{glusterfs_ip}"
+  log "===> Found GlusterFS server at #{glusterfs_ip}"
 end
 
 # load fuse module

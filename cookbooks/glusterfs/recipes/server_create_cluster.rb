@@ -47,8 +47,10 @@ end
 sh.run_action(:run)
 
 # Find all other spares so we can create a trusted pool
-tags = find_gluster_servers_by_spare(node,"#{TAG_SPARE}=true" ,"#{TAG_VOLUME}=#{node[:glusterfs][:volume_name]}",node[:glusterfs][:volume_name] )
-#hosts_found=[]
+  find_all_spares "find_spares" do
+    tags "#{TAG_SPARE}=true"
+    secondary_tags "#{TAG_VOLUME}=#{VOL_NAME}"
+  end#hosts_found=[]
 #tags.each do |id, tags| 
 #  Chef::Log.info "tags #{tags}"
 #  hosts_found = tags["private_ips"].first

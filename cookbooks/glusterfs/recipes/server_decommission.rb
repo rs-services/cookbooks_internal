@@ -49,25 +49,18 @@ ruby_block "gluster volume remove-brick" do
     result = ""
     IO.popen("yes | gluster volume remove-brick #{VOL_NAME} #{BRICK_NAME}") { |gl_io| result = gl_io.gets.chomp }
     if ! File.open("#{CMD_LOG}", 'w') { |file| file.write(result) }
-           Chef::Log.info "===> unable to write to #{CMD_LOG}"
+      Chef::Log.info "===> unable to write to #{CMD_LOG}"
     end
     GlusterFS::Error.check(CMD_LOG, "Removing brick from volume '#{VOL_NAME}'")
   end
   only_if "gluster volume info #{VOL_NAME} | grep -Gqw #{BRICK_NAME}"
 end
 
- ruby_block "searching master tags" do
-    block do
-      tags = tag_search(node,"#{TAG_ATTACH}=true} #{TAG_VOLUME}=#{VOL_NAME}").first
+find_attached_peer "find_peer" do
+  tags "#{TAG_ATTACH}=true"
+  secondary_tags "#{TAG_VOLUME}=#{VOL_NAME}"
+end
 
-      Chef::Log.info "Master IP: " + tags["server:private_ip_0"].first.value
-      Chef::Log.info "Master Hostname: " + tags["server:uuid="].first.value
-    end
-  end
-
-#  node.override[:glusterfs][:server][:peer_uuid_tag] = tags.detect do |u|
-#          u =~ /^server:uuid=/
-#        end
 #Chef::Log.info "UUID: #{node[:glusterfs][:server][:peer_uuid_tag]}"
 peer_uuid = node[:glusterfs][:server][:peer_uuid_tag]
 
@@ -80,7 +73,7 @@ if ! peer_uuid.empty?
         :peer => IP_ADDR
       }
     }
-    recipients_tags peer_uuid #server:uuid
+    recipient_tags peer_uuid #server:uuid
   end
 
   bash "Wait for detach" do

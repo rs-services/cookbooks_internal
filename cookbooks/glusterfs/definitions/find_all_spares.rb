@@ -1,33 +1,24 @@
 # find all servers marked as 'spare'
 define :find_all_spares, :tags=>[], :secondary_tags=>[] do
 
-  # Node attribute to populate with list of IPs
-  node[:glusterfs][:server][:spares] = []
-
-  # Search the tag space
-  sc = rightscale_server_collection "glusterfs_spares" do
-    tags params[:tags]
-    secondary_tags params[:secondary_tags]
-    action :nothing
+  ips =[]
+  r=ruby_block "find all spares" do
+    block do
+      tags = tag_search(node, ["#{params[:tags]}","#{params[:secondary_tags]}"])
+      tags.each do |tag|
+        tag["server:private_ip_0"].each do |t|
+          ips << t.value
+        end
+      end
+    end
   end
-  sc.run_action(:load)
+  r.run_action(:create)
+  node.override[:glusterfs][:server][:spares] = ips
 
-  # Grab the internal IPs of all results
-  hosts_found = []
-  node[:server_collection]["glusterfs_spares"].each do |id, tags|
-    ip_tag = tags.detect { |i| i =~ /^server:private_ip_0=/ }
-    ip = ip_tag.gsub(/^.*=/, '')
-    Chef::Log.info "===> Found server #{ip}"
-    hosts_found << ip
-  end
-
-  # (sanity check)
-  if hosts_found.empty?
+  # sanity check
+  if  node[:glusterfs][:server][:spares].empty?
     raise "!!!> Didn't find any servers tagged with #{params[:tags]} " +
       "and #{params[:secondary_tags]}"
   end
-
-  # Populate node attr
-  node[:glusterfs][:server][:spares] = hosts_found
 
 end #define :find_spares

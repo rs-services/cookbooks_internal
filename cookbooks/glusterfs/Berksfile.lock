@@ -15,11 +15,14 @@
     "marker": {
       "locked_version": "1.0.1"
     },
-    "rightscale_tag": {
-      "locked_version": "1.0.5"
+    "yum": {
+      "locked_version": "3.5.3"
     },
     "machine_tag": {
-      "locked_version": "1.0.8"
+      "locked_version": "1.0.9"
+    },
+    "rightscale_tag": {
+      "locked_version": "1.0.6"
     },
     "filesystem": {
       "locked_version": "0.9.0"
@@ -28,13 +31,10 @@
       "locked_version": "1.1.2"
     },
     "rightscale_volume": {
-      "locked_version": "1.2.5"
+      "locked_version": "1.2.6"
     },
     "rightscale_backup": {
-      "locked_version": "1.1.6"
-    },
-    "yum": {
-      "locked_version": "3.5.1"
+      "locked_version": "1.1.7"
     }
   }
 }

@@ -17,8 +17,8 @@ REPL_COUNT = node[:glusterfs][:server][:replica_count].to_i
 IP_ADDR    = node[:cloud][:private_ips][0]
 
 list_tags = "rs_tag --list --format text |tr ' ' '\\n'"
-VOL_NAME   = `#{list_tags} |grep '#{TAG_VOLUME}=' |cut -f2 -d=`.chomp
-EXPORT_DIR = `#{list_tags} |grep '#{TAG_BRICK}='  |cut -f2 -d=`.chomp
+VOL_NAME   = node[:glusterfs][:volume_name]#`#{list_tags} |grep '#{TAG_VOLUME}=' |cut -f2 -d=`.chomp
+EXPORT_DIR = node[:glusterfs][:server][:storage_path]#`#{list_tags} |grep '#{TAG_BRICK}='  |cut -f2 -d=`.chomp
 BRICK_NAME = "#{IP_ADDR}:#{EXPORT_DIR}"
 
 # FIXME Apparently there's no supported/native way to fetch tags with the
@@ -44,7 +44,14 @@ BRICK_NAME = "#{IP_ADDR}:#{EXPORT_DIR}"
 #
 #       so we just shell out to rs_tag like White does:
 #
-check_attached = `rs_tag --list | grep '"#{TAG_ATTACH}=true"'`
+check_attached = ""#`rs_tag --list | grep '"#{TAG_ATTACH}=true"'`
+ruby_block "#{TAG_ATTACH}=true" do
+  block do
+    tags = tag_list(node)
+    check_attached = tags.include?("#{TAG_ATTACH}=true")
+
+  end
+end
 if ! check_attached.empty?
   raise "This server thinks it is already attached! (#{TAG_ATTACH}=true)"
 end
@@ -82,14 +89,14 @@ end
 peer_uuid = node[:glusterfs][:server][:peer_uuid_tag]
 if ! peer_uuid.empty?
   log "===> Running remote recipe on attached peer"
-  remote_recipe "Handle our probe request" do
+  rsc_remote_recipe "Handle our probe request" do
     recipe "glusterfs::server_handle_probe_request"
     attributes :glusterfs => {
       :server => {
         :peer => IP_ADDR
       }
     }
-    recipients_tags peer_uuid #server:uuid
+    recipient_tags peer_uuid #server:uuid
   end
 
   # Wait for probe request to complete
@@ -117,7 +124,7 @@ if ! peer_uuid.empty?
   # Now that we're joined, let's add the other spares if we need to
   if VOL_TYPE == "Replicated"
     gluster_peer_probe "spares" do
-        peers node[:glusterfs][:server][:spares] 
+      peers node[:glusterfs][:server][:spares] 
     end
   end
 
@@ -138,7 +145,7 @@ if ! peer_uuid.empty?
       result = ""
       IO.popen("#{cmd}") { |gl_io| result = gl_io.gets.chomp }
       if ! File.open("#{CMD_LOG}", 'w') { |file| file.write(result) }
-           Chef::Log.info "===> unable to write to #{CMD_LOG}"
+        Chef::Log.info "===> unable to write to #{CMD_LOG}"
       end
       GlusterFS::Error.check(CMD_LOG, "Adding bricks")
     end
@@ -149,9 +156,9 @@ if ! peer_uuid.empty?
   # (the remote recipe being invoked is intelligent and only removes the tag if
   # its brick is in fact part of the volume, thus safe to run on all hosts.)
   log "===> Running remote recipes to update tags"
-  remote_recipe "update_tags" do
+  rsc_remote_recipe "update_tags" do
     recipe "glusterfs::server_handle_tag_updates"
-    recipients_tags "#{TAG_SPARE}=true"
+    recipient_tags "#{TAG_SPARE}=true"
   end
 
 else

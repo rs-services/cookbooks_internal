@@ -82,5 +82,5 @@ sleep 5
   log "===> Running remote recipe to update tags"
   rsc_remote_recipe "update_tags" do
     recipe "glusterfs::server_handle_tag_updates"
-    recipients_tags  spare_uuid_tag
+    recipient_tags  spare_uuid_tag
   end

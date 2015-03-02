@@ -8,8 +8,8 @@ TAG_VOLUME = node[:glusterfs][:tag][:volume]
 TAG_BRICK  = node[:glusterfs][:tag][:brick]
 
 list_tags = "rs_tag --list --format text |tr ' ' '\\n'"
-VOL_NAME   = `#{list_tags} |grep '#{TAG_VOLUME}=' |cut -f2 -d=`.chomp
-EXPORT_DIR = `#{list_tags} |grep '#{TAG_BRICK}='  |cut -f2 -d=`.chomp
+VOL_NAME   = node[:glusterfs][:volume_name]#`#{list_tags} |grep '#{TAG_VOLUME}=' |cut -f2 -d=`.chomp
+EXPORT_DIR = node[:glusterfs][:server][:storage_path]#`#{list_tags} |grep '#{TAG_BRICK}='  |cut -f2 -d=`.chomp
 BRICK_NAME = "#{node[:cloud][:private_ips][0]}:#{EXPORT_DIR}"
 
 log "===> Ensuring that my brick is added to the volume..."

@@ -69,7 +69,7 @@ Vagrant.configure("2") do |config|
   # An array of symbols representing groups of cookbook described in the Vagrantfile
   # to skip installing and copying to Vagrant's shelf.
   # config.berkshelf.except = []
-  config.vm.define :master do |master|
+  config.vm.define :cluster do |master|
     master.vm.network :private_network, ip: "10.0.0.2"
 
     # This must be unique for tags to work on Vagrant
@@ -95,11 +95,12 @@ Vagrant.configure("2") do |config|
         #"recipe[yum-epel]",
         "recipe[rightscale_tag::default]",
         "recipe[glusterfs::default]",
-        "recipe[glusterfs::server_create_cluster]"
+        "recipe[glusterfs::server_create_cluster]",
+        "recipe[glusterfs::server_join_cluster]"
       ]
     end
   end
-  config.vm.define :master_2 do |master_2|
+  config.vm.define :cluster_2 do |master_2|
     master_2.vm.network :private_network, ip: "10.0.0.3"
 
     # This must be unique for tags to work on Vagrant
@@ -125,12 +126,12 @@ Vagrant.configure("2") do |config|
         #"recipe[yum-epel]",
         "recipe[rightscale_tag::default]",
         "recipe[glusterfs::default]",
-        "recipe[glusterfs::server_create_cluster]",
-        "recipe[glusterfs::server_decommission]"
+       "recipe[glusterfs::server_create_cluster]",
+        #"recipe[glusterfs::server_decommission]"
       ]
     end
   end
-  config.vm.define :slave do |slave| 
+  config.vm.define :client do |slave| 
     slave.vm.network :private_network, ip: "33.33.33.11"
 
     # This must be unique for tags to work on Vagrant

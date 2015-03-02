@@ -19,11 +19,12 @@ IP_ADDR    = node[:cloud][:private_ips][0]
 BRICK_NUM  = node[:glusterfs][:server][:replace_brick].to_s
 
 list_tags = "rs_tag --list --format text |tr ' ' '\\n'"
-VOL_NAME   = `#{list_tags} |grep '#{TAG_VOLUME}=' |cut -f2 -d=`.chomp
-EXPORT_DIR = `#{list_tags} |grep '#{TAG_BRICK}='  |cut -f2 -d=`.chomp
+VOL_NAME   = node[:glusterfs][:volume_name]#`#{list_tags} |grep '#{TAG_VOLUME}=' |cut -f2 -d=`.chomp
+EXPORT_DIR = node[:glusterfs][:server][:storage_path]#`#{list_tags} |grep '#{TAG_BRICK}='  |cut -f2 -d=`.chomp
 BRICK_NAME = "#{IP_ADDR}:#{EXPORT_DIR}"
 
-  # Find all other spares and so we can add them to the trusted pool
+# Find all other spares and so we can add them to the trusted pool
+
   find_all_spares "find_spares" do
     tags "#{TAG_SPARE}=true"
     secondary_tags "#{TAG_VOLUME}=#{VOL_NAME}"
@@ -46,7 +47,7 @@ spare_uuid = "server:uuid=" + `#{spare_tags} |grep 'uuid'|cut -f2 -d=`.chomp
 # Find an existing host in the pool so he can invite us
 
 find_attached_peer "find_peer" do
-#  tags "#{TAG_ATTACH}=true"
+  #  tags "#{TAG_ATTACH}=true"
   tags "#{TAG_BRICK_NUM}=#{BRICK_NUM}"
   secondary_tags "#{TAG_VOLUME}=#{VOL_NAME}"
 end
@@ -66,14 +67,14 @@ Chef::Log.info "PEER IP: #{peer_ip}"
 peer_uuid = node[:glusterfs][:server][:peer_uuid_tag]
 if ! peer_uuid.empty?
   log "===> Running remote recipe on attached peer"
-  remote_recipe "Handle our probe request" do
+  rsc_remote_recipe "Handle our probe request" do
     recipe "glusterfs::server_handle_probe_request"
     attributes :glusterfs => {
       :server => {
-       :peer => spare_ip
+        :peer => spare_ip
       }
     }
-    recipients_tags peer_uuid #server:uuid
+    recipient_tags peer_uuid #server:uuid
   end
 
   # Wait for probe request to complete
@@ -99,20 +100,20 @@ if ! peer_uuid.empty?
   end
 
 
-#Run remote recipe of peer to migrate brick off
-if ! spare_ip.empty?
-  log "===> Running remote recipe on attached peer"
-  rsc_remote_recipe "start live migration" do
-    recipe "glusterfs::server_handle_live_migration"
-    attributes :glusterfs => {
-      :server => {
-        :peer => peer_ip,
-        :forced =>  node[:glusterfs][:server][:replace_brick_forced]
+  #Run remote recipe of peer to migrate brick off
+  if ! spare_ip.empty?
+    log "===> Running remote recipe on attached peer"
+    rsc_remote_recipe "start live migration" do
+      recipe "glusterfs::server_handle_live_migration"
+      attributes :glusterfs => {
+        :server => {
+          :peer => peer_ip,
+          :forced =>  node[:glusterfs][:server][:replace_brick_forced]
+        }
       }
-    }
-    recipients_tags spare_uuid #server:uuid
+      recipient_tags spare_uuid #server:uuid
+    end
   end
-end
 
 
 else
