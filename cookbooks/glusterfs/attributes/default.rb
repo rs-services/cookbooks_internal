@@ -19,9 +19,9 @@ default[:glusterfs][:volume_name]="glusterfs"
 default[:glusterfs][:server][:storage_path]="/mnt/ephemeral/glusterfs"
 default[:glusterfs][:server][:peer_uuid_tag] = ""
   
-case node[:platform] 
+case node[:platform_family] 
 when "debian"
-  #default["glusterfs"]["servicename"]="glusterfs"
+  default["glusterfs"]["servicename"]="glusterfs-server"
 when "rhel"
-  #default["glusterfs"]["servicename"]="glusterd"
+  default["glusterfs"]["servicename"]="glusterd"
 end
