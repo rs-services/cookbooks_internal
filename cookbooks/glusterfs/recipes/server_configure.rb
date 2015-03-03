@@ -17,9 +17,9 @@ template VOL_FILE do
 end
 
 log "===> Enabling glusterd service"
-case node[:platform]
-when 'ubuntu'
-  service "glusterfs-server" do
+case node[:platform_family]
+when 'debian'
+  service node["glusterfs"]["servicename"] do
     action [ :enable, :start ]
     supports :status => true, :restart => true
     ignore_failure true #XXX See comment above
@@ -38,8 +38,8 @@ when 'ubuntu'
     action :nothing
   end
   b.run_action(:run)
-when 'centos','redhat'
-  service "glusterd" do
+when 'rhel'
+  service node["glusterfs"]["servicename"] do
     action [ :enable, :start ]
     supports :status => true, :restart => true
     ignore_failure true

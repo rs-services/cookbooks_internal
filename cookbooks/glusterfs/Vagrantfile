@@ -95,8 +95,8 @@ Vagrant.configure("2") do |config|
         #"recipe[yum-epel]",
         "recipe[rightscale_tag::default]",
         "recipe[glusterfs::default]",
-        "recipe[glusterfs::server_create_cluster]",
-       # "recipe[glusterfs::server_join_cluster]"
+        #"recipe[glusterfs::server_create_cluster]",
+        "recipe[glusterfs::server_join_cluster]"
       ]
     end
   end
@@ -126,8 +126,8 @@ Vagrant.configure("2") do |config|
         #"recipe[yum-epel]",
         "recipe[rightscale_tag::default]",
         "recipe[glusterfs::default]",
-       "recipe[glusterfs::server_create_cluster]",
-        #"recipe[glusterfs::server_decommission]"
+       #"recipe[glusterfs::server_create_cluster]",
+       #"recipe[glusterfs::server_decommission]"
       ]
     end
   end
