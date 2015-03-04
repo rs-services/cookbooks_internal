@@ -12,8 +12,7 @@ depends 'machine_tag', '~> 1.0.9'
 depends 'rightscale_tag'
 depends 'filesystem', '~> 0.9.0'
 depends 'lvm', '~> 1.1.0'
-depends 'rightscale_volume', '~> 1.2.4'
-depends 'rightscale_backup', '~> 1.1.5'
+depends 'rs-storage', '~~> 1.0.3'
 depends 'rsc_remote_recipe'
 
 recipe "glusterfs::default", "Installs and configures the server."
