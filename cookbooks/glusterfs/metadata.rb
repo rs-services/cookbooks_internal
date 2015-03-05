@@ -32,7 +32,7 @@ recipe "glusterfs::client_mount_volume", "Runs mount(8) with `-t glusterfs' opti
 #recipe "glusterfs::server_live_migrate", "Live migrate a brick from one live node to another"
 recipe "glusterfs::server_restart_gluster", "restart gluster"
 recipe "glusterfs::volume_restore", "Restores the volume."
-recipe "glusterfs::strip_restore", "Restores the strip."
+recipe "glusterfs::stripe_restore", "Restores the strip."
 #recipe "glusterfs::config_restored_volume_attrs", "sets volume attributes"
 # TODO  Make an attribute with volume types choices (distributed, striped,
 #       replicated, etc.) and use it in server_create_cluster accordingly.
