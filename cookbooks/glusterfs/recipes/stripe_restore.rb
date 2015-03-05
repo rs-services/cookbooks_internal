@@ -2,9 +2,8 @@ marker "recipe_start"
 
 log "  Creating block device and restoring data from primary backup"+
   " for device #{node["rs-storage"]["device"]["mount_point"]}..."
-
-#restore volume
-include_recipe "rs-storage::stripe"
+  
+include_recipe "rs-storage::volume"
 
 include_recipe "glusterfs::restore"
 
