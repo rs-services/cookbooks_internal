@@ -24,10 +24,9 @@ machine_tag "#{TAG_SPARE}=true" do
   action :create
 end
 
-if ! #{TAG_SPARE} == true
+if ! TAG_SPARE == true
   vol_info = Mixlib::ShellOut.new("gluster volume info #{INPUT_VOLUME}")
   foo = vol_info.split("\n").select{|x|x=~/#{node[:cloud][:private_ips][0]}/}
-  #foo = `gluster volume info #{INPUT_VOLUME}`.split("\n").select{|x|x=~/#{node[:cloud][:private_ips][0]}/}
 
   if foo.to_s == ''
      foo = "Brick0:"
