@@ -137,11 +137,11 @@ ruby_block "Create volume" do
   end #block do
 end #ruby_block do
 
-rsc_remote_recipe "glusterfs::server_restart_gluster" do
-  recipe "glusterfs::server_restart_gluster"
-  recipient_tags  "glusterfs_server:volume=#{VOL_NAME}"
-  action :run
-end
+#rsc_remote_recipe "glusterfs::server_restart_gluster" do
+#  recipe "glusterfs::server_restart_gluster"
+#  recipient_tags  "glusterfs_server:volume=#{VOL_NAME}"
+#  action :run
+#end
 
 ## Remove TAG_SPARE from hosts and add TAG_ATTACH
 #
