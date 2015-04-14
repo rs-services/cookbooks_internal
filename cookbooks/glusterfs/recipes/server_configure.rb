@@ -1,4 +1,6 @@
-marker "recipe_start"
+marker "recipe_start_rightscale" do
+  template "rightscale_audit_entry.erb"
+end
 
 ETC_DIR  = "/etc/glusterfs"
 VOL_FILE = "#{ETC_DIR}/glusterd.vol"
