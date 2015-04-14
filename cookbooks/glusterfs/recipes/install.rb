@@ -22,18 +22,6 @@ when 'ubuntu'
   end
   package "glusterfs-server"
 when 'centos','redhat'
-  execute "create-yum-cache" do
-    command "yum -q makecache"
-    action :nothing
-  end
-
-  ruby_block "reload-internal-yum-cache" do
-    block do
-      Chef::Provider::Package::Yum::YumCache.instance.reload
-    end
-    action :nothing
-  end
-  
   glusterfs "create repo" do
     version node[:glusterfs][:version]
     action :create_repo
