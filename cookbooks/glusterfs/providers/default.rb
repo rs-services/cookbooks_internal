@@ -7,6 +7,17 @@ action :create_repo do
   if version!= "LATEST"
       major,minor,min = version.split(".")
   end
+  execute "create-yum-cache" do
+    command "yum -q makecache"
+    action :nothing
+  end
+
+  ruby_block "reload-internal-yum-cache" do
+    block do
+      Chef::Provider::Package::Yum::YumCache.instance.reload
+    end
+    action :nothing
+  end
   
   log "Creating repo for version #{major}.#{minor}.#{min}"
 
