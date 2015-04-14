@@ -79,7 +79,7 @@ attribute "glusterfs/server/storage_path",
   :description  => "The directory path to be used as a brick and added to the GlusterFS volume",
   :required     => "required",
   :recipes      => [ "glusterfs::default",
-                       
+  "gluserfs::server_configure",                     
   "glusterfs::server_create_cluster",
   "glusterfs::server_join_cluster",
   "glusterfs::stripe_restore" ]
