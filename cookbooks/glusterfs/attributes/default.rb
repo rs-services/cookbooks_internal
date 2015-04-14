@@ -22,6 +22,8 @@ default[:glusterfs][:server][:peer_uuid_tag] = ""
 case node[:platform_family] 
 when "debian"
   default["glusterfs"]["servicename"]="glusterfs-server"
+  default["glusterfs"]["version"] = '3.5.2'
 when "rhel"
+  default["glusterfs"]["version"] = '3.6.0'
   default["glusterfs"]["servicename"]="glusterd"
 end

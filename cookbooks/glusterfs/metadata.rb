@@ -40,7 +40,7 @@ recipe "glusterfs::stripe_restore", "Restores the stripe volume."
 attribute "glusterfs/version",
   :display_name => "Gluster Version",
   :description => "Gluster version to install, i.e. 3.5.1.",
-  :required => "required",
+  :required => "optional",
   :recipes => [ "glusterfs::default", "glusterfs::client_mount_volume"]
 
 attribute "glusterfs/server/volume_type",
