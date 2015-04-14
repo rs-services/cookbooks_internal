@@ -4,8 +4,9 @@
 # All access and use subject to the RightScale Terms of Service available at
 # http://www.rightscale.com/terms.php and, if applicable, other agreements such
 # as a RightScale Master Subscription Agreement.
-
-marker "recipe_start"
+marker "recipe_start_rightscale" do
+  template "rightscale_audit_entry.erb"
+end
 
 case node[:platform]
 when 'ubuntu'
@@ -21,18 +22,6 @@ when 'ubuntu'
   end
   package "glusterfs-server"
 when 'centos','redhat'
-  execute "create-yum-cache" do
-    command "yum -q makecache"
-    action :nothing
-  end
-
-  ruby_block "reload-internal-yum-cache" do
-    block do
-      Chef::Provider::Package::Yum::YumCache.instance.reload
-    end
-    action :nothing
-  end
-  
   glusterfs "create repo" do
     version node[:glusterfs][:version]
     action :create_repo

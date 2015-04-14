@@ -1,4 +1,6 @@
-marker "recipe_start"
+marker "recipe_start_rightscale" do
+  template "rightscale_audit_entry.erb"
+end
 
 ETC_DIR  = "/etc/glusterfs"
 VOL_FILE = "#{ETC_DIR}/glusterd.vol"
@@ -46,3 +48,11 @@ when 'rhel'
   end
 end
 
+directory node[:glusterfs][:server][:storage_path] do
+  owner "root"
+  group "root"
+  mode 0755
+  recursive true
+  not_if "test -e #{node[:glusterfs][:server][:storage_path]}"
+  action :create
+end

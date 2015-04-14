@@ -1,4 +1,6 @@
-marker "recipe_start"
+marker "recipe_start_rightscale" do
+  template "rightscale_audit_entry.erb"
+end
 
 TAG_VOLUME = node[:glusterfs][:tag][:volume]
 TAG_BRICK  = node[:glusterfs][:tag][:brick]

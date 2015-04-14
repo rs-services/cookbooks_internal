@@ -3,7 +3,7 @@ maintainer       "RightScale, Inc."
 maintainer_email "support@rightscale.com"
 license          "Apache 2.0"
 description      "GlusterFS recipes" 
-version          "0.7.1"
+version          "0.7.2"
 
 depends "marker"
 depends "apt"
@@ -40,7 +40,7 @@ recipe "glusterfs::stripe_restore", "Restores the stripe volume."
 attribute "glusterfs/version",
   :display_name => "Gluster Version",
   :description => "Gluster version to install, i.e. 3.5.1.",
-  :required => "required",
+  :required => "optional",
   :recipes => [ "glusterfs::default", "glusterfs::client_mount_volume"]
 
 attribute "glusterfs/server/volume_type",
@@ -79,7 +79,7 @@ attribute "glusterfs/server/storage_path",
   :description  => "The directory path to be used as a brick and added to the GlusterFS volume",
   :required     => "required",
   :recipes      => [ "glusterfs::default",
-                       
+  "gluserfs::server_configure",                     
   "glusterfs::server_create_cluster",
   "glusterfs::server_join_cluster",
   "glusterfs::stripe_restore" ]
