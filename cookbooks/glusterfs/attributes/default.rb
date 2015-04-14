@@ -24,6 +24,6 @@ when "debian"
   default["glusterfs"]["servicename"]="glusterfs-server"
   default["glusterfs"]["version"] = '3.5.2'
 when "rhel"
-  default["glusterfs"]["version"] = '3.6.0'
+  default["glusterfs"]["version"] = "LATEST"
   default["glusterfs"]["servicename"]="glusterd"
 end
