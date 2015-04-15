@@ -74,7 +74,7 @@ ruby_block "Create volume" do
     require 'mixlib/shellout'
     def log2(message)
       log2 message
-      File.open("#{node[:glusterfs][:log_dir]}/create.log",'a+') do |f|
+      File.open("/tmp/create.log",'a+') do |f|
         f.write message
       end
     end
