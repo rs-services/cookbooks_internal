@@ -60,7 +60,7 @@ if VOL_TYPE == "Replicated"
     replica_count REPL_COUNT
     myip IP_ADDR
   end
-  log2 "PRUNED: #{node[:glusterfs][:server][:spares].inspect}"
+  Chef::Log.info "PRUNED: #{node[:glusterfs][:server][:spares].inspect}"
 end
 
 log "Create a trusted pool from the IPs we have"
