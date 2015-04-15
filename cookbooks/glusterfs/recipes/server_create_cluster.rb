@@ -22,11 +22,11 @@ IP_ADDR    = node[:cloud][:private_ips][0]
 VOL_NAME = node[:glusterfs][:volume_name]
 EXPORT_DIR = node[:glusterfs][:server][:storage_path]
 
-log2 "VOLUME INFORMATION:"
-log2 "~~~~~~~~~~~~~~~~~~~"
-log2 "Volume Name: #{VOL_NAME}"
-log2 "Volume Type: #{VOL_TYPE}"
-log2 "Replica Count: #{REPL_COUNT} " +
+Chef::Log.info "VOLUME INFORMATION:"
+Chef::Log.info "~~~~~~~~~~~~~~~~~~~"
+Chef::Log.info "Volume Name: #{VOL_NAME}"
+Chef::Log.info "Volume Type: #{VOL_TYPE}"
+Chef::Log.info "Replica Count: #{REPL_COUNT} " +
   "(only used for Replicated volumes)"
 
 # Check if we already have a volume
