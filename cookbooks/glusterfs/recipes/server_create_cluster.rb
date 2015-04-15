@@ -21,6 +21,7 @@ AUTH_ALLOW = node[:glusterfs][:server][:volume_auth]
 IP_ADDR    = node[:cloud][:private_ips][0]
 VOL_NAME = node[:glusterfs][:volume_name]
 EXPORT_DIR = node[:glusterfs][:server][:storage_path]
+FORCE = node[:glusterfs][:force_root]
 
 Chef::Log.info "VOLUME INFORMATION:"
 Chef::Log.info "~~~~~~~~~~~~~~~~~~~"
@@ -90,6 +91,10 @@ ruby_block "Create volume" do
       # FIXME query tags and use exact brick name from each host (theoretically
       # each server could have a unique export/brick name)
       cmd += " #{ip}:#{EXPORT_DIR}"
+    end
+
+    if FORCE
+      cmd += " force"
     end
 
     # Run the command
