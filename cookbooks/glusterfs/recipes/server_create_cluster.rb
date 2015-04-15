@@ -73,7 +73,7 @@ ruby_block "Create volume" do
   block do
     require 'mixlib/shellout'
     def log2(message)
-      log2 message
+      Chef::Log.info message
       File.open("/tmp/create.log",'a+') do |f|
         f.write message
       end
