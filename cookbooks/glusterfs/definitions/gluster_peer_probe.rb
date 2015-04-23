@@ -7,7 +7,7 @@ CMD_LOG = "/tmp/gluster.out.#{$$}"
 define :gluster_peer_probe, :peers => [] do
   #
   # Probe each IP
-  #
+  Chef::Log.info "probing peers #{params[:peers].inspect}"
   ruby_block "Probe IPs" do
     block do
       require 'mixlib/shellout'

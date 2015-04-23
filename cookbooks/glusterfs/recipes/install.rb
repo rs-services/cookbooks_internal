@@ -34,8 +34,8 @@ else
   raise "Unsupported platform '#{node[:platform]}'"
 end
 
-  class Chef::Resource::RubyBlock
-    include Chef::MachineTagHelper
-  end
+class Chef::Resource::RubyBlock
+  include Chef::MachineTagHelper
+end
 
-  include_recipe "machine_tag::default"
+include_recipe "machine_tag::default"

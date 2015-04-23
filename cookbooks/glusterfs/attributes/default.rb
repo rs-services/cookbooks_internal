@@ -18,6 +18,9 @@ default[:glusterfs][:version]='LATEST'
 default[:glusterfs][:volume_name]="glusterfs"
 default[:glusterfs][:server][:storage_path]="/mnt/ephemeral/glusterfs"
 default[:glusterfs][:server][:peer_uuid_tag] = ""
+default[:glusterfs][:log_dir] = "/var/log/glusterfs"
+#default force so fs can be created on root
+default[:glusterfs][:force_root] = true
   
 case node[:platform_family] 
 when "debian"

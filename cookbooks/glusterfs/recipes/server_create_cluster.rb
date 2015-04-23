@@ -21,6 +21,7 @@ AUTH_ALLOW = node[:glusterfs][:server][:volume_auth]
 IP_ADDR    = node[:cloud][:private_ips][0]
 VOL_NAME = node[:glusterfs][:volume_name]
 EXPORT_DIR = node[:glusterfs][:server][:storage_path]
+FORCE = node[:glusterfs][:force_root]
 
 Chef::Log.info "VOLUME INFORMATION:"
 Chef::Log.info "~~~~~~~~~~~~~~~~~~~"
@@ -47,23 +48,10 @@ end
 sh.run_action(:run)
 
 # Find all other spares so we can create a trusted pool
-  find_all_spares "find_spares" do
-    tags "#{TAG_SPARE}=true"
-    secondary_tags "#{TAG_VOLUME}=#{VOL_NAME}"
-  end#hosts_found=[]
-#tags.each do |id, tags| 
-#  Chef::Log.info "tags #{tags}"
-#  hosts_found = tags["private_ips"].first
-#end
-## (sanity check)
-#if hosts_found.empty?
-#  raise "!!!> Didn't find any servers tagged with #{tags} " +
-#    "and #{secondary_tags}"
-#end
-#
-## Populate node attr
-#node[:glusterfs][:server][:spares] = hosts_found
-#Chef::Log.info "SPARES: #{node[:glusterfs][:server][:spares].inspect}"
+find_all_spares "find_spares" do
+  tags "#{TAG_SPARE}=true"
+  secondary_tags "#{TAG_VOLUME}=#{VOL_NAME}"
+end
 
 # Consider replica_count for replicated volume types
 # (maybe we can't use ALL the spares, since the number of bricks we need must
@@ -73,7 +61,7 @@ if VOL_TYPE == "Replicated"
     replica_count REPL_COUNT
     myip IP_ADDR
   end
-  #Chef::Log.info "PRUNED: #{node[:glusterfs][:server][:spares].inspect}"
+  Chef::Log.info "PRUNED: #{node[:glusterfs][:server][:spares].inspect}"
 end
 
 log "Create a trusted pool from the IPs we have"
@@ -85,54 +73,65 @@ log "Create a new volume from everyone's bricks"
 ruby_block "Create volume" do
   block do
     require 'mixlib/shellout'
-    Chef::Log.info "===> Creating volume #{VOL_NAME}"
+    def log2(message)
+      Chef::Log.info message
+      File.open("/tmp/create.log",'a+') do |f|
+        f.write message
+      end
+    end
+    log2 "===> Creating volume #{VOL_NAME}"
 
     # Build the command...
     cmd = "gluster volume create #{VOL_NAME}"
     if VOL_TYPE == "Replicated"
       cmd += " replica #{REPL_COUNT}"
     end
+    
     node[:glusterfs][:server][:spares].each do |ip|
       # FIXME query tags and use exact brick name from each host (theoretically
       # each server could have a unique export/brick name)
       cmd += " #{ip}:#{EXPORT_DIR}"
     end
 
+    if FORCE
+      cmd += " force"
+    end
+
     # Run the command
-    Chef::Log.info "CMD: #{cmd}"
+    log2 "CMD: #{cmd}"
     result = ""
     brick=Mixlib::ShellOut.new("#{cmd}").run_command
-    Chef::Log.info brick.stdout
-    Chef::Log.info brick.stderr
+    log2 brick.stdout
+    log2 brick.stderr
 
     # Set some options on the volume
-    Chef::Log.info "===> Configuring volume."
+    log2 "===> Configuring volume."
     SET_OPT = "gluster volume set #{VOL_NAME}"
 
     # FIXME should be glusterfs/server/volume_options input
     # FIXME check for successful output on these
-    Chef::Log.info "setting auth.allow to #{AUTH_ALLOW}"
+    log2 "setting auth.allow to #{AUTH_ALLOW}"
     system "#{SET_OPT} auth.allow '#{AUTH_ALLOW}' &>/dev/null"
-    #Chef::Log.info "Setting nfs.disable on"
+    #log2 "Setting nfs.disable on"
     #system "#{SET_OPT} nfs.disable on &>/dev/null"
-    Chef::Log.info "Setting network.frame-timeout to 60"
+    log2 "Setting network.frame-timeout to 60"
     system "#{SET_OPT} network.frame-timeout 60 &>/dev/null"
-    Chef::Log.info "Setting performance.cache-size to #{node[:glusterfs][:cache_size]}"
+    log2 "Setting performance.cache-size to #{node[:glusterfs][:cache_size]}"
     system "#{SET_OPT} performance.cache-size #{node[:glusterfs][:cache_size]}"
 
     sleep 5   #Sleep for a bit so things sync up
     # Finally start the volume
-    Chef::Log.info "===> Starting volume."
+    log2 "===> Starting volume."
     result=Mixlib::ShellOut.new("gluster volume start #{VOL_NAME}").run_command
-    Chef::Log.info "gluster volume start #{VOL_NAME} STDOUT: #{result.stdout}, STDERR:#{result.stderr}"
+    log2 "gluster volume start #{VOL_NAME} STDOUT: #{result.stdout}, STDERR:#{result.stderr}"
 
-    Chef::Log.info "Volume Status"
+    log2 "Volume Status"
     result=Mixlib::ShellOut.new("gluster volume status").run_command
-    Chef::Log.info "STDOUT: #{result.stdout}\n STDERR: #{result.stderr}"
+    log2 "STDOUT: #{result.stdout}\n STDERR: #{result.stderr}"
 
-    Chef::Log.info "Volume Info"
+    log2 "Volume Info"
     result=Mixlib::ShellOut.new("gluster volume info #{VOL_NAME}").run_command
-    Chef::Log.info "STDOUT: #{result.stdout}\n STDERR: #{result.stderr}"
+    log2 "STDOUT: #{result.stdout}\n STDERR: #{result.stderr}"
 
   end #block do
 end #ruby_block do
@@ -153,4 +152,3 @@ rsc_remote_recipe "glusterfs::server_handle_tag_updates" do
   recipient_tags "#{TAG_SPARE}=true"
   action :run
 end
-
