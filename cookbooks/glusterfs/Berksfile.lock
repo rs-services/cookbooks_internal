@@ -6,6 +6,11 @@
     "rsc_remote_recipe": {
       "path": "../../../../rightscale-services-cookbooks/rsc_remote_recipe"
     },
+    "rs-storage": {
+      "locked_version": "1.0.3",
+      "git": "git://github.com/rightscale-cookbooks/rs-storage.git",
+      "ref": "1b83e359778f4aa1ef75bb345325b6f7976e90a6"
+    },
     "apt": {
       "locked_version": "2.6.0"
     },
@@ -30,11 +35,14 @@
     "lvm": {
       "locked_version": "1.1.2"
     },
-    "rightscale_volume": {
-      "locked_version": "1.2.6"
+    "chef_handler": {
+      "locked_version": "1.1.6"
     },
     "rightscale_backup": {
       "locked_version": "1.1.7"
+    },
+    "rightscale_volume": {
+      "locked_version": "1.2.6"
     }
   }
 }
