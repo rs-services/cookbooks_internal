@@ -11,11 +11,11 @@ end
 case node[:platform]
 when 'ubuntu'
   unless apt_repository "glusterfs" do
-      uri "http://ppa.launchpad.net/semiosis/ubuntu-glusterfs-3.5/ubuntu"
+      uri "http://ppa.launchpad.net/gluster/glusterfs-3.5/ubuntu"
       components ["main"]
       distribution node['lsb']['codename']
       keyserver "keyserver.ubuntu.com"
-      key "774BAC4D"
+      key "3FE869A9"
       action :nothing
     end
     resource("apt_repository[glusterfs]", :add)

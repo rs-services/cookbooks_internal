@@ -52,12 +52,14 @@ when 'centos','redhat'
   package "glusterfs-fuse"
 when 'ubuntu'
   apt_repository "glusterfs" do
-    uri "http://ppa.launchpad.net/semiosis/ubuntu-glusterfs-3.5/ubuntu"
+    uri "http://ppa.launchpad.net/gluster/glusterfs-3.5/ubuntu"
     components ["main"]
     distribution node['lsb']['codename']
     keyserver "keyserver.ubuntu.com"
-    key "774BAC4D"
+    key '3FE869A9'
+    action :add
   end
+  #resource("apt_repository[glusterfs]", :add)
   package "glusterfs-client"
 else
   raise "Unsupported platform '#{node[:platform]}'"
